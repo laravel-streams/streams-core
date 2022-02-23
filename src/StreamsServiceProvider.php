@@ -19,7 +19,6 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Translation\Translator;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\ServiceProvider;
-use League\CommonMark\MarkdownConverter;
 use Streams\Core\Support\Facades\Addons;
 use Streams\Core\Support\Facades\Assets;
 use Streams\Core\Support\Facades\Images;
