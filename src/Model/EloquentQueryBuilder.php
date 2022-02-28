@@ -103,7 +103,7 @@ class EloquentQueryBuilder extends Builder
 
         $this->orderByDefault();
 
-        if ($this->getModel()->isTranslatable())
+        if ($this->model instanceof EntryInterface && $this->getModel()->isTranslatable())
         {
             $this->translate();
         }
