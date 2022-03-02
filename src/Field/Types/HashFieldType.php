@@ -3,7 +3,7 @@
 namespace Streams\Core\Field\Types;
 
 use Streams\Core\Field\Field;
-use Streams\Core\Field\Value\HashValue;
+use Streams\Core\Field\Presenter\HashPresenter;
 use Streams\Core\Field\Schema\HashSchema;
 use Illuminate\Support\Facades\Hash as HashFacade;
 
@@ -20,7 +20,7 @@ class HashFieldType extends Field
 
     public function getPresenterName()
     {
-        return HashValue::class;
+        return HashPresenter::class;
     }
 
     public function getSchemaName()

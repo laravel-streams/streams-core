@@ -35,6 +35,6 @@ class IntegerFieldTypeTest extends CoreTestCase
             'stream' => Streams::make('films')
         ]);
 
-        $this->assertInstanceOf(IntegerValue::class, $field->expand(2));
+        $this->assertInstanceOf(IntegerValue::class, $field->decorate(2));
     }
 }

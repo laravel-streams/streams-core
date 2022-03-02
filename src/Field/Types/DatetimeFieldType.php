@@ -5,7 +5,7 @@ namespace Streams\Core\Field\Types;
 use Carbon\Carbon;
 use Streams\Core\Field\Field;
 use Illuminate\Support\Facades\Date;
-use Streams\Core\Field\Value\DatetimeValue;
+use Streams\Core\Field\Presenter\DatetimePresenter;
 use Streams\Core\Field\Schema\DatetimeSchema;
 
 class DatetimeFieldType extends Field
@@ -22,7 +22,7 @@ class DatetimeFieldType extends Field
 
     public function getPresenterName()
     {
-        return DatetimeValue::class;
+        return DatetimePresenter::class;
     }
 
     public function getSchemaName()

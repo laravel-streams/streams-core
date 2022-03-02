@@ -3,7 +3,7 @@
 namespace Streams\Core\Field\Types;
 
 use Streams\Core\Field\Field;
-use Streams\Core\Field\Value\ColorValue;
+use Streams\Core\Field\Presenter\ColorPresenter;
 
 class ColorFieldType extends Field
 {
@@ -24,7 +24,7 @@ class ColorFieldType extends Field
 
     public function getPresenterName()
     {
-        return ColorValue::class;
+        return ColorPresenter::class;
     }
 
     public function generate()

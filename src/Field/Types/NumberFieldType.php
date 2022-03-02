@@ -3,7 +3,7 @@
 namespace Streams\Core\Field\Types;
 
 use Streams\Core\Field\Field;
-use Streams\Core\Field\Value\NumberValue;
+use Streams\Core\Field\Presenter\NumberPresenter;
 use Streams\Core\Field\Schema\NumberSchema;
 
 class NumberFieldType extends Field
@@ -43,7 +43,7 @@ class NumberFieldType extends Field
 
     public function getPresenterName()
     {
-        return NumberValue::class;
+        return NumberPresenter::class;
     }
 
     public function getSchemaName()

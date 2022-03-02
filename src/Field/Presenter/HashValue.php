@@ -1,10 +1,10 @@
 <?php
 
-namespace Streams\Core\Field\Value;
+namespace Streams\Core\Field\Presenter;
 
 use Illuminate\Support\Facades\Hash;
 
-class HashValue extends Value
+class HashPresenter extends FieldPresenter
 {
 
     /**

@@ -18,6 +18,6 @@ class RelationshipFieldTypeTest extends CoreTestCase
             ]
         ]);
 
-        $this->assertInstanceOf(Entry::class, $field->expand('4'));
+        $this->assertInstanceOf(Entry::class, $field->decorate('4'));
     }
 }

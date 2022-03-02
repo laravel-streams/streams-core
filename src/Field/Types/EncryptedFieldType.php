@@ -4,20 +4,20 @@ namespace Streams\Core\Field\Types;
 
 use Streams\Core\Field\Field;
 use Illuminate\Support\Facades\Crypt;
-use Streams\Core\Field\Value\EncryptedValue;
 use Streams\Core\Field\Schema\EncryptedSchema;
+use Streams\Core\Field\Presenter\EncryptedPresenter;
 
 class EncryptedFieldType extends Field
 {
     
-    public function modify($value)
+    public function cast($value)
     {
         return Crypt::encrypt($value);
     }
 
     public function getPresenterName()
     {
-        return EncryptedValue::class;
+        return EncryptedPresenter::class;
     }
 
     public function getSchemaName()

@@ -1,11 +1,12 @@
 <?php
 
-namespace Streams\Core\Field\Value;
+namespace Streams\Core\Field\Presenter;
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\View;
+use Streams\Core\Field\FieldPresenter;
 
-class StringValue extends Value
+class StringPresenter extends FieldPresenter
 {
 
     public function lines()

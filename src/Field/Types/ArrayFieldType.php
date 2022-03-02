@@ -7,11 +7,11 @@ use Illuminate\Support\Str;
 use Streams\Core\Field\Field;
 use Illuminate\Support\Collection;
 use Streams\Core\Field\Schema\ArrSchema;
-use Streams\Core\Field\Value\ArrayValue;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Support\Facades\Hydrator;
 use Illuminate\Contracts\Support\Arrayable;
 use Streams\Core\Entry\Contract\EntryInterface;
+use Streams\Core\Field\Presenter\ArrayPresenter;
 
 class ArrayFieldType extends Field
 {
@@ -21,13 +21,13 @@ class ArrayFieldType extends Field
         ],
     ];
 
-    public function modify($value)
+    public function cast($value)
     {
-        if ($value instanceof Collection) {
-            $value = $value->all();
+        if (is_object($value)) {
+            return $value;
         }
-        
-        if (is_string($value) && ($json = json_decode($value, true)) !== false) {
+
+        if (is_string($value) && ($json = json_decode($value, true)) !== null) {
             $value = $json;
         }
 
@@ -35,7 +35,12 @@ class ArrayFieldType extends Field
             $value = unserialize($value);
         }
 
-        $values = Arr::make($value);
+        return Arr::make((array) $value);
+    }
+
+    public function modify($value)
+    {
+        $values = $this->cast($value);
 
         foreach ($values as &$value) {
 
@@ -69,19 +74,7 @@ class ArrayFieldType extends Field
 
     public function restore($value)
     {
-        if (is_object($value)) {
-            return $value;
-        }
-
-        if (is_string($value) && ($json = json_decode($value, true)) !== false) {
-            $value = $json;
-        }
-
-        if (is_string($value) && Str::isSerialized($value)) {
-            $value = unserialize($value);
-        }
-
-        $values = Arr::make($value);
+        $values = $this->cast($value);
 
         foreach ($values as &$value) {
 
@@ -113,7 +106,7 @@ class ArrayFieldType extends Field
 
     public function getPresenterName()
     {
-        return ArrayValue::class;
+        return ArrayPresenter::class;
     }
 
     public function getSchemaName()

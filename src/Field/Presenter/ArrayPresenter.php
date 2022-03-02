@@ -1,11 +1,12 @@
 <?php
 
-namespace Streams\Core\Field\Value;
+namespace Streams\Core\Field\Presenter;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Streams\Core\Field\FieldPresenter;
 
-class ArrayValue extends Value
+class ArrayPresenter extends FieldPresenter
 {
 
     /**

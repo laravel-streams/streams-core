@@ -4,8 +4,8 @@ namespace Streams\Core\Tests\Field\Types;
 
 use Streams\Core\Tests\CoreTestCase;
 use Streams\Core\Support\Facades\Streams;
-use Streams\Core\Field\Value\BooleanValue;
 use Streams\Core\Field\Types\BooleanFieldType;
+use Streams\Core\Field\Presenter\BooleanPresenter;
 
 class BooleanFieldTypeTest extends CoreTestCase
 {
@@ -15,6 +15,17 @@ class BooleanFieldTypeTest extends CoreTestCase
             'stream' => Streams::make('films')
         ]);
 
-        $this->assertInstanceOf(BooleanValue::class, $field->expand(true));
+        $this->assertInstanceOf(BooleanPresenter::class, $field->decorate(true));
+    }
+
+    public function test_it_casts_to_boolean()
+    {
+        $field = new BooleanFieldType([
+            'stream' => Streams::make('films')
+        ]);
+
+        $this->assertSame(true, $field->cast('yes'));
+        $this->assertSame(true, $field->modify('yes'));
+        $this->assertSame(true, $field->restore('yes'));
     }
 }

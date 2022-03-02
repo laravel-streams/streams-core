@@ -1,11 +1,11 @@
 <?php
 
-namespace Streams\Core\Field\Value;
+namespace Streams\Core\Field\Presenter;
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\View;
 
-class MarkdownValue extends Value
+class MarkdownPresenter extends FieldPresenter
 {
     public function parse()
     {

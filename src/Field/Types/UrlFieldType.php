@@ -3,7 +3,7 @@
 namespace Streams\Core\Field\Types;
 
 use Streams\Core\Field\Field;
-use Streams\Core\Field\Value\UrlValue;
+use Streams\Core\Field\Presenter\UrlPresenter;
 use Streams\Core\Field\Schema\UrlSchema;
 
 class UrlFieldType extends Field
@@ -17,7 +17,7 @@ class UrlFieldType extends Field
 
     public function getPresenterName()
     {
-        return UrlValue::class;
+        return UrlPresenter::class;
     }
 
     public function getSchemaName()

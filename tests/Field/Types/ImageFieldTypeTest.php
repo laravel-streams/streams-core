@@ -15,6 +15,6 @@ class ImageFieldTypeTest extends CoreTestCase
             'stream' => Streams::make('films')
         ]);
 
-        $this->assertInstanceOf(ImageValue::class, $field->expand(''));
+        $this->assertInstanceOf(ImageValue::class, $field->decorate(''));
     }
 }

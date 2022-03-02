@@ -2,12 +2,12 @@
 
 namespace Streams\Core\Field\Types;
 
-use Streams\Core\Field\Value\ImageValue;
+use Streams\Core\Field\Presenter\ImagePresenter;
 
 class ImageFieldType extends FileFieldType
 {
     public function getPresenterName()
     {
-        return ImageValue::class;
+        return ImagePresenter::class;
     }
 }

@@ -4,14 +4,14 @@ namespace Streams\Core\Field\Types;
 
 use Illuminate\Support\Str;
 use Streams\Core\Field\Field;
-use Streams\Core\Field\Value\MarkdownValue;
+use Streams\Core\Field\Presenter\MarkdownPresenter;
 
 class MarkdownFieldType extends Field
 {
 
     public function getPresenterName()
     {
-        return MarkdownValue::class;
+        return MarkdownPresenter::class;
     }
 
     public function generate()

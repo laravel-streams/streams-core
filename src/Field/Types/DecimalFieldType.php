@@ -3,8 +3,8 @@
 namespace Streams\Core\Field\Types;
 
 use Streams\Core\Field\Field;
-use Streams\Core\Field\Value\DecimalValue;
 use Streams\Core\Field\Schema\DecimalSchema;
+use Streams\Core\Field\Presenter\DecimalPresenter;
 
 class DecimalFieldType extends Field
 {
@@ -16,6 +16,11 @@ class DecimalFieldType extends Field
     ];
 
     public function modify($value)
+    {
+        return $this->cast($value);
+    }
+
+    public function restore($value)
     {
         return $this->cast($value);
     }
@@ -39,7 +44,7 @@ class DecimalFieldType extends Field
 
     public function getPresenterName()
     {
-        return DecimalValue::class;
+        return DecimalPresenter::class;
     }
 
     public function getSchemaName()

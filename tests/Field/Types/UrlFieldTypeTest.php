@@ -26,6 +26,6 @@ class UrlFieldTypeTest extends CoreTestCase
             'stream' => Streams::make('films')
         ]);
 
-        $this->assertInstanceOf(UrlValue::class, $field->expand(url('testing')));
+        $this->assertInstanceOf(UrlValue::class, $field->decorate(url('testing')));
     }
 }

@@ -1,10 +1,11 @@
 <?php
 
-namespace Streams\Core\Field\Value;
+namespace Streams\Core\Field\Presenter;
 
-class NumberValue extends Value
+use Streams\Core\Field\FieldPresenter;
+
+class NumberPresenter extends FieldPresenter
 {
-
     public function isEven(): bool
     {
         return $this->value % 2 == 0;

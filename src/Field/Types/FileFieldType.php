@@ -3,20 +3,16 @@
 namespace Streams\Core\Field\Types;
 
 use Illuminate\Support\Arr;
-use Streams\Core\Field\Value\FileValue;
+use Streams\Core\Field\Presenter\FilePresenter;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class FileFieldType extends StringFieldType
 {
     
-    public function modify($value)
+    public function cast($value)
     {
         if (is_string($value)) {
             return $value;
-        }
-
-        if (!$path = Arr::get($this->config, 'path')) {
-            throw new \Exception("Value [config.path] is required for [{$this->field}].");
         }
 
         if ($value instanceof \SplFileObject) {
@@ -24,6 +20,11 @@ class FileFieldType extends StringFieldType
         }
 
         if ($value instanceof UploadedFile) {
+
+            if (!$path = Arr::get($this->config, 'path')) {
+                throw new \Exception("Value [config.path] is required for [{$this->field}].");
+            }
+            
             return $value->storeAs($path, $value->getClientOriginalName());
         }
 
@@ -32,6 +33,6 @@ class FileFieldType extends StringFieldType
 
     public function getPresenterName()
     {
-        return FileValue::class;
+        return FilePresenter::class;
     }
 }

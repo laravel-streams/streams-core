@@ -5,7 +5,7 @@ namespace Streams\Core\Field\Types;
 use Illuminate\Support\Str;
 use Streams\Core\Field\Field;
 use Illuminate\Support\Facades\App;
-use Streams\Core\Field\Value\MultiselectValue;
+use Streams\Core\Field\Presenter\MultiselectPresenter;
 use Streams\Core\Field\Schema\MultiselectSchema;
 
 class MultiselectFieldType extends Field
@@ -49,7 +49,7 @@ class MultiselectFieldType extends Field
 
     public function getPresenterName()
     {
-        return MultiselectValue::class;
+        return MultiselectPresenter::class;
     }
 
     public function getSchemaName()

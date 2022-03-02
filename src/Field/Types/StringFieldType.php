@@ -4,7 +4,7 @@ namespace Streams\Core\Field\Types;
 
 use Streams\Core\Field\Field;
 use Streams\Core\Field\Schema\StrSchema;
-use Streams\Core\Field\Value\StringValue;
+use Streams\Core\Field\Presenter\StringPresenter;
 
 class StringFieldType extends Field
 {
@@ -30,7 +30,7 @@ class StringFieldType extends Field
 
     public function getPresenterName()
     {
-        return StringValue::class;
+        return StringPresenter::class;
     }
 
     public function getSchemaName()

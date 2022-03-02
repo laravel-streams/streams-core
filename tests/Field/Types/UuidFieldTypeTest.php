@@ -27,7 +27,7 @@ class UuidFieldTypeTest extends CoreTestCase
 
         $this->assertInstanceOf(
             StringValue::class,
-            $field->expand((string) Str::uuid())
+            $field->decorate((string) Str::uuid())
         );
     }
 }

@@ -1,8 +1,10 @@
 <?php
 
-namespace Streams\Core\Field\Value;
+namespace Streams\Core\Field\Presenter;
 
-class BooleanValue extends Value
+use Streams\Core\Field\FieldPresenter;
+
+class BooleanPresenter extends FieldPresenter
 {
 
     /**

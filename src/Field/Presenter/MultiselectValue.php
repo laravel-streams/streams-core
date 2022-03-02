@@ -1,8 +1,8 @@
 <?php
 
-namespace Streams\Core\Field\Value;
+namespace Streams\Core\Field\Presenter;
 
-class MultiselectValue extends Value
+class MultiselectPresenter extends FieldPresenter
 {
 
     public function option()

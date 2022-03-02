@@ -3,7 +3,7 @@
 namespace Streams\Core\Field\Types;
 
 use Streams\Core\Field\Field;
-use Streams\Core\Field\Value\IntegerValue;
+use Streams\Core\Field\Presenter\IntegerPresenter;
 use Streams\Core\Field\Schema\IntegerSchema;
 
 class IntegerFieldType extends Field
@@ -45,7 +45,7 @@ class IntegerFieldType extends Field
 
     public function getPresenterName()
     {
-        return IntegerValue::class;
+        return IntegerPresenter::class;
     }
 
     public function getSchemaName()

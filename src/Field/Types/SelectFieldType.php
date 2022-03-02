@@ -4,7 +4,7 @@ namespace Streams\Core\Field\Types;
 
 use Streams\Core\Field\Field;
 use Illuminate\Support\Facades\App;
-use Streams\Core\Field\Value\SelectValue;
+use Streams\Core\Field\Presenter\SelectPresenter;
 use Streams\Core\Field\Schema\SelectSchema;
 
 class SelectFieldType extends Field
@@ -23,7 +23,7 @@ class SelectFieldType extends Field
 
     public function getPresenterName()
     {
-        return SelectValue::class;
+        return SelectPresenter::class;
     }
 
     public function getSchemaName()

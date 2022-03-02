@@ -123,14 +123,6 @@ class Field implements
     /**
      * Decorate the value.
      */
-    public function expand($value)
-    {
-        return $this->decorate($value);
-    }
-
-    /**
-     * Decorate the value.
-     */
     public function decorate($value)
     {
         $name = $this->config('presenter', $this->getPresenterName());
@@ -144,7 +136,7 @@ class Field implements
 
     public function getPresenterName()
     {
-        return Value::class;
+        return FieldPresenter::class;
     }
 
     public function schema(): FieldSchema

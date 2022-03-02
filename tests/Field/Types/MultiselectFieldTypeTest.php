@@ -42,7 +42,7 @@ class MultiselectFieldTypeTest extends CoreTestCase
             'stream' => Streams::make('films'),
         ]);
 
-        $this->assertInstanceOf(MultiselectValue::class, $field->expand([]));
+        $this->assertInstanceOf(MultiselectValue::class, $field->decorate([]));
     }
 }
 

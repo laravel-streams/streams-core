@@ -31,12 +31,12 @@ class NumberFieldTypeTest extends CoreTestCase
         $this->assertSame(-1234.50, $field->cast("-1,234.50"));
     }
 
-    public function test_expanded_value()
+    public function test_decorated_value()
     {
         $field = new NumberFieldType([
             'stream' => Streams::make('films')
         ]);
         
-        $this->assertInstanceOf(NumberValue::class, $field->expand(100));
+        $this->assertInstanceOf(NumberValue::class, $field->decorate(100));
     }
 }

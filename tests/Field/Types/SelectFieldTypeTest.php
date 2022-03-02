@@ -42,7 +42,7 @@ class SelectFieldTypeTest extends CoreTestCase
             'stream' => Streams::make('films'),
         ]);
 
-        $this->assertInstanceOf(SelectValue::class, $field->expand('foo'));
+        $this->assertInstanceOf(SelectValue::class, $field->decorate('foo'));
     }
 }
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Streams\Core\Field\Value;
+namespace Streams\Core\Field\Presenter;
 
 use Illuminate\Support\Arr;
 use Collective\Html\HtmlFacade;
@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Request;
  * @author  PyroCMS, Inc. <support@pyrocms.com>
  * @author  Ryan Thompson <ryan@pyrocms.com>
  */
-class UrlValue extends Value
+class UrlPresenter extends FieldPresenter
 {
 
     /**

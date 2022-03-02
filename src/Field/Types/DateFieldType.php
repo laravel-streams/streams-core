@@ -3,11 +3,16 @@
 namespace Streams\Core\Field\Types;
 
 use Carbon\Carbon;
-use Streams\Core\Field\Value\DateValue;
 use Streams\Core\Field\Schema\DateSchema;
+use Streams\Core\Field\Presenter\DatePresenter;
 
 class DateFieldType extends DatetimeFieldType
 {
+    public function cast($value): Carbon
+    {
+        return $this->toCarbon($value)->startOfDay();
+    }
+    
     public function modify($value)
     {
         return $this->cast($value)->format('Y-m-d');
@@ -18,14 +23,9 @@ class DateFieldType extends DatetimeFieldType
         return $this->cast($value);
     }
 
-    public function cast($value): Carbon
-    {
-        return $this->toCarbon($value)->startOfDay();
-    }
-
     public function getPresenterName()
     {
-        return DateValue::class;
+        return DatePresenter::class;
     }
 
     public function getSchemaName()

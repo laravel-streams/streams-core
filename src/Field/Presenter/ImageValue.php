@@ -1,10 +1,10 @@
 <?php
 
-namespace Streams\Core\Field\Value;
+namespace Streams\Core\Field\Presenter;
 
 use Streams\Core\Support\Facades\Images;
 
-class FileValue extends Value
+class ImagePresenter extends FieldPresenter
 {
 
     /**

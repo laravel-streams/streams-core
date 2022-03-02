@@ -23,6 +23,6 @@ class HashFieldTypeTest extends CoreTestCase
             'stream' => Streams::make('films')
         ]);
 
-        $this->assertInstanceOf(HashValue::class, $field->expand(''));
+        $this->assertInstanceOf(HashValue::class, $field->decorate(''));
     }
 }

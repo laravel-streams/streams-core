@@ -2,10 +2,12 @@
 
 namespace Streams\Core\Tests\Field;
 
+use Streams\Core\Field\Field;
+use Streams\Core\Field\FieldPresenter;
 use Streams\Core\Field\FieldSchema;
 use Streams\Core\Tests\CoreTestCase;
 use Streams\Core\Support\Facades\Streams;
-use Streams\Core\Field\Value\IntegerValue;
+use Streams\Core\Field\Presenter\IntegerPresenter;
 
 class FieldTest extends CoreTestCase
 {
@@ -71,6 +73,10 @@ class FieldTest extends CoreTestCase
         $field = Streams::make('films')->fields->get('episode_id');
 
         $this->assertSame(8, $field->modify('8'));
+
+        $field = new Field();
+
+        $this->assertSame('8', $field->modify('8'));
     }
 
     public function test_it_restores_values()
@@ -78,13 +84,21 @@ class FieldTest extends CoreTestCase
         $field = Streams::make('films')->fields->get('episode_id');
 
         $this->assertSame(8, $field->restore('8'));
+
+        $field = new Field();
+
+        $this->assertSame('8', $field->restore('8'));
     }
 
     public function test_it_decorates_values()
     {
         $field = Streams::make('films')->fields->get('episode_id');
 
-        $this->assertInstanceOf(IntegerValue::class, $field->decorate(8));
+        $this->assertInstanceOf(IntegerPresenter::class, $field->decorate(8));
+
+        $field = new Field();
+
+        $this->assertInstanceOf(FieldPresenter::class, $field->decorate(null));
     }
 
     public function test_it_returns_schema()

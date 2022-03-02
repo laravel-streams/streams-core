@@ -3,8 +3,8 @@
 namespace Streams\Core\Field\Types;
 
 use Streams\Core\Field\Field;
-use Streams\Core\Field\Value\BooleanValue;
 use Streams\Core\Field\Schema\BooleanSchema;
+use Streams\Core\Field\Presenter\BooleanPresenter;
 
 class BooleanFieldType extends Field
 {
@@ -18,9 +18,14 @@ class BooleanFieldType extends Field
         return $this->cast($value);
     }
 
+    public function restore($value)
+    {
+        return $this->cast($value);
+    }
+
     public function getPresenterName()
     {
-        return BooleanValue::class;
+        return BooleanPresenter::class;
     }
 
     public function getSchemaName()

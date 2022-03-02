@@ -9,12 +9,12 @@ use Streams\Core\Field\Types\MarkdownFieldType;
 
 class MarkdownFieldTypeTest extends CoreTestCase
 {
-    public function test_expanded_value()
+    public function test_decorated_value()
     {
         $field = new MarkdownFieldType([
             'stream' => Streams::make('films')
         ]);
 
-        $this->assertInstanceOf(MarkdownValue::class, $field->expand('markdown'));
+        $this->assertInstanceOf(MarkdownValue::class, $field->decorate('markdown'));
     }
 }

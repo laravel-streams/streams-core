@@ -1,10 +1,10 @@
 <?php
 
-namespace Streams\Core\Field\Value;
+namespace Streams\Core\Field\Presenter;
 
 use Illuminate\Support\Arr;
 
-class SelectValue extends Value
+class SelectPresenter extends FieldPresenter
 {
 
     public function value()

@@ -28,6 +28,6 @@ class SlugFieldTypeTest extends CoreTestCase
             'stream' => Streams::make('films')
         ]);
 
-        $this->assertInstanceOf(StringValue::class, $field->expand('example'));
+        $this->assertInstanceOf(StringValue::class, $field->decorate('example'));
     }
 }
