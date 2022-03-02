@@ -116,6 +116,15 @@ abstract class AbstractAdapter implements AdapterInterface
             'stream' => $this->stream,
         ]);
 
+        foreach ($data as $key => &$value) {
+            
+            if (!$field = $this->stream->fields->get($key)) {
+                continue;
+            }
+
+            $value = $field->restore($value);
+        }
+
         $entry = $entry->setRawPrototypeAttributes($data);
         
         return $entry;
