@@ -10,7 +10,7 @@ class MultipleFieldType extends Field
 
     public function restore($value)
     {
-        return $this->expand($value)->get();
+        return $this->decorate($value)->get();
     }
 
     public function expand($value)

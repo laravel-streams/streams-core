@@ -23,7 +23,7 @@ class PolymorphicFieldType extends Field
 
     public function restore($value)
     {
-        return $this->expand($value);
+        return $this->decorate($value);
     }
 
     public function expand($value)
