@@ -3,9 +3,9 @@
 namespace Streams\Core\Tests\Field\Types;
 
 use Streams\Core\Tests\CoreTestCase;
-use Streams\Core\Field\Value\StringValue;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Field\Types\StringFieldType;
+use Streams\Core\Field\Presenter\StringPresenter;
 
 class StringFieldTypeTest extends CoreTestCase
 {
@@ -15,7 +15,8 @@ class StringFieldTypeTest extends CoreTestCase
             'stream' => Streams::make('films')
         ]);
 
-        $this->assertSame('100', $field->cast(100));
+        $this->assertSame('100', $field->modify(100));
+        $this->assertSame('100', $field->restore(100));
     }
 
     public function test_it_returns_string_value()
@@ -24,6 +25,6 @@ class StringFieldTypeTest extends CoreTestCase
             'stream' => Streams::make('films')
         ]);
 
-        $this->assertInstanceOf(StringValue::class, $field->decorate('example'));
+        $this->assertInstanceOf(StringPresenter::class, $field->decorate('example'));
     }
 }

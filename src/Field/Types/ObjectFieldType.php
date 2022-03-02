@@ -16,41 +16,45 @@ class ObjectFieldType extends Field
     {
         if (is_object($value) && $value instanceof EntryInterface) {
             return [
-                '@stream' => $value->stream()->id,
-            ] + $value->getAttributes();
+                '@abstract' => get_class($value),
+            ] + [
+                '@attributes' => $value->getAttributes(),
+            ];
         }
 
         if (is_object($value) && in_array(Prototype::class, class_uses($value))) {
             return [
-                '@prototype' => get_class($value),
-            ] + $value->getPrototypeAttributes();
+                '@abstract' => get_class($value),
+            ] + [
+                '@attributes' => $value->getPrototypeAttributes(),
+            ];
         }
 
         if (is_object($value) && $value instanceof Arrayable) {
             return [
                 '@abstract' => get_class($value),
-            ] + $value->toArray();
+            ] + [
+                '@attributes' => $value->toArray(),
+            ];
         }
 
         if (is_object($value)) {
             return [
                 '@abstract' => get_class($value),
-            ] + Hydrator::dehydrate($value);
+            ] + [
+                '@attributes' => Hydrator::dehydrate($value),
+            ];
         }
 
         return $value;
     }
 
-    public function restore($value)
+    public function cast($value)
     {
         [$meta, $value] = $this->separateMeta($value);
 
         if (isset($meta['@stream'])) {
             return $this->restoreStreamEntry($meta, $value);
-        }
-
-        if (isset($meta['@prototype'])) {
-            return $this->restorePrototype($meta, $value);
         }
 
         if (isset($meta['@abstract'])) {
@@ -60,9 +64,9 @@ class ObjectFieldType extends Field
         return (object) $value;
     }
 
-    public function expand($value)
+    public function decorate($value)
     {
-        return $this->modify($value);
+        return $this->cast($value);
     }
 
     public function getSchemaName()
@@ -100,13 +104,8 @@ class ObjectFieldType extends Field
         return Streams::repository($meta['@stream'])->newInstance($value);
     }
 
-    protected function restorePrototype(array $meta, array $value)
-    {
-        return new $meta['@prototype']($value);
-    }
-
     protected function restoreInstance(array $meta, array $value)
     {
-        return new $meta['@instance']($value);
+        return new $meta['@abstract']($value);
     }
 }

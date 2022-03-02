@@ -40,7 +40,7 @@ class IntegerFieldType extends Field
             return $this->getNextIncrementValue();
         }
 
-        return (int) $value;
+        return $this->cast($value);
     }
 
     public function getPresenterName()

@@ -4,8 +4,8 @@ namespace Streams\Core\Field\Types;
 
 use Streams\Core\Field\Field;
 use Illuminate\Support\Facades\App;
-use Streams\Core\Field\Presenter\SelectPresenter;
 use Streams\Core\Field\Schema\SelectSchema;
+use Streams\Core\Field\Presenter\SelectPresenter;
 
 class SelectFieldType extends Field
 {

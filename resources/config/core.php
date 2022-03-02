@@ -74,8 +74,6 @@ return [
         'file' => \Streams\Core\Field\Types\FileFieldType::class,
 
         // Relationships
-        //'multiple' => \Streams\Core\Field\Types\MultipleFieldType::class,
-        //'polymorphic' => \Streams\Core\Field\Types\PolymorphicFieldType::class,
         'relationship' => \Streams\Core\Field\Types\RelationshipFieldType::class,
 
         // Miscellaneous

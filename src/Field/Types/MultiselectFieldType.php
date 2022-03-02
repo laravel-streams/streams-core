@@ -21,13 +21,18 @@ class MultiselectFieldType extends Field
         return $options;
     }
 
-    public function modify($value)
+    public function cast($value)
     {
         if (is_array($value)) {
             return $value;
         }
 
         return (array) $value;
+    }
+
+    public function modify($value)
+    {
+        return $this->cast($value);
     }
 
     public function restore($value)

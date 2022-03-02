@@ -4,11 +4,60 @@ namespace Streams\Core\Tests\Field\Types;
 
 use Streams\Core\Tests\CoreTestCase;
 use Streams\Core\Support\Facades\Streams;
-use Streams\Core\Field\Value\MultiselectValue;
 use Streams\Core\Field\Types\MultiselectFieldType;
+use Streams\Core\Field\Presenter\MultiselectPresenter;
 
 class MultiselectFieldTypeTest extends CoreTestCase
 {
+    public function test_it_casts_to_array()
+    {
+        $field = new MultiselectFieldType([
+            'stream' => Streams::make('films'),
+            'config' => [
+                'options' => [
+                    'foo' => 'Foo',
+                    'bar' => 'Bar'
+                ],
+            ],
+        ]);
+
+        $this->assertSame(['foo'], $field->cast('foo'));
+        $this->assertSame(['foo'], $field->cast(['foo']));
+        $this->assertSame(['foo'], $field->modify('foo'));
+        $this->assertSame(['foo'], $field->restore('foo'));
+        $this->assertSame(['foo'], $field->restore(['foo']));
+    }
+
+    public function test_it_restores_from_json_string()
+    {
+        $field = new MultiselectFieldType([
+            'stream' => Streams::make('films'),
+            'config' => [
+                'options' => [
+                    'foo' => 'Foo',
+                    'bar' => 'Bar'
+                ],
+            ],
+        ]);
+
+        $this->assertSame(['foo'], $field->restore(json_encode(['foo'])));
+    }
+
+    public function test_it_restores_from_serialized_string()
+    {
+        $field = new MultiselectFieldType([
+            'stream' => Streams::make('films'),
+            'config' => [
+                'options' => [
+                    'foo' => 'Foo',
+                    'bar' => 'Bar'
+                ],
+            ],
+        ]);
+
+        $this->assertSame(['foo'], $field->restore(serialize(['foo'])));
+    }
+
     public function test_it_supports_enumerated_options()
     {
         $field = new MultiselectFieldType([
@@ -36,13 +85,13 @@ class MultiselectFieldTypeTest extends CoreTestCase
         $this->assertSame(['baz' => 'Baz', 'qux' => 'Qux'], $field->options());
     }
 
-    public function test_it_returns_multiselect_value()
+    public function test_it_returns_multiselect_presenter()
     {
         $field = new MultiselectFieldType([
             'stream' => Streams::make('films'),
         ]);
 
-        $this->assertInstanceOf(MultiselectValue::class, $field->decorate([]));
+        $this->assertInstanceOf(MultiselectPresenter::class, $field->decorate([]));
     }
 }
 

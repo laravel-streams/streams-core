@@ -8,14 +8,18 @@ use Streams\Core\Field\Presenter\StringPresenter;
 
 class SlugFieldType extends Field
 {
-    public function modify($value)
+    public function cast($value)
     {
         return Str::slug($value, $this->config('seperator') ?: '_');
+    }
+    public function modify($value)
+    {
+        return $this->cast($value);
     }
 
     public function restore($value)
     {
-        return Str::slug($value, $this->config('seperator') ?: '_');
+        return $this->cast($value);
     }
 
     public function getPresenterName()

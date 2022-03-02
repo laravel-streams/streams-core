@@ -3,17 +3,11 @@
 namespace Streams\Core\Field\Presenter;
 
 use Illuminate\Support\Facades\Hash;
+use Streams\Core\Field\FieldPresenter;
 
 class HashPresenter extends FieldPresenter
 {
-
-    /**
-     * Compare a value to
-     * the hashed value.
-     *
-     * @param $value
-     */
-    public function check($value)
+    public function check($value): bool
     {
         return Hash::check($value, $this->value);
     }

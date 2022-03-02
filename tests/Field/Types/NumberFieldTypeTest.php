@@ -2,10 +2,10 @@
 
 namespace Streams\Core\Tests\Field\Types;
 
-use Streams\Core\Field\Types\NumberFieldType;
 use Streams\Core\Tests\CoreTestCase;
-use Streams\Core\Field\Value\NumberValue;
 use Streams\Core\Support\Facades\Streams;
+use Streams\Core\Field\Types\NumberFieldType;
+use Streams\Core\Field\Presenter\NumberPresenter;
 
 class NumberFieldTypeTest extends CoreTestCase
 {
@@ -29,14 +29,26 @@ class NumberFieldTypeTest extends CoreTestCase
         $this->assertSame(1234.50, $field->cast("1,234.50"));
 
         $this->assertSame(-1234.50, $field->cast("-1,234.50"));
+
+        $this->assertSame(-1234.50, $field->default("-1,234.50"));
+        $this->assertSame(-1234.50, $field->restore("-1,234.50"));
     }
 
-    public function test_decorated_value()
+    public function test_it_stores_as_number()
+    {
+        $field = new NumberFieldType([
+            'stream' => Streams::make('films')
+        ]);
+
+        $this->assertSame(-1234.50, $field->modify("-1,234.50"));
+    }
+
+    public function test_it_returns_number_presenter()
     {
         $field = new NumberFieldType([
             'stream' => Streams::make('films')
         ]);
         
-        $this->assertInstanceOf(NumberValue::class, $field->decorate(100));
+        $this->assertInstanceOf(NumberPresenter::class, $field->decorate(100));
     }
 }

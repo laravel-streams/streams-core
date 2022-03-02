@@ -2,14 +2,14 @@
 
 namespace Streams\Core\Field\Presenter;
 
-use Illuminate\Support\Arr;
+use Streams\Core\Field\FieldPresenter;
 
-class SelectPresenter extends FieldPresenter
+class MultiselectPresenter extends FieldPresenter
 {
 
-    public function value()
+    public function option()
     {
-        return Arr::get($this->field->options(), $this->value);
+        return '@todo - ' . __METHOD__ . ' - ' . $this->value;
     }
 
     /**

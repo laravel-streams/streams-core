@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Hash as HashFacade;
 
 class HashFieldType extends Field
 {
-    public function modify($value)
+    public function cast($value)
     {
         if (strpos($value, '$2y$') === 0 && strlen($value) == 60) {
             return $value;

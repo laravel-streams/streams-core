@@ -91,7 +91,7 @@ class Field implements
 
     public function default($value)
     {
-        return $value;
+        return $this->cast($value);
     }
 
     /**
@@ -174,7 +174,10 @@ class Field implements
         return Factory::class;
     }
 
-
+    public function rules()
+    {
+        return $this->rules ?: [];
+    }
 
     public function hasRule($rule): bool
     {
