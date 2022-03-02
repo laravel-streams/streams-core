@@ -181,7 +181,7 @@ class Entry implements
         $key = Str::snake($method);
 
         if ($this->hasPrototypeAttribute($key)) {
-            return $this->expandPrototypeAttribute($key);
+            return $this->decoratePrototypeAttribute($key);
         }
 
         throw new \BadMethodCallException(sprintf(

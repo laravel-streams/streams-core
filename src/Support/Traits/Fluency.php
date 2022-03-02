@@ -35,7 +35,7 @@ trait Fluency
 
     public function expand($key)
     {
-        //return $this->expandPrototypeAttribute($key);
+        //return $this->decoratePrototypeAttribute($key);
 
         $name = Str::camel('expand_' . $key . '_attribute');
 

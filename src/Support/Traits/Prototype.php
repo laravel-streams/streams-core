@@ -23,7 +23,7 @@ use Illuminate\Support\Traits\Macroable;
  * 
  * Attributes can be expanded:
  * 
- *      echo $object->expandPrototypeAttribute('attribute'); // A new Value instance
+ *      echo $object->decoratePrototypeAttribute('attribute'); // A new Value instance
  */
 trait Prototype
 {
@@ -187,7 +187,7 @@ trait Prototype
         return Arr::get($this->__prototype['attributes'], $key);
     }
 
-    public function expandPrototypeAttribute(string $key)
+    public function decoratePrototypeAttribute(string $key)
     {
         $method = Str::camel('expand_' . $key . '_attribute');
 
@@ -201,7 +201,7 @@ trait Prototype
 
         $type->entry = $this;
 
-        return $type->expand($value);
+        return $type->decorate($value);
     }
 
     public function getPrototypeAttributeDefault(string $key, $default = null)
