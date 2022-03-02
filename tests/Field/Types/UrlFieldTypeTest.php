@@ -5,7 +5,7 @@ namespace Streams\Core\Tests\Field\Types;
 use Streams\Core\Tests\CoreTestCase;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Field\Types\UrlFieldType;
-use Streams\Core\Field\Presenter\UrlPresenter;
+use Streams\Core\Field\Decorator\UrlDecorator;
 
 class UrlFieldTypeTest extends CoreTestCase
 {
@@ -26,6 +26,6 @@ class UrlFieldTypeTest extends CoreTestCase
             'stream' => Streams::make('films')
         ]);
 
-        $this->assertInstanceOf(UrlPresenter::class, $field->decorate(url('testing')));
+        $this->assertInstanceOf(UrlDecorator::class, $field->decorate(url('testing')));
     }
 }

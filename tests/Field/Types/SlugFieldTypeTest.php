@@ -5,7 +5,7 @@ namespace Streams\Core\Tests\Field\Types;
 use Streams\Core\Tests\CoreTestCase;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Field\Types\SlugFieldType;
-use Streams\Core\Field\Presenter\StringPresenter;
+use Streams\Core\Field\Decorator\StringDecorator;
 
 class SlugFieldTypeTest extends CoreTestCase
 {
@@ -28,6 +28,6 @@ class SlugFieldTypeTest extends CoreTestCase
             'stream' => Streams::make('films')
         ]);
 
-        $this->assertInstanceOf(StringPresenter::class, $field->decorate('example'));
+        $this->assertInstanceOf(StringDecorator::class, $field->decorate('example'));
     }
 }

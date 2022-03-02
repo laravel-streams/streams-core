@@ -5,7 +5,7 @@ namespace Streams\Core\Tests\Field\Types;
 use Streams\Core\Tests\CoreTestCase;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Field\Types\ArrayFieldType;
-use Streams\Core\Field\Presenter\ArrayPresenter;
+use Streams\Core\Field\Decorator\ArrayDecorator;
 
 class ArrayFieldTypeTest extends CoreTestCase
 {
@@ -64,12 +64,12 @@ class ArrayFieldTypeTest extends CoreTestCase
         $this->assertSame([0 => 'yes'], $field->restore('yes'));
     }
 
-    public function test_it_returns_array_presenter()
+    public function test_it_returns_array_decorator()
     {
         $field = new ArrayFieldType([
             'stream' => Streams::make('films')
         ]);
 
-        $this->assertInstanceOf(ArrayPresenter::class, $field->decorate($field, []));
+        $this->assertInstanceOf(ArrayDecorator::class, $field->decorate($field, []));
     }
 }

@@ -1,13 +1,12 @@
 <?php
 
-namespace Streams\Core\Field\Presenter;
+namespace Streams\Core\Field\Decorator;
 
 use Illuminate\Support\Arr;
-use Streams\Core\Field\FieldPresenter;
+use Streams\Core\Field\FieldDecorator;
 
-class SelectPresenter extends FieldPresenter
+class SelectDecorator extends FieldDecorator
 {
-
     public function value()
     {
         return Arr::get($this->field->options(), $this->value);

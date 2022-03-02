@@ -1,12 +1,12 @@
 <?php
 
-namespace Streams\Core\Field\Presenter;
+namespace Streams\Core\Field\Decorator;
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\View;
-use Streams\Core\Field\FieldPresenter;
+use Streams\Core\Field\FieldDecorator;
 
-class MarkdownPresenter extends FieldPresenter
+class MarkdownDecorator extends FieldDecorator
 {
     public function parse()
     {

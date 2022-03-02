@@ -1,10 +1,10 @@
 <?php
 
-namespace Streams\Core\Field\Presenter;
+namespace Streams\Core\Field\Decorator;
 
 use Collective\Html\HtmlFacade;
 
-class EmailPresenter extends StringPresenter
+class EmailDecorator extends StringDecorator
 {
     public function mailto($email = null, $title = null, $attributes = [], $escape = true)
     {

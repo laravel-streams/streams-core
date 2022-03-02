@@ -5,7 +5,7 @@ namespace Streams\Core\Tests\Field\Types;
 use Streams\Core\Tests\CoreTestCase;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Field\Types\EmailFieldType;
-use Streams\Core\Field\Presenter\EmailPresenter;
+use Streams\Core\Field\Decorator\EmailDecorator;
 
 class EmailFieldTypeTest extends CoreTestCase
 {
@@ -37,12 +37,12 @@ class EmailFieldTypeTest extends CoreTestCase
         $this->assertSame('test@email.com', $field->modify('test@email.com'));
     }
 
-    public function test_it_returns_email_presenter()
+    public function test_it_returns_email_decorator()
     {
         $field = new EmailFieldType([
             'stream' => Streams::make('films')
         ]);
 
-        $this->assertInstanceOf(EmailPresenter::class, $field->decorate('test@email.com'));
+        $this->assertInstanceOf(EmailDecorator::class, $field->decorate('test@email.com'));
     }
 }

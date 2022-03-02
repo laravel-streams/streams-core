@@ -1,10 +1,10 @@
 <?php
 
-namespace Streams\Core\Field\Presenter;
+namespace Streams\Core\Field\Decorator;
 
-use Streams\Core\Field\FieldPresenter;
+use Streams\Core\Field\FieldDecorator;
 
-class NumberPresenter extends FieldPresenter
+class NumberDecorator extends FieldDecorator
 {
     public function isEven(): bool
     {

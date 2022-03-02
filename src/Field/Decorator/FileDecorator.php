@@ -1,12 +1,12 @@
 <?php
 
-namespace Streams\Core\Field\Presenter;
+namespace Streams\Core\Field\Decorator;
 
 use Streams\Core\Image\Image;
-use Streams\Core\Field\FieldPresenter;
+use Streams\Core\Field\FieldDecorator;
 use Streams\Core\Support\Facades\Images;
 
-class FilePresenter extends FieldPresenter
+class FileDecorator extends FieldDecorator
 {
     public function make(): Image
     {

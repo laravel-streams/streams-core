@@ -1,11 +1,11 @@
 <?php
 
-namespace Streams\Core\Field\Presenter;
+namespace Streams\Core\Field\Decorator;
 
 use Illuminate\Support\Facades\Crypt;
-use Streams\Core\Field\FieldPresenter;
+use Streams\Core\Field\FieldDecorator;
 
-class EncryptedPresenter extends FieldPresenter
+class EncryptedDecorator extends FieldDecorator
 {
     public function decrypt(): string
     {

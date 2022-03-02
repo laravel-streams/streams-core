@@ -5,7 +5,7 @@ namespace Streams\Core\Tests\Field\Types;
 use Streams\Core\Tests\CoreTestCase;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Field\Types\ColorFieldType;
-use Streams\Core\Field\Presenter\ColorPresenter;
+use Streams\Core\Field\Decorator\ColorDecorator;
 
 class ColorFieldTypeTest extends CoreTestCase
 {
@@ -20,12 +20,12 @@ class ColorFieldTypeTest extends CoreTestCase
         $this->assertSame('#ffffff', $field->restore('#FFFFFF'));
     }
 
-    public function test_it_returns_color_presenter()
+    public function test_it_returns_color_decorator()
     {
         $field = new ColorFieldType([
             'stream' => Streams::make('films')
         ]);
 
-        $this->assertInstanceOf(ColorPresenter::class, $field->decorate('#ffffff'));
+        $this->assertInstanceOf(ColorDecorator::class, $field->decorate('#ffffff'));
     }
 }

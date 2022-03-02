@@ -4,7 +4,7 @@ namespace Streams\Core\Field\Types;
 
 use Illuminate\Support\Str;
 use Streams\Core\Field\Field;
-use Streams\Core\Field\Presenter\StringPresenter;
+use Streams\Core\Field\Decorator\StringDecorator;
 
 class SlugFieldType extends Field
 {
@@ -22,9 +22,9 @@ class SlugFieldType extends Field
         return $this->cast($value);
     }
 
-    public function getPresenterName()
+    public function getDecoratorName()
     {
-        return StringPresenter::class;
+        return StringDecorator::class;
     }
 
     public function generate()

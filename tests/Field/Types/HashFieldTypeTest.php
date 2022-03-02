@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Hash;
 use Streams\Core\Tests\CoreTestCase;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Field\Types\HashFieldType;
-use Streams\Core\Field\Presenter\HashPresenter;
+use Streams\Core\Field\Decorator\HashDecorator;
 
 class HashFieldTypeTest extends CoreTestCase
 {
@@ -31,12 +31,12 @@ class HashFieldTypeTest extends CoreTestCase
         );
     }
 
-    public function test_it_returns_hash_presenter()
+    public function test_it_returns_hash_decorator()
     {
         $field = new HashFieldType([
             'stream' => Streams::make('films')
         ]);
 
-        $this->assertInstanceOf(HashPresenter::class, $field->decorate(''));
+        $this->assertInstanceOf(HashDecorator::class, $field->decorate(''));
     }
 }

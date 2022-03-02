@@ -5,7 +5,7 @@ namespace Streams\Core\Tests\Field\Types;
 use Streams\Core\Tests\CoreTestCase;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Field\Types\SelectFieldType;
-use Streams\Core\Field\Presenter\SelectPresenter;
+use Streams\Core\Field\Decorator\SelectDecorator;
 
 class SelectFieldTypeTest extends CoreTestCase
 {
@@ -42,7 +42,7 @@ class SelectFieldTypeTest extends CoreTestCase
             'stream' => Streams::make('films'),
         ]);
 
-        $this->assertInstanceOf(SelectPresenter::class, $field->decorate('foo'));
+        $this->assertInstanceOf(SelectDecorator::class, $field->decorate('foo'));
     }
 
     public function test_it_configures_validation()

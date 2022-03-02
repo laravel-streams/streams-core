@@ -6,7 +6,7 @@ use Streams\Core\Tests\CoreTestCase;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Field\Types\IntegerFieldType;
 
-class FieldPresenterTest extends CoreTestCase
+class FieldDecoratorTest extends CoreTestCase
 {
     public function test_it_can_set_and_get_field()
     {

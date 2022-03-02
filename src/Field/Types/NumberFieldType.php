@@ -3,7 +3,7 @@
 namespace Streams\Core\Field\Types;
 
 use Streams\Core\Field\Field;
-use Streams\Core\Field\Presenter\NumberPresenter;
+use Streams\Core\Field\Decorator\NumberDecorator;
 use Streams\Core\Field\Schema\NumberSchema;
 
 class NumberFieldType extends Field
@@ -41,9 +41,9 @@ class NumberFieldType extends Field
         return $this->cast($value);
     }
 
-    public function getPresenterName()
+    public function getDecoratorName()
     {
-        return NumberPresenter::class;
+        return NumberDecorator::class;
     }
 
     public function getSchemaName()

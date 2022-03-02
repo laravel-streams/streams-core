@@ -1,11 +1,11 @@
 <?php
 
-namespace Streams\Core\Field\Presenter;
+namespace Streams\Core\Field\Decorator;
 
 use Illuminate\Support\Facades\Hash;
-use Streams\Core\Field\FieldPresenter;
+use Streams\Core\Field\FieldDecorator;
 
-class HashPresenter extends FieldPresenter
+class HashDecorator extends FieldDecorator
 {
     public function check($value): bool
     {

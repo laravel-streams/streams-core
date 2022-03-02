@@ -61,7 +61,7 @@ class Field implements
         if ($stream && !$stream instanceof Stream) {
             $stream = new Stream($stream);
         }
-        
+
         if ($stream) {
             $this->stream = $stream;
         }
@@ -125,7 +125,7 @@ class Field implements
      */
     public function decorate($value)
     {
-        $name = $this->config('presenter', $this->getPresenterName());
+        $name = $this->config('decorator', $this->getDecoratorName());
 
         if (isset($this->stream)) {
             $this->field = $this->stream->fields->get($this->handle);
@@ -134,9 +134,9 @@ class Field implements
         return new $name($this, $value);
     }
 
-    public function getPresenterName()
+    public function getDecoratorName()
     {
-        return FieldPresenter::class;
+        return FieldDecorator::class;
     }
 
     public function schema(): FieldSchema

@@ -1,12 +1,12 @@
 <?php
 
-namespace Streams\Core\Field\Presenter;
+namespace Streams\Core\Field\Decorator;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use Streams\Core\Field\FieldPresenter;
+use Streams\Core\Field\FieldDecorator;
 
-class ArrayPresenter extends FieldPresenter
+class ArrayDecorator extends FieldDecorator
 {
 
     /**

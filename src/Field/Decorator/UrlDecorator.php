@@ -1,15 +1,15 @@
 <?php
 
-namespace Streams\Core\Field\Presenter;
+namespace Streams\Core\Field\Decorator;
 
 use Illuminate\Support\Arr;
 use Collective\Html\HtmlFacade;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Route;
-use Streams\Core\Field\FieldPresenter;
+use Streams\Core\Field\FieldDecorator;
 use Illuminate\Support\Facades\Request;
 
-class UrlPresenter extends FieldPresenter
+class UrlDecorator extends FieldDecorator
 {
 
     /**

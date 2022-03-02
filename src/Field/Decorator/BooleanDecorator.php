@@ -1,10 +1,10 @@
 <?php
 
-namespace Streams\Core\Field\Presenter;
+namespace Streams\Core\Field\Decorator;
 
-use Streams\Core\Field\FieldPresenter;
+use Streams\Core\Field\FieldDecorator;
 
-class BooleanPresenter extends FieldPresenter
+class BooleanDecorator extends FieldDecorator
 {
 
     /**

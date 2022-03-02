@@ -4,7 +4,7 @@ namespace Streams\Core\Field\Types;
 
 use Carbon\Carbon;
 use Streams\Core\Field\Schema\DateSchema;
-use Streams\Core\Field\Presenter\DatePresenter;
+use Streams\Core\Field\Decorator\DateDecorator;
 
 class DateFieldType extends DatetimeFieldType
 {
@@ -23,9 +23,9 @@ class DateFieldType extends DatetimeFieldType
         return $this->cast($value);
     }
 
-    public function getPresenterName()
+    public function getDecoratorName()
     {
-        return DatePresenter::class;
+        return DateDecorator::class;
     }
 
     public function getSchemaName()

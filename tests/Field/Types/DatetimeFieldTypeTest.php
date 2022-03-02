@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Streams\Core\Tests\CoreTestCase;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Field\Types\DatetimeFieldType;
-use Streams\Core\Field\Presenter\DatetimePresenter;
+use Streams\Core\Field\Decorator\DatetimeDecorator;
 
 class DatetimeFieldTypeTest extends CoreTestCase
 {
@@ -66,12 +66,12 @@ class DatetimeFieldTypeTest extends CoreTestCase
         $this->assertSame($value, $field->modify(new Carbon($value)));
     }
 
-    public function test_it_returns_datetime_presenter()
+    public function test_it_returns_datetime_decorator()
     {
         $field = new DatetimeFieldType([
             'stream' => Streams::make('films')
         ]);
 
-        $this->assertInstanceOf(DatetimePresenter::class, $field->decorate('2021-01-01 9:30'));
+        $this->assertInstanceOf(DatetimeDecorator::class, $field->decorate('2021-01-01 9:30'));
     }
 }

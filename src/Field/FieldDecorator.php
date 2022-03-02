@@ -6,7 +6,7 @@ use Streams\Core\Field\Field;
 use Illuminate\Support\Traits\Macroable;
 use Illuminate\Support\Traits\ForwardsCalls;
 
-class FieldPresenter
+class FieldDecorator
 {
     use Macroable;
     use ForwardsCalls;

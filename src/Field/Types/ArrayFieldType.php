@@ -11,7 +11,7 @@ use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Support\Facades\Hydrator;
 use Illuminate\Contracts\Support\Arrayable;
 use Streams\Core\Entry\Contract\EntryInterface;
-use Streams\Core\Field\Presenter\ArrayPresenter;
+use Streams\Core\Field\Decorator\ArrayDecorator;
 
 class ArrayFieldType extends Field
 {
@@ -104,9 +104,9 @@ class ArrayFieldType extends Field
         return $values;
     }
 
-    public function getPresenterName()
+    public function getDecoratorName()
     {
-        return ArrayPresenter::class;
+        return ArrayDecorator::class;
     }
 
     public function getSchemaName()

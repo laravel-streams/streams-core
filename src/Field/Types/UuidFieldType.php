@@ -5,7 +5,7 @@ namespace Streams\Core\Field\Types;
 use Illuminate\Support\Str;
 use Streams\Core\Field\Field;
 use Streams\Core\Field\Schema\UuidSchema;
-use Streams\Core\Field\Presenter\StringPresenter;
+use Streams\Core\Field\Decorator\StringDecorator;
 
 class UuidFieldType extends Field
 {
@@ -20,9 +20,9 @@ class UuidFieldType extends Field
         return (string) Str::uuid();
     }
 
-    public function getPresenterName()
+    public function getDecoratorName()
     {
-        return StringPresenter::class;
+        return StringDecorator::class;
     }
 
     public function getSchemaName()

@@ -1,12 +1,11 @@
 <?php
 
-namespace Streams\Core\Field\Presenter;
+namespace Streams\Core\Field\Decorator;
 
-use Streams\Core\Field\FieldPresenter;
+use Streams\Core\Field\FieldDecorator;
 
-class MultiselectPresenter extends FieldPresenter
+class MultiselectDecorator extends FieldDecorator
 {
-
     public function option()
     {
         return '@todo - ' . __METHOD__ . ' - ' . $this->value;

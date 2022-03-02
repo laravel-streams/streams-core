@@ -3,7 +3,7 @@
 namespace Streams\Core\Field\Types;
 
 use Streams\Core\Field\Field;
-use Streams\Core\Field\Presenter\IntegerPresenter;
+use Streams\Core\Field\Decorator\IntegerDecorator;
 use Streams\Core\Field\Schema\IntegerSchema;
 
 class IntegerFieldType extends Field
@@ -43,9 +43,9 @@ class IntegerFieldType extends Field
         return $this->cast($value);
     }
 
-    public function getPresenterName()
+    public function getDecoratorName()
     {
-        return IntegerPresenter::class;
+        return IntegerDecorator::class;
     }
 
     public function getSchemaName()

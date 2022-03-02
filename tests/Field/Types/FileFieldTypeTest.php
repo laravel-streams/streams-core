@@ -5,7 +5,7 @@ namespace Streams\Core\Tests\Field\Types;
 use Streams\Core\Tests\CoreTestCase;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Field\Types\FileFieldType;
-use Streams\Core\Field\Presenter\FilePresenter;
+use Streams\Core\Field\Decorator\FileDecorator;
 
 class FileFieldTypeTest extends CoreTestCase
 {
@@ -18,12 +18,12 @@ class FileFieldTypeTest extends CoreTestCase
         $this->assertSame('', $field->cast(''));
     }
 
-    public function test_it_returns_file_presenter()
+    public function test_it_returns_file_decorator()
     {
         $field = new FileFieldType([
             'stream' => Streams::make('films')
         ]);
 
-        $this->assertInstanceOf(FilePresenter::class, $field->decorate(''));
+        $this->assertInstanceOf(FileDecorator::class, $field->decorate(''));
     }
 }

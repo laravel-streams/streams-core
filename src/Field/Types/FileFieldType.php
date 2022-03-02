@@ -3,7 +3,7 @@
 namespace Streams\Core\Field\Types;
 
 use Illuminate\Support\Arr;
-use Streams\Core\Field\Presenter\FilePresenter;
+use Streams\Core\Field\Decorator\FileDecorator;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class FileFieldType extends StringFieldType
@@ -31,8 +31,8 @@ class FileFieldType extends StringFieldType
         throw new \Exception("Could not determine file type.");
     }
 
-    public function getPresenterName()
+    public function getDecoratorName()
     {
-        return FilePresenter::class;
+        return FileDecorator::class;
     }
 }

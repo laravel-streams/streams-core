@@ -5,7 +5,7 @@ namespace Streams\Core\Tests\Field\Types;
 use Streams\Core\Tests\CoreTestCase;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Field\Types\IntegerFieldType;
-use Streams\Core\Field\Presenter\IntegerPresenter;
+use Streams\Core\Field\Decorator\IntegerDecorator;
 
 class IntegerFieldTypeTest extends CoreTestCase
 {
@@ -41,13 +41,13 @@ class IntegerFieldTypeTest extends CoreTestCase
         $this->assertSame(100, $field->modify("100"));
     }
 
-    public function test_it_returns_markdown_presenter()
+    public function test_it_returns_markdown_decorator()
     {
         $field = new IntegerFieldType([
             'stream' => Streams::make('films'),
         ]);
 
-        $this->assertInstanceOf(IntegerPresenter::class, $field->decorate(2));
+        $this->assertInstanceOf(IntegerDecorator::class, $field->decorate(2));
     }
 
     public function test_it_returns_incremental_default_value()

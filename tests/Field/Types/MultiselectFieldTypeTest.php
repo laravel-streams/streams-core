@@ -5,7 +5,7 @@ namespace Streams\Core\Tests\Field\Types;
 use Streams\Core\Tests\CoreTestCase;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Field\Types\MultiselectFieldType;
-use Streams\Core\Field\Presenter\MultiselectPresenter;
+use Streams\Core\Field\Decorator\MultiselectDecorator;
 
 class MultiselectFieldTypeTest extends CoreTestCase
 {
@@ -85,13 +85,13 @@ class MultiselectFieldTypeTest extends CoreTestCase
         $this->assertSame(['baz' => 'Baz', 'qux' => 'Qux'], $field->options());
     }
 
-    public function test_it_returns_multiselect_presenter()
+    public function test_it_returns_multiselect_decorator()
     {
         $field = new MultiselectFieldType([
             'stream' => Streams::make('films'),
         ]);
 
-        $this->assertInstanceOf(MultiselectPresenter::class, $field->decorate([]));
+        $this->assertInstanceOf(MultiselectDecorator::class, $field->decorate([]));
     }
 }
 

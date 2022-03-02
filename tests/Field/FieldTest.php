@@ -3,11 +3,11 @@
 namespace Streams\Core\Tests\Field;
 
 use Streams\Core\Field\Field;
-use Streams\Core\Field\FieldPresenter;
+use Streams\Core\Field\FieldDecorator;
 use Streams\Core\Field\FieldSchema;
 use Streams\Core\Tests\CoreTestCase;
 use Streams\Core\Support\Facades\Streams;
-use Streams\Core\Field\Presenter\IntegerPresenter;
+use Streams\Core\Field\Decorator\IntegerDecorator;
 
 class FieldTest extends CoreTestCase
 {
@@ -94,11 +94,11 @@ class FieldTest extends CoreTestCase
     {
         $field = Streams::make('films')->fields->get('episode_id');
 
-        $this->assertInstanceOf(IntegerPresenter::class, $field->decorate(8));
+        $this->assertInstanceOf(IntegerDecorator::class, $field->decorate(8));
 
         $field = new Field();
 
-        $this->assertInstanceOf(FieldPresenter::class, $field->decorate(null));
+        $this->assertInstanceOf(FieldDecorator::class, $field->decorate(null));
     }
 
     public function test_it_returns_schema()

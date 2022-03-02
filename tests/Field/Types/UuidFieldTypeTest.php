@@ -6,7 +6,7 @@ use Illuminate\Support\Str;
 use Streams\Core\Tests\CoreTestCase;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Field\Types\UuidFieldType;
-use Streams\Core\Field\Presenter\StringPresenter;
+use Streams\Core\Field\Decorator\StringDecorator;
 
 class UuidFieldTypeTest extends CoreTestCase
 {
@@ -26,7 +26,7 @@ class UuidFieldTypeTest extends CoreTestCase
         ]);
 
         $this->assertInstanceOf(
-            StringPresenter::class,
+            StringDecorator::class,
             $field->decorate((string) Str::uuid())
         );
     }

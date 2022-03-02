@@ -5,7 +5,7 @@ namespace Streams\Core\Tests\Field\Types;
 use Streams\Core\Tests\CoreTestCase;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Field\Types\StringFieldType;
-use Streams\Core\Field\Presenter\StringPresenter;
+use Streams\Core\Field\Decorator\StringDecorator;
 
 class StringFieldTypeTest extends CoreTestCase
 {
@@ -25,6 +25,6 @@ class StringFieldTypeTest extends CoreTestCase
             'stream' => Streams::make('films')
         ]);
 
-        $this->assertInstanceOf(StringPresenter::class, $field->decorate('example'));
+        $this->assertInstanceOf(StringDecorator::class, $field->decorate('example'));
     }
 }

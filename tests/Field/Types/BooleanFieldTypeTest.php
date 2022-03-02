@@ -5,7 +5,7 @@ namespace Streams\Core\Tests\Field\Types;
 use Streams\Core\Tests\CoreTestCase;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Field\Types\BooleanFieldType;
-use Streams\Core\Field\Presenter\BooleanPresenter;
+use Streams\Core\Field\Decorator\BooleanDecorator;
 
 class BooleanFieldTypeTest extends CoreTestCase
 {
@@ -15,7 +15,7 @@ class BooleanFieldTypeTest extends CoreTestCase
             'stream' => Streams::make('films')
         ]);
 
-        $this->assertInstanceOf(BooleanPresenter::class, $field->decorate(true));
+        $this->assertInstanceOf(BooleanDecorator::class, $field->decorate(true));
     }
 
     public function test_it_casts_to_boolean()

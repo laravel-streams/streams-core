@@ -4,7 +4,7 @@ namespace Streams\Core\Field\Types;
 
 use Streams\Core\Field\Field;
 use Streams\Core\Field\Schema\BooleanSchema;
-use Streams\Core\Field\Presenter\BooleanPresenter;
+use Streams\Core\Field\Decorator\BooleanDecorator;
 
 class BooleanFieldType extends Field
 {
@@ -23,9 +23,9 @@ class BooleanFieldType extends Field
         return $this->cast($value);
     }
 
-    public function getPresenterName()
+    public function getDecoratorName()
     {
-        return BooleanPresenter::class;
+        return BooleanDecorator::class;
     }
 
     public function getSchemaName()
