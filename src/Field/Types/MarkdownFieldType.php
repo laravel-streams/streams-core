@@ -9,7 +9,7 @@ use Streams\Core\Field\Value\MarkdownValue;
 class MarkdownFieldType extends Field
 {
 
-    public function getValueName()
+    public function getPresenterName()
     {
         return MarkdownValue::class;
     }

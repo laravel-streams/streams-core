@@ -23,7 +23,7 @@ class DateFieldType extends DatetimeFieldType
         return $this->toCarbon($value)->startOfDay();
     }
 
-    public function getValueName()
+    public function getPresenterName()
     {
         return DateValue::class;
     }

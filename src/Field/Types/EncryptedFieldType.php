@@ -15,7 +15,7 @@ class EncryptedFieldType extends Field
         return Crypt::encrypt($value);
     }
 
-    public function getValueName()
+    public function getPresenterName()
     {
         return EncryptedValue::class;
     }

@@ -22,7 +22,7 @@ class ColorFieldType extends Field
         return $this->cast($value);
     }
 
-    public function getValueName()
+    public function getPresenterName()
     {
         return ColorValue::class;
     }

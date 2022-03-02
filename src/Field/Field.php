@@ -94,24 +94,46 @@ class Field implements
         return $value;
     }
 
+    /**
+     * Cast the value when
+     * setting a value.
+     */
     public function cast($value)
     {
         return $value;
     }
 
+    /**
+     * Modify the value
+     * for storage.
+     */
     public function modify($value)
     {
         return $value;
     }
 
+    /**
+     * Restore a value from storage.
+     */
     public function restore($value)
     {
         return $value;
     }
 
+    /**
+     * Decorate the value.
+     */
     public function expand($value)
     {
-        $name = $this->config('expanded', $this->getValueName());
+        return $this->decorate($value);
+    }
+
+    /**
+     * Decorate the value.
+     */
+    public function decorate($value)
+    {
+        $name = $this->config('presenter', $this->getPresenterName());
 
         if (isset($this->stream)) {
             $this->field = $this->stream->fields->get($this->handle);
@@ -120,7 +142,7 @@ class Field implements
         return new $name($this, $value);
     }
 
-    public function getValueName()
+    public function getPresenterName()
     {
         return Value::class;
     }

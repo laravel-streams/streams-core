@@ -30,7 +30,7 @@ class FileFieldType extends StringFieldType
         throw new \Exception("Could not determine file type.");
     }
 
-    public function getValueName()
+    public function getPresenterName()
     {
         return FileValue::class;
     }

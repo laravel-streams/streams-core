@@ -21,7 +21,7 @@ class SelectFieldType extends Field
         return $options;
     }
 
-    public function getValueName()
+    public function getPresenterName()
     {
         return SelectValue::class;
     }

@@ -37,7 +37,7 @@ class DecimalFieldType extends Field
         return round($value, $this->config('precision') ?: 1);
     }
 
-    public function getValueName()
+    public function getPresenterName()
     {
         return DecimalValue::class;
     }

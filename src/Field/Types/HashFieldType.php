@@ -18,7 +18,7 @@ class HashFieldType extends Field
         return HashFacade::make($value);
     }
 
-    public function getValueName()
+    public function getPresenterName()
     {
         return HashValue::class;
     }

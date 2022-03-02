@@ -22,7 +22,7 @@ class EmailFieldType extends Field
         return (string) $value;
     }
 
-    public function getValueName()
+    public function getPresenterName()
     {
         return EmailValue::class;
     }

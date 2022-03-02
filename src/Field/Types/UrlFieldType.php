@@ -15,7 +15,7 @@ class UrlFieldType extends Field
         ],
     ];
 
-    public function getValueName()
+    public function getPresenterName()
     {
         return UrlValue::class;
     }

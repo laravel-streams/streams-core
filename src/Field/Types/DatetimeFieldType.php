@@ -20,7 +20,7 @@ class DatetimeFieldType extends Field
         return $this->toCarbon($value);
     }
 
-    public function getValueName()
+    public function getPresenterName()
     {
         return DatetimeValue::class;
     }

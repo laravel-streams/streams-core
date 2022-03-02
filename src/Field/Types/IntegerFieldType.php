@@ -24,15 +24,6 @@ class IntegerFieldType extends Field
         return intval($value);
     }
 
-    public function default($value)
-    {
-        if ($value == 'increment') {
-            return $this->getNextIncrementValue();
-        }
-
-        return (int) $value;
-    }
-
     public function modify($value)
     {
         return $this->cast($value);
@@ -43,7 +34,16 @@ class IntegerFieldType extends Field
         return $this->cast($value);
     }
 
-    public function getValueName()
+    public function default($value)
+    {
+        if ($value == 'increment') {
+            return $this->getNextIncrementValue();
+        }
+
+        return (int) $value;
+    }
+
+    public function getPresenterName()
     {
         return IntegerValue::class;
     }

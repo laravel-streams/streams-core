@@ -47,7 +47,7 @@ class MultiselectFieldType extends Field
         return (array) $value;
     }
 
-    public function getValueName()
+    public function getPresenterName()
     {
         return MultiselectValue::class;
     }

@@ -59,11 +59,32 @@ class FieldTest extends CoreTestCase
         ]);
     }
 
-    public function test_it_expands_values()
+    public function test_it_casts_values()
     {
         $field = Streams::make('films')->fields->get('episode_id');
 
-        $this->assertInstanceOf(IntegerValue::class, $field->expand(8));
+        $this->assertSame(8, $field->cast('8'));
+    }
+
+    public function test_it_modifies_values()
+    {
+        $field = Streams::make('films')->fields->get('episode_id');
+
+        $this->assertSame(8, $field->modify('8'));
+    }
+
+    public function test_it_restores_values()
+    {
+        $field = Streams::make('films')->fields->get('episode_id');
+
+        $this->assertSame(8, $field->restore('8'));
+    }
+
+    public function test_it_decorates_values()
+    {
+        $field = Streams::make('films')->fields->get('episode_id');
+
+        $this->assertInstanceOf(IntegerValue::class, $field->decorate(8));
     }
 
     public function test_it_returns_schema()

@@ -18,7 +18,7 @@ class SlugFieldType extends Field
         return Str::slug($value, $this->config('seperator') ?: '_');
     }
 
-    public function getValueName()
+    public function getPresenterName()
     {
         return StringValue::class;
     }

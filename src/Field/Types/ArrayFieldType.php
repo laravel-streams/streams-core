@@ -111,7 +111,7 @@ class ArrayFieldType extends Field
         return $values;
     }
 
-    public function getValueName()
+    public function getPresenterName()
     {
         return ArrayValue::class;
     }

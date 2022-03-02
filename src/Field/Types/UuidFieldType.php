@@ -20,7 +20,7 @@ class UuidFieldType extends Field
         return (string) Str::uuid();
     }
 
-    public function getValueName()
+    public function getPresenterName()
     {
         return StringValue::class;
     }

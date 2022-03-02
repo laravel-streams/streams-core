@@ -41,7 +41,7 @@ class NumberFieldType extends Field
         return $this->cast($value);
     }
 
-    public function getValueName()
+    public function getPresenterName()
     {
         return NumberValue::class;
     }

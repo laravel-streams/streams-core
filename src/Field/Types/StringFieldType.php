@@ -28,7 +28,7 @@ class StringFieldType extends Field
         return $this->generator()->text();
     }
 
-    public function getValueName()
+    public function getPresenterName()
     {
         return StringValue::class;
     }
