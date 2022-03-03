@@ -89,15 +89,19 @@ Values are stored as an [image source](images#image-sources)
 Image::make($entry->profile_image)->url();
 ```
 
-### Decoration
+### Field Decorators
 
 Field decorators provide expanded function to entry attributes like a universal presenter.
 
-```php
-// Standard Decoration
-$entry->decorate('profile_image')->url();
+The below example demonstrates the `image` field decorator:
 
-// Guessed Decoration
+```php
+$entry->decorate('profile_image')->url();
+```
+
+You may also use magic methods derived from "camel casing" the field's handle to invoke decoration.
+
+```php
 $entry->profileImage()->url();
 ```
 
