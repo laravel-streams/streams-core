@@ -43,6 +43,10 @@ class Stream implements
     protected $__attributes = [
         'config' => [
             'key_name' => 'id',
+            'created_at_name' => false,
+            'updated_at_name' => false,
+            'created_by_name' => false,
+            'updated_by_name' => false,
         ],
     ];
 

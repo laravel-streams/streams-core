@@ -1,7 +1,8 @@
 ---
 __created_at: 1621306541
 __updated_at: 1621306541
-title: Addons
+link_title: Addons
+title: Addon Packages
 category: advanced
 stage: outlining
 enabled: true
