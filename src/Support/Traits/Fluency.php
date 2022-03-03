@@ -4,6 +4,7 @@ namespace Streams\Core\Support\Traits;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Streams\Core\Field\FieldDecorator;
 use Streams\Core\Support\Facades\Hydrator;
 
 /**
@@ -33,11 +34,11 @@ trait Fluency
         return $this->loadPrototypeAttributes($attributes);
     }
 
-    public function expand($key)
+    public function decorate($key): FieldDecorator
     {
-        //return $this->expandPrototypeAttribute($key);
+        //return $this->decoratePrototypeAttribute($key);
 
-        $name = Str::camel('expand_' . $key . '_attribute');
+        $name = Str::camel('decorate_' . $key . '_attribute');
 
         $value = $this->getPrototypeAttribute($key);
 
@@ -49,7 +50,7 @@ trait Fluency
 
         $type->entry = $this;
 
-        return $type->expand($value);
+        return $type->decorate($value);
     }
 
     public function setAttributes(array $attributes)

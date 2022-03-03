@@ -66,7 +66,7 @@ class EntryTest extends CoreTestCase
         $this->assertSame('ID: 4', $entry->episode());
     }
 
-    public function test_it_automatically_expands_fields()
+    public function test_it_automatically_decorates_fields()
     {
         $entry = Streams::repository('films')->find(4);
 

@@ -2,6 +2,7 @@
 
 namespace Streams\Core\Entry\Contract;
 
+use Streams\Core\Field\FieldDecorator;
 use Streams\Core\Stream\Stream;
 
 interface EntryInterface
@@ -67,25 +68,9 @@ interface EntryInterface
     public function setAttributes(array $attributes);
 
     /**
-     * Expand the field value.
-     *
-     * @param string $key
-     * @var \Streams\Core\Field\Value\Value
-     */
-    public function expand($key);
-
-    /**
-     * Save the entry.
-     * 
-     * @param array $options
-     * @var bool
+     * @return bool
      */
     public function save(array $options = []);
 
-    /**
-     * Delete the entry.
-     * 
-     * @return bool
-     */
-    public function delete();
+    public function decorate(string $key): FieldDecorator;
 }

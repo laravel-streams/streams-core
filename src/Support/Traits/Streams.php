@@ -105,7 +105,7 @@ trait Streams
      */
     public function expand($key)
     {
-        return $this->expandPrototypeAttribute($key);
+        return $this->decoratePrototypeAttribute($key);
     }
 
     /**
