@@ -85,7 +85,7 @@ Define [Laravel validation rules](https://laravel.com/docs/validation#available-
 The field type is responsible for validating, casting, and more for its specific data type.
 
 @foreach (Streams::entries('docs_core')->where('category', 'field_types')->orderBy('sort', 'ASC')->orderBy('name', 'ASC')->get() as $entry)
- - <a href="{{ $entry->id }}">{{ $entry->title }} ({{ $entry->expand('stage')->value() }})</a>
+ - <a href="{{ $entry->id }}">{{ $entry->title }} ({{ $entry->decorate('stage') }})</a>
 @endforeach
 
 
@@ -132,4 +132,17 @@ The field type is responsible for validating, casting, and more for its specific
         "path": "storage::uploads.img"
     }
 }
+```
+
+
+## Field Decorators
+
+Field decorators provide expanded function to entry attributes like a universal presenter. 
+
+```php
+{% verbatim %}// Standard Decoration
+$entry->decorate('profile_image')->url();
+
+// Guessed Decoration
+$entry->profileImage()->url();{% endverbatim %}
 ```
