@@ -53,12 +53,12 @@ Basic value access returns the stored value:
 {{ $entry->starts_at }}@endverbatim
 ```
 
-### Expanded Value
+### Decorated Value
 
-Date types also provide expanded values which returns a [Carbon](https://carbon.nesbot.com/) instance.
+Date types also provide decorated values which returns a [Carbon](https://carbon.nesbot.com/) instance.
 
 ```blade
-@verbatim// Expanded value
+@verbatim// Decorated value
 {{ $entry->startsAt()->isWeekend() }}@endverbatim
 ```
 

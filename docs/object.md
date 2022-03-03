@@ -42,12 +42,12 @@ Basic object access:
 @endverbatim
 ```
 
-### Expanded Value
+### Decorated Value
 
-The expanded value provides an object as well.
+The decorated value provides an object as well.
 
 ```blade
-@verbatim// Expanded value
+@verbatim// Decorated value
 {{ $entry->address->street }}
 @endverbatim
 ```

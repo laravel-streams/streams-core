@@ -40,12 +40,12 @@ Basic value access displays the entry instance:
 {{ $entry->home->title }}@endverbatim
 ```
 
-### Expanded Value
+### Decorated Value
 
-The expanded value also provides the same instance.
+The decorated value also provides the same instance.
 
 ```blade
-@verbatim// Expanded value
+@verbatim// Decorated value
 {{ $entry->home()->title }}@endverbatim
 ```
 

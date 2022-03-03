@@ -45,12 +45,12 @@ Basic `array` access:
 @endverbatim
 ```
 
-### Expanded Value
+### Decorated Value
 
-The expanded value provides collection access to the data.
+The decorated value provides collection access to the data.
 
 ```blade
-@verbatim// Expanded value
+@verbatim// Decorated value
 {{ $entry->items()->implode(', ') }}
 @endverbatim
 ```

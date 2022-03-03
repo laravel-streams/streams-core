@@ -38,12 +38,12 @@ Basic value access displays encrypted value:
 @endverbatim
 ```
 
-### Expanded Value
+### Decorated Value
 
-Strings also provide expanded values.
+Strings also provide decorated values.
 
 ```blade
-@verbatim// Expanded value
+@verbatim// Decorated value
 {{ implode('; ', $entry->example()->lines()) }}
 @endverbatim
 ```

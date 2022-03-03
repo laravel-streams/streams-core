@@ -73,12 +73,12 @@ Basic value access displays the stored key value:
 {{ $entry->status }}@endverbatim
 ```
 
-### Expanded Value
+### Decorated Value
 
-Select types also provide expanded values.
+Select types also provide decorated values.
 
 ```blade
-@verbatim// Expanded value
+@verbatim// Decorated value
 Status: {{ $entry->status()->value() }}@endverbatim
 ```
 

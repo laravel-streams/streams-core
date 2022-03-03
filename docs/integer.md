@@ -38,12 +38,12 @@ Basic value access displays the stored value:
 {{ $entry->count }}@endverbatim
 ```
 
-### Expanded Value
+### Decorated Value
 
-Boolean types also provide expanded values.
+Boolean types also provide decorated values.
 
 ```blade
-@verbatim// Expanded value
+@verbatim// Decorated value
 @if ($entry->count()->isEven())
     // ...
 @endif@endverbatim

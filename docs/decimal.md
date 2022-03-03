@@ -45,12 +45,12 @@ Basic value access displays the stored value:
 {{ $entry->price }}@endverbatim
 ```
 
-### Expanded Value
+### Decorated Value
 
-Boolean types also provide expanded values.
+Boolean types also provide decorated values.
 
 ```blade
-@verbatim// Expanded value
+@verbatim// Decorated value
 @if ($entry->price()->isOdd())
     // ...
 @endif@endverbatim

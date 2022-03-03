@@ -38,7 +38,7 @@ Basic value access displays the unparsed value:
 @endverbatim
 ```
 
-### Expanded Value
+### Decorated Value
 
 To get anything out of your stored value you will need to expand it.
 
