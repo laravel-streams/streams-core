@@ -32,8 +32,6 @@ The `object` field type is used for storing objects. Objects can be simple or co
 }
 ```
 
-## Templating
-
 Basic object access:
 
 ```blade
@@ -42,12 +40,12 @@ Basic object access:
 @endverbatim
 ```
 
-### Expanded Value
+### Decorator Usage
 
-The expanded value provides an object as well.
+The decorated value provides an object as well.
 
 ```blade
-@verbatim// Expanded value
+@verbatim// Decorated value
 {{ $entry->address->street }}
 @endverbatim
 ```

@@ -1,21 +1,15 @@
 <?php
 
-namespace Streams\Core\Field\Value;
+namespace Streams\Core\Field\Decorator;
 
 use Illuminate\Support\Arr;
 use Collective\Html\HtmlFacade;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Route;
+use Streams\Core\Field\FieldDecorator;
 use Illuminate\Support\Facades\Request;
 
-/**
- * Class UrlValue
- * 
- * @link    http://pyrocms.com/
- * @author  PyroCMS, Inc. <support@pyrocms.com>
- * @author  Ryan Thompson <ryan@pyrocms.com>
- */
-class UrlValue extends Value
+class UrlDecorator extends FieldDecorator
 {
 
     /**

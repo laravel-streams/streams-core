@@ -61,7 +61,7 @@ class Field implements
         if ($stream && !$stream instanceof Stream) {
             $stream = new Stream($stream);
         }
-        
+
         if ($stream) {
             $this->stream = $stream;
         }
@@ -91,27 +91,41 @@ class Field implements
 
     public function default($value)
     {
-        return $value;
+        return $this->cast($value);
     }
 
+    /**
+     * Cast the value when
+     * setting a value.
+     */
     public function cast($value)
     {
         return $value;
     }
 
+    /**
+     * Modify the value
+     * for storage.
+     */
     public function modify($value)
     {
         return $value;
     }
 
+    /**
+     * Restore a value from storage.
+     */
     public function restore($value)
     {
         return $value;
     }
 
-    public function expand($value)
+    /**
+     * Decorate the value.
+     */
+    public function decorate($value)
     {
-        $name = $this->config('expanded', $this->getValueName());
+        $name = $this->config('decorator', $this->getDecoratorName());
 
         if (isset($this->stream)) {
             $this->field = $this->stream->fields->get($this->handle);
@@ -120,9 +134,9 @@ class Field implements
         return new $name($this, $value);
     }
 
-    public function getValueName()
+    public function getDecoratorName()
     {
-        return Value::class;
+        return FieldDecorator::class;
     }
 
     public function schema(): FieldSchema
@@ -160,7 +174,10 @@ class Field implements
         return Factory::class;
     }
 
-
+    public function rules()
+    {
+        return $this->rules ?: [];
+    }
 
     public function hasRule($rule): bool
     {

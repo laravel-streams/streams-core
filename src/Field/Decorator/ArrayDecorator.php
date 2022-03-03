@@ -1,11 +1,12 @@
 <?php
 
-namespace Streams\Core\Field\Value;
+namespace Streams\Core\Field\Decorator;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Streams\Core\Field\FieldDecorator;
 
-class ArrayValue extends Value
+class ArrayDecorator extends FieldDecorator
 {
 
     /**

@@ -18,6 +18,7 @@ class TimeFieldTypeTest extends CoreTestCase
         $value = 'Yesterday 9am';
 
         $this->assertInstanceOf(Carbon::class, $field->cast($value));
+        $this->assertInstanceOf(Carbon::class, $field->restore($value));
     }
 
     public function test_it_stores_time_in_standard_format()

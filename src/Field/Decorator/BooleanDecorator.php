@@ -1,8 +1,10 @@
 <?php
 
-namespace Streams\Core\Field\Value;
+namespace Streams\Core\Field\Decorator;
 
-class BooleanValue extends Value
+use Streams\Core\Field\FieldDecorator;
+
+class BooleanDecorator extends FieldDecorator
 {
 
     /**

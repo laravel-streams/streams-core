@@ -28,8 +28,6 @@ The `string` field type stores a basic string.
 }
 ```
 
-## Templating
-
 Basic value access displays encrypted value:
 
 ```blade
@@ -38,12 +36,12 @@ Basic value access displays encrypted value:
 @endverbatim
 ```
 
-### Expanded Value
+### Decorator Usage
 
-Strings also provide expanded values.
+Strings also provide decorated values.
 
 ```blade
-@verbatim// Expanded value
+@verbatim// Decorated value
 {{ implode('; ', $entry->example()->lines()) }}
 @endverbatim
 ```

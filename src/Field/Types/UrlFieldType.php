@@ -3,7 +3,7 @@
 namespace Streams\Core\Field\Types;
 
 use Streams\Core\Field\Field;
-use Streams\Core\Field\Value\UrlValue;
+use Streams\Core\Field\Decorator\UrlDecorator;
 use Streams\Core\Field\Schema\UrlSchema;
 
 class UrlFieldType extends Field
@@ -15,9 +15,9 @@ class UrlFieldType extends Field
         ],
     ];
 
-    public function getValueName()
+    public function getDecoratorName()
     {
-        return UrlValue::class;
+        return UrlDecorator::class;
     }
 
     public function getSchemaName()

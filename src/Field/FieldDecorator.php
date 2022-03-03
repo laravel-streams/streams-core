@@ -1,24 +1,25 @@
 <?php
 
-namespace Streams\Core\Field\Value;
+namespace Streams\Core\Field;
 
 use Streams\Core\Field\Field;
 use Illuminate\Support\Traits\Macroable;
 use Illuminate\Support\Traits\ForwardsCalls;
 
-class Value
+class FieldDecorator
 {
     use Macroable;
     use ForwardsCalls;
 
+    protected $object;
+
     protected Field $field;
 
-    protected mixed $value;
-
-    public function __construct(Field $field, $value)
+    public function __construct(Field $field, $value, $object = null)
     {
-        $this->field = $field;
+        $this->object = $object;
         $this->value = $value;
+        $this->field = $field;
     }
 
     public function getField(): Field

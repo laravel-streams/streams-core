@@ -3,20 +3,16 @@
 namespace Streams\Core\Field\Types;
 
 use Illuminate\Support\Arr;
-use Streams\Core\Field\Value\FileValue;
+use Streams\Core\Field\Decorator\FileDecorator;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class FileFieldType extends StringFieldType
 {
     
-    public function modify($value)
+    public function cast($value)
     {
         if (is_string($value)) {
             return $value;
-        }
-
-        if (!$path = Arr::get($this->config, 'path')) {
-            throw new \Exception("Value [config.path] is required for [{$this->field}].");
         }
 
         if ($value instanceof \SplFileObject) {
@@ -24,14 +20,19 @@ class FileFieldType extends StringFieldType
         }
 
         if ($value instanceof UploadedFile) {
+
+            if (!$path = Arr::get($this->config, 'path')) {
+                throw new \Exception("Value [config.path] is required for [{$this->field}].");
+            }
+            
             return $value->storeAs($path, $value->getClientOriginalName());
         }
 
         throw new \Exception("Could not determine file type.");
     }
 
-    public function getValueName()
+    public function getDecoratorName()
     {
-        return FileValue::class;
+        return FileDecorator::class;
     }
 }

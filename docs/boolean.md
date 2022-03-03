@@ -29,8 +29,6 @@ The `boolean` field type stores true/false values.
 }
 ```
 
-## Templating
-
 Basic value access displays the stored key value:
 
 ```blade
@@ -38,12 +36,12 @@ Basic value access displays the stored key value:
 {{ $entry->enabled }}@endverbatim
 ```
 
-### Expanded Value
+### Decorator Usage
 
-Boolean types also provide expanded values.
+Boolean types also provide decorated values.
 
 ```blade
-@verbatim// Expanded value
+@verbatim// Decorated value
 @if ($entry->enabled()->isTrue())
     // ...
 @endif@endverbatim

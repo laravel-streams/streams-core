@@ -4,9 +4,9 @@ namespace Streams\Core\Tests\Field\Types;
 
 use Illuminate\Support\Str;
 use Streams\Core\Tests\CoreTestCase;
-use Streams\Core\Field\Value\StringValue;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Field\Types\UuidFieldType;
+use Streams\Core\Field\Decorator\StringDecorator;
 
 class UuidFieldTypeTest extends CoreTestCase
 {
@@ -26,8 +26,8 @@ class UuidFieldTypeTest extends CoreTestCase
         ]);
 
         $this->assertInstanceOf(
-            StringValue::class,
-            $field->expand((string) Str::uuid())
+            StringDecorator::class,
+            $field->decorate((string) Str::uuid())
         );
     }
 }

@@ -7,18 +7,33 @@ use Streams\Core\Support\Facades\Streams;
 
 class RelationshipFieldType extends Field
 {
-    public function restore($value)
+    public function modify($value)
     {
-        return $this->expand($value);
+        if(is_numeric($value)) {
+            return (int) $value;
+        }
+        
+        if(is_string($value)) {
+            return $value;
+        }
+
+        $keyName = $this->related()->config('key_name', 'id');
+        
+        return $value->{$keyName};
     }
 
-    public function expand($value)
+    public function decorate($value)
     {
         if (is_object($value)) {
             return $value;
         }
         
-        return Streams::repository($this->config('related'))->find($value);
+        return $this->related()->repository()->find($value);
+    }
+
+    public function related()
+    {
+        return Streams::make($this->config('related'));
     }
 
     public function generate()

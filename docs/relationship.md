@@ -31,8 +31,6 @@ A single relationship to a stream entry.
 }
 ```
 
-## Templating
-
 Basic value access displays the entry instance:
 
 ```blade
@@ -40,12 +38,12 @@ Basic value access displays the entry instance:
 {{ $entry->user->email }}@endverbatim
 ```
 
-### Expanded Value
+### Decorator Usage
 
-The expanded value also provides the same instance.
+The decorated value also provides the same instance.
 
 ```blade
-@verbatim// Expanded value
+@verbatim// Decorated value
 {{ $entry->user()->email }}
 {!! $entry->user()->email()->mailto() !!}@endverbatim
 ```

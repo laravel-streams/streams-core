@@ -4,8 +4,8 @@ namespace Streams\Core\Tests\Field\Types;
 
 use Streams\Core\Tests\CoreTestCase;
 use Streams\Core\Support\Facades\Streams;
-use Streams\Core\Field\Value\DecimalValue;
 use Streams\Core\Field\Types\DecimalFieldType;
+use Streams\Core\Field\Decorator\DecimalDecorator;
 
 class DecimalFieldTypeTest extends CoreTestCase
 {
@@ -26,14 +26,25 @@ class DecimalFieldTypeTest extends CoreTestCase
         $this->assertSame(1234.5, $field->cast("1,234.50"));
 
         $this->assertSame(-1234.5, $field->cast("-1,234.50"));
+
+        $this->assertSame(-1234.5, $field->restore("-1,234.50"));
     }
 
-    public function test_expanded_value()
+    public function test_it_stores_as_float()
     {
         $field = new DecimalFieldType([
             'stream' => Streams::make('films')
         ]);
 
-        $this->assertInstanceOf(DecimalValue::class, $field->expand(1.2));
+        $this->assertSame(100.0, $field->modify("100"));
+    }
+
+    public function test_it_returns_decimal_decorator()
+    {
+        $field = new DecimalFieldType([
+            'stream' => Streams::make('films')
+        ]);
+
+        $this->assertInstanceOf(DecimalDecorator::class, $field->decorate(1.2));
     }
 }

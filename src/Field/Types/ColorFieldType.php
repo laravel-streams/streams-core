@@ -3,7 +3,7 @@
 namespace Streams\Core\Field\Types;
 
 use Streams\Core\Field\Field;
-use Streams\Core\Field\Value\ColorValue;
+use Streams\Core\Field\Decorator\ColorDecorator;
 
 class ColorFieldType extends Field
 {
@@ -22,9 +22,9 @@ class ColorFieldType extends Field
         return $this->cast($value);
     }
 
-    public function getValueName()
+    public function getDecoratorName()
     {
-        return ColorValue::class;
+        return ColorDecorator::class;
     }
 
     public function generate()

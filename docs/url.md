@@ -28,8 +28,6 @@ The `url` field type stores a url string.
 }
 ```
 
-## Templating
-
 Basic value access displays the stored value:
 
 ```blade
@@ -37,12 +35,12 @@ Basic value access displays the stored value:
 {{ $entry->website }}@endverbatim
 ```
 
-### Expanded Value
+### Decorator Usage
 
-Strings also provide expanded values.
+Strings also provide decorated values.
 
 ```blade
-@verbatim// Expanded value
+@verbatim// Decorated value
 @if ($entry->website)
     {!! $entry->website()->to('Visit Website') !!}
 @endif@endverbatim

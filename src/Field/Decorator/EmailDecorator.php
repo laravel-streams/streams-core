@@ -1,18 +1,11 @@
 <?php
 
-namespace Streams\Core\Field\Value;
+namespace Streams\Core\Field\Decorator;
 
 use Collective\Html\HtmlFacade;
 
-class EmailValue extends StringValue
+class EmailDecorator extends StringDecorator
 {
-
-    /**
-     * Return a mailto link.
-     *
-     * @param  null $text
-     * @return bool
-     */
     public function mailto($email = null, $title = null, $attributes = [], $escape = true)
     {
         $email = $email ?: $this->value;

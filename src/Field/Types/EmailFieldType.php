@@ -3,16 +3,11 @@
 namespace Streams\Core\Field\Types;
 
 use Streams\Core\Field\Field;
-use Streams\Core\Field\Value\EmailValue;
 use Streams\Core\Field\Schema\EmailSchema;
+use Streams\Core\Field\Decorator\EmailDecorator;
 
 class EmailFieldType extends Field
 {
-    public function modify($value)
-    {
-        return $this->cast($value);
-    }
-
     public function cast($value)
     {
         if (filter_var($value, FILTER_VALIDATE_EMAIL) === false) {
@@ -21,10 +16,20 @@ class EmailFieldType extends Field
 
         return (string) $value;
     }
-
-    public function getValueName()
+    
+    public function modify($value)
     {
-        return EmailValue::class;
+        return $this->cast($value);
+    }
+
+    public function restore($value)
+    {
+        return $this->cast($value);
+    }
+
+    public function getDecoratorName()
+    {
+        return EmailDecorator::class;
     }
 
     public function getSchemaName()

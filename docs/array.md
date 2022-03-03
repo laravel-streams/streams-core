@@ -31,8 +31,6 @@ The `array` field type is used for storing indexed arrays. Items can be simple o
 }
 ```
 
-## Templating
-
 Basic `array` access:
 
 ```blade
@@ -45,12 +43,12 @@ Basic `array` access:
 @endverbatim
 ```
 
-### Expanded Value
+### Decorator Usage
 
-The expanded value provides collection access to the data.
+The decorated value provides collection access to the data.
 
 ```blade
-@verbatim// Expanded value
+@verbatim// Decorated value
 {{ $entry->items()->implode(', ') }}
 @endverbatim
 ```

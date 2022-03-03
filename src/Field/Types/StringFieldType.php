@@ -4,7 +4,7 @@ namespace Streams\Core\Field\Types;
 
 use Streams\Core\Field\Field;
 use Streams\Core\Field\Schema\StrSchema;
-use Streams\Core\Field\Value\StringValue;
+use Streams\Core\Field\Decorator\StringDecorator;
 
 class StringFieldType extends Field
 {
@@ -28,9 +28,9 @@ class StringFieldType extends Field
         return $this->generator()->text();
     }
 
-    public function getValueName()
+    public function getDecoratorName()
     {
-        return StringValue::class;
+        return StringDecorator::class;
     }
 
     public function getSchemaName()

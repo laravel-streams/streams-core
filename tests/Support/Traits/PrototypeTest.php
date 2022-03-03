@@ -154,28 +154,28 @@ class PrototypeTest extends CoreTestCase
         $this->assertTrue($prototype->description === 'Test');
     }
 
-    public function test_it_expands_attribute_values()
+    public function test_it_decorates_attribute_values()
     {
         $prototype = new TestPrototype([
             'name' => 'Test',
         ]);
 
-        $value = $prototype->expandPrototypeAttribute('name');
+        $value = $prototype->decoratePrototypeAttribute('name');
 
         $this->assertInstanceOf(Value::class, $value);
     }
 
-    public function test_it_supports_expand_hooks()
+    public function test_it_supports_decorate_hooks()
     {
         $prototype = new TestPrototype([
             'test' => 'Test',
         ]);
 
-        $prototype::macro('expandTestAttribute', function ($value) {
+        $prototype::macro('decorateTestAttribute', function ($value) {
             return new CustomValue($value);
         });
 
-        $value = $prototype->expandPrototypeAttribute('test');
+        $value = $prototype->decoratePrototypeAttribute('test');
 
         $this->assertInstanceOf(CustomValue::class, $value);
     }
@@ -188,9 +188,9 @@ class PrototypeTest extends CoreTestCase
             'double' => 14.1,
         ]);
 
-        $name = $prototype->expandPrototypeAttribute('name');
-        $double = $prototype->expandPrototypeAttribute('double');
-        $number = $prototype->expandPrototypeAttribute('number');
+        $name = $prototype->decoratePrototypeAttribute('name');
+        $double = $prototype->decoratePrototypeAttribute('double');
+        $number = $prototype->decoratePrototypeAttribute('number');
 
         $this->assertInstanceOf(StrValue::class, $name);
         $this->assertInstanceOf(NumberValue::class, $double);

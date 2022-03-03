@@ -3,7 +3,7 @@
 namespace Streams\Core\Field\Types;
 
 use Streams\Core\Field\Field;
-use Streams\Core\Field\Value\IntegerValue;
+use Streams\Core\Field\Decorator\IntegerDecorator;
 use Streams\Core\Field\Schema\IntegerSchema;
 
 class IntegerFieldType extends Field
@@ -24,15 +24,6 @@ class IntegerFieldType extends Field
         return intval($value);
     }
 
-    public function default($value)
-    {
-        if ($value == 'increment') {
-            return $this->getNextIncrementValue();
-        }
-
-        return (int) $value;
-    }
-
     public function modify($value)
     {
         return $this->cast($value);
@@ -43,9 +34,18 @@ class IntegerFieldType extends Field
         return $this->cast($value);
     }
 
-    public function getValueName()
+    public function default($value)
     {
-        return IntegerValue::class;
+        if ($value == 'increment') {
+            return $this->getNextIncrementValue();
+        }
+
+        return $this->cast($value);
+    }
+
+    public function getDecoratorName()
+    {
+        return IntegerDecorator::class;
     }
 
     public function getSchemaName()

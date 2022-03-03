@@ -4,23 +4,27 @@ namespace Streams\Core\Field\Types;
 
 use Illuminate\Support\Str;
 use Streams\Core\Field\Field;
-use Streams\Core\Field\Value\StringValue;
+use Streams\Core\Field\Decorator\StringDecorator;
 
 class SlugFieldType extends Field
 {
-    public function modify($value)
+    public function cast($value)
     {
         return Str::slug($value, $this->config('seperator') ?: '_');
+    }
+    public function modify($value)
+    {
+        return $this->cast($value);
     }
 
     public function restore($value)
     {
-        return Str::slug($value, $this->config('seperator') ?: '_');
+        return $this->cast($value);
     }
 
-    public function getValueName()
+    public function getDecoratorName()
     {
-        return StringValue::class;
+        return StringDecorator::class;
     }
 
     public function generate()

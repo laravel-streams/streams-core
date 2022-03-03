@@ -28,8 +28,6 @@ The `hashed` field type stores a one-way hashed string.
 }
 ```
 
-## Templating
-
 Basic value access displays encrypted value:
 
 ```blade
@@ -38,12 +36,12 @@ Basic value access displays encrypted value:
 @endverbatim
 ```
 
-### Expanded Value
+### Decorator Usage
 
 To get anything out of your stored value you will need to expand it.
 
 ```blade
-@verbatim// Expanded value
+@verbatim// Decorated value
 @if ($entry->secret()->check('check me'))
     // Matches
 @endif

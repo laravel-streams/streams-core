@@ -80,12 +80,39 @@ Define [Laravel validation rules](https://laravel.com/docs/validation#available-
 }
 ```
 
+
+## Basic Usage
+
+Values are stored as an [image source](images#image-sources)
+
+```php
+Image::make($entry->profile_image)->url();
+```
+
+### Field Decorators
+
+Field decorators provide expanded function to entry attributes like a universal presenter.
+
+The below example demonstrates the `image` field decorator:
+
+```php
+$entry->decorate('profile_image')->url();
+```
+
+You may also use magic methods derived from "camel casing" the field's handle to invoke decoration.
+
+```php
+$entry->profileImage()->url();
+```
+
+
+
 ## Field Types
 
 The field type is responsible for validating, casting, and more for its specific data type.
 
 @foreach (Streams::entries('docs_core')->where('category', 'field_types')->orderBy('sort', 'ASC')->orderBy('name', 'ASC')->get() as $entry)
- - <a href="{{ $entry->id }}">{{ $entry->title }} ({{ $entry->expand('stage')->value() }})</a>
+ - <a href="{{ $entry->id }}">{{ $entry->title }} ({{ $entry->decorate('stage') }})</a>
 @endforeach
 
 

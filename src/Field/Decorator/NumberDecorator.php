@@ -1,10 +1,11 @@
 <?php
 
-namespace Streams\Core\Field\Value;
+namespace Streams\Core\Field\Decorator;
 
-class NumberValue extends Value
+use Streams\Core\Field\FieldDecorator;
+
+class NumberDecorator extends FieldDecorator
 {
-
     public function isEven(): bool
     {
         return $this->value % 2 == 0;

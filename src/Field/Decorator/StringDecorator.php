@@ -1,11 +1,12 @@
 <?php
 
-namespace Streams\Core\Field\Value;
+namespace Streams\Core\Field\Decorator;
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\View;
+use Streams\Core\Field\FieldDecorator;
 
-class StringValue extends Value
+class StringDecorator extends FieldDecorator
 {
 
     public function lines()

@@ -5,7 +5,7 @@ namespace Streams\Core\Field\Types;
 use Carbon\Carbon;
 use Streams\Core\Field\Field;
 use Illuminate\Support\Facades\Date;
-use Streams\Core\Field\Value\DatetimeValue;
+use Streams\Core\Field\Decorator\DatetimeDecorator;
 use Streams\Core\Field\Schema\DatetimeSchema;
 
 class DatetimeFieldType extends Field
@@ -20,9 +20,9 @@ class DatetimeFieldType extends Field
         return $this->toCarbon($value);
     }
 
-    public function getValueName()
+    public function getDecoratorName()
     {
-        return DatetimeValue::class;
+        return DatetimeDecorator::class;
     }
 
     public function getSchemaName()

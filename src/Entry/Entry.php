@@ -8,7 +8,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Streams\Core\Stream\Stream;
 use Illuminate\Validation\Validator;
-use Streams\Core\Field\Type\Datetime;
+use Streams\Core\Field\FieldDecorator;
 use Illuminate\Support\Traits\Macroable;
 use Streams\Core\Support\Traits\Fluency;
 use Streams\Core\Support\Facades\Streams;
@@ -181,7 +181,7 @@ class Entry implements
         $key = Str::snake($method);
 
         if ($this->hasPrototypeAttribute($key)) {
-            return $this->expandPrototypeAttribute($key);
+            return $this->decoratePrototypeAttribute($key);
         }
 
         throw new \BadMethodCallException(sprintf(

@@ -64,8 +64,6 @@ class CustomOptions
 }
 ```
 
-## Templating
-
 Basic value access displays the stored key value:
 
 ```blade
@@ -73,12 +71,12 @@ Basic value access displays the stored key value:
 {{ $entry->status }}@endverbatim
 ```
 
-### Expanded Value
+### Decorator Usage
 
-Select types also provide expanded values.
+Select types also provide decorated values.
 
 ```blade
-@verbatim// Expanded value
+@verbatim// Decorated value
 Status: {{ $entry->status()->value() }}@endverbatim
 ```
 

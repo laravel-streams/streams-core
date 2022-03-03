@@ -23,7 +23,7 @@ use Illuminate\Support\Traits\Macroable;
  * 
  * Attributes can be expanded:
  * 
- *      echo $object->expandPrototypeAttribute('attribute'); // A new Value instance
+ *      echo $object->decoratePrototypeAttribute('attribute'); // A new Value instance
  */
 trait Prototype
 {
@@ -133,9 +133,9 @@ trait Prototype
 
         if ($this->hasPrototypePropertyType($key)) {
 
-            $modified = $this->modifyPrototypeAttributeValue($key, $value);
+            $value = $this->castPrototypeAttributeValue($key, $value);
 
-            $this->__prototype['attributes'][$key] = $modified;
+            $this->__prototype['attributes'][$key] = $value;
 
             return $this;
         }
@@ -187,9 +187,9 @@ trait Prototype
         return Arr::get($this->__prototype['attributes'], $key);
     }
 
-    public function expandPrototypeAttribute(string $key)
+    public function decoratePrototypeAttribute(string $key)
     {
-        $method = Str::camel('expand_' . $key . '_attribute');
+        $method = Str::camel('decorate_' . $key . '_attribute');
 
         $value = $this->getPrototypeAttribute($key);
 
@@ -201,7 +201,7 @@ trait Prototype
 
         $type->entry = $this;
 
-        return $type->expand($value);
+        return $type->decorate($value);
     }
 
     public function getPrototypeAttributeDefault(string $key, $default = null)
@@ -253,7 +253,7 @@ trait Prototype
      * @param string $key
      * @param mixed $value
      */
-    protected function modifyPrototypeAttributeValue($key, $value)
+    protected function castPrototypeAttributeValue($key, $value)
     {
         $type = $this->newProtocolPropertyFieldType($key);
 
@@ -265,7 +265,7 @@ trait Prototype
             return $value;
         }
 
-        return $type->modify($value);
+        return $type->cast($value);
     }
 
     protected function newProtocolPropertyFieldType(string $key): Field

@@ -1,16 +1,14 @@
 <?php
 
-namespace Streams\Core\Field\Value;
+namespace Streams\Core\Field\Decorator;
 
+use Streams\Core\Image\Image;
+use Streams\Core\Field\FieldDecorator;
 use Streams\Core\Support\Facades\Images;
 
-class ImageValue extends Value
+class FileDecorator extends FieldDecorator
 {
-
-    /**
-     * Return an image instance.
-     */
-    public function make()
+    public function make(): Image
     {
         return Images::make($this->value);
     }

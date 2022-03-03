@@ -4,8 +4,8 @@ namespace Streams\Core\Field\Types;
 
 use Streams\Core\Field\Field;
 use Illuminate\Support\Facades\App;
-use Streams\Core\Field\Value\SelectValue;
 use Streams\Core\Field\Schema\SelectSchema;
+use Streams\Core\Field\Decorator\SelectDecorator;
 
 class SelectFieldType extends Field
 {
@@ -21,9 +21,9 @@ class SelectFieldType extends Field
         return $options;
     }
 
-    public function getValueName()
+    public function getDecoratorName()
     {
-        return SelectValue::class;
+        return SelectDecorator::class;
     }
 
     public function getSchemaName()
