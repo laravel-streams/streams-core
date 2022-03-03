@@ -65,7 +65,7 @@ Using [repository paths](https://getcomposer.org/doc/05-repositories.md#path) yo
 
 ### Installing Addons
 
-Generally speaking, installing an addon requires downloading it with composer and optionally publishing it's assets and any migrations. There is no addon manager to control state.
+Generally speaking, installing an addon requires downloading it with composer and optionally publishing it's assets and any migrations.
 
 ```json
 {
