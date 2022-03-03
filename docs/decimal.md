@@ -36,8 +36,6 @@ The `decimal` field type stores fixed-precision decimal values. If you need to s
 }
 ```
 
-## Templating
-
 Basic value access displays the stored value:
 
 ```blade
@@ -45,7 +43,7 @@ Basic value access displays the stored value:
 {{ $entry->price }}@endverbatim
 ```
 
-### Decorated Value
+### Decorator Usage
 
 Boolean types also provide decorated values.
 

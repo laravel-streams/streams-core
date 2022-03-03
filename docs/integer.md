@@ -29,8 +29,6 @@ The `integer` field type stores whole number values.
 }
 ```
 
-## Templating
-
 Basic value access displays the stored value:
 
 ```blade
@@ -38,7 +36,7 @@ Basic value access displays the stored value:
 {{ $entry->count }}@endverbatim
 ```
 
-### Decorated Value
+### Decorator Usage
 
 Boolean types also provide decorated values.
 

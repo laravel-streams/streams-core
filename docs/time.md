@@ -33,8 +33,6 @@ The `time` field type stores only time.
 }
 ```
 
-## Templating
-
 Basic value access returns the stored value:
 
 ```blade
@@ -42,7 +40,7 @@ Basic value access returns the stored value:
 {{ $entry->starts_at }}@endverbatim
 ```
 
-### Decorated Value
+### Decorator Usage
 
 Date types also provide decorated values which returns a [Carbon](https://carbon.nesbot.com/) instance.
 

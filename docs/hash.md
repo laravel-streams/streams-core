@@ -28,8 +28,6 @@ The `hashed` field type stores a one-way hashed string.
 }
 ```
 
-## Templating
-
 Basic value access displays encrypted value:
 
 ```blade
@@ -38,7 +36,7 @@ Basic value access displays encrypted value:
 @endverbatim
 ```
 
-### Decorated Value
+### Decorator Usage
 
 To get anything out of your stored value you will need to expand it.
 

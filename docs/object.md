@@ -32,8 +32,6 @@ The `object` field type is used for storing objects. Objects can be simple or co
 }
 ```
 
-## Templating
-
 Basic object access:
 
 ```blade
@@ -42,7 +40,7 @@ Basic object access:
 @endverbatim
 ```
 
-### Decorated Value
+### Decorator Usage
 
 The decorated value provides an object as well.
 

@@ -82,18 +82,24 @@ Images::register('logo.jpg', 'images/logo.jpg');
 
 ## Editing Images
 
-After you initiat a new image instance with `Images::make()`, you can use the whole palette of [manipulation methods](http://image.intervention.io/use/basics#editing) on the instance.
+After you initiat a new image instance with `Images::make()`, you can use the below manipulation methods.
 
-Modification methods return the image instance, so you are able to chain methods.
+Chain methods together for more comple manipulations.
 
 ```php
 use Streams\Core\Support\Facades\Images;
 
-$image = Images::make('img/foo.jpg')->fit(300, 500)->quality(60);
+$image = Images::make('img/foo.jpg')
+    ->fit(300, 500)
+    ->quality(60)
+    ->orientate();
 ```
 
 ```blade
-@verbatim{!! Images::make('resources/img/foo.jpg')->fit(300, 500)->quality(60) !!}@endverbatim
+@verbatim{!! Images::make('resources/img/foo.jpg')
+    ->fit(300, 500)
+    ->quality(60)
+    ->orientate() !!}@endverbatim
 ```
 
 ### Resizing Images

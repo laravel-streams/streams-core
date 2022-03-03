@@ -65,8 +65,6 @@ class CustomOptions
 }
 ```
 
-## Templating
-
 Basic value access displays the stored key value:
 
 ```blade
@@ -74,7 +72,7 @@ Basic value access displays the stored key value:
 [{{ implode(', ', $entry->picks) }}]@endverbatim
 ```
 
-### Decorated Value
+### Decorator Usage
 
 Multiselect types also provide decorated values.
 

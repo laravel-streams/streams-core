@@ -31,8 +31,6 @@ The `array` field type is used for storing indexed arrays. Items can be simple o
 }
 ```
 
-## Templating
-
 Basic `array` access:
 
 ```blade
@@ -45,7 +43,7 @@ Basic `array` access:
 @endverbatim
 ```
 
-### Decorated Value
+### Decorator Usage
 
 The decorated value provides collection access to the data.
 

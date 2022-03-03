@@ -28,8 +28,6 @@ The `string` field type stores a basic string.
 }
 ```
 
-## Templating
-
 Basic value access displays encrypted value:
 
 ```blade
@@ -38,7 +36,7 @@ Basic value access displays encrypted value:
 @endverbatim
 ```
 
-### Decorated Value
+### Decorator Usage
 
 Strings also provide decorated values.
 

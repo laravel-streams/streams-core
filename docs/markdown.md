@@ -28,8 +28,6 @@ The `markdown` field type stores markdown formatted text.
 }
 ```
 
-## Templating
-
 Basic value access displays the unparsed value:
 
 ```blade
@@ -38,7 +36,7 @@ Basic value access displays the unparsed value:
 @endverbatim
 ```
 
-### Decorated Value
+### Decorator Usage
 
 To get anything out of your stored value you will need to expand it.
 

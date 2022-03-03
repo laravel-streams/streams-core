@@ -80,6 +80,29 @@ Define [Laravel validation rules](https://laravel.com/docs/validation#available-
 }
 ```
 
+
+## Basic Usage
+
+Values are stored as an [image source](images#image-sources)
+
+```php
+Image::make($entry->profile_image)->url();
+```
+
+### Decoration
+
+Field decorators provide expanded function to entry attributes like a universal presenter.
+
+```php
+// Standard Decoration
+$entry->decorate('profile_image')->url();
+
+// Guessed Decoration
+$entry->profileImage()->url();
+```
+
+
+
 ## Field Types
 
 The field type is responsible for validating, casting, and more for its specific data type.
@@ -132,17 +155,4 @@ The field type is responsible for validating, casting, and more for its specific
         "path": "storage::uploads.img"
     }
 }
-```
-
-
-## Field Decorators
-
-Field decorators provide expanded function to entry attributes like a universal presenter. 
-
-```php
-{% verbatim %}// Standard Decoration
-$entry->decorate('profile_image')->url();
-
-// Guessed Decoration
-$entry->profileImage()->url();{% endverbatim %}
 ```
