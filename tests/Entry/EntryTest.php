@@ -4,10 +4,10 @@ namespace Streams\Core\Tests\Entry;
 
 use Carbon\Carbon;
 use Streams\Core\Entry\Entry;
-use Streams\Core\Field\Value\IntegerValue;
 use Streams\Core\Stream\Stream;
 use Streams\Core\Tests\CoreTestCase;
 use Streams\Core\Support\Facades\Streams;
+use Streams\Core\Field\Decorator\IntegerDecorator;
 
 class EntryTest extends CoreTestCase
 {
@@ -70,7 +70,7 @@ class EntryTest extends CoreTestCase
     {
         $entry = Streams::repository('films')->find(4);
 
-        $this->assertInstanceOf(IntegerValue::class, $entry->episodeId());
+        $this->assertInstanceOf(IntegerDecorator::class, $entry->episodeId());
     }
 
     public function test_it_throws_exceptions_for_unmapped_methods()

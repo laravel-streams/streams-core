@@ -133,9 +133,9 @@ trait Prototype
 
         if ($this->hasPrototypePropertyType($key)) {
 
-            $modified = $this->modifyPrototypeAttributeValue($key, $value);
+            $value = $this->castPrototypeAttributeValue($key, $value);
 
-            $this->__prototype['attributes'][$key] = $modified;
+            $this->__prototype['attributes'][$key] = $value;
 
             return $this;
         }
@@ -253,7 +253,7 @@ trait Prototype
      * @param string $key
      * @param mixed $value
      */
-    protected function modifyPrototypeAttributeValue($key, $value)
+    protected function castPrototypeAttributeValue($key, $value)
     {
         $type = $this->newProtocolPropertyFieldType($key);
 
@@ -265,7 +265,7 @@ trait Prototype
             return $value;
         }
 
-        return $type->modify($value);
+        return $type->cast($value);
     }
 
     protected function newProtocolPropertyFieldType(string $key): Field
