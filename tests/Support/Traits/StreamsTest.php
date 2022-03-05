@@ -2,18 +2,15 @@
 
 namespace Streams\Core\Tests\Support\Traits;
 
-use Illuminate\Support\Facades\DB;
-use Streams\Core\Field\Value\Value;
-use Streams\Core\Tests\CoreTestCase;
-use Illuminate\Support\Facades\Schema;
-use Streams\Core\Field\Value\StrValue;
-use Illuminate\Database\Schema\Blueprint;
-use Streams\Core\Field\Value\NumberValue;
-use Streams\Core\Support\Facades\Streams;
-use Streams\Core\Field\Value\IntegerValue;
 use Streams\Core\Stream\Stream;
-use Streams\Core\Support\Traits\Prototype;
+use Illuminate\Support\Facades\DB;
+use Streams\Core\Tests\CoreTestCase;
 use Streams\Core\Tests\EloquentModel;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Streams\Core\Support\Facades\Streams;
+use Illuminate\Contracts\Validation\Validator;
+use Streams\Core\Field\Decorator\StringDecorator;
 
 class StreamsTest extends CoreTestCase
 {
@@ -76,6 +73,120 @@ class StreamsTest extends CoreTestCase
         $entry->stream = 'films';
 
         $this->assertInstanceOf(Stream::class, $entry->stream());
+    }
+
+    public function test_it_fills_prototype_and_model()
+    {
+        $entry = new EloquentModel();
+
+        $entry->stream = 'films';
+
+        $entry->fill($this->filmData());
+
+        $this->assertSame('Star Wars: The Last Jedi', $entry->title);
+    }
+
+    public function test_it_sets_attributes_prototype_and_model()
+    {
+        $entry = new EloquentModel();
+
+        $entry->stream = 'films';
+
+        $entry->setAttributes($this->filmData());
+
+        $this->assertSame('Star Wars: The Last Jedi', $entry->title);
+    }
+
+    public function test_it_sets_specific_attribute_prototype_and_model()
+    {
+        $entry = new EloquentModel();
+
+        $entry->stream = 'films';
+
+        $entry->setAttribute('title', 'Star Wars: The Last Jedi');
+
+        $this->assertSame('Star Wars: The Last Jedi', $entry->title);
+    }
+
+    public function test_it_detects_attributes()
+    {
+        $entry = new EloquentModel();
+
+        $entry->stream = 'films';
+
+        $this->assertFalse($entry->hasAttribute('title'));
+    }
+
+    public function test_it_decorates_fields()
+    {
+        $entry = new EloquentModel();
+
+        $entry->stream = 'films';
+
+        $entry->setAttributes($this->filmData());
+
+        $this->assertInstanceOf(StringDecorator::class, $entry->decorate('title'));
+    }
+
+    public function test_it_returns_a_validator()
+    {
+        $entry = new EloquentModel();
+
+        $entry->stream = 'films';
+
+        $entry->setAttributes($this->filmData());
+
+        $this->assertInstanceOf(Validator::class, $entry->validator());
+    }
+
+    public function test_it_supports_attribute_access()
+    {
+        $entry = new EloquentModel([
+            'title' => 'Test Title',
+        ]);
+
+        $entry->stream = 'films';
+
+        $entry->title = 'Test Title';
+
+        $this->assertSame('Test Title', $entry->title);
+    }
+
+    public function test_it_sets_raw_attributes()
+    {
+        $entry = new EloquentModel([
+            'title' => 'Test Title',
+        ]);
+
+        $entry->stream = 'films';
+
+        $entry->setRawAttributes($this->filmData());
+
+        $this->assertSame([
+            'title' => 'Test Title',
+        ], $entry->getOriginal());
+    }
+    
+    public function test_it_trims_strict_attributes()
+    {
+        $entry = new EloquentModel($this->filmData());
+
+        $entry->stream = 'films';
+
+        $entry->foo = 'Bar';
+
+        $this->assertSame($this->filmData(), $entry->strict());
+    }
+    
+    public function test_it_returns_last_modified()
+    {
+        $entry = new EloquentModel($this->filmData());
+
+        $entry->stream = 'films';
+
+        $entry->created = '2021-12-15';
+
+        $this->assertInstanceOf(\DateTime::class, $entry->created);
     }
 
     protected function filmData()
