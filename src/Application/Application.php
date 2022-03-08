@@ -1,5 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Application;
 
+use Illuminate\Support\Facades\DB;
+
 /**
  * Class Application
  *
@@ -146,7 +148,9 @@ class Application
      */
     public function tablePrefix()
     {
-        return $this->reference . '_';
+        $app = DB::select('select * from applications where domain = "' . \Request::server("HTTP_HOST") . '"');
+
+        return (array_first($app)) ? array_first($app)->reference . '_' : $this->reference . '_';
     }
 
     /**
