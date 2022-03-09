@@ -51,6 +51,10 @@ class ObjectFieldType extends Field
 
     public function cast($value)
     {
+        if (is_object($value)) {
+            return $value;
+        }
+        
         [$meta, $value] = $this->separateMeta($value);
 
         if (isset($meta['@stream'])) {

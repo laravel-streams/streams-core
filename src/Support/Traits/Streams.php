@@ -3,31 +3,24 @@
 namespace Streams\Core\Support\Traits;
 
 use Streams\Core\Stream\Stream;
-use Illuminate\Validation\Validator;
 use Illuminate\Support\Traits\ForwardsCalls;
+use Streams\Core\Field\FieldDecorator;
 use Streams\Core\Support\Facades\Streams as StreamsFacade;
 
 /**
- * Trait Streams
+ * This class provides EntryInterface
+ * support for eloquent models.
  * 
- * @link   http://pyrocms.com/
- * @author Ryan Thompson <ryan@pyrocms.com>
+ * @property static $unguarded;
  */
 trait Streams
 {
-
     use ForwardsCalls;
 
     use Prototype {
         Prototype::__call as private callPrototype;
     }
 
-    /**
-     * Create a new Eloquent model instance.
-     *
-     * @param  array  $attributes
-     * @return void
-     */
     public function __construct(array $attributes = [])
     {
         $this->loadPrototypeProperties($attributes);
@@ -39,28 +32,19 @@ trait Streams
         $this->__prototype['original'] = $this->__prototype['attributes'];
 
         parent::__construct($attributes);
+
+        $this->syncOriginal();
     }
 
-    /**
-     * Mirror attribute changes.
-     *
-     * @param array $attributes
-     * @return Self
-     */
     public function fill(array $attributes)
     {
+        parent::fill($attributes);
+
         $this->loadPrototypeAttributes($attributes);
 
-        return parent::fill($attributes);
+        return;
     }
 
-    /**
-     * Mirror attribute changes.
-     *
-     * @param string $key
-     * @param mixed $value
-     * @return mixed
-     */
     public function setAttribute($key, $value)
     {
         $this->setPrototypeAttribute($key, $value);
@@ -82,103 +66,65 @@ trait Streams
         return $this;
     }
 
-    /**
-     * Return the stream instance.
-     */
     public function stream()
     {
         if ($this->stream && $this->stream instanceof Stream) {
             return $this->stream;
         }
 
-        if (!$this->stream) {
-            $this->stream = $this->table;
-        }
-
         return $this->stream = StreamsFacade::make($this->stream);
     }
 
-    /**
-     * Expand field values.
-     *
-     * @param string $key
-     */
-    public function expand($key)
+    public function decorate(string $key): FieldDecorator
     {
         return $this->decoratePrototypeAttribute($key);
     }
 
-    /**
-     * Return the entry validator.
-     * 
-     * @return Validator
-     */
     public function validator()
     {
         return $this->stream()->validator($this);
     }
 
-    /**
-     * Mirror attribute changes.
-     *
-     * @param array $attributes
-     * @param bool $sync
-     */
     public function setRawAttributes(array $attributes, $sync = false)
     {
-        parent::setRawAttributes($attributes, $sync);
+        $this->attributes = $attributes;
+
+        if ($sync) {
+            $this->syncOriginal();
+        }
+
+        $this->classCastCache = [];
+        $this->attributeCastCache = [];
 
         $this->setRawPrototypeAttributes($attributes);
 
         if ($sync) {
             $this->__prototype['original'] = $this->__prototype['attributes'];
         }
+
+        return $this;
     }
 
-    /**
-     * Mirror attribute changes.
-     *
-     * @param string $key
-     * @param mixed $value
-     */
+    public function lastModified()
+    {
+        return $this->updated_at ?: $this->created_at;
+    }
+
+    public function strict()
+    {
+        $attributes = $this->strict()->getAttributes();
+        
+    }
+
+    public function getFillable()
+    {
+        return $this->fillable ?: $this->stream()->fields->keys()->all();
+    }
+
     public function __set($key, $value)
     {
         parent::__set($key, $value);
 
         $this->setPrototypeAttributeValue($key, $value);
-    }
-
-    /**
-     * Try Eloquent model but fallback to ours. 
-     *
-     * @param $method
-     * @param $arguments
-     * @return mixed
-     */
-    public function __call($method, $arguments)
-    {
-        try {
-            return parent::__call($method, $arguments);
-        } catch (\Exception $e) {
-            return $this->callPrototype($method, $arguments);
-        }
-
-        $this->forwardCallTo($this->newQuery(), $method, $arguments);
-    }
-
-    /**
-     * Try Eloquent model but fallback to ours. 
-     *
-     * @param $method
-     * @param $arguments
-     * @return mixed
-     */
-    public static function __callStatic($method, $arguments)
-    {
-        try {
-            return parent::__callStatic($method, $arguments);
-        } catch (\Exception $e) {
-            return call_user_func_array([(new static)->newQuery(), $method], $arguments);
-        }
     }
 }
