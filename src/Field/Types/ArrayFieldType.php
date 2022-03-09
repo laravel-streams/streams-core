@@ -35,7 +35,13 @@ class ArrayFieldType extends Field
             $value = unserialize($value);
         }
 
-        return Arr::make((array) $value);
+        $value = (array) $value;
+
+        if ($wrapper = $this->config('wrapper')) {
+            $value = $this->wrapArray($value, $wrapper);
+        }
+
+        return $value;
     }
 
     public function modify($value)

@@ -19,7 +19,7 @@ class EntryController extends Controller
     use FiresCallbacks;
 
     public function __invoke()
-    {
+    { 
         $data = collect();
 
         $data->put('route', Request::route());
