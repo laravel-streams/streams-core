@@ -3,7 +3,6 @@
 namespace Streams\Core\Field\Types;
 
 use Streams\Core\Field\Field;
-use Streams\Core\Field\Schema\DecimalSchema;
 use Streams\Core\Field\Decorator\DecimalDecorator;
 
 class DecimalFieldType extends Field
@@ -47,17 +46,17 @@ class DecimalFieldType extends Field
         return DecimalDecorator::class;
     }
 
-    public function getSchemaName()
-    {
-        return DecimalSchema::class;
-    }
+    // public function getSchemaName()
+    // {
+    //     return DecimalSchema::class;
+    // }
 
-    public function generate()
-    {
-        return $this->cast($this->generator()->randomElement([
-            $this->generator()->randomNumber(),
-            $this->generator()->randomFloat(),
-            round($this->generator()->randomFloat(), 1),
-        ]));
-    }
+    // public function generate()
+    // {
+    //     return $this->cast($this->generator()->randomElement([
+    //         $this->generator()->randomNumber(),
+    //         $this->generator()->randomFloat(),
+    //         round($this->generator()->randomFloat(), 1),
+    //     ]));
+    // }
 }

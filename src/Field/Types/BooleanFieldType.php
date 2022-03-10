@@ -28,13 +28,13 @@ class BooleanFieldType extends Field
         return BooleanDecorator::class;
     }
 
-    public function getSchemaName()
-    {
-        return BooleanSchema::class;
-    }
+    // public function getSchemaName()
+    // {
+    //     return BooleanSchema::class;
+    // }
 
-    public function generate()
-    {
-        return $this->generator()->randomElement([true, false]);
-    }
+    // public function generate()
+    // {
+    //     return $this->generator()->randomElement([true, false]);
+    // }
 }

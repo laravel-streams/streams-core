@@ -27,8 +27,8 @@ class ColorFieldType extends Field
         return ColorDecorator::class;
     }
 
-    public function generate()
-    {
-        return '#' . str_pad(dechex(rand(0x000000, 0xFFFFFF)), 6, 0, STR_PAD_LEFT);
-    }
+    // public function generate()
+    // {
+    //     return '#' . str_pad(dechex(rand(0x000000, 0xFFFFFF)), 6, 0, STR_PAD_LEFT);
+    // }
 }

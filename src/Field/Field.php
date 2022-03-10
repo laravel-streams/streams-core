@@ -91,7 +91,7 @@ class Field implements
 
     public function default($value)
     {
-        return $this->cast($value);
+        return $value;
     }
 
     /**

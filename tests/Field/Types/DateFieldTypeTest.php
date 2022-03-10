@@ -64,9 +64,8 @@ class DateFieldTypeTest extends CoreTestCase
             'stream' => Streams::make('films')
         ]);
 
-        $date = '2021-01-01';
-
-        $this->assertInstanceOf(Carbon::class, $field->cast($date));
+        $this->assertInstanceOf(Carbon::class, $field->cast('2021-01-01'));
+        $this->assertInstanceOf(Carbon::class, $field->cast('yesterday'));
     }
 
     public function test_it_stores_as_date_string()
@@ -78,6 +77,26 @@ class DateFieldTypeTest extends CoreTestCase
         $date = '2021-01-01';
 
         $this->assertSame($date, $field->modify(new Carbon($date)));
+    }
+
+    public function test_it_restores_as_carbon()
+    {
+        $field = new DateFieldType([
+            'stream' => Streams::make('films')
+        ]);
+
+        $date = '2021-01-01';
+
+        $this->assertInstanceOf(Carbon::class, $field->restore($date));
+    }
+
+    public function test_it_casts_default_value_to_carbon()
+    {
+        $field = new DateFieldType([
+            'stream' => Streams::make('films')
+        ]);
+
+        $this->assertInstanceOf(Carbon::class, $field->default('now'));
     }
 
     public function test_it_returns_date_decorator()

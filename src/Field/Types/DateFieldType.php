@@ -3,16 +3,20 @@
 namespace Streams\Core\Field\Types;
 
 use Carbon\Carbon;
-use Streams\Core\Field\Schema\DateSchema;
 use Streams\Core\Field\Decorator\DateDecorator;
 
 class DateFieldType extends DatetimeFieldType
 {
+    public function default($value)
+    {
+        return $this->cast($value);
+    }
+
     public function cast($value): Carbon
     {
         return $this->toCarbon($value)->startOfDay();
     }
-    
+
     public function modify($value)
     {
         return $this->cast($value)->format('Y-m-d');
@@ -28,15 +32,15 @@ class DateFieldType extends DatetimeFieldType
         return DateDecorator::class;
     }
 
-    public function getSchemaName()
-    {
-        return DateSchema::class;
-    }
+    // public function getSchemaName()
+    // {
+    //     return DateSchema::class;
+    // }
 
-    public function generate()
-    {
-        return $this->cast($this->generator()->date());
-    }
+    // public function generate()
+    // {
+    //     return $this->cast($this->generator()->date());
+    // }
 
     public function toCarbon($value): Carbon
     {
