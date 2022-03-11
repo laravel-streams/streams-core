@@ -53,10 +53,10 @@ class IntegerFieldTypeTest extends CoreTestCase
     public function test_it_returns_incremental_default_value()
     {
         $field = new IntegerFieldType([
-            'handle' => 'id',
+            'handle' => 'episode_id',
             'stream' => Streams::make('films'),
         ]);
 
-        $this->assertSame(1, $field->default('increment'));
+        $this->assertSame(8, $field->default('increment'));
     }
 }

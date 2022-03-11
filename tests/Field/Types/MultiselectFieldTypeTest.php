@@ -93,6 +93,21 @@ class MultiselectFieldTypeTest extends CoreTestCase
 
         $this->assertInstanceOf(MultiselectDecorator::class, $field->decorate([]));
     }
+
+    public function test_it_automates_array_validation()
+    {
+        $field = new MultiselectFieldType([
+            'stream' => Streams::make('films'),
+            'config' => [
+                'options' => [
+                    'foo' => 'Foo',
+                    'bar' => 'Bar'
+                ],
+            ],
+        ]);
+
+        $this->assertSame(['in:foo,bar'], $field->rules());
+    }
 }
 
 class CallableMultiselectOptions

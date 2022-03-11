@@ -31,15 +31,15 @@ class ArrayFieldType extends Field
         }
 
         if (is_string($value) && ($json = json_decode($value, true)) !== null) {
-            $value = $json;
+            return $json;
         }
 
         if (is_string($value) && Str::isSerialized($value)) {
-            $value = unserialize($value);
+            return unserialize($value);
         }
 
         if (is_string($value)) {
-            $value = (array) $value;
+            return (array) $value;
         }
 
         return $value;

@@ -48,24 +48,20 @@ class IntegerFieldType extends Field
         return IntegerDecorator::class;
     }
 
-    public function getSchemaName()
-    {
-        return IntegerSchema::class;
-    }
+    // public function getSchemaName()
+    // {
+    //     return IntegerSchema::class;
+    // }
 
-    public function generate(): int
-    {
-        return $this->generator()->randomNumber();
-    }
+    // public function generate(): int
+    // {
+    //     return $this->generator()->randomNumber();
+    // }
 
     public function getNextIncrementValue()
     {
         $last = $this->stream->entries()->orderBy($this->handle, 'DESC')->first();
 
-        if (!$last) {
-            return 1;
-        }
-
-        return $last->{$this->handle} + 1;
+        return $last ? $last->{$this->handle} + 1 : 1;
     }
 }

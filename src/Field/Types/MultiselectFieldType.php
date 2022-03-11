@@ -57,23 +57,23 @@ class MultiselectFieldType extends Field
         return MultiselectDecorator::class;
     }
 
-    public function getSchemaName()
-    {
-        return MultiselectSchema::class;
-    }
+    // public function getSchemaName()
+    // {
+    //     return MultiselectSchema::class;
+    // }
 
-    public function generate()
-    {
-        $values = [];
+    // public function generate()
+    // {
+    //     $values = [];
 
-        $keys = array_keys($this->options());
+    //     $keys = array_keys($this->options());
 
-        for ($i = 1; $i <= $this->generator()->numberBetween(1, count($keys)); $i++) {
-            $values[] = $this->generator()->randomElement($keys);
-        }
+    //     for ($i = 1; $i <= $this->generator()->numberBetween(1, count($keys)); $i++) {
+    //         $values[] = $this->generator()->randomElement($keys);
+    //     }
 
-        return array_unique($values);
-    }
+    //     return array_unique($values);
+    // }
 
     public function rules()
     {
