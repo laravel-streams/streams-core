@@ -17,7 +17,7 @@ class RelationshipFieldTypeTest extends CoreTestCase
                 'related' => 'films',
             ]
         ]);
-
+        
         $entry = Streams::repository('films')->find(4);
 
         $this->assertSame(4, $field->modify($entry));
@@ -27,7 +27,7 @@ class RelationshipFieldTypeTest extends CoreTestCase
         $this->assertSame('test', $field->modify('test'));
     }
 
-    public function test_it_returns_an_entry_interface()
+    public function test_it_restores_an_entry_interface()
     {
         $field = new RelationshipFieldType([
             'stream' => Streams::make('films'),

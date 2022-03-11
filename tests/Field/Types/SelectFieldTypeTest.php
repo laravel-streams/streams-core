@@ -36,7 +36,7 @@ class SelectFieldTypeTest extends CoreTestCase
         $this->assertSame(['baz' => 'Baz', 'qux' => 'Qux'], $field->options());
     }
 
-    public function test_it_returns_select_value()
+    public function test_it_returns_select_decorator()
     {
         $field = new SelectFieldType([
             'stream' => Streams::make('films'),
@@ -45,7 +45,7 @@ class SelectFieldTypeTest extends CoreTestCase
         $this->assertInstanceOf(SelectDecorator::class, $field->decorate('foo'));
     }
 
-    public function test_it_configures_validation()
+    public function test_it_automates_array_validation()
     {
         $field = new SelectFieldType([
             'stream' => Streams::make('films'),
@@ -57,7 +57,7 @@ class SelectFieldTypeTest extends CoreTestCase
             ],
         ]);
 
-        $this->assertStringContainsString('foo', $field->rules()[0]);
+        $this->assertSame(['in:foo,bar'], $field->rules());
     }
 }
 

@@ -18,7 +18,7 @@ class RelationshipFieldType extends Field
         }
 
         $keyName = $this->related()->config('key_name', 'id');
-        
+
         return $value->{$keyName};
     }
 
@@ -36,22 +36,22 @@ class RelationshipFieldType extends Field
         return Streams::make($this->config('related'));
     }
 
-    public function generate()
-    {
-        $stream = Streams::make($this->config('related'));
+    // public function generate()
+    // {
+    //     $stream = Streams::make($this->config('related'));
         
-        $entries = $stream->entries()->limit(100)->get();
+    //     $entries = $stream->entries()->limit(100)->get();
 
-        $keyName = $stream->config('key_name', 'id');
+    //     $keyName = $stream->config('key_name', 'id');
 
-        if ($entries->isEmpty()) {
-            return null;
-        }
+    //     if ($entries->isEmpty()) {
+    //         return null;
+    //     }
         
-        if (!$entry = $entries->random()) {
-            return null;
-        }
+    //     if (!$entry = $entries->random()) {
+    //         return null;
+    //     }
         
-        return $entry->{$keyName};
-    }
+    //     return $entry->{$keyName};
+    // }
 }

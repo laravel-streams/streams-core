@@ -26,10 +26,10 @@ class SelectFieldType extends Field
         return SelectDecorator::class;
     }
 
-    public function getSchemaName()
-    {
-        return SelectSchema::class;
-    }
+    // public function getSchemaName()
+    // {
+    //     return SelectSchema::class;
+    // }
 
     public function rules()
     {
@@ -38,8 +38,8 @@ class SelectFieldType extends Field
         ], parent::rules());
     }
 
-    public function generate()
-    {
-        return $this->generator()->randomElement(array_keys($this->options()));
-    }
+    // public function generate()
+    // {
+    //     return $this->generator()->randomElement(array_keys($this->options()));
+    // }
 }

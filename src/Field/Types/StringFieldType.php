@@ -23,18 +23,18 @@ class StringFieldType extends Field
         return $this->cast($value);
     }
 
-    public function generate()
-    {
-        return $this->generator()->text();
-    }
+    // public function generate()
+    // {
+    //     return $this->generator()->text();
+    // }
 
     public function getDecoratorName()
     {
         return StringDecorator::class;
     }
 
-    public function getSchemaName()
-    {
-        return StrSchema::class;
-    }
+    // public function getSchemaName()
+    // {
+    //     return StrSchema::class;
+    // }
 }

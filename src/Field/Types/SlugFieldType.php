@@ -27,8 +27,8 @@ class SlugFieldType extends Field
         return StringDecorator::class;
     }
 
-    public function generate()
-    {
-        return $this->modify($this->generator()->words(2, true));
-    }
+    // public function generate()
+    // {
+    //     return $this->modify($this->generator()->words(2, true));
+    // }
 }
