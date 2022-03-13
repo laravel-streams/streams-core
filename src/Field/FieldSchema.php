@@ -43,6 +43,8 @@ class FieldSchema
             'default' => [$this, 'default'],
             'validation' => [$this, 'validation'],
         ]);
+        
+        $this->fire('property.workflow',compact('workflow'));
 
         $workflow
             ->passThrough($this)
