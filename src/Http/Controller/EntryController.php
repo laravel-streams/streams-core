@@ -106,11 +106,9 @@ class EntryController extends Controller
             $query->where($key, $value);
         }
 
-        $results = $query->limit(1)->get();
+        if ($result = $query->first()) {
 
-        if ($results->count() == 1) {
-
-            $data->put('entry', $results->first());
+            $data->put('entry', $result);
 
             return;
         }

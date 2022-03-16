@@ -39,7 +39,7 @@ class ObjectFieldType extends Field
 
     public function restore($value)
     {
-        [$meta, $value] = $this->separateMeta($value);
+        [$meta, $value] = $this->separateMeta((array) $value);
 
         if (isset($meta['@stream'])) {
             return $this->restoreStreamEntry($meta, $value);
@@ -49,7 +49,7 @@ class ObjectFieldType extends Field
             return $this->restoreInstance($meta, $value);
         }
 
-        return (object) $value;
+        return $value;
     }
 
     public function cast($value)

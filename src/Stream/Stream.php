@@ -245,14 +245,12 @@ class Stream implements
     public function onInitializing($callbackData)
     {
         $attributes = $callbackData->get('attributes');
-
+        
         $attributes = Arr::undot($attributes);
 
         $this->extendInput($attributes);
         $this->importInput($attributes);
         $this->normalizeInput($attributes);
-
-        $this->adjustInput($attributes);
 
         $callbackData->put('attributes', $attributes);
     }
