@@ -46,7 +46,7 @@ class ArrayDecorator extends FieldDecorator
      */
     public function __call($method, $arguments)
     {
-        if (is_object($this->value) && method_exists($this->value, $method)) {
+        if (is_object($this->value)) {
             return call_user_func_array([$this->value, $method], $arguments);
         }
 
@@ -55,5 +55,21 @@ class ArrayDecorator extends FieldDecorator
         }
 
         throw new \Exception("Method [{$method}] does not exist on [{self::class}].");
+    }
+
+    /**
+     * Map calls through the array helper.
+     *
+     * @param $method
+     * @param $arguments
+     * @return mixed
+     */
+    public function __get($attribute)
+    {
+        if (is_object($this->value)) {
+            return $this->value->$attribute;
+        }
+
+        return Arr::get($this->value, $attribute);
     }
 }
