@@ -32,6 +32,8 @@ class ParserTest extends CoreTestCase
             12 => 'request.parsed.path',
             13 => 'request.parsed.domain.0',
             14 => 'url.previous',
+            14 => 'app.base_path',
+            14 => 'app.user',
             15 => 'user',
             16 => 'route.uri',
             17 => 'route.parameters.foo',

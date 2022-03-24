@@ -31,6 +31,9 @@ class Parser
             'url' => [
                 'previous' => URL::previous(),
             ],
+            'app' => [
+                'base_path' => base_path(),
+            ],
             'user' => ($user = Auth::user()) ? (array) $user : null,
         ];
 
