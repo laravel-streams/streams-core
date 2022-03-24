@@ -15,15 +15,16 @@ class Parser
 
         $data = [
             'request' => [
-                'url'      => Request::url(),
-                'path'     => Request::path(),
-                'root'     => Request::root(),
-                'input'    => Request::input(),
+                'ip' => Request::ip(),
+                'url' => Request::url(),
+                'path' => Request::path(),
+                'root' => Request::root(),
+                'input' => Request::input(),
                 'full_url' => Request::fullUrl(),
                 'segments' => Request::segments(),
-                'uri'      => Request::getRequestUri(),
-                'query'    => Request::getQueryString(),
-                'parsed'   => array_merge($parsed, [
+                'uri' => Request::getRequestUri(),
+                'query' => Request::getQueryString(),
+                'parsed' => array_merge($parsed, [
                     'domain' => explode('.', $parsed['host'])
                 ]),
             ],

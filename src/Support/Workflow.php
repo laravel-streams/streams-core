@@ -14,6 +14,7 @@ class Workflow
     use FiresCallbacks;
 
     public array $steps = [];
+    public array $payload = [];
 
     protected ?\Closure $callback = null;
 
@@ -24,13 +25,15 @@ class Workflow
 
     public function process(array $payload = []): void
     {
+        $this->payload = $payload;
+
         foreach ($this->steps as $name => $step) {
 
-            $this->triggerCallback('before_' . $name, $payload);
+            $this->triggerCallback('before_' . $name, $this->payload);
 
-            $this->do($step, $payload);
+            $this->do($step, $this->payload);
 
-            $this->triggerCallback('after_' . $name, $payload);
+            $this->triggerCallback('after_' . $name, $this->payload);
         }
     }
 
