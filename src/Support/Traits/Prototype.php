@@ -151,7 +151,11 @@ trait Prototype
 
     public function setRawPrototypeAttributes(array $attributes)
     {
-        $this->__prototype['attributes'] = $attributes;
+        $this->__prototype['attributes'] = [];
+
+        foreach ($attributes as $key => $value) {
+            $this->setPrototypeAttributeValue($key, $value);
+        }
 
         return $this;
     }
