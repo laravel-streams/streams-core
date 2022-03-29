@@ -161,12 +161,7 @@ trait Prototype
         }
         
         if ($this->hasPrototypePropertyType($key)) {
-            
             $value = $this->castPrototypeAttributeValue($key, $value);
-            
-            $this->__prototype['attributes'][$key] = $value;
-
-            return $this;
         }
         
         $this->setPrototypeAttributeValue($key, $value);
