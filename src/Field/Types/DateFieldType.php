@@ -24,7 +24,7 @@ class DateFieldType extends DatetimeFieldType
 
     public function restore($value)
     {
-        return $this->cast($value);
+        return $value ? $this->cast($value) : null;
     }
 
     public function getDecoratorName()

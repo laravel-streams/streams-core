@@ -36,7 +36,7 @@ class Parser
             ],
             'user' => ($user = Auth::user()) ? (array) $user : null,
         ];
-
+        
         if ($route = Request::route()) {
 
             $data['route'] = [

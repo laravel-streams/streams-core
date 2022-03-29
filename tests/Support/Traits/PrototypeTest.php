@@ -2,12 +2,14 @@
 
 namespace Streams\Core\Tests\Support\Traits;
 
-use Streams\Core\Field\Value\Value;
+use Streams\Core\Field\Field;
 use Streams\Core\Tests\CoreTestCase;
 use Streams\Core\Field\Value\StrValue;
+use Streams\Core\Field\FieldDecorator;
 use Streams\Core\Field\Value\NumberValue;
 use Streams\Core\Field\Value\IntegerValue;
 use Streams\Core\Support\Traits\Prototype;
+use Streams\Core\Field\Decorator\UrlDecorator;
 
 class PrototypeTest extends CoreTestCase
 {
@@ -19,6 +21,9 @@ class PrototypeTest extends CoreTestCase
             'number' => 14,
         ]);
 
+        $this->assertEquals('localhost', $prototype->url);
+
+        $this->assertEquals('localhost', $prototype->getPrototypeAttribute('url'));
         $this->assertEquals('Ryan', $prototype->getPrototypeAttribute('name'));
         $this->assertEquals(14, $prototype->getPrototypeAttribute('number'));
     }
@@ -29,6 +34,7 @@ class PrototypeTest extends CoreTestCase
             'name' => 'Ryan',
         ]);
 
+        $this->assertTrue($prototype->hasPrototypeAttribute('url'));
         $this->assertTrue($prototype->hasPrototypeAttribute('name'));
         $this->assertFalse($prototype->hasPrototypeAttribute('number'));
     }
@@ -41,8 +47,10 @@ class PrototypeTest extends CoreTestCase
         ]);
 
         $prototype->setPrototypeAttribute('number', 7);
+        $prototype->setPrototypeAttribute('url', '127.0.0.1:8000');
 
         $this->assertEquals(7, $prototype->number);
+        $this->assertEquals('127.0.0.1:8000', $prototype->url);
     }
 
     public function test_it_supports_accessor_methods()
@@ -107,11 +115,13 @@ class PrototypeTest extends CoreTestCase
         $prototype->loadPrototypeAttributes([
             'name' => 'Testing',
             'description' => 'Test',
+            'url' => '127.0.0.1:8000',
         ]);
 
         $this->assertTrue($prototype->number === 14);
         $this->assertTrue($prototype->name === 'Testing');
         $this->assertTrue($prototype->description === 'Test');
+        $this->assertTrue($prototype->url === '127.0.0.1:8000');
     }
 
     public function test_it_returns_original_attribute_values()
@@ -124,6 +134,7 @@ class PrototypeTest extends CoreTestCase
         $prototype->loadPrototypeAttributes([
             'name' => 'Testing',
             'description' => 'Test',
+            'url' => '127.0.0.1:8000',
         ]);
 
         $original = $prototype->getOriginalPrototypeAttributes();
@@ -134,6 +145,7 @@ class PrototypeTest extends CoreTestCase
             'price' => 0.0,
             'status' => null,
             'number' => 14,
+            'url' => 'localhost',
         ], $original);
     }
 
@@ -147,11 +159,13 @@ class PrototypeTest extends CoreTestCase
         $prototype->setPrototypeAttributes([
             'name' => 'Testing',
             'description' => 'Test',
+            'url' => '127.0.0.0:8000',
         ]);
 
         $this->assertNull($prototype->number);
         $this->assertTrue($prototype->name === 'Testing');
         $this->assertTrue($prototype->description === 'Test');
+        $this->assertTrue($prototype->url === '127.0.0.0:8000');
     }
 
     public function test_it_decorates_attribute_values()
@@ -160,9 +174,11 @@ class PrototypeTest extends CoreTestCase
             'name' => 'Test',
         ]);
 
-        $value = $prototype->decoratePrototypeAttribute('name');
+        $name = $prototype->decoratePrototypeAttribute('name');
+        $url = $prototype->decoratePrototypeAttribute('url');
 
-        $this->assertInstanceOf(Value::class, $value);
+        $this->assertInstanceOf(FieldDecorator::class, $name);
+        $this->assertInstanceOf(UrlDecorator::class, $url);
     }
 
     public function test_it_supports_decorate_hooks()
@@ -266,6 +282,11 @@ class PrototypeTest extends CoreTestCase
 class TestPrototype
 {
     use Prototype;
+
+    #[Field([
+        'type' => 'url',
+    ])]
+    public string $url = 'localhost';
 
     protected $__attributes = [
         'name' => 'Original',
