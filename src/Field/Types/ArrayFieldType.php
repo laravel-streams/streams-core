@@ -22,24 +22,24 @@ class ArrayFieldType extends Field
 
     public function cast($value)
     {
-        if (is_array($value)) {
-            return $value;
-        }
-
         if (is_object($value)) {
             return $value;
         }
 
         if (is_string($value) && ($json = json_decode($value, true)) !== null) {
-            return $json;
+            $value = $json;
         }
 
         if (is_string($value) && Str::isSerialized($value)) {
-            return unserialize($value);
+            $value = unserialize($value);
         }
 
         if (is_string($value)) {
-            return (array) $value;
+            $value = (array) $value;
+        }
+
+        if ($wrapper = $this->config('wrapper')) {
+            $value = $this->wrapArray($value, $wrapper);
         }
 
         return $value;
