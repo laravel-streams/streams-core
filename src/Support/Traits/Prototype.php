@@ -325,7 +325,9 @@ trait Prototype
 
         $attributes = Arr::get($this->__prototype['properties'], $key, []);
 
-        $attributes['stream'] = $this->stream;
+        if (isset($this->stream)) {
+            $attributes['stream'] = $this->stream;
+        }
 
         return App::make('streams.core.field_type.' . $type, compact('attributes'));
     }
