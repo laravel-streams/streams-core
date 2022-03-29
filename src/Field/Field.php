@@ -9,6 +9,7 @@ use Streams\Core\Stream\Stream;
 use Illuminate\Support\Collection;
 use Streams\Core\Field\Factory\Factory;
 use Illuminate\Support\Traits\Macroable;
+use Streams\Core\Support\Facades\Streams;
 use Illuminate\Contracts\Support\Jsonable;
 use Streams\Core\Support\Facades\Hydrator;
 use Streams\Core\Support\Traits\HasMemory;
@@ -33,7 +34,7 @@ class Field implements
     use Macroable;
     use FiresCallbacks;
 
-    public Stream $stream;
+    public $stream;
 
     protected $__properties = [
         'handle' => [
@@ -58,11 +59,15 @@ class Field implements
 
         $stream = Arr::get($attributes, 'stream');
 
-        if ($stream && !$stream instanceof Stream) {
+        if ($stream && is_string($stream)) {
+            $stream = Streams::make($stream);
+        }
+
+        if ($stream && is_array($stream)) {
             $stream = new Stream($stream);
         }
 
-        if ($stream) {
+        if ($stream && $stream instanceof Stream) {
             $this->stream = $stream;
         }
 
@@ -127,7 +132,7 @@ class Field implements
     {
         $name = $this->config('decorator', $this->getDecoratorName());
 
-        if (isset($this->stream)) {
+        if (isset($this->stream) && $this->stream instanceof Stream) {
             $this->field = $this->stream->fields->get($this->handle);
         }
 

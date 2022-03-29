@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use Streams\Core\Field\Field;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Traits\Macroable;
+use Streams\Core\Stream\Stream;
 
 /**
  * Trait Prototype
@@ -289,7 +290,7 @@ trait Prototype
     {
         $type = $this->newProtocolPropertyFieldType($key);
 
-        if ($this->stream) {
+        if (isset($this->stream) && $this->stream instanceof Stream) {
             $type->field = $this->stream->fields->get($key);
         }
 
@@ -310,7 +311,7 @@ trait Prototype
     {
         $type = $this->newProtocolPropertyFieldType($key);
 
-        if (isset($this->stream)) {
+        if (isset($this->stream) && $this->stream instanceof Stream) {
             $type->field = $this->stream->fields->get($key);
         }
 
