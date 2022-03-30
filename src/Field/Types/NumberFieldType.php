@@ -31,6 +31,11 @@ class NumberFieldType extends Field
         return $value;
     }
 
+    public function default($value)
+    {
+        return $this->cast($value);
+    }
+
     public function modify($value)
     {
         return $this->cast($value);
@@ -46,17 +51,17 @@ class NumberFieldType extends Field
         return NumberDecorator::class;
     }
 
-    public function getSchemaName()
-    {
-        return NumberSchema::class;
-    }
+    // public function getSchemaName()
+    // {
+    //     return NumberSchema::class;
+    // }
 
-    public function generate()
-    {
-        return $this->generator()->randomElement([
-            $this->generator()->randomNumber(),
-            $this->generator()->randomFloat(),
-            round($this->generator()->randomFloat(), 1),
-        ]);
-    }
+    // public function generate()
+    // {
+    //     return $this->generator()->randomElement([
+    //         $this->generator()->randomNumber(),
+    //         $this->generator()->randomFloat(),
+    //         round($this->generator()->randomFloat(), 1),
+    //     ]);
+    // }
 }

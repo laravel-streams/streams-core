@@ -32,7 +32,7 @@ class Criteria
 
     protected Stream $stream;
 
-    protected AdapterInterface $adapter;
+    public AdapterInterface $adapter;
 
     public function __construct(
         Stream $stream,

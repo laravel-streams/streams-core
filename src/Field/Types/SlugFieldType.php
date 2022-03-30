@@ -10,7 +10,7 @@ class SlugFieldType extends Field
 {
     public function cast($value)
     {
-        return Str::slug($value, $this->config('seperator') ?: '_');
+        return Str::slug($value, $this->config('seperator') ?: '-');
     }
     public function modify($value)
     {
@@ -27,8 +27,8 @@ class SlugFieldType extends Field
         return StringDecorator::class;
     }
 
-    public function generate()
-    {
-        return $this->modify($this->generator()->words(2, true));
-    }
+    // public function generate()
+    // {
+    //     return $this->modify($this->generator()->words(2, true));
+    // }
 }

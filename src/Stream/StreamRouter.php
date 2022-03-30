@@ -4,10 +4,11 @@ namespace Streams\Core\Stream;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Routing\Route as RouteInstance;
 
 class StreamRouter
 {
-    static public function route(string $uri, string|array $route): void
+    static public function route(string $uri, string|array $route): RouteInstance
     {
 
         /**
@@ -90,5 +91,7 @@ class StreamRouter
         if ($csrf === false) {
             call_user_func_array([$route, 'withoutMiddleware'], ['csrf']);
         }
+
+        return $route;
     }
 }

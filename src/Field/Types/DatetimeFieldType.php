@@ -6,18 +6,22 @@ use Carbon\Carbon;
 use Streams\Core\Field\Field;
 use Illuminate\Support\Facades\Date;
 use Streams\Core\Field\Decorator\DatetimeDecorator;
-use Streams\Core\Field\Schema\DatetimeSchema;
 
 class DatetimeFieldType extends Field
 {
+    public function cast($value): Carbon
+    {
+        return $this->toCarbon($value);
+    }
+
     public function modify($value)
     {
         return $this->cast($value)->format('Y-m-d H:i:s');
     }
 
-    public function cast($value): Carbon
+    public function restore($value)
     {
-        return $this->toCarbon($value);
+        return $this->cast($value);
     }
 
     public function getDecoratorName()
@@ -25,15 +29,15 @@ class DatetimeFieldType extends Field
         return DatetimeDecorator::class;
     }
 
-    public function getSchemaName()
-    {
-        return DatetimeSchema::class;
-    }
+    // public function getSchemaName()
+    // {
+    //     return DatetimeSchema::class;
+    // }
 
-    public function generate()
-    {
-        return $this->cast($this->generator()->dateTime());
-    }
+    // public function generate()
+    // {
+    //     return $this->cast($this->generator()->dateTime());
+    // }
 
     public function toCarbon($value): Carbon
     {

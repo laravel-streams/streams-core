@@ -40,7 +40,7 @@ class Repository implements RepositoryInterface
             ->get();
     }
 
-    public function find(string|int $id): EntryInterface|null
+    public function find(string|int $id)
     {
         $keyName = $this->stream->config('key_name', 'id');
 

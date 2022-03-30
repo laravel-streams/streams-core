@@ -8,7 +8,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Streams\Core\Stream\Stream;
 use Illuminate\Validation\Validator;
-use Streams\Core\Field\FieldDecorator;
 use Illuminate\Support\Traits\Macroable;
 use Streams\Core\Support\Traits\Fluency;
 use Streams\Core\Support\Facades\Streams;

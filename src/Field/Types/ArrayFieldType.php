@@ -2,7 +2,6 @@
 
 namespace Streams\Core\Field\Types;
 
-use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Streams\Core\Field\Field;
 use Illuminate\Support\Collection;
@@ -35,73 +34,74 @@ class ArrayFieldType extends Field
             $value = unserialize($value);
         }
 
-        return Arr::make((array) $value);
+        if (is_string($value)) {
+            $value = (array) $value;
+        }
+
+        if ($wrapper = $this->config('wrapper')) {
+            $value = $this->wrapArray($value, $wrapper);
+        }
+
+        return $value;
     }
 
     public function modify($value)
     {
-        $values = $this->cast($value);
+        foreach ($value as &$item) {
 
-        foreach ($values as &$value) {
-
-            if (is_object($value) && $value instanceof EntryInterface) {
-                $value = [
-                    '@stream' => $value->stream()->id,
-                ] + $value->getAttributes();
+            if (is_object($item) && $item instanceof EntryInterface) {
+                $item = [
+                    '@stream' => $item->stream()->id,
+                ] + $item->getAttributes();
             }
 
-            if (is_object($value) && in_array(Prototype::class, class_uses($value))) {
-                $value = [
-                    '@prototype' => get_class($value),
-                ] + $value->getPrototypeAttributes();
+            if (
+                is_object($item) && ($item instanceof Arrayable
+                || in_array(Prototype::class, class_uses($item)))
+            ) {
+                $item = array_merge([
+                    '@abstract' => get_class($item),
+                ], $item->toArray());
             }
 
-            if (is_object($value) && $value instanceof Arrayable) {
-                $value = [
-                    '@abstract' => get_class($value),
-                ] + $value->toArray();
-            }
-
-            if (is_object($value)) {
-                $value = [
-                    '@abstract' => get_class($value),
-                ] + Hydrator::dehydrate($value);
+            if (is_object($item)) {
+                $item = Hydrator::dehydrate($item);
             }
         }
 
-        return $values;
+        return $value;
     }
 
     public function restore($value)
     {
-        $values = $this->cast($value);
+        foreach ($value as &$item) {
 
-        foreach ($values as &$value) {
-
-            if (!is_array($value)) {
+            if (!is_array($item)) {
                 continue;
             }
 
-            [$meta, $value] = $this->separateMeta($value);
+            [$meta, $item] = $this->separateMeta($item);
 
             if (isset($meta['@stream'])) {
-                $value = $this->restoreStreamEntry($meta, $value);
-            }
 
-            if (isset($meta['@prototype'])) {
-                $value = $this->restorePrototype($meta, $value);
+                $item = $this->restoreStreamEntry($meta, $item);
+
+                continue;
             }
 
             if (isset($meta['@abstract'])) {
-                $value = $this->restoreInstance($meta, $value);
+                
+                $item = $this->restoreInstance($meta, $item);
+
+                continue;
             }
         }
 
         if ($wrapper = $this->config('wrapper')) {
-            $values = $this->wrapArray($values, $wrapper);
+            $value = $this->wrapArray($value, $wrapper);
         }
-
-        return $values;
+        
+        return $value;
     }
 
     public function getDecoratorName()
@@ -109,29 +109,25 @@ class ArrayFieldType extends Field
         return ArrayDecorator::class;
     }
 
-    public function getSchemaName()
-    {
-        return ArrSchema::class;
-    }
+    // public function getSchemaName()
+    // {
+    //     return ArrSchema::class;
+    // }
 
-    public function generate()
-    {
-        for ($i = 0; $i < 10; $i++) {
-            $values[] = $this->generator()->randomElement([
-                $this->generator()->word(),
-                $this->generator()->randomNumber(),
-            ]);
-        }
+    // public function generate()
+    // {
+    //     for ($i = 0; $i < 10; $i++) {
+    //         $values[] = $this->generator()->randomElement([
+    //             $this->generator()->word(),
+    //             $this->generator()->randomNumber(),
+    //         ]);
+    //     }
 
-        return $values;
-    }
+    //     return $values;
+    // }
 
     protected function wrapArray($array, $wrapper)
     {
-        if ($wrapper == 'array') {
-            return $array;
-        }
-
         if ($wrapper == 'collection') {
             return new Collection($array);
         }
@@ -155,11 +151,6 @@ class ArrayFieldType extends Field
     protected function restoreStreamEntry(array $meta, array $value)
     {
         return Streams::repository($meta['@stream'])->newInstance($value);
-    }
-
-    protected function restorePrototype(array $meta, array $value)
-    {
-        return new $meta['@prototype']($value);
     }
 
     protected function restoreInstance(array $meta, array $value)

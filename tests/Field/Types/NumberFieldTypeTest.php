@@ -9,6 +9,14 @@ use Streams\Core\Field\Decorator\NumberDecorator;
 
 class NumberFieldTypeTest extends CoreTestCase
 {
+    public function test_it_casts_default_values()
+    {
+        $field = new NumberFieldType([
+            'stream' => Streams::make('films')
+        ]);
+        
+        $this->assertSame(-1234.50, $field->default("-1,234.50"));
+    }
 
     public function test_it_casts_to_numeric_value()
     {
@@ -29,9 +37,6 @@ class NumberFieldTypeTest extends CoreTestCase
         $this->assertSame(1234.50, $field->cast("1,234.50"));
 
         $this->assertSame(-1234.50, $field->cast("-1,234.50"));
-
-        $this->assertSame(-1234.50, $field->default("-1,234.50"));
-        $this->assertSame(-1234.50, $field->restore("-1,234.50"));
     }
 
     public function test_it_stores_as_number()
@@ -41,6 +46,15 @@ class NumberFieldTypeTest extends CoreTestCase
         ]);
 
         $this->assertSame(-1234.50, $field->modify("-1,234.50"));
+    }
+
+    public function test_it_restores_as_number()
+    {
+        $field = new NumberFieldType([
+            'stream' => Streams::make('films')
+        ]);
+
+        $this->assertSame(-1234.50, $field->restore("-1,234.50"));
     }
 
     public function test_it_returns_number_decorator()

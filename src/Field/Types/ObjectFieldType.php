@@ -2,6 +2,7 @@
 
 namespace Streams\Core\Field\Types;
 
+use Illuminate\Support\Str;
 use Streams\Core\Field\Field;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Support\Facades\Hydrator;
@@ -15,43 +16,30 @@ class ObjectFieldType extends Field
     public function modify($value)
     {
         if (is_object($value) && $value instanceof EntryInterface) {
-            return [
-                '@abstract' => get_class($value),
-            ] + [
-                '@attributes' => $value->getAttributes(),
-            ];
+            $value = [
+                '@stream' => $value->stream()->id,
+            ] + $value->getAttributes();
         }
 
-        if (is_object($value) && in_array(Prototype::class, class_uses($value))) {
-            return [
+        if (
+            is_object($value) && ($value instanceof Arrayable
+                || in_array(Prototype::class, class_uses($value)))
+        ) {
+            $value = array_merge([
                 '@abstract' => get_class($value),
-            ] + [
-                '@attributes' => $value->getPrototypeAttributes(),
-            ];
-        }
-
-        if (is_object($value) && $value instanceof Arrayable) {
-            return [
-                '@abstract' => get_class($value),
-            ] + [
-                '@attributes' => $value->toArray(),
-            ];
+            ], $value->toArray());
         }
 
         if (is_object($value)) {
-            return [
-                '@abstract' => get_class($value),
-            ] + [
-                '@attributes' => Hydrator::dehydrate($value),
-            ];
+            $value = Hydrator::dehydrate($value);
         }
 
         return $value;
     }
 
-    public function cast($value)
+    public function restore($value)
     {
-        [$meta, $value] = $this->separateMeta($value);
+        [$meta, $value] = $this->separateMeta((array) $value);
 
         if (isset($meta['@stream'])) {
             return $this->restoreStreamEntry($meta, $value);
@@ -61,30 +49,42 @@ class ObjectFieldType extends Field
             return $this->restoreInstance($meta, $value);
         }
 
+        return $value;
+    }
+
+    public function cast($value)
+    {
+        if (is_object($value)) {
+            return $value;
+        }
+
+        if (is_string($value) && ($json = json_decode($value)) !== null) {
+            return $json;
+        }
+
+        if (is_string($value) && Str::isSerialized($value)) {
+            return unserialize($value);
+        }
+
         return (object) $value;
     }
 
-    public function decorate($value)
-    {
-        return $this->cast($value);
-    }
+    // public function getSchemaName()
+    // {
+    //     return StructureSchema::class;
+    // }
 
-    public function getSchemaName()
-    {
-        return StructureSchema::class;
-    }
+    // public function generate()
+    // {
+    //     for ($i = 0; $i < 10; $i++) {
+    //         $values[$this->generator()->word()] = $this->generator()->randomElement([
+    //             $this->generator()->word(),
+    //             $this->generator()->randomNumber(),
+    //         ]);
+    //     }
 
-    public function generate()
-    {
-        for ($i = 0; $i < 10; $i++) {
-            $values[$this->generator()->word()] = $this->generator()->randomElement([
-                $this->generator()->word(),
-                $this->generator()->randomNumber(),
-            ]);
-        }
-
-        return $values;
-    }
+    //     return $values;
+    // }
 
     protected function separateMeta(array $value)
     {

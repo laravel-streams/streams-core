@@ -3,7 +3,6 @@
 namespace Streams\Core\Field\Types;
 
 use Carbon\Carbon;
-use Streams\Core\Field\Schema\TimeSchema;
 
 class TimeFieldType extends DatetimeFieldType
 {
@@ -17,13 +16,13 @@ class TimeFieldType extends DatetimeFieldType
         return $this->cast($value);
     }
 
-    public function getSchemaName()
-    {
-        return TimeSchema::class;
-    }
+    // public function getSchemaName()
+    // {
+    //     return TimeSchema::class;
+    // }
 
-    public function generate()
-    {
-        return $this->generator()->time();
-    }
+    // public function generate()
+    // {
+    //     return $this->generator()->time();
+    // }
 }

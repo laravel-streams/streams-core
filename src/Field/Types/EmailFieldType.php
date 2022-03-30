@@ -32,13 +32,13 @@ class EmailFieldType extends Field
         return EmailDecorator::class;
     }
 
-    public function getSchemaName()
-    {
-        return EmailSchema::class;
-    }
+    // public function getSchemaName()
+    // {
+    //     return EmailSchema::class;
+    // }
 
-    public function generate()
-    {
-        return $this->generator()->email();
-    }
+    // public function generate()
+    // {
+    //     return $this->generator()->email();
+    // }
 }

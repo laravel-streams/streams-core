@@ -31,7 +31,10 @@ class Hydrator
 
         $properties = array_merge(
             $reflection->getProperties(\ReflectionProperty::IS_PROTECTED),
-            $reflection->getProperties(\ReflectionProperty::IS_PUBLIC),
+            array_filter(
+                $reflection->getProperties(\ReflectionProperty::IS_PUBLIC),
+                fn (\ReflectionProperty $property) => !$property->isStatic()
+            ),
         );
 
         $accessors = array_combine(
@@ -68,13 +71,13 @@ class Hydrator
                 return Str::snake($property->getName());
             }, $properties),
             array_map(function (ReflectionProperty $property) {
-                return $property->isPublic() ? $property->getName() : null;
+                return ($property->isPublic()) ? $property->getName() : null;
             }, $properties)
         );
 
         $nonStatic = array_keys(get_object_vars($object));
 
-        $public = array_merge($public, array_combine(array_map(function($name) {
+        $public = array_merge($public, array_combine(array_map(function ($name) {
             return Str::snake($name);
         }, $nonStatic), $nonStatic));
 
@@ -92,7 +95,7 @@ class Hydrator
          * Access the public attributes.
          */
         array_walk($public, function (&$attribute, $key) use ($typed, $object) {
-            
+
             /**
              * If the property is typed but not
              * initialized then skip it entirely.

@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use Streams\Core\Field\Field;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Traits\Macroable;
+use Streams\Core\Stream\Stream;
 
 /**
  * Trait Prototype
@@ -30,6 +31,8 @@ trait Prototype
 
     use Macroable;
     use FiresCallbacks;
+
+    protected \ReflectionClass $__reflection;
 
     protected array $__prototype = [
         'attributes' => [],
@@ -73,6 +76,48 @@ trait Prototype
         $this->__prototype['original'] = $attributes;
     }
 
+    public function syncPrototypePropertyAttributes()
+    {
+        $reflection = new \ReflectionClass($this);
+
+        $properties = array_diff(
+            $reflection->getProperties(\ReflectionProperty::IS_PUBLIC),
+            $reflection->getProperties(\ReflectionProperty::IS_STATIC)
+        );
+
+        foreach ($properties as $property) {
+
+            $attribute = Arr::get($property->getAttributes(Field::class), 0);
+
+            if (!$attribute && $parent = $reflection->getParentClass()) {
+                $attribute = $this->resolvePrototypePropertyAttributes($parent, $property->getName());
+            }
+
+            if (!$attribute) {
+                continue;
+            }
+
+            $attributes = Arr::get($attribute->getArguments(), 0, []);
+
+            if (!isset($attributes['type']) && $type = $property->getType()) {
+                $attributes['type'] = $type->getName();
+            }
+
+            $this->__prototype['properties'][$property->getName()] = $attributes;
+        }
+    }
+
+    protected function resolvePrototypePropertyAttributes(\ReflectionClass $reflection, $key)
+    {
+        if (!$reflection->hasProperty($key)) {
+            return null;
+        }
+
+        $property = $reflection->getProperty($key);
+
+        return Arr::get($property->getAttributes(Field::class), 0);
+    }
+
     public function loadPrototypeAttributes(array $attributes)
     {
         foreach ($attributes as $key => $value) {
@@ -85,6 +130,8 @@ trait Prototype
     public function setPrototypeAttributes(array $attributes)
     {
         $this->__prototype['attributes'] = [];
+
+        // @todo reset properties?
 
         foreach ($attributes as $key => $value) {
             $this->setPrototypeAttribute($key, $value);
@@ -105,7 +152,11 @@ trait Prototype
 
     public function setRawPrototypeAttributes(array $attributes)
     {
-        $this->__prototype['attributes'] = $attributes;
+        $this->__prototype['attributes'] = [];
+
+        foreach ($attributes as $key => $value) {
+            $this->setPrototypeAttributeValue($key, $value);
+        }
 
         return $this;
     }
@@ -132,12 +183,7 @@ trait Prototype
         }
 
         if ($this->hasPrototypePropertyType($key)) {
-
             $value = $this->castPrototypeAttributeValue($key, $value);
-
-            $this->__prototype['attributes'][$key] = $value;
-
-            return $this;
         }
 
         $this->setPrototypeAttributeValue($key, $value);
@@ -147,7 +193,11 @@ trait Prototype
 
     public function setPrototypeAttributeValue(string $key, $value)
     {
-        Arr::set($this->__prototype['attributes'], $key, $value);
+        if (property_exists($this, $key)) {
+            $this->{$key} = $value;
+        } else {
+            Arr::set($this->__prototype['attributes'], $key, $value);
+        }
 
         return $this;
     }
@@ -166,7 +216,7 @@ trait Prototype
     public function getPrototypeAttributeValue(string $key, $default = null)
     {
         if ($this->hasPrototypeAttribute($key)) {
-            $value = $this->getPrototypeAttributeFromArray($key);
+            $value = $this->getPrototypeAttributeFromData($key);
         } else {
             $value = $this->getPrototypeAttributeDefault($key, $default);
         }
@@ -182,8 +232,12 @@ trait Prototype
         return $value;
     }
 
-    public function getPrototypeAttributeFromArray(string $key)
+    public function getPrototypeAttributeFromData(string $key)
     {
+        if (property_exists($this, $key)) {
+            return $this->{$key};
+        }
+
         return Arr::get($this->__prototype['attributes'], $key);
     }
 
@@ -236,7 +290,7 @@ trait Prototype
     {
         $type = $this->newProtocolPropertyFieldType($key);
 
-        if ($this->stream) {
+        if (isset($this->stream) && $this->stream instanceof Stream) {
             $type->field = $this->stream->fields->get($key);
         }
 
@@ -257,7 +311,7 @@ trait Prototype
     {
         $type = $this->newProtocolPropertyFieldType($key);
 
-        if ($this->stream) {
+        if (isset($this->stream) && $this->stream instanceof Stream) {
             $type->field = $this->stream->fields->get($key);
         }
 
@@ -276,7 +330,9 @@ trait Prototype
 
         $attributes = Arr::get($this->__prototype['properties'], $key, []);
 
-        $attributes['stream'] = $this->stream;
+        if (isset($this->stream)) {
+            $attributes['stream'] = $this->stream;
+        }
 
         return App::make('streams.core.field_type.' . $type, compact('attributes'));
     }
@@ -344,6 +400,10 @@ trait Prototype
     public function hasPrototypeAttribute(string $key): bool
     {
         if (array_key_exists($key, $this->__prototype['attributes'])) {
+            return true;
+        }
+
+        if (property_exists($this, $key)) {
             return true;
         }
 

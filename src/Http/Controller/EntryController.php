@@ -19,7 +19,7 @@ class EntryController extends Controller
     use FiresCallbacks;
 
     public function __invoke()
-    {
+    { 
         $data = collect();
 
         $data->put('route', Request::route());
@@ -36,6 +36,10 @@ class EntryController extends Controller
 
     protected function resolveStream(Collection $data): void
     {
+        if ($data->has('stream')) {
+            return;
+        }
+
         $action = $data->get('action');
 
         if (isset($action['stream'])) {
@@ -58,6 +62,10 @@ class EntryController extends Controller
     protected function resolveEntry(Collection $data): void
     {
         if (!$stream = $data->get('stream')) {
+            return;
+        }
+
+        if ($data->has('entry')) {
             return;
         }
 
@@ -106,11 +114,9 @@ class EntryController extends Controller
             $query->where($key, $value);
         }
 
-        $results = $query->limit(1)->get();
+        if ($result = $query->first()) {
 
-        if ($results->count() == 1) {
-
-            $data->put('entry', $results->first());
+            $data->put('entry', $result);
 
             return;
         }
@@ -118,6 +124,10 @@ class EntryController extends Controller
 
     protected function resolveView(Collection $data): void
     {
+        if ($data->has('view')) {
+            return;
+        }
+
         $action = $data->get('action');
 
         if (isset($action['view'])) {
@@ -177,6 +187,10 @@ class EntryController extends Controller
 
     protected function resolveResponse(Collection $data): void
     {
+        if ($data->has('response')) {
+            return;
+        }
+        
         if ($data->has('entry') && $data->get('entry') === null) {
             abort(404);
         }

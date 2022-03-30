@@ -4,7 +4,6 @@ namespace Streams\Core\Field\Types;
 
 use Streams\Core\Field\Field;
 use Streams\Core\Field\Decorator\HashDecorator;
-use Streams\Core\Field\Schema\HashSchema;
 use Illuminate\Support\Facades\Hash as HashFacade;
 
 class HashFieldType extends Field
@@ -23,13 +22,13 @@ class HashFieldType extends Field
         return HashDecorator::class;
     }
 
-    public function getSchemaName()
-    {
-        return HashSchema::class;
-    }
+    // public function getSchemaName()
+    // {
+    //     return HashSchema::class;
+    // }
 
-    public function generate()
-    {
-        return HashFacade::make($this->generator()->text(15, 50));
-    }
+    // public function generate()
+    // {
+    //     return HashFacade::make($this->generator()->text(15, 50));
+    // }
 }

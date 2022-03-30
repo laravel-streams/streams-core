@@ -11,7 +11,7 @@ interface RepositoryInterface
 
     public function all(): Collection;
 
-    public function find(string|int $id): EntryInterface|null;
+    public function find(string|int $id);
 
     public function findAll(array $ids): Collection;
 

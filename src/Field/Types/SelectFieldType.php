@@ -4,18 +4,16 @@ namespace Streams\Core\Field\Types;
 
 use Streams\Core\Field\Field;
 use Illuminate\Support\Facades\App;
-use Streams\Core\Field\Schema\SelectSchema;
 use Streams\Core\Field\Decorator\SelectDecorator;
 
 class SelectFieldType extends Field
 {
-
     public function options(): array
     {
         $options = $this->config('options', []);
 
         if (is_string($options)) {
-            return App::call($options, ['type', $this]);
+            return App::call($options, ['field', $this]);
         }
 
         return $options;
@@ -26,10 +24,10 @@ class SelectFieldType extends Field
         return SelectDecorator::class;
     }
 
-    public function getSchemaName()
-    {
-        return SelectSchema::class;
-    }
+    // public function getSchemaName()
+    // {
+    //     return SelectSchema::class;
+    // }
 
     public function rules()
     {
@@ -38,8 +36,8 @@ class SelectFieldType extends Field
         ], parent::rules());
     }
 
-    public function generate()
-    {
-        return $this->generator()->randomElement(array_keys($this->options()));
-    }
+    // public function generate()
+    // {
+    //     return $this->generator()->randomElement(array_keys($this->options()));
+    // }
 }
