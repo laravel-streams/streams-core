@@ -52,6 +52,7 @@ trait Prototype
             $attributes = array_replace_recursive($this->__attributes, $attributes);
         }
 
+        $this->syncPrototypePropertyAttributes();
         $this->syncOriginalPrototypeAttributes($attributes);
 
         $this->setPrototypeAttributes($attributes);
@@ -163,7 +164,15 @@ trait Prototype
 
     public function getPrototypeAttributes(): array
     {
-        return $this->__prototype['attributes'];
+        $properties = [];
+
+        foreach (array_keys($this->__prototype['properties']) as $field) {
+            if (isset($this->{$field})) {
+                $properties[$field] = $this->{$field}; 
+            }
+        }
+
+        return $this->__prototype['attributes'] + $properties;
     }
 
     public function getOriginalPrototypeAttributes(): array
