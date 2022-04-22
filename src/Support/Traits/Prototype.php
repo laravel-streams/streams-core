@@ -5,9 +5,9 @@ namespace Streams\Core\Support\Traits;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Streams\Core\Field\Field;
+use Streams\Core\Stream\Stream;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Traits\Macroable;
-use Streams\Core\Stream\Stream;
 
 /**
  * Trait Prototype
@@ -95,6 +95,13 @@ trait Prototype
             }
 
             if (!$attribute) {
+
+                $type = $this->guessProtocolPropertyType($property->getName());
+
+                $this->__prototype['properties'][$property->getName()] = [
+                    'type' => $type,
+                ];
+
                 continue;
             }
 
