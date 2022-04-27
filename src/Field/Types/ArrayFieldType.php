@@ -5,7 +5,6 @@ namespace Streams\Core\Field\Types;
 use Illuminate\Support\Str;
 use Streams\Core\Field\Field;
 use Illuminate\Support\Collection;
-use Streams\Core\Field\Schema\ArrSchema;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Support\Facades\Hydrator;
 use Illuminate\Contracts\Support\Arrayable;
@@ -81,6 +80,13 @@ class ArrayFieldType extends Field
             }
 
             [$meta, $item] = $this->separateMeta($item);
+
+            if (!$meta && $stream = $this->config('stream')) {
+                
+                $item = Streams::repository($stream)->newInstance($value);
+
+                continue;
+            }
 
             if (isset($meta['@stream'])) {
 

@@ -34,7 +34,7 @@ trait Fluency
         return $this->loadPrototypeAttributes($attributes);
     }
 
-    public function decorate($key): FieldDecorator
+    public function decorate(string $key): mixed
     {
         //return $this->decoratePrototypeAttribute($key);
 
