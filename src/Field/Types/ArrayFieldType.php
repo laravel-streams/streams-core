@@ -5,6 +5,7 @@ namespace Streams\Core\Field\Types;
 use Illuminate\Support\Str;
 use Streams\Core\Field\Field;
 use Illuminate\Support\Collection;
+use Streams\Core\Field\Schema\ArrSchema;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Support\Facades\Hydrator;
 use Illuminate\Contracts\Support\Arrayable;
@@ -75,15 +76,23 @@ class ArrayFieldType extends Field
     {
         foreach ($value as &$item) {
 
+            if (!is_array($item) && $stream = $this->config('related')) {
+                
+                $item = Streams::repository($stream)->find($item);
+
+                continue;
+            }
+            
             if (!is_array($item)) {
                 continue;
             }
 
             [$meta, $item] = $this->separateMeta($item);
 
-            if (!$meta && $stream = $this->config('stream')) {
-                
-                $item = Streams::repository($stream)->newInstance($value);
+            // @todo eager loading
+            if (!$meta && $stream = $this->config('related')) {
+
+                $item = Streams::repository($stream)->find($item);
 
                 continue;
             }
