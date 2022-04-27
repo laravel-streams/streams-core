@@ -64,5 +64,5 @@ interface EntryInterface
      */
     public function save(array $options = []);
 
-    public function decorate(string $key): FieldDecorator;
+    public function decorate(string $key): mixed;
 }

@@ -74,13 +74,40 @@ class ArrayFieldType extends Field
 
     public function restore($value)
     {
-        foreach ($value as &$item) {
+        foreach ((array) $value as &$item) {
 
+            if (!is_array($item) && $stream = $this->config('related')) {
+                
+                $item = Streams::repository($stream)->find($item);
+
+                continue;
+            }
+            
             if (!is_array($item)) {
                 continue;
             }
 
             [$meta, $item] = $this->separateMeta($item);
+
+            if (!$meta && $stream = $this->config('stream')) {
+
+                // @todo gross
+                if (is_array($stream)) {
+                    $item = Streams::build($stream)->repository()->newInstance($item);
+                } else {
+                    $item = Streams::repository($stream)->newInstance($item);
+                }
+
+                continue;
+            }
+
+            // @todo eager loading
+            if (!$meta && $stream = $this->config('related')) {
+
+                $item = Streams::repository($stream)->find($item);
+
+                continue;
+            }
 
             if (isset($meta['@stream'])) {
 
