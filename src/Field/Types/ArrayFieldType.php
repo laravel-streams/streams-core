@@ -74,12 +74,17 @@ class ArrayFieldType extends Field
 
     public function restore($value)
     {
-        foreach ((array) $value as &$item) {
+        // @todo what is this.. should not be restoring null
+        if (is_null($value)) {
+            $value = [];
+        }
+        
+        foreach ($value as &$item) {
 
             if (!is_array($item) && $stream = $this->config('related')) {
                 
                 $item = Streams::repository($stream)->find($item);
-
+                
                 continue;
             }
             
