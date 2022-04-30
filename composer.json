@@ -28,9 +28,7 @@
         "ezyang/htmlpurifier": "~4.0",
         "tubalmartin/cssmin": "~4.0",
         "fzaninotto/faker": "~1.4",
-        "leafo/scssphp": "^0.8.4",
-        "pyrocms/accelerant-theme": "^1.2",
-        "pyrocms/starter-theme": "^1.0"
+        "leafo/scssphp": "^0.8.4"
     },
     "autoload": {
         "psr-4": {
