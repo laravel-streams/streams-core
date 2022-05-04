@@ -10,7 +10,6 @@ use Illuminate\Support\Collection;
 use Illuminate\Validation\Factory;
 use Illuminate\Support\Facades\App;
 use Streams\Core\Criteria\Criteria;
-use Streams\Core\Entry\EntrySchema;
 use Illuminate\Validation\Validator;
 use Streams\Core\Entry\EntryFactory;
 use Streams\Core\Stream\StreamCache;
@@ -134,18 +133,6 @@ class Stream implements
         $factory  = $this->config('factory', EntryFactory::class);
 
         return new $factory($this);
-    }
-
-    public function schema(): EntrySchema
-    {
-        return static::once($this->id . __METHOD__, fn () => $this->newSchema());
-    }
-
-    protected function newSchema(): EntrySchema
-    {
-        $schema  = $this->config('schema', EntrySchema::class);
-
-        return new $schema($this);
     }
 
     public function validator($data, $fresh = true): Validator

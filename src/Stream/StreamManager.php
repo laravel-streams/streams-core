@@ -7,9 +7,9 @@ use Streams\Core\Stream\Stream;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Streams\Core\Criteria\Criteria;
-use Streams\Core\Entry\EntrySchema;
 use Streams\Core\Entry\EntryFactory;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Traits\Macroable;
 use Streams\Core\Support\Traits\HasMemory;
 use Streams\Core\Support\Traits\FiresCallbacks;
 use Streams\Core\Repository\Contract\RepositoryInterface;
@@ -19,6 +19,7 @@ class StreamManager
 {
 
     use HasMemory;
+    use Macroable;
     use FiresCallbacks;
 
     protected Collection $collection;
@@ -131,13 +132,6 @@ class StreamManager
         return $this
             ->make($id)
             ->factory();
-    }
-
-    public function schema(string $id): EntrySchema
-    {
-        return $this
-            ->make($id)
-            ->schema();
     }
 
     public function collection(): Collection

@@ -29,8 +29,9 @@
             "handle": "config",
             "type": "object",
             "config": {
-                "properties": {
-                    "source": {
+                "properties": [
+                    {
+                        "handle": "source",
                         "type": "object",
                         "config": {
                             "properties": {
@@ -50,25 +51,29 @@
                             }
                         }
                     },
-                    "schema": {
+                    {
+                        "handle": "schema",
                         "type": "string",
                         "description": "The schema generation class to use."
                     },
-                    "criteria": {
+                    {
+                        "handle": "criteria",
                         "type": "string",
                         "description": "The entry criteria class to use.",
                         "config": {
                             "default": "Streams\\Core\\Criteria\\Criteria"
                         }
                     },
-                    "factory": {
+                    {
+                        "handle": "factory",
                         "type": "string",
                         "description": "The entry factory class to use.",
                         "config": {
                             "default": "Streams\\Core\\Entry\\EntryFactory"
                         }
                     },
-                    "repository": {
+                    {
+                        "handle": "repository",
                         "type": "string",
                         "description": "The repository class to use.",
                         "docs": "https://streams.dev/docs/core/repositories",
@@ -76,12 +81,12 @@
                             "default": "Streams\\Core\\Repository\\Repository"
                         }
                     }
-                }
+                ]
             }
         },
         {
             "handle": "routes",
-            "type": "object",
+            "type": "array",
             "config": {
                 "items": {
                     "view": {
