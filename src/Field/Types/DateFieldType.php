@@ -32,11 +32,6 @@ class DateFieldType extends DatetimeFieldType
         return DateDecorator::class;
     }
 
-    // public function getSchemaName()
-    // {
-    //     return DateSchema::class;
-    // }
-
     // public function generate()
     // {
     //     return $this->cast($this->generator()->date());

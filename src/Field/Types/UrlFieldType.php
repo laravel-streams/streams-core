@@ -3,7 +3,6 @@
 namespace Streams\Core\Field\Types;
 
 use Streams\Core\Field\Field;
-use Streams\Core\Field\Schema\UrlSchema;
 use Streams\Core\Field\Decorator\UrlDecorator;
 
 class UrlFieldType extends Field
@@ -19,11 +18,6 @@ class UrlFieldType extends Field
     {
         return UrlDecorator::class;
     }
-
-    // public function getSchemaName()
-    // {
-    //     return UrlSchema::class;
-    // }
 
     // public function generate()
     // {

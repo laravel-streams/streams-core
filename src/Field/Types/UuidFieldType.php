@@ -23,9 +23,4 @@ class UuidFieldType extends Field
     {
         return StringDecorator::class;
     }
-
-    // public function getSchemaName()
-    // {
-    //     return UuidSchema::class;
-    // }
 }

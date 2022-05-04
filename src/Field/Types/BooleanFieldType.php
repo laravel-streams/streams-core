@@ -3,7 +3,6 @@
 namespace Streams\Core\Field\Types;
 
 use Streams\Core\Field\Field;
-use Streams\Core\Field\Schema\BooleanSchema;
 use Streams\Core\Field\Decorator\BooleanDecorator;
 
 class BooleanFieldType extends Field
@@ -27,11 +26,6 @@ class BooleanFieldType extends Field
     {
         return BooleanDecorator::class;
     }
-
-    // public function getSchemaName()
-    // {
-    //     return BooleanSchema::class;
-    // }
 
     // public function generate()
     // {

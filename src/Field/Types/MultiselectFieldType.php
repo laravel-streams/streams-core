@@ -6,7 +6,6 @@ use Illuminate\Support\Str;
 use Streams\Core\Field\Field;
 use Illuminate\Support\Facades\App;
 use Streams\Core\Field\Decorator\MultiselectDecorator;
-use Streams\Core\Field\Schema\MultiselectSchema;
 
 class MultiselectFieldType extends Field
 {
@@ -56,11 +55,6 @@ class MultiselectFieldType extends Field
     {
         return MultiselectDecorator::class;
     }
-
-    // public function getSchemaName()
-    // {
-    //     return MultiselectSchema::class;
-    // }
 
     // public function generate()
     // {

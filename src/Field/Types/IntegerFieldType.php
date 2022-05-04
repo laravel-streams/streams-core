@@ -4,7 +4,6 @@ namespace Streams\Core\Field\Types;
 
 use Streams\Core\Field\Field;
 use Streams\Core\Field\Decorator\IntegerDecorator;
-use Streams\Core\Field\Schema\IntegerSchema;
 
 class IntegerFieldType extends Field
 {
@@ -47,11 +46,6 @@ class IntegerFieldType extends Field
     {
         return IntegerDecorator::class;
     }
-
-    // public function getSchemaName()
-    // {
-    //     return IntegerSchema::class;
-    // }
 
     // public function generate(): int
     // {

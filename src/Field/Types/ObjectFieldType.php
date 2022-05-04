@@ -8,7 +8,6 @@ use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Support\Facades\Hydrator;
 use Streams\Core\Support\Traits\Prototype;
 use Illuminate\Contracts\Support\Arrayable;
-use Streams\Core\Field\Schema\StructureSchema;
 use Streams\Core\Entry\Contract\EntryInterface;
 
 class ObjectFieldType extends Field
@@ -68,11 +67,6 @@ class ObjectFieldType extends Field
 
         return (object) $value;
     }
-
-    // public function getSchemaName()
-    // {
-    //     return StructureSchema::class;
-    // }
 
     // public function generate()
     // {

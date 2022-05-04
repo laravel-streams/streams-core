@@ -144,18 +144,6 @@ class Field implements
         return FieldDecorator::class;
     }
 
-    public function schema(): FieldSchema
-    {
-        $schema = $this->config('schema', $this->getSchemaName());
-
-        return new $schema($this);
-    }
-
-    protected function getSchemaName()
-    {
-        return FieldSchema::class;
-    }
-
     public function generate()
     {
         return $this->generator()->text();

@@ -24,11 +24,6 @@ class SelectFieldType extends Field
         return SelectDecorator::class;
     }
 
-    // public function getSchemaName()
-    // {
-    //     return SelectSchema::class;
-    // }
-
     public function rules()
     {
         return array_merge([

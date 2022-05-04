@@ -5,7 +5,6 @@ namespace Streams\Core\Field\Types;
 use Illuminate\Support\Str;
 use Streams\Core\Field\Field;
 use Illuminate\Support\Collection;
-use Streams\Core\Field\Schema\ArrSchema;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Support\Facades\Hydrator;
 use Illuminate\Contracts\Support\Arrayable;
@@ -140,11 +139,6 @@ class ArrayFieldType extends Field
     {
         return ArrayDecorator::class;
     }
-
-    // public function getSchemaName()
-    // {
-    //     return ArrSchema::class;
-    // }
 
     // public function generate()
     // {

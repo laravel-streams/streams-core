@@ -46,11 +46,6 @@ class DecimalFieldType extends Field
         return DecimalDecorator::class;
     }
 
-    // public function getSchemaName()
-    // {
-    //     return DecimalSchema::class;
-    // }
-
     // public function generate()
     // {
     //     return $this->cast($this->generator()->randomElement([

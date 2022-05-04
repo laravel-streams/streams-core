@@ -22,11 +22,6 @@ class HashFieldType extends Field
         return HashDecorator::class;
     }
 
-    // public function getSchemaName()
-    // {
-    //     return HashSchema::class;
-    // }
-
     // public function generate()
     // {
     //     return HashFacade::make($this->generator()->text(15, 50));
