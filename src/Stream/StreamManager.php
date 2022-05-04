@@ -7,7 +7,6 @@ use Streams\Core\Stream\Stream;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Streams\Core\Criteria\Criteria;
-use Streams\Core\Entry\EntryFactory;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Traits\Macroable;
 use Streams\Core\Support\Traits\HasMemory;
@@ -125,13 +124,6 @@ class StreamManager
         return $this
             ->make($id)
             ->repository();
-    }
-
-    public function factory(string $id): EntryFactory
-    {
-        return $this
-            ->make($id)
-            ->factory();
     }
 
     public function collection(): Collection

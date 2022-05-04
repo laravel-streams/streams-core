@@ -7,7 +7,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Streams\Core\Stream\Stream;
 use Illuminate\Support\Collection;
-use Streams\Core\Field\Factory\Factory;
 use Illuminate\Support\Traits\Macroable;
 use Streams\Core\Support\Facades\Streams;
 use Illuminate\Contracts\Support\Jsonable;
@@ -142,29 +141,6 @@ class Field implements
     public function getDecoratorName()
     {
         return FieldDecorator::class;
-    }
-
-    public function generate()
-    {
-        return $this->generator()->text();
-    }
-
-    public function generator()
-    {
-        // @todo app(this->config('generator))
-        return $this->once(__METHOD__, fn () => \Faker\Factory::create());
-    }
-
-    public function factory(): Factory
-    {
-        $factory = $this->config('factory', $this->getFactoryName());
-
-        return new $factory($this);
-    }
-
-    protected function getFactoryName()
-    {
-        return Factory::class;
     }
 
     public function rules()
