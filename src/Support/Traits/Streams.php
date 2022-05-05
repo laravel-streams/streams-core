@@ -2,6 +2,7 @@
 
 namespace Streams\Core\Support\Traits;
 
+use Illuminate\Support\Arr;
 use Streams\Core\Stream\Stream;
 use Illuminate\Support\Traits\ForwardsCalls;
 use Streams\Core\Field\FieldDecorator;
@@ -23,17 +24,17 @@ trait Streams
 
     public function __construct(array $attributes = [])
     {
-        $this->loadPrototypeProperties($attributes);
+        
+        //$this->loadPrototypeProperties($attributes);
 
-        $attributes = array_replace_recursive($this->getPrototypeAttributes(), $attributes);
+        //$this->syncPrototypePropertyAttributes();
+        $this->syncOriginalPrototypeAttributes($attributes);
+    
+        $this->syncOriginal();
+
+        $this->setPrototypeProperties($this->stream()->fields->toArray());
 
         $this->setPrototypeAttributes($attributes);
-
-        $this->__prototype['original'] = $this->__prototype['attributes'];
-
-        parent::__construct($attributes);
-
-        $this->syncOriginal();
     }
 
     public function fill(array $attributes)
@@ -45,11 +46,25 @@ trait Streams
         return;
     }
 
+    public function getOriginal($key = null, $default = null)
+    {
+        $original = $this->getOriginalPrototypeAttributes();
+
+        return $key ? Arr::get($original, $key, $default) : $original;
+    }
+
+    public function getAttribute($key)
+    {
+        return $this->getPrototypeAttribute($key);
+    }
+
     public function setAttribute($key, $value)
     {
         $this->setPrototypeAttribute($key, $value);
+        
+        parent::setAttribute($key, $value);
 
-        return parent::setAttribute($key, $value);
+        return $this;
     }
 
     public function hasAttribute($key)
@@ -87,19 +102,12 @@ trait Streams
 
     public function setRawAttributes(array $attributes, $sync = false)
     {
-        $this->attributes = $attributes;
-
-        if ($sync) {
-            $this->syncOriginal();
-        }
-
-        $this->classCastCache = [];
-        $this->attributeCastCache = [];
+        parent::setRawAttributes($attributes, $sync);
 
         $this->setRawPrototypeAttributes($attributes);
 
         if ($sync) {
-            $this->__prototype['original'] = $this->__prototype['attributes'];
+            $this->syncOriginalPrototypeAttributes($attributes);
         }
 
         return $this;
@@ -125,6 +133,11 @@ trait Streams
     {
         parent::__set($key, $value);
 
-        $this->setPrototypeAttributeValue($key, $value);
+        $this->setAttribute($key, $value);
+    }
+
+    public function __get($key)
+    {
+        return $this->getAttribute($key);
     }
 }

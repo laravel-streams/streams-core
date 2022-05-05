@@ -89,7 +89,7 @@ class StreamManager
 
         foreach ($attributes as $key => &$value) {
             
-            $original = $instance->getPrototypeAttributeFromArray($key);
+            $original = $instance->getPrototypeAttributeFromData($key);
 
             if (is_array($original)) {
                 $value = array_replace_recursive($original, $value);

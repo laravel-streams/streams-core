@@ -74,6 +74,13 @@ trait Prototype
 
     public function syncOriginalPrototypeAttributes(array $attributes)
     {
+        foreach ($this->getPrototypeProperties() as $key => $property) {
+
+            if (property_exists($this, $key)) {
+                $attributes[$key] = $this->{$key};
+            }
+        }
+        
         $this->__prototype['original'] = $attributes;
     }
 
@@ -152,7 +159,7 @@ trait Prototype
     {
         $allowed = $this->getPrototypeProperties();
         $attributes = $this->getPrototypeAttributes();
-
+        
         $this->setRawPrototypeAttributes(array_intersect_key($attributes, $allowed));
 
         return $this;

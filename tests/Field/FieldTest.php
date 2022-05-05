@@ -3,9 +3,8 @@
 namespace Streams\Core\Tests\Field;
 
 use Streams\Core\Field\Field;
-use Streams\Core\Field\FieldDecorator;
-use Streams\Core\Field\FieldSchema;
 use Streams\Core\Tests\CoreTestCase;
+use Streams\Core\Field\FieldDecorator;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Field\Decorator\IntegerDecorator;
 
@@ -101,13 +100,7 @@ class FieldTest extends CoreTestCase
         $this->assertInstanceOf(FieldDecorator::class, $field->decorate(null));
     }
 
-    public function test_it_returns_schema()
-    {
-        $field = Streams::make('films')->fields->get('episode_id');
-
-        $this->assertInstanceOf(FieldSchema::class, $field->schema());
-    }
-
+    
     public function test_it_detects_rules()
     {
         $field = Streams::make('films')->fields->get('episode_id');
