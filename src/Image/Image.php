@@ -604,7 +604,7 @@ class Image
             return $this->getImage();
         }
 
-        $path = $this->paths->outputPath($this);
+        $path = str_replace(' ', '+', $this->paths->outputPath($this));
 
         try {
             if ($this->shouldPublish($path)) {

@@ -366,6 +366,7 @@ class EloquentQueryBuilder extends Builder
                     array_diff(
                         $this->getConnection()->getSchemaBuilder()->getColumnListing($model->getTranslationTableName()),
                         [
+                            'id',
                             'entry_id',
                             'created_at',
                             'created_by_id',
