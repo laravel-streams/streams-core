@@ -12,7 +12,7 @@ class SlugFieldType extends Field
     public function rules()
     {
         return array_merge([
-            'regex' => '/^[a-z0-9]+([-_]?[a-z0-9]+)*$/i',
+            'regex' => '^[a-z0-9]+(?:[-_][a-z0-9]+)*$',
         ], parent::rules());
     }
 

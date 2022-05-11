@@ -144,10 +144,31 @@
                         "type": "select",
                         "required": true,
                         "config": {
-                            "options": [
-                                "string",
-                                "array"
-                            ],
+                            "options": {
+                                "number": "Number",
+                                "integer": "Integer",
+                                "decimal": "Decimal",
+                                "string": "String",
+                                "url": "Url",
+                                "uuid": "Uuid",
+                                "hash": "Hash",
+                                "slug": "Slug",
+                                "email": "Email",
+                                "encrypted": "Encrypted",
+                                "markdown": "Markdown",
+                                "boolean": "Boolean",
+                                "datetime": "Datetime",
+                                "date": "Date",
+                                "time": "Time",
+                                "array": "Array",
+                                "select": "Select",
+                                "multiselect": "Multiselect",
+                                "object": "Object",
+                                "image": "Image",
+                                "file": "File",
+                                "relationship": "Relationship",
+                                "color": "Color"
+                            },
                             "default": "string"
                         }
                     }
