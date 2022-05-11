@@ -7,7 +7,6 @@ use Streams\Core\Field\Decorator\MarkdownDecorator;
 
 class MarkdownFieldType extends Field
 {
-
     public function getDecoratorName()
     {
         return MarkdownDecorator::class;

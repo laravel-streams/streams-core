@@ -7,7 +7,7 @@ use Streams\Core\Field\FieldSchema;
 use Streams\Core\Support\Facades\Streams;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
 
-class StructureSchema extends FieldSchema
+class ObjectSchema extends FieldSchema
 {
 
     public function type(): Schema

@@ -1,6 +1,7 @@
 {
     "name": "Streams",
     "description": "The stream definition schema.",
+    "docs": "https://streams.dev/docs/core/streams",
     "config": {
         "source": {
             "path": "/streams",
@@ -54,7 +55,10 @@
                     {
                         "handle": "schema",
                         "type": "string",
-                        "description": "The schema generation class to use."
+                        "description": "The schema generation class to use.",
+                        "config": {
+                            "default": "Streams\\Core\\Stream\\StreamSchema"
+                        }
                     },
                     {
                         "handle": "criteria",
@@ -123,6 +127,29 @@
                     },
                     "constraints": {
                         "type": "array"
+                    }
+                }
+            }
+        },
+        {
+            "handle": "fields",
+            "type": "array",
+            "config": {
+                "items": {
+                    "handle": {
+                        "type": "slug",
+                        "required": true
+                    },
+                    "type": {
+                        "type": "select",
+                        "required": true,
+                        "config": {
+                            "options": [
+                                "string",
+                                "array"
+                            ],
+                            "default": "string"
+                        }
                     }
                 }
             }

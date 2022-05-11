@@ -4,7 +4,7 @@ namespace Streams\Core\Field\Schema;
 
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
 
-class HashSchema extends StrSchema
+class HashSchema extends StringSchema
 {
     public function type(): Schema
     {

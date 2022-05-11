@@ -2,6 +2,7 @@
 
 namespace Streams\Core\Stream;
 
+use GoldSpecDigital\ObjectOrientedOAS\Objects\ExternalDocs;
 use Streams\Core\Field\Field;
 use Streams\Core\Stream\Stream;
 use Streams\Core\Support\Traits\FiresCallbacks;
@@ -25,9 +26,16 @@ class StreamSchema
 
     public function tag(): Tag
     {
-        return Tag::create()
+        $schema = Tag::create()
             ->name(__($this->stream->name()))
             ->description(__($this->stream->description));
+            
+        if ($this->stream->docs) {
+            $schema = $schema->externalDocs(ExternalDocs::create($this->stream->id)
+                ->url($this->stream->docs));
+        }
+
+        return $schema;
     }
 
     public function object(): Schema

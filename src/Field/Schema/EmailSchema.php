@@ -4,7 +4,7 @@ namespace Streams\Core\Field\Schema;
 
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
 
-class EmailSchema extends StrSchema
+class EmailSchema extends StringSchema
 {
     public function type(): Schema
     {

@@ -4,7 +4,7 @@ namespace Streams\Core\Field\Schema;
 
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
 
-class EncryptedSchema extends StrSchema
+class EncryptedSchema extends StringSchema
 {
     public function type(): Schema
     {

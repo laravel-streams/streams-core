@@ -3,6 +3,7 @@
 namespace Streams\Core\Field\Types;
 
 use Carbon\Carbon;
+use Streams\Core\Field\Schema\TimeSchema;
 
 class TimeFieldType extends DatetimeFieldType
 {
@@ -20,4 +21,9 @@ class TimeFieldType extends DatetimeFieldType
     // {
     //     return $this->generator()->time();
     // }
+
+    public function getSchemaName()
+    {
+        return TimeSchema::class;
+    }
 }

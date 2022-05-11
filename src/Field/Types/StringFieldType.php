@@ -3,6 +3,7 @@
 namespace Streams\Core\Field\Types;
 
 use Streams\Core\Field\Field;
+use Streams\Core\Field\Schema\StringSchema;
 use Streams\Core\Field\Decorator\StringDecorator;
 
 class StringFieldType extends Field
@@ -26,6 +27,11 @@ class StringFieldType extends Field
     // {
     //     return $this->generator()->text();
     // }
+
+    public function getSchemaName()
+    {
+        return StringSchema::class;
+    }
 
     public function getDecoratorName()
     {

@@ -3,6 +3,7 @@
 namespace Streams\Core\Field\Types;
 
 use Streams\Core\Field\Field;
+use Streams\Core\Field\Schema\EmailSchema;
 use Streams\Core\Field\Decorator\EmailDecorator;
 
 class EmailFieldType extends Field
@@ -24,6 +25,11 @@ class EmailFieldType extends Field
     public function restore($value)
     {
         return $this->cast($value);
+    }
+
+    public function getSchemaName()
+    {
+        return EmailSchema::class;
     }
 
     public function getDecoratorName()

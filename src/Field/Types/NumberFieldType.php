@@ -4,6 +4,7 @@ namespace Streams\Core\Field\Types;
 
 use Streams\Core\Field\Field;
 use Streams\Core\Field\Decorator\NumberDecorator;
+use Streams\Core\Field\Schema\NumberSchema;
 
 class NumberFieldType extends Field
 {
@@ -43,6 +44,11 @@ class NumberFieldType extends Field
     public function restore($value)
     {
         return $this->cast($value);
+    }
+
+    public function getSchemaName()
+    {
+        return NumberSchema::class;
     }
 
     public function getDecoratorName()
