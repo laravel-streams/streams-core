@@ -124,6 +124,18 @@ class Field implements
         return $value;
     }
 
+    public function schema(): FieldSchema
+    {
+        $schema = $this->config('schema', $this->getSchemaName());
+
+        return new $schema($this);
+    }
+
+    protected function getSchemaName()
+    {
+        return FieldSchema::class;
+    }
+
     /**
      * Decorate the value.
      */

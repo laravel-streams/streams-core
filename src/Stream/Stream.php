@@ -110,6 +110,18 @@ class Stream implements
             ->newCriteria();
     }
 
+    public function schema(): StreamSchema
+    {
+        return static::once($this->id . __METHOD__, fn () => $this->newSchema());
+    }
+
+    protected function newSchema(): StreamSchema
+    {
+        $schema  = $this->config('schema', StreamSchema::class);
+
+        return new $schema($this);
+    }
+
     public function repository(): Repository
     {
         return static::once($this->id . __METHOD__, fn () => $this->newRepository());
@@ -219,7 +231,7 @@ class Stream implements
     public function onInitializing($callbackData)
     {
         $attributes = $callbackData->get('attributes');
-        
+
         $attributes = Arr::undot($attributes);
 
         $this->extendInput($attributes);

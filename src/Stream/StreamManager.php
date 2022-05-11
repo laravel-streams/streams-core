@@ -126,6 +126,13 @@ class StreamManager
             ->repository();
     }
 
+    public function schema(string $id): StreamSchema
+    {
+        return $this
+            ->make($id)
+            ->schema();
+    }
+
     public function collection(): Collection
     {
         return $this->collection;
