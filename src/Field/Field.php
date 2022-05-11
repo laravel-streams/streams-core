@@ -136,9 +136,6 @@ class Field implements
         return FieldSchema::class;
     }
 
-    /**
-     * Decorate the value.
-     */
     public function decorate($value)
     {
         $name = $this->config('decorator', $this->getDecoratorName());

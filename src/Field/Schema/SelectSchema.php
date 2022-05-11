@@ -1,6 +1,6 @@
 <?php
 
-namespace Streams\Core\Schema\Types;
+namespace Streams\Core\Field\Schema;
 
 use Streams\Core\Field\FieldSchema;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;

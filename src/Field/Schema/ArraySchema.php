@@ -1,26 +1,26 @@
 <?php
 
-namespace Streams\Core\Schema\Types;
+namespace Streams\Core\Field\Schema;
 
 use Illuminate\Support\Collection;
 use Streams\Core\Field\FieldSchema;
 use Streams\Core\Support\Facades\Streams;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
 
-class StructureSchema extends FieldSchema
+class ArraySchema extends FieldSchema
 {
 
     public function type(): Schema
     {
-        $schema = Schema::object($this->field->handle);
+        $schema = Schema::array($this->field->handle);
 
-        if ($items = $this->field->config('properties')) {
+        if ($items = $this->field->config('items')) {
             
             $items = Streams::build([
                 'fields' => $items
             ]);
 
-            $schema = $schema->properties(...$items->schema()->properties());
+            $schema = $schema->items($items->schema()->object());
         }
 
         return $schema;
@@ -39,5 +39,10 @@ class StructureSchema extends FieldSchema
         }
 
         $data->put('schema', $schema);
+    }
+
+    public function getSchemaName()
+    {
+        return ArraySchema::class;
     }
 }

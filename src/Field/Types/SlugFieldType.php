@@ -4,6 +4,7 @@ namespace Streams\Core\Field\Types;
 
 use Illuminate\Support\Str;
 use Streams\Core\Field\Field;
+use Streams\Core\Field\Schema\StringSchema;
 use Streams\Core\Field\Decorator\StringDecorator;
 
 class SlugFieldType extends Field
@@ -25,6 +26,11 @@ class SlugFieldType extends Field
     public function getDecoratorName()
     {
         return StringDecorator::class;
+    }
+
+    public function getSchemaName()
+    {
+        return StringSchema::class;
     }
 
     // public function generate()

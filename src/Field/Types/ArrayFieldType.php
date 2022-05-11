@@ -6,6 +6,7 @@ use Illuminate\Support\Str;
 use Streams\Core\Field\Field;
 use Illuminate\Support\Collection;
 use Streams\Core\Support\Facades\Streams;
+use Streams\Core\Field\Schema\ArraySchema;
 use Streams\Core\Support\Facades\Hydrator;
 use Illuminate\Contracts\Support\Arrayable;
 use Streams\Core\Entry\Contract\EntryInterface;
@@ -133,6 +134,11 @@ class ArrayFieldType extends Field
         }
         
         return $value;
+    }
+
+    public function getSchemaName()
+    {
+        return ArraySchema::class;
     }
 
     public function getDecoratorName()
