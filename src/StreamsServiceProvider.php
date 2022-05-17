@@ -128,7 +128,7 @@ class StreamsServiceProvider extends ServiceProvider
         } else {
             $path = base_path('vendor');
         }
-        $this->app[ 'vendor.path' ] = $path;
+        $this->app->instance('vendor.path', $path);
     }
 
     protected function registerApplications(): void
