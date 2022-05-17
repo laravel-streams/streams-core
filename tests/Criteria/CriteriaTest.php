@@ -72,7 +72,7 @@ class CriteriaTest extends CoreTestCase
         $this->assertEquals(10, $count);
     }
 
-    public function test_can_flush_cache()
+    public function test_it_can_flush_cache()
     {
         $entries = Streams::entries('films')->cache()->get();
         $count = Streams::entries('films')->cache()->count();
@@ -80,7 +80,7 @@ class CriteriaTest extends CoreTestCase
         $this->assertEquals(7, $entries->count());
         $this->assertEquals(7, $count);
 
-        $result = Streams::repository('films')->create($this->filmData());
+        Streams::repository('films')->create($this->filmData());
 
         $entries = Streams::entries('films')->cache()->get();
         
@@ -241,7 +241,7 @@ class CriteriaTest extends CoreTestCase
         $this->assertEquals(0, Streams::entries('films')->count());
     }
 
-    public function test_can_chunk_results()
+    public function test_it_can_chunk_results()
     {
         Streams::entries('films')->orderBy('episode_id', 'ASC')->chunk(1, function ($entries) {
             $entries->each(function ($entry) {

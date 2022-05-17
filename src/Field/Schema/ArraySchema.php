@@ -41,6 +41,17 @@ class ArraySchema extends FieldSchema
         $data->put('schema', $schema);
     }
 
+    public function unique(Collection $data): void
+    {
+        $schema = $data->get('schema');
+
+        if ($this->field->hasRule('unique')) {
+            $schema = $schema->uniqueItems(true);
+        }
+
+        $data->put('schema', $schema);
+    }
+
     public function getSchemaName()
     {
         return ArraySchema::class;

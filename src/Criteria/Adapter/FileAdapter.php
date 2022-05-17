@@ -137,7 +137,7 @@ class FileAdapter extends AbstractAdapter
 
         if (!file_exists($file)) {
 
-            $this->data = [];
+            $this->data = $this->original = [];
 
             return;
         }

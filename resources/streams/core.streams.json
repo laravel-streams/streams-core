@@ -94,8 +94,7 @@
             "config": {
                 "items": {
                     "view": {
-                        "type": "string",
-                        "required": true
+                        "type": "string"
                     },
                     "uses": {
                         "type": "string",
@@ -134,6 +133,9 @@
         {
             "handle": "fields",
             "type": "array",
+            "rules": [
+                "unique"
+            ],
             "config": {
                 "items": {
                     "handle": {

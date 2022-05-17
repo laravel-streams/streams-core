@@ -2,6 +2,7 @@
 
 namespace Streams\Core\Field;
 
+use Illuminate\Support\Arr;
 use Streams\Core\Field\Field;
 use Illuminate\Support\Collection;
 use Streams\Core\Support\Workflow;
@@ -9,7 +10,6 @@ use Illuminate\Support\Traits\Macroable;
 use Streams\Core\Support\Traits\FiresCallbacks;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\ExternalDocs;
-use Illuminate\Support\Arr;
 
 /**
  * This class helps produce JSON schema
@@ -40,12 +40,13 @@ class FieldSchema
             'start' => [$this, 'start'],
             'info' => [$this, 'info'],
             'limit' => [$this, 'limit'],
+            'unique' => [$this, 'unique'],
             'pattern' => [$this, 'pattern'],
             'default' => [$this, 'default'],
             'validation' => [$this, 'validation'],
         ]);
-        
-        $this->fire('property.workflow',compact('workflow'));
+
+        $this->fire('property.workflow', compact('workflow'));
 
         $workflow
             ->passThrough($this)
@@ -101,7 +102,7 @@ class FieldSchema
         if ($pattern = $this->field->hasRule('regex')) {
             $schema = $schema->pattern($pattern);
         }
-        
+
         if ($pattern = Arr::get($this->field->rules(), 'regex')) {
             $schema = $schema->pattern($pattern);
         }
@@ -116,6 +117,13 @@ class FieldSchema
         if (!is_null($default = $this->field->config('default'))) {
             $schema = $schema->default($this->field->default($default));
         }
+
+        $data->put('schema', $schema);
+    }
+
+    public function unique(Collection $data): void
+    {
+        $schema = $data->get('schema');
 
         $data->put('schema', $schema);
     }
