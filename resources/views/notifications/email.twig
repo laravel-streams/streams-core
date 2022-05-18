@@ -136,7 +136,7 @@
                                                 {% block salutation %}
                                                     <!-- Salutation -->
                                                     <p style="{{ style['paragraph'] }}">
-                                                        {{ salutation ?:'Regards' }},<br>{{ config('app.name') }}
+                                                        {{ trans('visiosoft.module.notifications::field.regards') }},<br>{{ config('app.name') }}
                                                     </p>
                                                 {% endblock %}
 
