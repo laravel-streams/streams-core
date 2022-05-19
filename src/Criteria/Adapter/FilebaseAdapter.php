@@ -66,10 +66,6 @@ class FilebaseAdapter extends AbstractAdapter
 
         $operator = strtoupper($operator);
 
-        if ($operator == '<>') {
-            $operator = '!=';
-        }
-
         if ($field == 'id') {
             $field = '__id';
         }
@@ -78,10 +74,6 @@ class FilebaseAdapter extends AbstractAdapter
 
         if (is_string($value) && $operator == 'LIKE') {
             $value = str_replace('%', '', $value); // Filebase doesn't use "%"
-        }
-
-        if (in_array($value, ["true", "false"])) {
-            $value = filter_var($value, FILTER_VALIDATE_BOOL);
         }
 
         $this->query = $this->query->{$method}($field, $operator, $value);
