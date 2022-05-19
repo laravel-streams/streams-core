@@ -83,7 +83,7 @@ class CriteriaTest extends CoreTestCase
         Streams::repository('films')->create($this->filmData());
 
         $entries = Streams::entries('films')->cache()->get();
-        
+
         $this->assertEquals(8, $entries->count());
     }
 
@@ -243,17 +243,22 @@ class CriteriaTest extends CoreTestCase
 
     public function test_it_can_chunk_results()
     {
-        Streams::entries('films')->orderBy('episode_id', 'ASC')->chunk(1, function ($entries) {
-            $entries->each(function ($entry) {
-                echo $entry->title;
+        Streams::entries('films')
+            ->orderBy('episode_id', 'ASC')
+            ->chunk(1, function ($entries) {
+                $entries->each(function ($entry) {
+                    echo $entry->title;
+                });
             });
-        });
 
         $expected = '';
 
-        Streams::entries('films')->orderBy('episode_id', 'ASC')->get()->each(function($film) use (&$expected) {
-            $expected .= $film->title;
-        });
+        Streams::entries('films')
+            ->orderBy('episode_id', 'ASC')
+            ->get()
+            ->each(function ($film) use (&$expected) {
+                $expected .= $film->title;
+            });
 
         $this->expectOutputString($expected);
     }
@@ -290,8 +295,6 @@ class CriteriaTest extends CoreTestCase
         $stream = Streams::overload('films', [
             'config' => [
                 'source' => [
-
-                    // @todo Should this be moved up into config?
                     'adapter' => CustomExamplesAdapter::class,
                 ],
             ],
@@ -304,12 +307,12 @@ class CriteriaTest extends CoreTestCase
 
     public function test_it_supports_macros()
     {
-        Streams::entries('films')->macro('testMacro', function() {
+        Streams::entries('films')->macro('testMacro', function () {
             return $this->orderBy('title', 'DESC')->first();
         });
 
         $entry = Streams::entries('films')->testMacro();
-        
+
         $this->assertEquals('The Phantom Menace', $entry->title);
     }
 

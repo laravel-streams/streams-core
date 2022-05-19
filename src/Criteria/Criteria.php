@@ -161,6 +161,8 @@ class Criteria
             // we will call the callback with the current chunk of these results here.
             $results = $this->limit($count, ($page - 1) * $count)->get();
 
+            Arr::pull($this->parameters, 'limit');
+
             $countResults = $results->count();
 
             if ($countResults == 0) {
@@ -173,8 +175,6 @@ class Criteria
             if ($callback($results, $page) === false) {
                 return false;
             }
-
-            unset($results);
 
             $page++;
         } while ($countResults == $count);
