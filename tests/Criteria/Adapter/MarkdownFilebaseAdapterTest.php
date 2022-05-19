@@ -13,7 +13,7 @@ class MarkdownFilebaseAdapterTest extends CriteriaTest
     {
         parent::setUp();
 
-        Streams::extend('films', [
+        $stream = Streams::extend('films', [
             'config' => [
                 'source' => [
                     'format' => 'md',

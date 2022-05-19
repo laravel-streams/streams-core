@@ -85,20 +85,11 @@ class StreamManager
 
     public function overload(string $id, array $attributes): Stream
     {
-        $instance = clone $this->make($id);
+        $original = $this->make($id)->getOriginalPrototypeAttributes();
 
-        foreach ($attributes as $key => &$value) {
-            
-            $original = $instance->getPrototypeAttributeFromData($key);
-
-            if (is_array($original)) {
-                $value = array_replace_recursive($original, $value);
-            }
-        }
+        $attributes = array_replace_recursive($original, $attributes);
         
-        $instance->loadPrototypeAttributes($attributes);
-        
-        return $instance;
+        return $this->build($attributes);
     }
 
     public function load(string $file): Stream
