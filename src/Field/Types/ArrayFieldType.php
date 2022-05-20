@@ -47,6 +47,10 @@ class ArrayFieldType extends Field
 
     public function modify($value)
     {
+        if (!is_array($value)) {
+            $value = $this->cast($value);
+        }
+
         foreach ($value as &$item) {
 
             if (is_object($item) && $item instanceof EntryInterface) {

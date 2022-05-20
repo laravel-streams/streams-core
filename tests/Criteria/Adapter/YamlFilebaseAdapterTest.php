@@ -4,9 +4,9 @@ namespace Streams\Core\Tests\Criteria\Adapter;
 
 use Illuminate\Support\Facades\File;
 use Streams\Core\Support\Facades\Streams;
-use Streams\Core\Tests\Criteria\CriteriaTest;
+use Streams\Core\Tests\Criteria\FilebaseCriteriaTest;
 
-class YamlFilebaseAdapterTest extends CriteriaTest
+class YamlFilebaseAdapterTest extends FilebaseCriteriaTest
 {
     
     protected function setUp():void

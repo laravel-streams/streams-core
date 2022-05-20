@@ -212,7 +212,7 @@ class CriteriaTest extends CoreTestCase
         $this->assertEquals(8, Streams::entries('films')->count());
     }
 
-    public function test_is_saves_entries()
+    public function test_it_saves_entries()
     {
         $entry = Streams::entries('films')->first();
 
@@ -327,6 +327,8 @@ class CriteriaTest extends CoreTestCase
     {
         return [
             'title' => 'Star Wars: The Last Jedi',
+            'created' => now(),
+            'edited' => now(),
             'director' => 'Rian Johnson',
             'producer' => 'Kathleen Kennedy, Ram Bergman, J. J. Abrams',
             'release_date' => '2017-12-15',
@@ -336,8 +338,9 @@ Only General Leia Organa\'s band of RESISTANCE fighters stand against the rising
 
 "But the Resistance has been exposed. As the First Order speeds toward the rebel base, the brave heroes mount a desperate escape....',
             'characters' => [1, 5],
-            'planets' => [],
             'starships' => [9],
+            'vehicles' => [],
+            'planets' => [],
             'species' => [1],
         ];
     }
