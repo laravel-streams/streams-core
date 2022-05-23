@@ -240,12 +240,10 @@ class StreamsServiceProvider extends ServiceProvider
         $composer = json_decode(file_get_contents(base_path('composer.json')), true);
         $lock = json_decode(file_get_contents(base_path('composer.lock')), true);
 
-        if ($directory = Arr::get($composer, 'config.vendor-dir')) {
-            $directory = base_path($directory);
-        }
-        
-        if (!$directory) {
-            $directory = base_path('vendor');
+        $directory = base_path('vendor');
+
+        if ($configured = Arr::get($composer, 'config.vendor-dir')) {
+            $directory = base_path($configured);
         }
 
         $addons = array_filter(
