@@ -29,11 +29,12 @@ class StreamSchema
         $schema = Tag::create()
             ->name(__($this->stream->name()))
             ->description(__($this->stream->description));
-            
-        if ($this->stream->docs) {
-            $schema = $schema->externalDocs(ExternalDocs::create($this->stream->id)
-                ->url($this->stream->docs));
-        }
+           
+        // @todo doc/determine
+        // if ($this->stream->docs) {
+        //     $schema = $schema->externalDocs(ExternalDocs::create($this->stream->id)
+        //         ->url($this->stream->docs));
+        // }
 
         return $schema;
     }
@@ -50,7 +51,6 @@ class StreamSchema
 
         $required = array_keys(array_intersect_key($properties, array_flip($required)));
 
-        // @todo figure out why some property values are null
         return Schema::object($this->stream->id)
             ->properties(...$properties)
             ->required(...$required);

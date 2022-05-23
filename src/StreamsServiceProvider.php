@@ -299,33 +299,6 @@ class StreamsServiceProvider extends ServiceProvider
                 $view->setPath(base_path($override));
             }
         });
-
-        Blade::directive('lsCache', function ($expression) {
-
-            $parameters = eval("return [$expression];");
-
-            $view    = array_shift($parameters);
-            $ttl     = array_shift($parameters);
-            $payload = array_shift($parameters) ?: [];
-
-            return Cache::remember('blade_directive.' . $view, $ttl, function () use ($view, $payload) {
-                return (string)View::make($view, $payload);
-            });
-        });
-
-        Blade::directive('lsBindCache', function ($expression) {
-
-            $parameters = eval("return [$expression];");
-
-            $stream  = array_shift($parameters);
-            $view    = array_shift($parameters);
-            $ttl     = array_shift($parameters);
-            $payload = array_shift($parameters) ?: [];
-
-            return Streams::make($stream)->cache('blade_directive.' . $view, $ttl, function () use ($view, $payload) {
-                return (string)View::make($view, $payload);
-            });
-        });
     }
 
     protected function registerMacros(): void

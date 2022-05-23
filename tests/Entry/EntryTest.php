@@ -3,6 +3,7 @@
 namespace Streams\Core\Tests\Entry;
 
 use Carbon\Carbon;
+use Illuminate\Validation\Validator;
 use Streams\Core\Entry\Entry;
 use Streams\Core\Stream\Stream;
 use Streams\Core\Tests\CoreTestCase;
@@ -33,6 +34,17 @@ class EntryTest extends CoreTestCase
         $entry = Streams::entries('films')->first();
 
         $this->assertInstanceOf(Stream::class, $entry->stream());
+
+        $entry = new Entry(['stream' => 'films']);
+
+        $this->assertInstanceOf(Stream::class, $entry->stream());
+    }
+
+    public function test_it_returns_its_validator()
+    {
+        $entry = Streams::entries('films')->first();
+
+        $this->assertInstanceOf(Validator::class, $entry->validator());
     }
 
     public function test_it_removes_non_defined_attributes()

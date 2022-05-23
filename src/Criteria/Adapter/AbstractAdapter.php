@@ -58,7 +58,11 @@ abstract class AbstractAdapter implements AdapterInterface
             ->newCollection();
 
         array_map(function ($entry) use ($collection) {
-            $entry = $this->make($entry);
+            try {
+                $entry = $this->make($entry);
+            } catch (\Throwable ) {
+                $entry = $this->make($entry);
+            }
             // @todo this is where all entries get stream info.
             // Maybe we do like __stream to prevent collision 
             //$entry->stream = $this->stream;

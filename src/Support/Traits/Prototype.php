@@ -88,8 +88,6 @@ trait Prototype
     {
         $reflection = new \ReflectionClass($this);
 
-        $test = $reflection->getProperties(\ReflectionProperty::IS_STATIC);
-
         $properties = array_diff(
             $reflection->getProperties(\ReflectionProperty::IS_PUBLIC),
             $reflection->getProperties(\ReflectionProperty::IS_STATIC)

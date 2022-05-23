@@ -19,7 +19,8 @@
         "laravel/framework": "^8.0|^9.0",
         "symfony/yaml": "^3.0|^4.0|^5.0",
         "nicmart/string-template": "^0.1",
-        "laravelcollective/html": "^6.1"
+        "laravelcollective/html": "^6.1",
+        "goldspecdigital/oooas": "^2.8"
     },
     "require-dev": {
         "streams/testing": "^1.0",

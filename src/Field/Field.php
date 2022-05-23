@@ -58,18 +58,10 @@ class Field implements
 
         $stream = Arr::get($attributes, 'stream');
 
-        if ($stream && is_string($stream)) {
-            $stream = Streams::make($stream);
-        }
-
-        if ($stream && is_array($stream)) {
-            $stream = new Stream($stream);
-        }
-
         if ($stream && $stream instanceof Stream) {
             $this->stream = $stream;
         }
-
+        
         $this->fire('initializing', [
             'callbackData' => $callbackData,
         ]);
@@ -126,12 +118,12 @@ class Field implements
 
     public function schema(): FieldSchema
     {
-        $schema = $this->config('schema', $this->getSchemaName());
+        $schema = $this->config('schema') ?: $this->getSchemaName();
 
         return new $schema($this);
     }
 
-    protected function getSchemaName()
+    public function getSchemaName()
     {
         return FieldSchema::class;
     }
