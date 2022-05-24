@@ -232,8 +232,6 @@ class Stream implements
     {
         $attributes = $callbackData->get('attributes');
 
-        $attributes = Arr::undot($attributes);
-
         $this->extendInput($attributes);
         $this->importInput($attributes);
         $this->normalizeInput($attributes);
@@ -325,21 +323,6 @@ class Stream implements
 
             return $rules;
         }, Arr::get($attributes, 'rules', []));
-    }
-
-    public function adjustInput(&$attributes)
-    {
-
-        // Push to config
-        // @todo remove this at some point ^_^
-        Arr::set($attributes, 'config.source', Arr::get($attributes, 'config.source', Arr::pull($attributes, 'source', [])));
-        if ($source = Arr::pull($attributes, 'source')) {
-            Arr::set($attributes, 'config.source', $source);
-        }
-
-        if ($abstract = Arr::pull($attributes, 'abstract')) {
-            Arr::set($attributes, 'config.abstract', $abstract);
-        }
     }
 
     public function fieldsInput()
