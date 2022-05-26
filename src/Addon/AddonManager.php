@@ -202,7 +202,10 @@ class AddonManager
         }
 
         // Sort all addons.
-        $this->addons = $this->addons->sort();
+        /**
+         * Commented because of the sort problem of modules
+         */
+        // $this->addons = $this->addons->sort();
 
         /*
          * Disperse addons to their
