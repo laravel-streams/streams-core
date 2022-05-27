@@ -1,6 +1,7 @@
 {
     "name": "Streams",
     "description": "The stream definition schema.",
+    "docs": "https://streams.dev/docs/core/streams",
     "config": {
         "source": {
             "path": "/streams",
@@ -29,8 +30,9 @@
             "handle": "config",
             "type": "object",
             "config": {
-                "properties": {
-                    "source": {
+                "properties": [
+                    {
+                        "handle": "source",
                         "type": "object",
                         "config": {
                             "properties": {
@@ -50,25 +52,32 @@
                             }
                         }
                     },
-                    "schema": {
+                    {
+                        "handle": "schema",
                         "type": "string",
-                        "description": "The schema generation class to use."
+                        "description": "The schema generation class to use.",
+                        "config": {
+                            "default": "Streams\\Core\\Stream\\StreamSchema"
+                        }
                     },
-                    "criteria": {
+                    {
+                        "handle": "criteria",
                         "type": "string",
                         "description": "The entry criteria class to use.",
                         "config": {
                             "default": "Streams\\Core\\Criteria\\Criteria"
                         }
                     },
-                    "factory": {
+                    {
+                        "handle": "factory",
                         "type": "string",
                         "description": "The entry factory class to use.",
                         "config": {
                             "default": "Streams\\Core\\Entry\\EntryFactory"
                         }
                     },
-                    "repository": {
+                    {
+                        "handle": "repository",
                         "type": "string",
                         "description": "The repository class to use.",
                         "docs": "https://streams.dev/docs/core/repositories",
@@ -76,17 +85,16 @@
                             "default": "Streams\\Core\\Repository\\Repository"
                         }
                     }
-                }
+                ]
             }
         },
         {
             "handle": "routes",
-            "type": "object",
+            "type": "array",
             "config": {
                 "items": {
                     "view": {
-                        "type": "string",
-                        "required": true
+                        "type": "string"
                     },
                     "uses": {
                         "type": "string",
@@ -118,6 +126,53 @@
                     },
                     "constraints": {
                         "type": "array"
+                    }
+                }
+            }
+        },
+        {
+            "handle": "fields",
+            "type": "array",
+            "rules": [
+                "unique"
+            ],
+            "config": {
+                "items": {
+                    "handle": {
+                        "type": "slug",
+                        "required": true
+                    },
+                    "type": {
+                        "type": "select",
+                        "required": true,
+                        "config": {
+                            "options": {
+                                "number": "Number",
+                                "integer": "Integer",
+                                "decimal": "Decimal",
+                                "string": "String",
+                                "url": "Url",
+                                "uuid": "Uuid",
+                                "hash": "Hash",
+                                "slug": "Slug",
+                                "email": "Email",
+                                "encrypted": "Encrypted",
+                                "markdown": "Markdown",
+                                "boolean": "Boolean",
+                                "datetime": "Datetime",
+                                "date": "Date",
+                                "time": "Time",
+                                "array": "Array",
+                                "select": "Select",
+                                "multiselect": "Multiselect",
+                                "object": "Object",
+                                "image": "Image",
+                                "file": "File",
+                                "relationship": "Relationship",
+                                "color": "Color"
+                            },
+                            "default": "string"
+                        }
                     }
                 }
             }

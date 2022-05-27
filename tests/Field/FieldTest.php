@@ -3,11 +3,12 @@
 namespace Streams\Core\Tests\Field;
 
 use Streams\Core\Field\Field;
-use Streams\Core\Field\FieldDecorator;
-use Streams\Core\Field\FieldSchema;
 use Streams\Core\Tests\CoreTestCase;
+use Streams\Core\Field\FieldDecorator;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Field\Decorator\IntegerDecorator;
+use Streams\Core\Field\FieldSchema;
+use Streams\Core\Stream\Stream;
 
 class FieldTest extends CoreTestCase
 {
@@ -63,9 +64,9 @@ class FieldTest extends CoreTestCase
 
     public function test_it_casts_values()
     {
-        $field = Streams::make('films')->fields->get('episode_id');
+        $field = new Field();
 
-        $this->assertSame(8, $field->cast('8'));
+        $this->assertSame('Hello World', $field->cast('Hello World'));
     }
 
     public function test_it_modifies_values()
@@ -106,6 +107,17 @@ class FieldTest extends CoreTestCase
         $field = Streams::make('films')->fields->get('episode_id');
 
         $this->assertInstanceOf(FieldSchema::class, $field->schema());
+
+        $field = new Field();
+
+        $this->assertSame(FieldSchema::class, $field->getSchemaName());
+    }
+
+    public function test_it_returns_rules()
+    {
+        $field = Streams::make('films')->fields->get('episode_id');
+
+        $this->assertSame(['required', 'unique'], $field->rules());
     }
 
     public function test_it_detects_rules()

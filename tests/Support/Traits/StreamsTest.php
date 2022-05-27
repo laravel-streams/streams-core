@@ -162,23 +162,23 @@ class StreamsTest extends CoreTestCase
 
         $entry->setRawAttributes($this->filmData());
 
-        $this->assertSame([
-            'title' => 'Test Title',
-        ], $entry->getOriginal());
+        $this->assertSame(['title' => 'Test Title'], $entry->getOriginal());
+        
+        $this->assertSame($this->filmData(), $entry->getAttributes());
     }
     
-    public function test_it_trims_strict_attributes()
-    {
-        $entry = new EloquentModel($this->filmData());
+    // public function test_it_trims_strict_attributes()
+    // {
+    //     $entry = new EloquentModel($this->filmData());
 
-        $entry->stream = 'films';
+    //     $entry->stream = 'films';
 
-        $entry->foo = 'Bar';
+    //     $entry->foo = 'Bar';
 
-        $this->assertSame($this->filmData(), $entry->strict());
-    }
+    //     $this->assertSame($this->filmData(), $entry->strict());
+    // }
     
-    public function test_it_returns_last_modified()
+    public function test_it_returns_dates()
     {
         $entry = new EloquentModel($this->filmData());
 

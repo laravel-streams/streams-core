@@ -5,8 +5,8 @@ namespace Streams\Core\Field\Types;
 use Illuminate\Support\Str;
 use Streams\Core\Field\Field;
 use Illuminate\Support\Facades\App;
-use Streams\Core\Field\Decorator\MultiselectDecorator;
 use Streams\Core\Field\Schema\MultiselectSchema;
+use Streams\Core\Field\Decorator\MultiselectDecorator;
 
 class MultiselectFieldType extends Field
 {
@@ -52,15 +52,15 @@ class MultiselectFieldType extends Field
         return (array) $value;
     }
 
+    public function getSchemaName()
+    {
+        return MultiselectSchema::class;
+    }
+
     public function getDecoratorName()
     {
         return MultiselectDecorator::class;
     }
-
-    // public function getSchemaName()
-    // {
-    //     return MultiselectSchema::class;
-    // }
 
     // public function generate()
     // {

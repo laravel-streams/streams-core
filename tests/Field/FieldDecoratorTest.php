@@ -17,5 +17,12 @@ class FieldDecoratorTest extends CoreTestCase
 
         $this->assertSame('bar', $field->decorate('100')->getField()->foo);
         $this->assertSame(100, $field->decorate(100)->getValue());
-    }    
+    }
+
+    public function test_it_supports_to_string()
+    {
+        $field = new IntegerFieldType();
+
+        $this->assertSame('100', (string) $field->decorate(100));
+    }
 }

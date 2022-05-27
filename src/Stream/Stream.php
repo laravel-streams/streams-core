@@ -10,9 +10,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Validation\Factory;
 use Illuminate\Support\Facades\App;
 use Streams\Core\Criteria\Criteria;
-use Streams\Core\Entry\EntrySchema;
 use Illuminate\Validation\Validator;
-use Streams\Core\Entry\EntryFactory;
 use Streams\Core\Stream\StreamCache;
 use Illuminate\Support\Facades\Config;
 use Streams\Core\Field\FieldCollection;
@@ -112,6 +110,18 @@ class Stream implements
             ->newCriteria();
     }
 
+    public function schema(): StreamSchema
+    {
+        return static::once($this->id . __METHOD__, fn () => $this->newSchema());
+    }
+
+    protected function newSchema(): StreamSchema
+    {
+        $schema  = $this->config('schema', StreamSchema::class);
+
+        return new $schema($this);
+    }
+
     public function repository(): Repository
     {
         return static::once($this->id . __METHOD__, fn () => $this->newRepository());
@@ -122,30 +132,6 @@ class Stream implements
         $repository  = $this->config('repository', Repository::class);
 
         return new $repository($this);
-    }
-
-    public function factory(): EntryFactory
-    {
-        return static::once($this->id . __METHOD__, fn () => $this->newFactory());
-    }
-
-    protected function newFactory(): EntryFactory
-    {
-        $factory  = $this->config('factory', EntryFactory::class);
-
-        return new $factory($this);
-    }
-
-    public function schema(): EntrySchema
-    {
-        return static::once($this->id . __METHOD__, fn () => $this->newSchema());
-    }
-
-    protected function newSchema(): EntrySchema
-    {
-        $schema  = $this->config('schema', EntrySchema::class);
-
-        return new $schema($this);
     }
 
     public function validator($data, $fresh = true): Validator
@@ -193,9 +179,6 @@ class Stream implements
                     $rule = 'unique:' . implode(',', $parameters);
                 }
 
-                /**
-                 * Instantiate custom rules.
-                 */
                 if (strpos($rule, '\\')) {
                     $rule = new $rule;
                 }
@@ -245,8 +228,6 @@ class Stream implements
     public function onInitializing($callbackData)
     {
         $attributes = $callbackData->get('attributes');
-        
-        $attributes = Arr::undot($attributes);
 
         $this->extendInput($attributes);
         $this->importInput($attributes);
@@ -341,21 +322,6 @@ class Stream implements
         }, Arr::get($attributes, 'rules', []));
     }
 
-    public function adjustInput(&$attributes)
-    {
-
-        // Push to config
-        // @todo remove this at some point ^_^
-        Arr::set($attributes, 'config.source', Arr::get($attributes, 'config.source', Arr::pull($attributes, 'source', [])));
-        if ($source = Arr::pull($attributes, 'source')) {
-            Arr::set($attributes, 'config.source', $source);
-        }
-
-        if ($abstract = Arr::pull($attributes, 'abstract')) {
-            Arr::set($attributes, 'config.abstract', $abstract);
-        }
-    }
-
     public function fieldsInput()
     {
         $fields = [];
@@ -385,6 +351,10 @@ class Stream implements
             }
 
             $attributes['rules'] = $rules;
+
+            if (!array_key_exists('type', $attributes)) {
+                $attributes['type'] = 'string';
+            }
 
             if (!App::has('streams.core.field_type.' . $attributes['type'])) {
                 throw new \Exception("Invalid field type [{$attributes['type']}] in stream [{$this->id}].");

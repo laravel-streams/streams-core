@@ -72,7 +72,7 @@ class CriteriaTest extends CoreTestCase
         $this->assertEquals(10, $count);
     }
 
-    public function test_can_flush_cache()
+    public function test_it_can_flush_cache()
     {
         $entries = Streams::entries('films')->cache()->get();
         $count = Streams::entries('films')->cache()->count();
@@ -80,10 +80,10 @@ class CriteriaTest extends CoreTestCase
         $this->assertEquals(7, $entries->count());
         $this->assertEquals(7, $count);
 
-        $result = Streams::repository('films')->create($this->filmData());
+        Streams::repository('films')->create($this->filmData());
 
         $entries = Streams::entries('films')->cache()->get();
-        
+
         $this->assertEquals(8, $entries->count());
     }
 
@@ -212,7 +212,7 @@ class CriteriaTest extends CoreTestCase
         $this->assertEquals(8, Streams::entries('films')->count());
     }
 
-    public function test_is_saves_entries()
+    public function test_it_saves_entries()
     {
         $entry = Streams::entries('films')->first();
 
@@ -241,19 +241,24 @@ class CriteriaTest extends CoreTestCase
         $this->assertEquals(0, Streams::entries('films')->count());
     }
 
-    public function test_can_chunk_results()
+    public function test_it_can_chunk_results()
     {
-        Streams::entries('films')->orderBy('episode_id', 'ASC')->chunk(1, function ($entries) {
-            $entries->each(function ($entry) {
-                echo $entry->title;
+        Streams::entries('films')
+            ->orderBy('episode_id', 'ASC')
+            ->chunk(1, function ($entries) {
+                $entries->each(function ($entry) {
+                    echo $entry->title;
+                });
             });
-        });
 
         $expected = '';
 
-        Streams::entries('films')->orderBy('episode_id', 'ASC')->get()->each(function($film) use (&$expected) {
-            $expected .= $film->title;
-        });
+        Streams::entries('films')
+            ->orderBy('episode_id', 'ASC')
+            ->get()
+            ->each(function ($film) use (&$expected) {
+                $expected .= $film->title;
+            });
 
         $this->expectOutputString($expected);
     }
@@ -290,8 +295,6 @@ class CriteriaTest extends CoreTestCase
         $stream = Streams::overload('films', [
             'config' => [
                 'source' => [
-
-                    // @todo Should this be moved up into config?
                     'adapter' => CustomExamplesAdapter::class,
                 ],
             ],
@@ -304,12 +307,12 @@ class CriteriaTest extends CoreTestCase
 
     public function test_it_supports_macros()
     {
-        Streams::entries('films')->macro('testMacro', function() {
+        Streams::entries('films')->macro('testMacro', function () {
             return $this->orderBy('title', 'DESC')->first();
         });
 
         $entry = Streams::entries('films')->testMacro();
-        
+
         $this->assertEquals('The Phantom Menace', $entry->title);
     }
 
@@ -324,6 +327,8 @@ class CriteriaTest extends CoreTestCase
     {
         return [
             'title' => 'Star Wars: The Last Jedi',
+            'created' => now(),
+            'edited' => now(),
             'director' => 'Rian Johnson',
             'producer' => 'Kathleen Kennedy, Ram Bergman, J. J. Abrams',
             'release_date' => '2017-12-15',
@@ -333,8 +338,9 @@ Only General Leia Organa\'s band of RESISTANCE fighters stand against the rising
 
 "But the Resistance has been exposed. As the First Order speeds toward the rebel base, the brave heroes mount a desperate escape....',
             'characters' => [1, 5],
-            'planets' => [],
             'starships' => [9],
+            'vehicles' => [],
+            'planets' => [],
             'species' => [1],
         ];
     }

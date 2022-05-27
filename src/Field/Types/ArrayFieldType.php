@@ -5,8 +5,8 @@ namespace Streams\Core\Field\Types;
 use Illuminate\Support\Str;
 use Streams\Core\Field\Field;
 use Illuminate\Support\Collection;
-use Streams\Core\Field\Schema\ArrSchema;
 use Streams\Core\Support\Facades\Streams;
+use Streams\Core\Field\Schema\ArraySchema;
 use Streams\Core\Support\Facades\Hydrator;
 use Illuminate\Contracts\Support\Arrayable;
 use Streams\Core\Entry\Contract\EntryInterface;
@@ -47,6 +47,10 @@ class ArrayFieldType extends Field
 
     public function modify($value)
     {
+        if (!is_array($value)) {
+            $value = $this->cast($value);
+        }
+
         foreach ($value as &$item) {
 
             if (is_object($item) && $item instanceof EntryInterface) {
@@ -74,12 +78,17 @@ class ArrayFieldType extends Field
 
     public function restore($value)
     {
-        foreach ((array) $value as &$item) {
+        // @todo what is this.. should not be restoring null
+        if (is_null($value)) {
+            $value = [];
+        }
+        
+        foreach ($value as &$item) {
 
             if (!is_array($item) && $stream = $this->config('related')) {
                 
                 $item = Streams::repository($stream)->find($item);
-
+                
                 continue;
             }
             
@@ -131,15 +140,15 @@ class ArrayFieldType extends Field
         return $value;
     }
 
+    public function getSchemaName()
+    {
+        return ArraySchema::class;
+    }
+
     public function getDecoratorName()
     {
         return ArrayDecorator::class;
     }
-
-    // public function getSchemaName()
-    // {
-    //     return ArrSchema::class;
-    // }
 
     // public function generate()
     // {

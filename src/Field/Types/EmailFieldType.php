@@ -27,15 +27,15 @@ class EmailFieldType extends Field
         return $this->cast($value);
     }
 
+    public function getSchemaName()
+    {
+        return EmailSchema::class;
+    }
+
     public function getDecoratorName()
     {
         return EmailDecorator::class;
     }
-
-    // public function getSchemaName()
-    // {
-    //     return EmailSchema::class;
-    // }
 
     // public function generate()
     // {

@@ -2,6 +2,7 @@
 
 namespace Streams\Core\Field;
 
+use Illuminate\Support\Arr;
 use Streams\Core\Field\Field;
 use Illuminate\Support\Collection;
 use Streams\Core\Support\Workflow;
@@ -39,12 +40,13 @@ class FieldSchema
             'start' => [$this, 'start'],
             'info' => [$this, 'info'],
             'limit' => [$this, 'limit'],
+            'unique' => [$this, 'unique'],
             'pattern' => [$this, 'pattern'],
             'default' => [$this, 'default'],
             'validation' => [$this, 'validation'],
         ]);
-        
-        $this->fire('property.workflow',compact('workflow'));
+
+        $this->fire('property.workflow', compact('workflow'));
 
         $workflow
             ->passThrough($this)
@@ -65,15 +67,15 @@ class FieldSchema
         $schema = $schema->title(__($this->field->name()));
         $schema = $schema->description(__($this->field->description));
 
-        if ($this->field->docs) {
-            $schema = $schema->externalDocs(
-                ExternalDocs::create()->url($this->field->docs)
-            );
-        }
+        // if ($this->field->docs) {
+        //     $schema = $schema->externalDocs(
+        //         ExternalDocs::create()->url($this->field->docs)
+        //     );
+        // }
 
-        if ($this->field->example) {
-            $schema = $schema->example($this->field->example);
-        }
+        // if ($this->field->example) {
+        //     $schema = $schema->example($this->field->example);
+        // }
 
         $data->put('schema', $schema);
     }
@@ -111,6 +113,13 @@ class FieldSchema
         if (!is_null($default = $this->field->config('default'))) {
             $schema = $schema->default($this->field->default($default));
         }
+
+        $data->put('schema', $schema);
+    }
+
+    public function unique(Collection $data): void
+    {
+        $schema = $data->get('schema');
 
         $data->put('schema', $schema);
     }

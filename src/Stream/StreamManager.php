@@ -7,9 +7,8 @@ use Streams\Core\Stream\Stream;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Streams\Core\Criteria\Criteria;
-use Streams\Core\Entry\EntrySchema;
-use Streams\Core\Entry\EntryFactory;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Traits\Macroable;
 use Streams\Core\Support\Traits\HasMemory;
 use Streams\Core\Support\Traits\FiresCallbacks;
 use Streams\Core\Repository\Contract\RepositoryInterface;
@@ -19,6 +18,7 @@ class StreamManager
 {
 
     use HasMemory;
+    use Macroable;
     use FiresCallbacks;
 
     protected Collection $collection;
@@ -85,20 +85,11 @@ class StreamManager
 
     public function overload(string $id, array $attributes): Stream
     {
-        $instance = clone $this->make($id);
+        $original = $this->make($id)->getOriginalPrototypeAttributes();
 
-        foreach ($attributes as $key => &$value) {
-            
-            $original = $instance->getPrototypeAttributeFromArray($key);
-
-            if (is_array($original)) {
-                $value = array_replace_recursive($original, $value);
-            }
-        }
+        $attributes = array_replace_recursive($original, $attributes);
         
-        $instance->loadPrototypeAttributes($attributes);
-        
-        return $instance;
+        return $this->build($attributes);
     }
 
     public function load(string $file): Stream
@@ -126,14 +117,7 @@ class StreamManager
             ->repository();
     }
 
-    public function factory(string $id): EntryFactory
-    {
-        return $this
-            ->make($id)
-            ->factory();
-    }
-
-    public function schema(string $id): EntrySchema
+    public function schema(string $id): StreamSchema
     {
         return $this
             ->make($id)

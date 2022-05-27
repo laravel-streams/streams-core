@@ -2,212 +2,109 @@
 
 namespace Streams\Core\Tests\Criteria\Adapter;
 
-use Illuminate\Support\Collection;
-use Streams\Core\Tests\CoreTestCase;
+use Streams\Core\Tests\EloquentModel;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Streams\Core\Support\Facades\Streams;
-use Illuminate\Pagination\AbstractPaginator;
-use Streams\Core\Entry\Contract\EntryInterface;
+use Streams\Core\Tests\Criteria\CriteriaTest;
+use Streams\Core\Criteria\Adapter\EloquentAdapter;
 use Streams\Core\Support\Traits\Streams as TraitsStreams;
 
-class EloquentAdapterTest extends CoreTestCase
+class EloquentAdapterTest extends CriteriaTest
 {
 
-//     public function setUp(): void
-//     {
-//         $this->createApplication();
+    protected function setUp(): void
+    {
+        parent::setUp();
 
-//         Streams::load(base_path('vendor/streams/core/tests/eloquent.json'));
+        $data = Streams::entries('films')->get();
 
-//         $this->tearDown();
+        Streams::extend('films', [
+            'config' => [
+                'source' => [
+                    'type' => 'eloquent',
+                    'model' => CustomExamplesEloquentModel::class,
+                ],
+            ],
+        ]);
 
-//         Schema::create('testing', function (Blueprint $table) {
-//             $table->id();
-//             $table->string('name');
-//             $table->integer('age');
-//         });
+        Schema::dropIfExists('films');
 
-//         TestModel::create([
-//             'name' => 'John Smith',
-//             'age' => 30,
-//         ]);
+        Schema::create('films', function (Blueprint $table) {
+            $table->id('episode_id');
+            $table->dateTime('created');
+            $table->dateTime('edited')->nullable();
+            $table->string('title');
+            $table->longText('opening_crawl');
+            $table->string('director');
+            $table->string('producer');
+            $table->string('release_date');
+            $table->json('characters');
+            $table->json('planets');
+            $table->json('starships');
+            $table->json('vehicles');
+            $table->json('species');
+        });
 
-//         TestModel::create([
-//             'name' => 'Jane Smith',
-//             'age' => 40,
-//         ]);
-//     }
+        foreach ($data as $entry) {
 
-//     public function testCanReturnResults()
-//     {
-//         $first = Streams::entries('testing.eloquent')->first();
-//         $second = Streams::entries('testing.eloquent')->find(2);
-//         $collection = Streams::entries('testing.eloquent')->get();
+            $entry = $entry->toArray();
 
-//         $this->assertEquals(2, $collection->count());
-//         $this->assertEquals("John Smith", $first->name);
-//         $this->assertEquals("Jane Smith", $second->name);
+            $entry['edited'] = (string) $entry['edited'];
+            $entry['created'] = (string) $entry['created'];
+            $entry['release_date'] = (string) $entry['release_date'];
 
-//         $this->assertInstanceOf(TestModel::class, $first);
-//         $this->assertInstanceOf(Collection::class, $collection);
-//     }
+            $entry['characters'] = json_encode($entry['characters']);
+            $entry['starships'] = json_encode($entry['starships']);
+            $entry['vehicles'] = json_encode($entry['vehicles']);
+            $entry['species'] = json_encode($entry['species']);
+            $entry['planets'] = json_encode($entry['planets']);
 
-//     public function testCanOrderResults()
-//     {
-//         $this->assertEquals(
-//             "Jane Smith",
-//             Streams::entries('testing.eloquent')
-//                 ->orderBy('name', 'asc')
-//                 ->first()->name
-//         );
-//     }
+            DB::table('films')->insert($entry);
+        }
+    }
 
-//     public function testCanLimitResults()
-//     {
-//         $this->assertEquals(
-//             "Jane Smith",
-//             Streams::entries('testing.eloquent')
-//                 ->limit(1, 1)
-//                 ->get()
-//                 ->first()->name
-//         );
-//     }
+    protected function tearDown(): void
+    {
+        Schema::dropIfExists('films');
 
-//     public function testCanConstrainResults()
-//     {
-//         $this->assertEquals(
-//             1,
-//             Streams::entries('testing.eloquent')
-//                 ->where('name', 'Jane Smith')
-//                 ->get()
-//                 ->count()
-//         );
+        parent::tearDown();
+    }
 
-//         $this->assertEquals(
-//             2,
-//             Streams::entries('testing.eloquent')
-//                 ->where('name', 'Jane Smith')
-//                 ->orWhere('name', 'John Smith')
-//                 ->get()->count()
-//         );
+    public function test_it_uses_stream_defined_adapter()
+    {
+        $stream = Streams::overload('films', [
+            'config' => [
+                'source' => [
+                    'type' => 'eloquent',
+                    'adapter' => CustomExamplesEloquentAdapter::class,
+                ],
+            ],
+        ]);
 
-//         $this->assertEquals(
-//             'Jane Smith',
-//             Streams::entries('testing.eloquent')
-//                 ->where('name', 'Jane Smith')
-//                 ->first()->name
-//         );
+        $entry = $stream->entries()->testMethod()->first();
 
-//         $this->assertEquals(
-//             'John Smith',
-//             Streams::entries('testing.eloquent')
-//                 ->where('name', '!=', 'Jane Smith')
-//                 ->first()->name
-//         );
-//     }
+        $this->assertEquals('The Phantom Menace', $entry->title);
+    }
 
-//     public function testCanCountResults()
-//     {
-//         $this->assertEquals(2, Streams::entries('testing.eloquent')->count());
+    protected function removeData()
+    {
+        DB::table('films')->truncate();
+    }
+}
 
-//         $this->assertEquals(1, Streams::entries('testing.eloquent')->where('name', 'John Smith')->count());
-//     }
+class CustomExamplesEloquentAdapter extends EloquentAdapter
+{
+    public function testMethod()
+    {
+        return $this->orderBy('title', 'DESC');
+    }
+}
 
-//     public function testCanPaginateResults()
-//     {
-//         $pagination = Streams::entries('testing.eloquent')->paginate(10);
+class CustomExamplesEloquentModel extends EloquentModel
+{
+    public $timestamps = false;
 
-//         $this->assertInstanceOf(AbstractPaginator::class, $pagination);
-//         $this->assertEquals(2, $pagination->total());
-
-
-//         $pagination = Streams::entries('testing.eloquent')->paginate([
-//             'per_page' => 1
-//         ]);
-
-//         $this->assertInstanceOf(AbstractPaginator::class, $pagination);
-//         $this->assertEquals(2, $pagination->total());
-//     }
-
-//     public function testCanReturnNewInstances()
-//     {
-//         $entry = Streams::entries('testing.eloquent')->newInstance([
-//             'name' => 'Jack Smith',
-//         ]);
-
-//         $this->assertEquals('Jack Smith', $entry->name);
-//     }
-
-//     public function testCanCreateAndDelete()
-//     {
-//         $entry = Streams::entries('testing.eloquent')->newInstance([
-//             'name' => 'Jack Smith',
-//             'age' => 5,
-//         ]);
-
-//         Streams::repository('testing.eloquent')->save($entry);
-        
-//         $this->assertEquals(3, Streams::entries('testing.eloquent')->count());
-
-
-//         Streams::repository('testing.eloquent')->delete($entry);
-
-//         $this->assertEquals(2, Streams::entries('testing.eloquent')->count());
-
-
-//         $entry = Streams::entries('testing.eloquent')->create([
-//             'name' => 'Jack Smith',
-//             'age' => 5,
-//         ]);
-
-//         $this->assertEquals('Jack Smith', $entry->name);
-//         $this->assertEquals(3, Streams::entries('testing.eloquent')->count());
-//     }
-
-//     public function testCanTruncate()
-//     {
-//         Streams::repository('testing.eloquent')->truncate();
-
-//         $this->assertEquals(0, Streams::entries('testing.eloquent')->count());
-
-//         $this->setUp();
-//     }
-
-//     public function tearDown(): void
-//     {
-//         Schema::dropIfExists('testing');
-//     }
-// }
-
-// class TestModel extends Model implements EntryInterface
-// {
-
-//     use TraitsStreams;
-
-//     public $timestamps = false;
-//     protected $table = 'testing';
-
-//     protected $fillable = [
-//         'name',
-//         'age',
-//     ];
-
-//     /**
-//      * Return the last modified date if possible.
-//      */
-//     public function lastModified()
-//     {
-//         return $this->once(__METHOD__, function () {
-
-//             $datetime = $this->__updated_at;
-
-//             if (!$datetime instanceof \Datetime) {
-//                 $datetime = new \Carbon\Carbon($datetime);
-//             }
-
-//             return $datetime;
-//         });
-//     }
+    protected $table = 'films';
 }

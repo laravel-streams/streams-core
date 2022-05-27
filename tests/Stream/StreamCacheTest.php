@@ -126,4 +126,34 @@ class StreamCacheTest extends CoreTestCase
         
         $this->assertFalse($stream->cache()->has('test_key'));
     }
+
+    public function test_it_can_forget_items()
+    {
+        $stream = Streams::make('films');
+
+        $stream->cache()->remember('test_key', 3600, function() {
+            return 'remember_this';
+        });
+
+        $this->assertEquals('remember_this', $stream->cache()->get('test_key'));
+
+        $stream->cache()->forget('test_key');
+
+        $this->assertEquals(null, $stream->cache()->get('test_key'));
+    }
+    
+    public function test_it_can_flush_items()
+    {
+        $stream = Streams::make('films');
+
+        $stream->cache()->remember('test_key', 3600, function() {
+            return 'remember_this';
+        });
+
+        $this->assertEquals('remember_this', $stream->cache()->get('test_key'));
+
+        $stream->cache()->flush();
+
+        $this->assertEquals(null, $stream->cache()->get('test_key'));
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace Streams\Core\Support\Traits;
 
+use Illuminate\Support\Arr;
 use Streams\Core\Stream\Stream;
 use Illuminate\Support\Traits\ForwardsCalls;
 use Streams\Core\Field\FieldDecorator;
@@ -23,33 +24,89 @@ trait Streams
 
     public function __construct(array $attributes = [])
     {
-        $this->loadPrototypeProperties($attributes);
 
-        $attributes = array_replace_recursive($this->getPrototypeAttributes(), $attributes);
+        //$this->loadPrototypeProperties($attributes);
+
+        //$this->syncPrototypePropertyAttributes();
+        $this->syncOriginalPrototypeAttributes($attributes);
+
+        $this->syncOriginal();
+
+        $this->setPrototypeProperties($this->stream()->fields->toArray());
 
         $this->setPrototypeAttributes($attributes);
 
-        $this->__prototype['original'] = $this->__prototype['attributes'];
-
-        parent::__construct($attributes);
-
-        $this->syncOriginal();
+        $this->attributes = $this->getPrototypeAttributes();
     }
 
     public function fill(array $attributes)
     {
-        parent::fill($attributes);
-
         $this->loadPrototypeAttributes($attributes);
 
+        parent::fill($this->getPrototypeAttributes());
+
         return;
+    }
+
+    /**
+     * Save the model to the database.
+     * 
+     * @todo Improve this garbage. 
+     *
+     * @param  array  $options
+     * @return bool
+     */
+    public function save(array $options = [])
+    {
+        $stream = $this->stream();
+        $attributes = $this->getAttributes();
+        
+        foreach ($stream->fields as $field) {
+            
+            if (array_key_exists($field->handle, $attributes)) {
+                $attributes[$field->handle] = $field->modify($attributes[$field->handle]);
+            }
+
+            if (!array_key_exists($field->handle, $attributes) && $default = $field->config('default')) {
+                $attributes[$field->handle] = $field->default($default);
+            }
+        }
+
+        foreach ($attributes as &$value) {
+            if (is_array($value)) {
+                $value = json_encode($value);
+            }
+        }
+
+        $this->attributes = $attributes;
+
+        return parent::save($options);
+    }
+
+    public function getOriginal($key = null, $default = null)
+    {
+        $original = $this->getOriginalPrototypeAttributes();
+
+        return $key ? Arr::get($original, $key, $default) : $original;
+    }
+
+    public function getAttribute($key)
+    {
+        return $this->getPrototypeAttribute($key);
+    }
+
+    public function getKeyName()
+    {
+        return $this->stream()->config('key_name', 'id');
     }
 
     public function setAttribute($key, $value)
     {
         $this->setPrototypeAttribute($key, $value);
 
-        return parent::setAttribute($key, $value);
+        parent::setAttribute($key, $value);
+
+        return $this;
     }
 
     public function hasAttribute($key)
@@ -87,19 +144,12 @@ trait Streams
 
     public function setRawAttributes(array $attributes, $sync = false)
     {
-        $this->attributes = $attributes;
-
-        if ($sync) {
-            $this->syncOriginal();
-        }
-
-        $this->classCastCache = [];
-        $this->attributeCastCache = [];
+        parent::setRawAttributes($attributes, $sync);
 
         $this->setRawPrototypeAttributes($attributes);
 
         if ($sync) {
-            $this->__prototype['original'] = $this->__prototype['attributes'];
+            $this->syncOriginalPrototypeAttributes($attributes);
         }
 
         return $this;
@@ -113,7 +163,6 @@ trait Streams
     public function strict()
     {
         $attributes = $this->strict()->getAttributes();
-        
     }
 
     public function getFillable()
@@ -125,6 +174,20 @@ trait Streams
     {
         parent::__set($key, $value);
 
-        $this->setPrototypeAttributeValue($key, $value);
+        $this->setAttribute($key, $value);
+    }
+
+    public function __get($key)
+    {
+        return $this->getAttribute($key);
+    }
+
+    public function __call($method, $parameters)
+    {
+        try {
+            return $this->callPrototype($method, $parameters);
+        } catch (\Exception $e) {
+            return parent::__call($method, $parameters);
+        }
     }
 }

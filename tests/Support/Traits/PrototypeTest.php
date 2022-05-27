@@ -4,12 +4,12 @@ namespace Streams\Core\Tests\Support\Traits;
 
 use Streams\Core\Field\Field;
 use Streams\Core\Tests\CoreTestCase;
-use Streams\Core\Field\Value\StrValue;
 use Streams\Core\Field\FieldDecorator;
-use Streams\Core\Field\Value\NumberValue;
-use Streams\Core\Field\Value\IntegerValue;
 use Streams\Core\Support\Traits\Prototype;
 use Streams\Core\Field\Decorator\UrlDecorator;
+use Streams\Core\Field\Decorator\NumberDecorator;
+use Streams\Core\Field\Decorator\StringDecorator;
+use Streams\Core\Field\Decorator\IntegerDecorator;
 
 class PrototypeTest extends CoreTestCase
 {
@@ -208,9 +208,9 @@ class PrototypeTest extends CoreTestCase
         $double = $prototype->decoratePrototypeAttribute('double');
         $number = $prototype->decoratePrototypeAttribute('number');
 
-        $this->assertInstanceOf(StrValue::class, $name);
-        $this->assertInstanceOf(NumberValue::class, $double);
-        $this->assertInstanceOf(IntegerValue::class, $number);
+        $this->assertInstanceOf(StringDecorator::class, $name);
+        $this->assertInstanceOf(NumberDecorator::class, $double);
+        $this->assertInstanceOf(IntegerDecorator::class, $number);
     }
 
     public function test_it_sets_prototype_properties()
@@ -263,6 +263,7 @@ class PrototypeTest extends CoreTestCase
         $this->assertSame([
             'name' => 'Ryan',
             'number' => 10,
+            'url' => 'localhost',
         ], $prototype->getPrototypeAttributes());
 
         $prototype->setPrototypeProperties([

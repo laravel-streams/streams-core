@@ -24,11 +24,6 @@ class StringDecorator extends FieldDecorator
         return Str::{$method}($this->value, ...$arguments);
     }
 
-    /**
-     * Normalize the URL by default.
-     *
-     * @return bool|string
-     */
     public function __toString()
     {
         return (string) $this->value;

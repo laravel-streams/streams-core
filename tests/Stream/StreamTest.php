@@ -3,13 +3,12 @@
 namespace Streams\Core\Tests\Stream;
 
 use Streams\Core\Criteria\Criteria;
-use Streams\Core\Entry\EntrySchema;
-use Streams\Core\Entry\EntryFactory;
 use Streams\Core\Stream\StreamCache;
 use Streams\Core\Tests\CoreTestCase;
 use Streams\Core\Repository\Repository;
 use Streams\Core\Support\Facades\Streams;
 use Illuminate\Contracts\Validation\Validator;
+use Streams\Core\Stream\StreamSchema;
 
 class StreamTest extends CoreTestCase
 {
@@ -34,19 +33,14 @@ class StreamTest extends CoreTestCase
         $this->assertInstanceOf(Repository::class, Streams::repository('films'));
     }
 
-    public function test_it_returns_entry_factory()
-    {
-        $this->assertInstanceOf(EntryFactory::class, Streams::factory('films'));
-    }
-
-    public function test_can_return_schema_generator()
-    {
-        $this->assertInstanceOf(EntrySchema::class, Streams::schema('films'));
-    }
-
     public function test_it_returns_validator()
     {
         $this->assertInstanceOf(Validator::class, Streams::make('films')->validator([]));
+    }
+
+    public function test_it_returns_schema()
+    {
+        $this->assertInstanceOf(StreamSchema::class, Streams::make('films')->schema());
     }
 
     public function test_it_returns_cache()

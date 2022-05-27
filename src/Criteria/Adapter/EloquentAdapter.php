@@ -48,7 +48,14 @@ class EloquentAdapter extends AbstractAdapter
 
         $method = Str::studly($nested ? $nested . '_where' : 'where');
 
-        $this->query = $this->query->{$method}($field, $operator, $value);
+        if (strtoupper($operator) == 'IN') {
+            
+            $method = $method . 'In';
+
+            $this->query = $this->query->{$method}($field, $value);
+        } else {
+            $this->query = $this->query->{$method}($field, $operator, $value);
+        }
 
         return $this;
     }
@@ -108,6 +115,8 @@ class EloquentAdapter extends AbstractAdapter
     public function newInstance(array $attributes = []): EntryInterface
     {
         $model = $this->stream->config('source.model');
+
+        $this->fillDefaults($attributes);
 
         $model = new $model($attributes);
 

@@ -4,10 +4,18 @@ namespace Streams\Core\Field\Types;
 
 use Illuminate\Support\Str;
 use Streams\Core\Field\Field;
+use Streams\Core\Field\Schema\StringSchema;
 use Streams\Core\Field\Decorator\StringDecorator;
 
 class SlugFieldType extends Field
 {
+    public function rules()
+    {
+        return array_merge([
+            'regex' => '^[a-z0-9]+(?:[-_][a-z0-9]+)*$',
+        ], parent::rules());
+    }
+
     public function cast($value)
     {
         return Str::slug($value, $this->config('separator') ?: '-');
@@ -22,6 +30,11 @@ class SlugFieldType extends Field
         return $this->cast($value);
     }
 
+    public function getSchemaName()
+    {
+        return StringSchema::class;
+    }
+    
     public function getDecoratorName()
     {
         return StringDecorator::class;

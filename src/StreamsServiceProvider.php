@@ -11,8 +11,6 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\View;
 use Streams\Core\Support\Integrator;
-use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\Facades\Config;
@@ -64,14 +62,6 @@ class StreamsServiceProvider extends ServiceProvider
         $this->registerComposerJson();
         $this->registerComposerLock();
         $this->registerFieldTypes();
-
-        foreach ($this->bindings as $abstract => $concrete) {
-            $this->app->bind($abstract, $concrete);
-        }
-
-        foreach ($this->singletons as $abstract => $concrete) {
-            $this->app->singleton($abstract, $concrete);
-        }
 
         $this->registerAliases();
         $this->registerMacros();
@@ -240,12 +230,10 @@ class StreamsServiceProvider extends ServiceProvider
         $composer = json_decode(file_get_contents(base_path('composer.json')), true);
         $lock = json_decode(file_get_contents(base_path('composer.lock')), true);
 
-        if ($directory = Arr::get($composer, 'config.vendor-dir')) {
-            $directory = base_path($directory);
-        }
-        
-        if (!$directory) {
-            $directory = base_path('vendor');
+        $directory = base_path('vendor');
+
+        if ($configured = Arr::get($composer, 'config.vendor-dir')) {
+            $directory = base_path($configured);
         }
 
         $addons = array_filter(
@@ -298,33 +286,6 @@ class StreamsServiceProvider extends ServiceProvider
             if ($override = Overrides::get($view->name())) {
                 $view->setPath(base_path($override));
             }
-        });
-
-        Blade::directive('lsCache', function ($expression) {
-
-            $parameters = eval("return [$expression];");
-
-            $view    = array_shift($parameters);
-            $ttl     = array_shift($parameters);
-            $payload = array_shift($parameters) ?: [];
-
-            return Cache::remember('blade_directive.' . $view, $ttl, function () use ($view, $payload) {
-                return (string)View::make($view, $payload);
-            });
-        });
-
-        Blade::directive('lsBindCache', function ($expression) {
-
-            $parameters = eval("return [$expression];");
-
-            $stream  = array_shift($parameters);
-            $view    = array_shift($parameters);
-            $ttl     = array_shift($parameters);
-            $payload = array_shift($parameters) ?: [];
-
-            return Streams::make($stream)->cache('blade_directive.' . $view, $ttl, function () use ($view, $payload) {
-                return (string)View::make($view, $payload);
-            });
         });
     }
 

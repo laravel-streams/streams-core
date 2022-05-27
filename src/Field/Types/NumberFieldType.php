@@ -46,15 +46,15 @@ class NumberFieldType extends Field
         return $this->cast($value);
     }
 
+    public function getSchemaName()
+    {
+        return NumberSchema::class;
+    }
+
     public function getDecoratorName()
     {
         return NumberDecorator::class;
     }
-
-    // public function getSchemaName()
-    // {
-    //     return NumberSchema::class;
-    // }
 
     // public function generate()
     // {

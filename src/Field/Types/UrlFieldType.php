@@ -15,15 +15,15 @@ class UrlFieldType extends Field
         ],
     ];
 
+    public function getSchemaName()
+    {
+        return UrlSchema::class;
+    }
+
     public function getDecoratorName()
     {
         return UrlDecorator::class;
     }
-
-    // public function getSchemaName()
-    // {
-    //     return UrlSchema::class;
-    // }
 
     // public function generate()
     // {

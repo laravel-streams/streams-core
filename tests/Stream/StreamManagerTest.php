@@ -4,7 +4,6 @@ namespace Streams\Core\Tests\Stream;
 
 use Streams\Core\Stream\Stream;
 use Streams\Core\Criteria\Criteria;
-use Streams\Core\Entry\EntrySchema;
 use Streams\Core\Tests\CoreTestCase;
 use Illuminate\Support\Facades\Route;
 use Streams\Core\Repository\Repository;
@@ -108,10 +107,5 @@ class StreamManagerTest extends CoreTestCase
     public function test_it_returns_entry_repository()
     {
         $this->assertInstanceOf(Repository::class, Streams::repository('films'));
-    }
-
-    public function test_returns_schema_generator()
-    {
-        $this->assertInstanceOf(EntrySchema::class, Streams::schema('films'));
     }
 }

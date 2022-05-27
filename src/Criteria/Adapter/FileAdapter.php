@@ -137,7 +137,7 @@ class FileAdapter extends AbstractAdapter
 
         if (!file_exists($file)) {
 
-            $this->data = [];
+            $this->data = $this->original = [];
 
             return;
         }
@@ -161,6 +161,8 @@ class FileAdapter extends AbstractAdapter
             $handle = fopen($file, 'r');
 
             $i = 0;
+
+            $fields = [];
 
             while (($row = fgetcsv($handle)) !== false) {
 
@@ -195,7 +197,7 @@ class FileAdapter extends AbstractAdapter
 
         $file = base_path(trim($this->stream->config('source.file', Config::get('streams.core.data_path') . '/' . $this->stream->handle . '.' . ($format ?: 'json')), '/\\'));
 
-        $keyName = $this->stream->config('key_name', 'id');
+        $keyName = $this->stream->config(' ', 'id');
 
         $data = [];
 

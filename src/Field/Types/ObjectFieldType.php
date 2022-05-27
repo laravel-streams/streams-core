@@ -8,7 +8,7 @@ use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Support\Facades\Hydrator;
 use Streams\Core\Support\Traits\Prototype;
 use Illuminate\Contracts\Support\Arrayable;
-use Streams\Core\Field\Schema\StructureSchema;
+use Streams\Core\Field\Schema\ObjectSchema;
 use Streams\Core\Entry\Contract\EntryInterface;
 
 class ObjectFieldType extends Field
@@ -69,11 +69,6 @@ class ObjectFieldType extends Field
         return (object) $value;
     }
 
-    // public function getSchemaName()
-    // {
-    //     return StructureSchema::class;
-    // }
-
     // public function generate()
     // {
     //     for ($i = 0; $i < 10; $i++) {
@@ -107,5 +102,10 @@ class ObjectFieldType extends Field
     protected function restoreInstance(array $meta, array $value)
     {
         return new $meta['@abstract']($value);
+    }
+
+    public function getSchemaName()
+    {
+        return ObjectSchema::class;
     }
 }

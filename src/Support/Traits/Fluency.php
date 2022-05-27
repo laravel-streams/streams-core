@@ -79,7 +79,7 @@ trait Fluency
 
     public function getRawAttribute($key)
     {
-        return $this->getPrototypeAttributeFromArray($key);
+        return $this->getPrototypeAttributeFromData($key);
     }
 
     public function setAttribute($key, $value)

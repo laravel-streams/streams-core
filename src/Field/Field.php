@@ -7,7 +7,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Streams\Core\Stream\Stream;
 use Illuminate\Support\Collection;
-use Streams\Core\Field\Factory\Factory;
 use Illuminate\Support\Traits\Macroable;
 use Streams\Core\Support\Facades\Streams;
 use Illuminate\Contracts\Support\Jsonable;
@@ -59,18 +58,10 @@ class Field implements
 
         $stream = Arr::get($attributes, 'stream');
 
-        if ($stream && is_string($stream)) {
-            $stream = Streams::make($stream);
-        }
-
-        if ($stream && is_array($stream)) {
-            $stream = new Stream($stream);
-        }
-
         if ($stream && $stream instanceof Stream) {
             $this->stream = $stream;
         }
-
+        
         $this->fire('initializing', [
             'callbackData' => $callbackData,
         ]);
@@ -125,9 +116,18 @@ class Field implements
         return $value;
     }
 
-    /**
-     * Decorate the value.
-     */
+    public function schema(): FieldSchema
+    {
+        $schema = $this->config('schema') ?: $this->getSchemaName();
+
+        return new $schema($this);
+    }
+
+    public function getSchemaName()
+    {
+        return FieldSchema::class;
+    }
+
     public function decorate($value)
     {
         $name = $this->config('decorator', $this->getDecoratorName());
@@ -144,41 +144,6 @@ class Field implements
         return FieldDecorator::class;
     }
 
-    public function schema(): FieldSchema
-    {
-        $schema = $this->config('schema', $this->getSchemaName());
-
-        return new $schema($this);
-    }
-
-    protected function getSchemaName()
-    {
-        return FieldSchema::class;
-    }
-
-    public function generate()
-    {
-        return $this->generator()->text();
-    }
-
-    public function generator()
-    {
-        // @todo app(this->config('generator))
-        return $this->once(__METHOD__, fn () => \Faker\Factory::create());
-    }
-
-    public function factory(): Factory
-    {
-        $factory = $this->config('factory', $this->getFactoryName());
-
-        return new $factory($this);
-    }
-
-    protected function getFactoryName()
-    {
-        return Factory::class;
-    }
-
     public function rules()
     {
         return $this->rules ?: [];
@@ -191,7 +156,7 @@ class Field implements
 
     public function getRule($rule)
     {
-        return Arr::first($this->rules, function ($target) use ($rule) {
+        return Arr::first($this->rules(), function ($target) use ($rule) {
             return strpos($target, $rule . ':') !== false || strpos($target, $rule) !== false;
         });
     }

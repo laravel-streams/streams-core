@@ -3,6 +3,7 @@
 namespace Streams\Core\Field\Types;
 
 use Streams\Core\Field\Field;
+use Streams\Core\Field\Schema\DecimalSchema;
 use Streams\Core\Field\Decorator\DecimalDecorator;
 
 class DecimalFieldType extends Field
@@ -41,15 +42,15 @@ class DecimalFieldType extends Field
         return round($value, $this->config('precision') ?: 1);
     }
 
+    public function getSchemaName()
+    {
+        return DecimalSchema::class;
+    }
+
     public function getDecoratorName()
     {
         return DecimalDecorator::class;
     }
-
-    // public function getSchemaName()
-    // {
-    //     return DecimalSchema::class;
-    // }
 
     // public function generate()
     // {

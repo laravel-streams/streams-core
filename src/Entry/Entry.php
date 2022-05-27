@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use JsonSerializable;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Laravel\Scout\Searchable;
 use Streams\Core\Stream\Stream;
 use Illuminate\Validation\Validator;
 use Illuminate\Support\Traits\Macroable;
@@ -32,6 +33,7 @@ class Entry implements
     }
 
     use HasMemory;
+    use Searchable;
 
     public ?Stream $stream;
 

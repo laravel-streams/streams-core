@@ -96,7 +96,7 @@ class DatabaseAdapter extends AbstractAdapter
             return $this->query->update($attributes);
         }
 
-        foreach ($attributes as $key => &$value) {
+        foreach ($attributes as &$value) {
             if (is_array($value)) {
                 $value = json_encode($value);
             }

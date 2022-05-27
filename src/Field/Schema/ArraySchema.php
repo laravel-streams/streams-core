@@ -4,10 +4,10 @@ namespace Streams\Core\Field\Schema;
 
 use Illuminate\Support\Collection;
 use Streams\Core\Field\FieldSchema;
-use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
 use Streams\Core\Support\Facades\Streams;
+use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
 
-class ArrSchema extends FieldSchema
+class ArraySchema extends FieldSchema
 {
 
     public function type(): Schema
@@ -39,5 +39,21 @@ class ArrSchema extends FieldSchema
         }
 
         $data->put('schema', $schema);
+    }
+
+    public function unique(Collection $data): void
+    {
+        $schema = $data->get('schema');
+
+        if ($this->field->hasRule('unique')) {
+            $schema = $schema->uniqueItems(true);
+        }
+
+        $data->put('schema', $schema);
+    }
+
+    public function getSchemaName()
+    {
+        return ArraySchema::class;
     }
 }

@@ -2,7 +2,9 @@
 
 namespace Streams\Core\Stream;
 
+use GoldSpecDigital\ObjectOrientedOAS\Objects\ExternalDocs;
 use Streams\Core\Field\Field;
+use Streams\Core\Stream\Stream;
 use Streams\Core\Support\Traits\FiresCallbacks;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Tag;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
@@ -24,9 +26,17 @@ class StreamSchema
 
     public function tag(): Tag
     {
-        return Tag::create()
+        $schema = Tag::create()
             ->name(__($this->stream->name()))
             ->description(__($this->stream->description));
+           
+        // @todo doc/determine
+        // if ($this->stream->docs) {
+        //     $schema = $schema->externalDocs(ExternalDocs::create($this->stream->id)
+        //         ->url($this->stream->docs));
+        // }
+
+        return $schema;
     }
 
     public function object(): Schema
@@ -39,10 +49,11 @@ class StreamSchema
 
         $properties = array_filter($this->properties());
 
-        // @todo figure out why some property values are null
+        $required = array_keys(array_intersect_key($properties, array_flip($required)));
+
         return Schema::object($this->stream->id)
             ->properties(...$properties)
-            ->required(...array_intersect_key($properties, array_flip($required)));
+            ->required(...$required);
     }
 
     public function properties(): array

@@ -17,9 +17,12 @@ class SelfAdapter extends FileAdapter
 
         $keyName = $this->stream->config('key_name', 'id');
 
-        $this->data = Arr::get(json_decode(file_get_contents($file), true), 'data', []);
+        $data = Arr::get(json_decode(file_get_contents($file), true), 'data', []);
 
-        array_walk($this->data, function ($item, $key) use ($keyName) {
+        array_walk($data, function ($item, $key) use ($keyName) {
+            
+            $key = Arr::get($item, $keyName, $key);
+
             $this->data[$key] = [$keyName => $key] + $item;
         });
     }
@@ -36,7 +39,7 @@ class SelfAdapter extends FileAdapter
 
         array_walk($this->data, function ($item, $key) use ($keyName) {
 
-            Arr::pull($item, $keyName);
+            $key = Arr::get($item, $keyName, $key);
 
             $this->data[$key] = $item;
         });

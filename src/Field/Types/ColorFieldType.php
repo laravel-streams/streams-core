@@ -4,6 +4,7 @@ namespace Streams\Core\Field\Types;
 
 use Streams\Core\Field\Field;
 use Streams\Core\Field\Decorator\ColorDecorator;
+use Streams\Core\Field\Schema\StringSchema;
 
 class ColorFieldType extends Field
 {
@@ -22,6 +23,11 @@ class ColorFieldType extends Field
         return $this->cast($value);
     }
 
+    public function getSchemaName()
+    {
+        return StringSchema::class;
+    }
+    
     public function getDecoratorName()
     {
         return ColorDecorator::class;

@@ -208,7 +208,7 @@ class StreamCache
     {
         $collectionKey = 'streams.' . $this->stream->handle . '_cache_collection';
 
-        $collection = $this->collections->get($collectionKey, []);
+        $collection = $this->collections->get($collectionKey) ?: [];
 
         foreach ($collection as $key) {
             $this->store->forget($key);

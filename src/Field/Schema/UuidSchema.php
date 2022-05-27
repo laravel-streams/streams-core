@@ -4,7 +4,7 @@ namespace Streams\Core\Field\Schema;
 
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
 
-class UuidSchema extends StrSchema
+class UuidSchema extends StringSchema
 {
     public function type(): Schema
     {
