@@ -67,15 +67,15 @@ class FieldSchema
         $schema = $schema->title(__($this->field->name()));
         $schema = $schema->description(__($this->field->description));
 
-        if ($this->field->docs) {
-            $schema = $schema->externalDocs(
-                ExternalDocs::create()->url($this->field->docs)
-            );
-        }
+        // if ($this->field->docs) {
+        //     $schema = $schema->externalDocs(
+        //         ExternalDocs::create()->url($this->field->docs)
+        //     );
+        // }
 
-        if ($this->field->example) {
-            $schema = $schema->example($this->field->example);
-        }
+        // if ($this->field->example) {
+        //     $schema = $schema->example($this->field->example);
+        // }
 
         $data->put('schema', $schema);
     }
@@ -99,11 +99,7 @@ class FieldSchema
     {
         $schema = $data->get('schema');
 
-        if ($pattern = $this->field->hasRule('regex')) {
-            $schema = $schema->pattern($pattern);
-        }
-
-        if ($pattern = Arr::get($this->field->rules(), 'regex')) {
+        if ($pattern = $this->field->ruleParameter('regex')) {
             $schema = $schema->pattern($pattern);
         }
 

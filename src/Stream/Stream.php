@@ -179,9 +179,6 @@ class Stream implements
                     $rule = 'unique:' . implode(',', $parameters);
                 }
 
-                /**
-                 * Instantiate custom rules.
-                 */
                 if (strpos($rule, '\\')) {
                     $rule = new $rule;
                 }

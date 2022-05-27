@@ -156,7 +156,7 @@ class Field implements
 
     public function getRule($rule)
     {
-        return Arr::first($this->rules, function ($target) use ($rule) {
+        return Arr::first($this->rules(), function ($target) use ($rule) {
             return strpos($target, $rule . ':') !== false || strpos($target, $rule) !== false;
         });
     }

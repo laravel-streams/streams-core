@@ -11,8 +11,6 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\View;
 use Streams\Core\Support\Integrator;
-use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\Facades\Config;
@@ -64,14 +62,6 @@ class StreamsServiceProvider extends ServiceProvider
         $this->registerComposerJson();
         $this->registerComposerLock();
         $this->registerFieldTypes();
-
-        foreach ($this->bindings as $abstract => $concrete) {
-            $this->app->bind($abstract, $concrete);
-        }
-
-        foreach ($this->singletons as $abstract => $concrete) {
-            $this->app->singleton($abstract, $concrete);
-        }
 
         $this->registerAliases();
         $this->registerMacros();
