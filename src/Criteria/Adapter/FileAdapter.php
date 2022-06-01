@@ -131,7 +131,11 @@ class FileAdapter extends AbstractAdapter
     protected function readData()
     {
         $format = $this->stream->config('source.format');
-        $file = base_path(trim($this->stream->config('source.file', Config::get('streams.core.data_path') . '/' . $this->stream->handle . '.' . ($format ?: 'json')), '/\\'));
+        $file = $this->stream->config('source.file', Config::get('streams.core.data_path') . '/' . $this->stream->handle . '.' . ($format ?: 'json'));
+
+        if (!file_exists($file)) {
+            $file = base_path($file);
+        }
 
         $format = $format ?: pathinfo($file, PATHINFO_EXTENSION);
 
