@@ -1,7 +1,7 @@
 {
-    "name": "File System",
-    "description": "The Laravel filesystem.",
-    "docs": "https://streams.dev/docs/core/streams/files#folders",
+    "name": "Filesystem",
+    "description": "The Laravel file system.",
+    "docs": "https://streams.dev/docs/core/streams/files",
     "config": {
         "source": {
             "format": "json"
@@ -17,6 +17,22 @@
         {
             "handle": "path",
             "type": "string"
+        },
+        {
+            "handle": "is_dir",
+            "type": "boolean"
+        },
+        {
+            "handle": "extension",
+            "type": "string"
+        },
+        {
+            "handle": "mime_type",
+            "type": "string"
+        },
+        {
+            "handle": "size",
+            "type": "integer"
         },
         {
             "handle": "visibility",
