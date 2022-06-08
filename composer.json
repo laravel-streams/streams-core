@@ -17,7 +17,7 @@
         "laravel/scout": "^9.0",
         "intervention/image": "^2.5",
         "laravel/framework": "^9.0",
-        "symfony/yaml": "^5.0",
+        "symfony/yaml": "^6.0",
         "nicmart/string-template": "^0.1",
         "laravelcollective/html": "^6.1",
         "goldspecdigital/oooas": "^2.8"
