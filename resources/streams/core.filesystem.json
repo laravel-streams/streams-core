@@ -15,8 +15,14 @@
             "unique": true
         },
         {
+            "handle": "disk",
+            "type": "string",
+            "required": true
+        },
+        {
             "handle": "path",
-            "type": "string"
+            "type": "string",
+            "required": true
         },
         {
             "handle": "is_dir",
