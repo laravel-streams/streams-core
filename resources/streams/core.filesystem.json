@@ -47,6 +47,10 @@
         {
             "handle": "last_modified",
             "type": "datetime"
+        },
+        {
+            "handle": "extra_metadata",
+            "type": "object"
         }
     ]
 }
