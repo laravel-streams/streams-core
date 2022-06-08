@@ -1,0 +1,34 @@
+{
+    "name": "File System",
+    "description": "The Laravel filesystem.",
+    "docs": "https://streams.dev/docs/core/streams/files",
+    "config": {
+        "source": {
+            "format": "json"
+        }
+    },
+    "fields": [
+        {
+            "handle": "id",
+            "type": "uuid",
+            "required": true,
+            "unique": true
+        },
+        {
+            "handle": "filename",
+            "type": "string"
+        },
+        {
+            "handle": "extension",
+            "type": "string"
+        },
+        {
+            "handle": "mime_type",
+            "type": "string"
+        },
+        {
+            "handle": "size",
+            "type": "integer"
+        }
+    ]
+}
