@@ -12,7 +12,10 @@
             "handle": "id",
             "type": "uuid",
             "required": true,
-            "unique": true
+            "unique": true,
+            "config": {
+                "default": true
+            }
         },
         {
             "handle": "disk",

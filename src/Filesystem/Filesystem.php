@@ -2,10 +2,59 @@
 
 namespace Streams\Core\Filesystem;
 
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use Streams\Core\Support\Facades\Streams;
 
 class Filesystem
 {
+    public function index(string $path)
+    {
+        list($disk, $path) = $this->extractDisk($path);
+
+        $storage = Storage::disk($disk);
+
+        foreach ($storage->allDirectories($path) as $directory) {
+
+            $entry = Streams::entries('core.filesystem')
+                ->where('disk', $disk)
+                ->where('path', $path . '/' . $directory)
+                ->first();
+
+            if (!$entry) {
+                Streams::entries('core.filesystem')->create([
+                    'disk' => $disk,
+                    'is_dir' => true,
+                    'path' => $path . '/' . $directory,
+                    'visibility' => $storage->getVisibility($path . '/' . $directory),
+                    'last_modified' => $storage->lastModified($path . '/' . $directory),
+                ]);
+            }
+        }
+
+        foreach ($storage->allFiles($path) as $file) {
+
+            $entry = Streams::entries('core.filesystem')
+                ->where('disk', $disk)
+                ->where('path', $path . '/' . $file)
+                ->first();
+
+            if (!$entry) {
+                Streams::entries('core.filesystem')->create([
+                    'disk' => $disk,
+                    'is_dir' => false,
+                    'path' => $path . '/' . $file,
+                    'size' => $storage->size($path . '/' . $file),
+                    //'mime_type' => $storage->mimeType(),
+                    'visibility' => $storage->getVisibility($path . '/' . $file),
+                    'last_modified' => $storage->lastModified($path . '/' . $file),
+                    'extension' => pathinfo($file, PATHINFO_EXTENSION),
+                ]);
+            }
+        }
+    }
+
     public function exists(string $path): bool
     {
         list($disk, $path) = $this->extractDisk($path);
@@ -34,7 +83,21 @@ class Filesystem
     {
         list($disk, $path) = $this->extractDisk($path);
 
-        return Storage::disk($disk)->put($path, $contents, $options);
+        if ($result = Storage::disk($disk)->put($path, $contents, $options)) {
+
+            Streams::entries('core.filesystem')->create([
+                'disk' => $disk,
+                'path' => $path,
+                'is_dir' => false,
+                'size' => Storage::disk($disk)->size($path),
+                'extension' => pathinfo($path, PATHINFO_EXTENSION),
+                'mime_type' => Storage::disk($disk)->mimeType($path),
+                'visibility' => Storage::disk($disk)->getVisibility($path),
+                'last_modified' => Storage::disk($disk)->lastModified($path),
+            ]);
+        }
+
+        return $result;
     }
 
     public function writeStream($path, $resource, array $options = [])
@@ -79,7 +142,7 @@ class Filesystem
         $paths = (array) $paths;
 
         foreach ($paths as $path) {
-            
+
             list($disk, $path) = $this->extractDisk($path);
 
             $result = Storage::disk($disk)->delete($paths);
@@ -99,17 +162,57 @@ class Filesystem
     public function copy(string $from, string $to): bool
     {
         list($disk, $from) = $this->extractDisk($from);
-        list($disk, $to) = $this->extractDisk($to);
+        list($toDisk, $to) = $this->extractDisk($to);
 
-        return Storage::disk($disk)->copy($from, $to);
+        if ($disk !== $toDisk) {
+            throw new \Exception("The destination disk [{$toDisk}] must be the same as the origin disk [{$disk}].");
+        }
+
+        if ($result = Storage::disk($disk)->copy($from, $to)) {
+
+            $entry = Streams::entries('core.filesystem')
+                ->where('disk', $disk)
+                ->where('path', $from)
+                ->first();
+
+            if (!$entry) {
+                return $result;
+            }
+
+            $data = $entry->toArray();
+
+            Arr::pull($data, 'id');
+
+            $data['path'] = $to;
+
+            Streams::entries('core.filesystem')->create($data);
+        }
+
+        return $result;
     }
 
     public function move(string $from, string $to): bool
     {
         list($disk, $from) = $this->extractDisk($from);
-        list($disk, $to) = $this->extractDisk($to);
+        list($toDisk, $to) = $this->extractDisk($to);
 
-        return Storage::disk($disk)->move($from, $to);
+        if ($disk !== $toDisk) {
+            throw new \Exception("The destination disk [{$toDisk}] must be the same as the origin disk [{$disk}].");
+        }
+
+        if ($result = Storage::disk($disk)->move($from, $to)) {
+
+            $entry = Streams::entries('core.filesystem')
+                ->where('disk', $disk)
+                ->where('path', $from)
+                ->first();
+
+            $entry->path = $to;
+
+            $entry->save();
+        }
+
+        return $result;
     }
 
     public function size(string $path): int
@@ -158,17 +261,34 @@ class Filesystem
     {
         list($disk, $path) = $this->extractDisk($path);
 
-        return Storage::disk($disk)->makeDirectory($path);
+        if ($result = Storage::disk($disk)->makeDirectory($path)) {
+            Streams::entries('core.filesystem')->create([
+                'disk' => $disk,
+                'path' => $path,
+                'is_dir' => true,
+                'visibility' => Storage::disk($disk)->getVisibility($path),
+                'last_modified' => Storage::disk($disk)->lastModified($path),
+            ]);
+        }
+
+        return $result;
     }
 
     public function deleteDirectory(string $directory): bool
     {
         list($disk, $directory) = $this->extractDisk($directory);
 
-        return Storage::disk($disk)->deleteDirectory($directory);
+        if ($result = Storage::disk($disk)->deleteDirectory($directory)) {
+            Streams::entries('core.filesystem')
+                ->where('disk', $disk)
+                ->where('path', 'LIKE', $directory . '%')
+                ->delete();
+        }
+
+        return $result;
     }
 
-    public function extractDisk(string $path): array
+    protected function extractDisk(string $path): array
     {
         $parts = explode('://', $path);
 
