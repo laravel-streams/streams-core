@@ -342,11 +342,11 @@ class Stream implements
              */
             $rules = Arr::get($attributes, 'rules', []);
 
-            if (Arr::get($attributes, 'required') == true) {
+            if (Arr::pull($attributes, 'required') == true) {
                 $rules[] = 'required';
             }
 
-            if (Arr::get($attributes, 'unique') == true) {
+            if (Arr::pull($attributes, 'unique') == true) {
                 $rules[] = 'unique';
             }
 

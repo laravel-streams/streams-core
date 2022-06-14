@@ -83,7 +83,7 @@ class ArrayFieldType extends Field
             $value = [];
         }
         
-        foreach ($value as &$item) {
+        foreach ((array) $value as &$item) {
 
             if (!is_array($item) && $stream = $this->config('related')) {
                 

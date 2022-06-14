@@ -66,6 +66,10 @@ class FilebaseAdapter extends AbstractAdapter
 
         $operator = strtoupper($operator);
 
+        if ($operator == '<>') {
+            $operator = '!=';
+        }
+
         if ($field == 'id') {
             $field = '__id';
         }
