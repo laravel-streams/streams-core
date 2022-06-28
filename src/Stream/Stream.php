@@ -292,7 +292,7 @@ class Stream implements
         $type = Config::get('streams.core.default_source', 'filebase');
         $default = Config::get('streams.core.sources.types.' . $type);
 
-        if (!isset($attributes['source'])) {
+        if (!array_key_exists('source', $attributes)) {
             $attributes['source'] = $default;
         }
 

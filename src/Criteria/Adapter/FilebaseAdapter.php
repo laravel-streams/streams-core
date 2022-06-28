@@ -77,7 +77,7 @@ class FilebaseAdapter extends AbstractAdapter
         $method = $nested ? Str::studly($nested . '_where') : 'where';
 
         if (is_string($value) && $operator == 'LIKE') {
-            $value = str_replace('%', '', $value); // Filebase doesn't use "%"
+            $value = str_replace('%', '', str_replace('/', '\/', $value)); // Filebase doesn't use "%"
         }
 
         $this->query = $this->query->{$method}($field, $operator, $value);

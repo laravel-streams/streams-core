@@ -9,7 +9,7 @@ use Streams\Core\Support\Facades\Streams;
 
 class Filesystem
 {
-    public function index(string $path)
+    public function index(string $path = null)
     {
         list($disk, $path) = $this->extractDisk($path);
 
@@ -26,6 +26,7 @@ class Filesystem
                 Streams::entries('core.filesystem')->create([
                     'disk' => $disk,
                     'is_dir' => true,
+                    'name' => $directory,
                     'path' => $path . '/' . $directory,
                     'visibility' => $storage->getVisibility($path . '/' . $directory),
                     'last_modified' => $storage->lastModified($path . '/' . $directory),
@@ -44,6 +45,7 @@ class Filesystem
                 Streams::entries('core.filesystem')->create([
                     'disk' => $disk,
                     'is_dir' => false,
+                    'name' => basename($file),
                     'path' => $path . '/' . $file,
                     'size' => $storage->size($path . '/' . $file),
                     //'mime_type' => $storage->mimeType(),
@@ -285,10 +287,16 @@ class Filesystem
                 ->delete();
         }
 
+        File::deleteDirectory('streams/data/files');
+
+        File::moveDirectory('streams/data/fore.filesystem', 'streams/data/files');
+
+        File::deleteDirectory('streams/data/fore.filesystem');
+
         return $result;
     }
 
-    protected function extractDisk(string $path): array
+    protected function extractDisk(string $path = null): array
     {
         $parts = explode('://', $path);
 
