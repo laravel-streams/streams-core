@@ -131,7 +131,7 @@ class ObjectFieldTypeTest extends CoreTestCase
 
         $entry = json_decode(json_encode([
             'name' => 'Test Name',
-        ]));
+        ]), true);
 
         $restored = $field->restore($field->modify($entry));
 

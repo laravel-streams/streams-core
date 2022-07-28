@@ -8,6 +8,7 @@ use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Support\Facades\Hydrator;
 use Streams\Core\Support\Traits\Prototype;
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Support\Arr;
 use Streams\Core\Field\Schema\ObjectSchema;
 use Streams\Core\Entry\Contract\EntryInterface;
 
@@ -69,18 +70,6 @@ class ObjectFieldType extends Field
         return (object) $value;
     }
 
-    // public function generate()
-    // {
-    //     for ($i = 0; $i < 10; $i++) {
-    //         $values[$this->generator()->word()] = $this->generator()->randomElement([
-    //             $this->generator()->word(),
-    //             $this->generator()->randomNumber(),
-    //         ]);
-    //     }
-
-    //     return $values;
-    // }
-
     protected function separateMeta(array $value)
     {
         $meta = preg_grep('/^\@/', array_keys($value));
@@ -102,6 +91,17 @@ class ObjectFieldType extends Field
     protected function restoreInstance(array $meta, array $value)
     {
         return new $meta['@abstract']($value);
+    }
+
+    protected function restoreGeneric(array $value)
+    {
+        $generic = new \stdClass;
+
+        foreach ($value as $key => $value) {
+            $generic->{$key} = $value;
+        }
+
+        return $generic;
     }
 
     public function getSchemaName()

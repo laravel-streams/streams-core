@@ -83,11 +83,11 @@ class ArrayFieldType extends Field
             $value = [];
         }
         
-        foreach ((array) $value as &$item) {
+        foreach ($value as $key => $item) {
 
             if (!is_array($item) && $stream = $this->config('related')) {
                 
-                $item = Streams::repository($stream)->find($item);
+                $value[$key] = Streams::repository($stream)->find($item);
                 
                 continue;
             }
@@ -102,9 +102,9 @@ class ArrayFieldType extends Field
 
                 // @todo gross
                 if (is_array($stream)) {
-                    $item = Streams::build($stream)->repository()->newInstance($item);
+                    $value[$key] = Streams::build($stream)->repository()->newInstance($item);
                 } else {
-                    $item = Streams::repository($stream)->newInstance($item);
+                    $value[$key] = Streams::repository($stream)->newInstance($item);
                 }
 
                 continue;
@@ -113,29 +113,29 @@ class ArrayFieldType extends Field
             // @todo eager loading
             if (!$meta && $stream = $this->config('related')) {
 
-                $item = Streams::repository($stream)->find($item);
+                $value[$key] = Streams::repository($stream)->find($item);
 
                 continue;
             }
 
             if (isset($meta['@stream'])) {
 
-                $item = $this->restoreStreamEntry($meta, $item);
+                $value[$key] = $this->restoreStreamEntry($meta, $item);
 
                 continue;
             }
 
             if (isset($meta['@abstract'])) {
                 
-                $item = $this->restoreInstance($meta, $item);
+                $value[$key] = $this->restoreInstance($meta, $item);
 
                 continue;
             }
         }
 
-        if ($wrapper = $this->config('wrapper')) {
-            $value = $this->wrapArray($value, $wrapper);
-        }
+        // if ($wrapper = $this->config('wrapper')) {
+        //     $value = $this->wrapArray($value, $wrapper);
+        // }
         
         return $value;
     }

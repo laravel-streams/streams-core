@@ -14,7 +14,7 @@ class SelectFieldType extends Field
         $options = $this->config('options', []);
 
         if (is_string($options)) {
-            return App::call($options, ['field', $this], 'handle');
+            return App::call($options, ['field', $this]);
         }
 
         return $options;
@@ -36,9 +36,4 @@ class SelectFieldType extends Field
     {
         return SelectDecorator::class;
     }
-
-    // public function generate()
-    // {
-    //     return $this->generator()->randomElement(array_keys($this->options()));
-    // }
 }

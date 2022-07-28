@@ -14,7 +14,7 @@ class SlugFieldTypeTest extends CoreTestCase
         $field = new SlugFieldType([
             'stream' => Streams::make('films'),
             'config' => [
-                'type' => '_',
+                'separator' => '_',
             ],
         ]);
 

@@ -116,6 +116,17 @@ The field type is responsible for validating, casting, and more for its specific
 @endforeach
 
 
+### Slug
+
+```json
+{
+    "type": "slug",
+    "config": {
+        "separator": "-"
+    }
+}
+```
+
 ### Relationship
 
 ```json

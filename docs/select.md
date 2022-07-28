@@ -30,7 +30,18 @@ The `select` field type stores a selection from a list of options.
 
 #### Callable Options
 
-Besides basic array and associated arrays, you may specify a callable string:
+Besides basic array and associated arrays, you may specify an invokable class:
+
+```json
+{
+    "type": "select",
+    "config": {
+        "options": "\\App\\InvokableOptions"
+    }
+}
+```
+
+Or, callable class and method:
 
 ```json
 {
@@ -44,6 +55,17 @@ Besides basic array and associated arrays, you may specify a callable string:
 The `$type` can be injected in order aid in returning options:
 
 ```php
+// app/InvokableOptions.php
+class InvokableOptions
+{
+    public function __invoke($type)
+    {
+        return [
+            'foo' => 'Bar',
+        ];
+    }
+}
+
 // app/CustomOptions.php
 class CustomOptions
 {
