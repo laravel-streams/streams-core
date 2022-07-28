@@ -292,7 +292,7 @@ class Stream implements
         $type = Config::get('streams.core.default_source', 'filebase');
         $default = Config::get('streams.core.sources.types.' . $type);
 
-        if (!isset($attributes['source'])) {
+        if (!array_key_exists('source', $attributes)) {
             $attributes['source'] = $default;
         }
 
@@ -342,11 +342,11 @@ class Stream implements
              */
             $rules = Arr::get($attributes, 'rules', []);
 
-            if (Arr::get($attributes, 'required') == true) {
+            if (Arr::pull($attributes, 'required') == true) {
                 $rules[] = 'required';
             }
 
-            if (Arr::get($attributes, 'unique') == true) {
+            if (Arr::pull($attributes, 'unique') == true) {
                 $rules[] = 'unique';
             }
 

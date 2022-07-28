@@ -197,7 +197,7 @@ class StreamsServiceProvider extends ServiceProvider
     protected function registerStreams(): void
     {
         $prefix  = dirname(__DIR__) . '/resources/streams/';
-        $streams = ['core.streams', 'core.applications'];
+        $streams = ['core.streams', 'core.filesystem', 'core.applications'];
 
         foreach ($streams as $stream) {
             if (!Streams::exists($stream)) {

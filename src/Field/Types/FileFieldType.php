@@ -15,10 +15,6 @@ class FileFieldType extends StringFieldType
             return $value;
         }
 
-        if ($value instanceof \SplFileObject) {
-            dd($value);
-        }
-
         if ($value instanceof UploadedFile) {
 
             if (!$path = Arr::get($this->config, 'path')) {

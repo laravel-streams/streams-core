@@ -47,6 +47,8 @@ class Entry implements
 
         $this->stream = $stream;
 
+        $this->setPrototypeProperties($this->stream()->fields->toArray());
+
         $this->constructFluency($attributes);
     }
 

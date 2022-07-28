@@ -12,11 +12,20 @@
             "handle": "id",
             "type": "uuid",
             "required": true,
-            "unique": true
+            "unique": true,
+            "config": {
+                "default": true
+            }
+        },
+        {
+            "handle": "disk",
+            "type": "string",
+            "required": true
         },
         {
             "handle": "path",
-            "type": "string"
+            "type": "string",
+            "required": true
         },
         {
             "handle": "is_dir",
@@ -41,6 +50,10 @@
         {
             "handle": "last_modified",
             "type": "datetime"
+        },
+        {
+            "handle": "extra_metadata",
+            "type": "object"
         }
     ]
 }
