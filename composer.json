@@ -12,23 +12,20 @@
         }
     ],
     "require": {
+        "symfony/yaml": "^6.0",
+        "laravel/scout": "^9.0",
         "jenssegers/agent": "^2.6",
         "tmarois/filebase": "^1.0",
-        "laravel/scout": "^9.0",
-        "intervention/image": "^2.5",
         "laravel/framework": "^9.0",
-        "symfony/yaml": "^6.0",
-        "nicmart/string-template": "^0.1",
-        "laravelcollective/html": "^6.1",
-        "goldspecdigital/oooas": "^2.8"
+        "intervention/image": "^2.7",
+        "goldspecdigital/oooas": "^2.10",
+        "laravelcollective/html": "^6.3",
+        "nicmart/string-template": "^0.1"
     },
     "require-dev": {
         "streams/testing": "^1.0",
         "mockery/mockery": "^1.4",
-        "phpunit/phpunit": "^9.5",
-        "friendsofphp/php-cs-fixer": "^2.19",
-        "helmich/phpunit-json-assert": "^3.1",
-        "barryvdh/reflection-docblock": "^2.0.1"
+        "phpunit/phpunit": "^9.5"
     },
     "autoload": {
         "psr-4": {
@@ -45,8 +42,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "2.x-dev",
-            "dev-develop": "2.1.x-dev"
+            "dev-master": "2.x-dev"
         },
         "laravel": {
             "providers": [
