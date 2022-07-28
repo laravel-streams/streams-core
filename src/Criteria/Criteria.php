@@ -135,7 +135,10 @@ class Criteria
 
             $fingerprint = $this->stream->handle . '.query__' . md5(json_encode($this->parameters));
 
-            return $this->stream->cache()->remember(Arr::get($cache, 1) ?: $fingerprint, $cache[0], function () {
+            $seconds = $cache[0];
+            $key = Arr::get($cache, 1);
+
+            return $this->stream->cache()->remember($key ?: $fingerprint, $seconds, function () {
                 return $this->adapter->get($this->parameters);
             });
         }

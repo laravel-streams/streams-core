@@ -80,7 +80,7 @@ trait Prototype
                 $attributes[$key] = $this->{$key};
             }
         }
-        
+
         $this->__prototype['original'] = $attributes;
     }
 
@@ -88,14 +88,21 @@ trait Prototype
     {
         $reflection = new \ReflectionClass($this);
 
-        $properties = array_diff(
-            $reflection->getProperties(\ReflectionProperty::IS_PUBLIC),
-            $reflection->getProperties(\ReflectionProperty::IS_STATIC)
-        );
+        $public = $reflection->getProperties(\ReflectionProperty::IS_PUBLIC);
+        $static = $reflection->getProperties(\ReflectionProperty::IS_STATIC);
+
+        $static = array_map(function (\ReflectionProperty $property) {
+            return $property->getName();
+        }, $static);
+
+        // Remove static properties.
+        $properties = array_filter($public, function ($property) use ($static) {
+            return !in_array($property->getName(), $static);
+        });
 
         foreach ($properties as $property) {
 
-            $attribute = Arr::get($property->getAttributes(Field::class), 0);
+            $attribute = Arr::get((array) $property->getAttributes(Field::class), 0);
 
             if (!$attribute && $parent = $reflection->getParentClass()) {
                 $attribute = $this->resolvePrototypePropertyAttributes($parent, $property->getName());
@@ -159,7 +166,7 @@ trait Prototype
     {
         $allowed = $this->getPrototypeProperties();
         $attributes = $this->getPrototypeAttributes();
-        
+
         $this->setRawPrototypeAttributes(array_intersect_key($attributes, $allowed));
 
         return $this;
@@ -182,7 +189,7 @@ trait Prototype
 
         foreach (array_keys($this->__prototype['properties']) as $field) {
             if (isset($this->{$field})) {
-                $properties[$field] = $this->{$field}; 
+                $properties[$field] = $this->{$field};
             }
         }
 
