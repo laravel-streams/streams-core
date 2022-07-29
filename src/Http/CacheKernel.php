@@ -31,7 +31,6 @@ class CacheKernel extends \Barryvdh\HttpCache\CacheKernel
         '/locks/touch',
         '/locks/release',
         '/logout*',
-        '/login*',
     ];
 
     /**
