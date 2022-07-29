@@ -45,9 +45,9 @@ class Entry implements
             $stream = Streams::make($stream);
         }
 
-        $this->stream = $stream;
-
-        $this->setPrototypeProperties($this->stream()->fields->toArray());
+        if ($this->stream = $stream) {
+            $this->setPrototypeProperties($this->stream()->fields->toArray());
+        }
 
         $this->constructFluency($attributes);
     }
