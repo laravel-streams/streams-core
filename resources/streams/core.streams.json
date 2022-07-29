@@ -133,9 +133,6 @@
         {
             "handle": "fields",
             "type": "array",
-            "rules": [
-                "unique"
-            ],
             "config": {
                 "items": {
                     "handle": {
