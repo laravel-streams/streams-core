@@ -1,11 +1,10 @@
 <?php namespace Anomaly\Streams\Platform\Http\Controller;
 
-use Anomaly\Streams\Platform\Ui\Form\Command\GetFormCriteria;
-use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
-use Anomaly\Streams\Platform\Ui\Form\FormCriteria;
-use Illuminate\Contracts\Cache\Repository;
-use Illuminate\Routing\Redirector;
 use Illuminate\Session\Store;
+use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\Cookie;
+use Illuminate\Contracts\Cache\Repository;
+use Anomaly\Streams\Platform\Ui\Form\Command\GetFormCriteria;
 
 /**
  * Class FormController
@@ -28,6 +27,8 @@ class FormController extends PublicController
      */
     public function handle(Repository $cache, Redirector $redirect, Store $session, $key)
     {
+        Cookie::queue('http_cache_proxy', true, 0.1);
+
         if (!$parameters = $cache->get('form::' . $key)) {
 
             $this->messages->error('streams::message.form_expired');

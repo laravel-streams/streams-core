@@ -94,6 +94,14 @@ class CacheKernel extends \Barryvdh\HttpCache\CacheKernel
             return $kernel;
         }
 
+        /**
+         * Disable if HTTP cache 
+         * is intended to miss.
+         */
+        if (isset($_COOKIE['http_cache_proxy'])) {
+            return $kernel;
+        }
+
         return $cache;
     }
 
