@@ -36,4 +36,9 @@ class FieldDecorator
     {
         return (string) $this->value;
     }
+
+    public function __call($method, $parameters = [])
+    {
+        return $this->forwardCallTo($this->value, $method, $parameters);
+    }
 }
