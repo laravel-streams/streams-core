@@ -21,9 +21,9 @@ Creating addons is a great way to distribute reusable code as well as encapsulat
 Use `composer init` inside a new directory for your addon package. 
 
 ```bash
-mkdir music-theory
+mkdir example-addon
 
-cd music-theory
+cd example-addon
 
 composer init
 ```
@@ -31,14 +31,6 @@ composer init
 ## Defining Addon Packages
 
 Mark your composer package as a `streams-addon` using the `type` parameter in order to declare that the package is designed for Laravel Streams. 
-
-```json
-// addons/example/music-theory/composer.json
-{
-    "type": "streams-addon",
-    // ...
-}
-```
 
 ### Service Providers
 
