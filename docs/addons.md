@@ -16,6 +16,7 @@ Addons are [composer packages](https://getcomposer.org/) that are specifically d
 
 Creating addons is a great way to distribute reusable code as well as encapsulate and organize large project components. Before developing addons you should have a basic understanding of integrating with Laravel Streams as well as a general understanding of Composer packages.
 
+
 ## Creating Addons
 
 Use `composer init` inside a new directory for your addon package. 
@@ -28,28 +29,90 @@ cd example-addon
 composer init
 ```
 
-## Defining Addon Packages
+### Defining Addon Packages
 
 Mark your composer package as a `streams-addon` using the `type` parameter in order to declare that the package is designed for Laravel Streams. 
 
-### Service Providers
-
-Using [service providers](https://laravel.com/docs/providers) is the easiest way to integrate with Laravel and Streams. You can specify autodetected service providers using the `composer.json` file.
-
-``` json
-// addons/example/widgets/composer.json
+```bash
+// addons/example-addon/composer.json
 {
+    "name": "myproject/example-addon",
+    "description": "An example addon for my project.",
+    "type": "streams-addons",
+    "require": {
+        "streams/core": "^2.0"
+    },
+    "require-dev": {
+        "streams/testing": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "MyProject\\ExampleAddon\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MyProject\\ExampleAddon\\Tests\\": "tests/"
+        }
+    },
+    "license": "MIT",
+    "prefer-stable": true,
+    "minimum-stability": "dev",
+    "authors": [
+        {
+            "name": "Joe Smith",
+            "email": "joe@streams.dev"
+        }
+    ],
     "extra": {
         "laravel": {
             "providers": [
-                "Example\\Widgets\\WidgetsProvider"
+                "MyProject\\ExampleAddon\\ExampleAddonServiceProvider"
             ]
         }
     }
 }
 ```
 
-### Local Packages
+### Service Providers
+
+Using [service providers](https://laravel.com/docs/providers) is the easiest way to integrate with Laravel and Streams. You can specify autodetected service providers using the `composer.json` file.
+
+``` json
+// addons/example-addon/composer.json
+{
+    "extra": {
+        "laravel": {
+            "providers": [
+                "MyProject\\ExampleAddon\\ExampleAddonServiceProvider"
+            ]
+        }
+    }
+}
+```
+
+```php
+// addons/example-addon/src/ExampleAddonServiceProvider.php
+namespace MyProject\ExampleAddon;
+
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\ServiceProvider;
+
+class ExampleAddonServiceProvider extends ServiceProvider
+{
+    public function register(): void
+    {
+        //
+    }
+
+    public function boot(): void
+    {
+        //
+    }
+}
+```
+
+## Local Packages
 
 Using [repository paths](https://getcomposer.org/doc/05-repositories.md#path) you can acheive local-only, application-specific, or development installations of addons.
 
@@ -66,11 +129,12 @@ Using [repository paths](https://getcomposer.org/doc/05-repositories.md#path) yo
 }
 ```
 
-### Installing Addons
+## Installing Addons
 
 Generally speaking, installing an addon requires downloading it with composer and optionally publishing it's assets and any migrations.
 
 ```json
+// composer.json
 {
     "require": {
         // ...
