@@ -16,16 +16,27 @@ Addons are [composer packages](https://getcomposer.org/) that are specifically d
 
 Creating addons is a great way to distribute reusable code as well as encapsulate and organize large project components. Before developing addons you should have a basic understanding of integrating with Laravel Streams as well as a general understanding of Composer packages.
 
-## Defining Addons
+## Creating Addons
 
-Mark your composer package as a `streams-addon` using the `type` parameter:
+Use `composer init` inside a new directory for your addon package. 
+
+```bash
+mkdir music-theory
+
+cd music-theory
+
+composer init
+```
+
+## Defining Addon Packages
+
+Mark your composer package as a `streams-addon` using the `type` parameter in order to declare that the package is designed for Laravel Streams. 
 
 ```json
-// addons/example/widgets/composer.json
+// addons/example/music-theory/composer.json
 {
-    "name": "example/widgets",
-    "description": "Widgets for your example project.",
     "type": "streams-addon",
+    // ...
 }
 ```
 
@@ -55,7 +66,7 @@ Using [repository paths](https://getcomposer.org/doc/05-repositories.md#path) yo
 {
     "repositories": [{
         "type": "path",
-        "url": "addons/examples/widget",
+        "url": "addons/example-addon",
         "options": {
             "symlink": true
         }
@@ -72,6 +83,6 @@ Generally speaking, installing an addon requires downloading it with composer an
     "require": {
         // ...
         "example/addon": "dev-master"
-    },
+    }
 }
 ```

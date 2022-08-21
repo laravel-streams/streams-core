@@ -62,6 +62,6 @@ class IntegerFieldType extends Field
     {
         $last = $this->stream->entries()->orderBy($this->handle, 'DESC')->first();
 
-        return $last ? $last->{$this->handle} + 1 : 1;
+        return $last ? $last->{$this->handle} + 1 : $this->ruleParameter('min', 1);
     }
 }
