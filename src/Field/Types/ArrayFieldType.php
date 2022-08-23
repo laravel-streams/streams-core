@@ -133,9 +133,9 @@ class ArrayFieldType extends Field
             }
         }
 
-        // if ($wrapper = $this->config('wrapper')) {
-        //     $value = $this->wrapArray($value, $wrapper);
-        // }
+        if ($wrapper = $this->config('wrapper')) {
+            $value = $this->wrapArray($value, $wrapper);
+        }
         
         return $value;
     }

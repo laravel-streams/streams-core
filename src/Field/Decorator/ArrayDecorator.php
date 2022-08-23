@@ -44,14 +44,14 @@ class ArrayDecorator extends FieldDecorator
      * @param $arguments
      * @return mixed
      */
-    public function __call($method, $arguments)
+    public function __call($method, $parameters)
     {
         if (is_object($this->value)) {
-            return call_user_func_array([$this->value, $method], $arguments);
+            return call_user_func_array([$this->value, $method], $parameters);
         }
 
         if (method_exists(Arr::class, $method)) {
-            return Arr::{$method}($this->value, ...$arguments);
+            return Arr::{$method}($this->value, ...$parameters);
         }
 
         throw new \Exception("Method [{$method}] does not exist on [{self::class}].");
