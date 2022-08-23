@@ -10,7 +10,7 @@ enabled: true
 This package is added to existing Laravel projects as a dependency by requiring it with Composer.
 
 ```bash
-composer require streams/core
+composer require streams/core:2.0.x-dev
 ```
 
 ### Cloning with Git
