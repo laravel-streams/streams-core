@@ -21,10 +21,6 @@ class ArrayFieldType extends Field
 
     public function cast($value)
     {
-        if (is_object($value)) {
-            return $value;
-        }
-
         if (is_string($value) && ($json = json_decode($value, true)) !== null) {
             $value = $json;
         }
