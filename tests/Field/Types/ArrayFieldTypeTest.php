@@ -2,8 +2,8 @@
 
 namespace Streams\Core\Tests\Field\Types;
 
-use Illuminate\Support\Collection;
 use Streams\Core\Entry\Entry;
+use Illuminate\Support\Collection;
 use Streams\Core\Tests\CoreTestCase;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Field\Types\ArrayFieldType;
@@ -64,10 +64,11 @@ class ArrayFieldTypeTest extends CoreTestCase
             'stream' => Streams::make('films')
         ]);
 
-        $this->assertSame([[
-            '@abstract' => get_class($field),
-            'name' => 'Test Name',
-        ]], $field->modify([$field]));
+        
+        $this->assertSame([array_merge(
+            ['@abstract' => get_class($field)],
+            $field->toArray()
+        )], $field->modify([$field]));
     }
 
     public function test_it_restores_abstract_types()
@@ -186,10 +187,6 @@ class ArrayFieldTypeTest extends CoreTestCase
 
     public function test_it_wraps_to_collections()
     {
-        $this->markTestSkipped('Wrapper vs decorated array.');
-
-        return;
-
         $field = new ArrayFieldType([
             'stream' => Streams::make('films'),
             'config' => [
@@ -203,17 +200,13 @@ class ArrayFieldTypeTest extends CoreTestCase
 
         $restored = $field->restore($field->modify([$entry]));
 
-        $this->assertInstanceOf(Collection::class, $field->decorate($restored));
+        $this->assertInstanceOf(Collection::class, $restored);
         
         $this->assertSame(1, $restored->count());
     }
 
     public function test_it_wraps_to_custom_collections()
     {
-        $this->markTestSkipped('Wrapper vs decorated array.');
-
-        return;
-        
         $field = new ArrayFieldType([
             'stream' => Streams::make('films'),
             'config' => [

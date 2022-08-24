@@ -9,11 +9,17 @@ sort: 1
 
 ## Introduction
 
-Streams Core provides the most fundamental features offered by the Streams platform. It is the only required dependency to use [streams](streams) which the rest of the platform addons build upon.
+Streams Core provides the most fundamental features offered by the Streams platform. It is the only required dependency which the rest of the system addons build upon.
 
-### Laravel Basics
+### Data First
 
-Streams Core helps you take Laravel basics further and in less time.
+It is good to approach Laravel Streams from the entry point *of* the streams your project needs. 
+
+- [Streams](streams)
+
+### Application Support
+
+Streams Core helps you take Laravel further and in less time.
 
 - [Views](views)
 - [Routing](routing)

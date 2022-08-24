@@ -63,6 +63,20 @@ The decorated value provides collection access to the data.
 
 @todo Generate config options from class::configuration
 
+```json
+{
+// streams/example.json
+"fields": {
+    "items": {
+        "type": "array",
+        "config": {
+            "wrapper": "array|collection|App\\MyCollection"
+        }
+    }
+}
+}
+```
+
 ### Items
 
 Use the `items` configuration to specify the allowed item types using field configurations. If specified, each item must be valid against any of the provided types.

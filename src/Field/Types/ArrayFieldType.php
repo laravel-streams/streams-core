@@ -14,11 +14,10 @@ use Streams\Core\Field\Decorator\ArrayDecorator;
 
 class ArrayFieldType extends Field
 {
-    protected $__attributes = [
-        'rules' => [
-            'array',
-        ],
-    ];
+    #[Field([
+        'type' => 'array',
+    ])]
+    public $rules = ['array'];
 
     public function cast($value)
     {
