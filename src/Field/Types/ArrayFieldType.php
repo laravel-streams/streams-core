@@ -77,7 +77,9 @@ class ArrayFieldType extends Field
         if (is_null($value)) {
             $value = [];
         }
-        
+        if (is_string($value)) {
+            dd($value);
+        }
         foreach ($value as $key => $item) {
 
             if (!is_array($item) && $stream = $this->config('related')) {
