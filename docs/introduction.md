@@ -17,7 +17,7 @@ It is good to approach Laravel Streams from the entry point *of* the streams you
 
 - [Streams](streams)
 
-### Application Support
+## Application Support
 
 Streams Core helps you take Laravel further and in less time.
 
