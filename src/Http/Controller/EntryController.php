@@ -42,7 +42,7 @@ class EntryController extends Controller
 
         $action = $data->get('action');
 
-        if (isset($action['stream'])) {
+        if (isset($action['stream']) && Streams::exists($action['stream'])) {
 
             $data->put('stream', Streams::make($action['stream']));
 
@@ -51,7 +51,7 @@ class EntryController extends Controller
 
         $parameters = Request::route()->parameters;
 
-        if (isset($parameters['stream'])) {
+        if (isset($parameters['stream']) && Streams::exists($action['stream'])) {
 
             $data->put('stream', Streams::make($parameters['stream']));
 
