@@ -45,23 +45,20 @@ Basic `array` access:
 
 ### Decorator Usage
 
-The decorated value provides collection access to the data.
+The decorated value provides [collection access](https://laravel.com/docs/collections) to the data.
 
 ```blade
 @verbatim// Decorated value
-{{ $entry->items()->implode(', ') }}
+{{ $entry->decorate('items')->implode(', ') }}
 @endverbatim
 ```
-
-#### Methods
-
-@todo Generate methods from @docs
-
 
 
 ## Configuration
 
-@todo Generate config options from class::configuration
+### Wrapper
+
+The array can optionally be wrapped with a generic **collection** or **arrayable** classname automatically when accessing the field.
 
 ```json
 {
@@ -74,7 +71,16 @@ The decorated value provides collection access to the data.
         }
     }
 }
-}
+```
+
+```php
+// welcome.blade.php
+@verbatim@if($entry->items->isNotEmpty())
+@foreach ($entry->items as $item)
+// 
+@endforeach
+@endif
+@endverbatim
 ```
 
 ### Items

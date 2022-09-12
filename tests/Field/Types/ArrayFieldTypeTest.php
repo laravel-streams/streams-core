@@ -224,6 +224,30 @@ class ArrayFieldTypeTest extends CoreTestCase
         
         $this->assertSame(2, $restored->count());
     }
+
+    public function test_it_validates_items()
+    {
+        $stream = Streams::build([
+            'id' => 'tmp',
+            'fields' => [
+                [
+                    'handle' => 'items',
+                    'type' => 'array',
+                    'rules' => [
+                        'required',
+                    ]
+                ],
+            ],
+        ]);
+
+        $data = ['items' => 'Test'];
+
+        $this->assertFalse($stream->validator($data)->passes());
+
+        $data = ['items' => ['Test']];
+
+        $this->assertTrue($stream->validator($data)->passes());
+    }
 }
 
 class CustomArrayWrapper extends Collection

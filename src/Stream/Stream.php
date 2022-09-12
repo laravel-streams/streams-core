@@ -340,7 +340,7 @@ class Stream implements
             /**
              * Process validation flags.
              */
-            $rules = Arr::get($attributes, 'rules', []);
+            $rules = Arr::pull($attributes, 'rules', []);
 
             if (Arr::pull($attributes, 'required') == true) {
                 $rules[] = 'required';
@@ -349,8 +349,6 @@ class Stream implements
             if (Arr::pull($attributes, 'unique') == true) {
                 $rules[] = 'unique';
             }
-
-            $attributes['rules'] = $rules;
 
             if (!array_key_exists('type', $attributes)) {
                 $attributes['type'] = 'string';
@@ -363,6 +361,8 @@ class Stream implements
             $field = App::make('streams.core.field_type.' . $attributes['type'], [
                 'attributes' => $attributes + ['stream' => $this],
             ]);
+
+            $field->rules = array_unique(array_merge($field->rules(), $rules));
 
             $fields[$attributes['handle']] = $field;
 
