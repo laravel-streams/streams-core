@@ -235,7 +235,10 @@ class ArrayFieldTypeTest extends CoreTestCase
                     'type' => 'array',
                     'rules' => [
                         'required',
-                    ]
+                    ],
+                    'config' => [
+                        ['type' => 'array']
+                    ],
                 ],
             ],
         ]);

@@ -11,13 +11,23 @@ use Streams\Core\Support\Facades\Hydrator;
 use Illuminate\Contracts\Support\Arrayable;
 use Streams\Core\Entry\Contract\EntryInterface;
 use Streams\Core\Field\Decorator\ArrayDecorator;
+use Streams\Core\Field\Types\Validation\ValidateArrayItems;
 
 class ArrayFieldType extends Field
 {
     #[Field([
         'type' => 'array',
     ])]
-    public $rules = ['array'];
+    public $rules = ['array', 'valid_items'];
+    
+    #[Field([
+        'type' => 'array',
+    ])]
+    public $validators = [
+        'valid_items' => [
+            'handler' => ValidateArrayItems::class,
+        ],
+    ];
 
     public function cast($value)
     {

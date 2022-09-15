@@ -2,6 +2,7 @@
 
 namespace Streams\Core\Stream;
 
+use Faker\Core\File;
 use JsonSerializable;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
@@ -147,7 +148,19 @@ class Stream implements
         /**
          * https://gph.is/g/Eqn635a
          */
-        $rules = $this->fields->map(function (Field $field) {
+        $rules = $this->fields->each(function(Field $field) use ($factory) {
+            
+            foreach ($field->validators ?: [] as $rule => $validator) {
+
+                $handler = Arr::get($validator, 'handler');
+    
+                $factory->extend(
+                    $rule,
+                    $this->callback($handler),
+                    Arr::get($validator, 'message')
+                );
+            }
+        })->map(function (Field $field) {
             return $field->rules;
         })->all();
 
@@ -196,6 +209,26 @@ class Stream implements
     public function cache(): StreamCache
     {
         return static::once($this->id . __METHOD__, fn () => new StreamCache($this));
+    }
+
+    protected function callback($handler): \Closure
+    {
+        return function ($attribute, $value, $parameters, Validator $validator) use ($handler) {
+
+            $field = $this->fields->get($attribute);
+
+            App::call(
+                $handler,
+                [
+                    'stream' => $this,
+                    'value' => $value,
+                    'field' => $field,
+                    'attribute' => $attribute,
+                    'validator' => $validator,
+                    'parameters' => $parameters,
+                ]
+            );
+        };
     }
 
     public function toArray(): array
