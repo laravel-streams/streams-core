@@ -34,7 +34,7 @@ class StreamsServiceProvider extends ServiceProvider
         'Streams' => \Streams\Core\Support\Facades\Streams::class,
         'Includes' => \Streams\Core\Support\Facades\Includes::class,
         'Messages' => \Streams\Core\Support\Facades\Messages::class,
-        'overrides' => \Streams\Core\Support\Facades\Overrides::class,
+        'Overrides' => \Streams\Core\Support\Facades\Overrides::class,
         'Applications' => \Streams\Core\Support\Facades\Applications::class,
     ];
 

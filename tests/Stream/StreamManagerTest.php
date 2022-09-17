@@ -111,6 +111,8 @@ class StreamManagerTest extends CoreTestCase
 
     public function test_it_parses_schema()
     {
-        $stream = Streams::parse('https://raw.githubusercontent.com/OAI/OpenAPI-Specification/main/examples/v3.0/petstore.yaml');
+        Streams::parse(file_get_contents('https://raw.githubusercontent.com/OAI/OpenAPI-Specification/main/examples/v3.0/petstore.yaml'));
+
+        $this->assertTrue(Streams::collection()->has('Pets'));
     }
 }

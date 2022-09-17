@@ -14,6 +14,7 @@ use Streams\Core\Support\Traits\HasMemory;
 use Streams\Core\Support\Traits\FiresCallbacks;
 use Streams\Core\Repository\Contract\RepositoryInterface;
 use Illuminate\Contracts\Container\BindingResolutionException;
+use Streams\Core\Support\Facades\Streams;
 use Symfony\Component\Yaml\Yaml;
 
 class StreamManager
@@ -107,20 +108,9 @@ class StreamManager
 
     public function parse(string $schema)
     {
-        if (Str::startsWith($schema, 'http')) {
-            $schema = file_get_contents($schema);
-        }
+        $schema = Yaml::parse($schema);
 
-        // Check if the string is JSON
-        if (Str::startsWith($schema, '{')) {
-            $schema = json_decode($schema, true);
-        }
-
-        if (is_string($schema)) {
-            $schema = Yaml::parse($schema);
-        }
-
-        $streams = [];
+        $streams = Streams::collection();
 
         $schemas = Arr::get($schema, 'components.schemas', []);
 
@@ -142,7 +132,7 @@ class StreamManager
                 $stream['fields'][] = $field;
             }
 
-            $streams[] = $stream = new Stream($stream);
+            $streams->put($id, $stream = new Stream($stream));
 
             file_put_contents(base_path('streams/' . $id . '.json'), $stream->toJson());
         }
