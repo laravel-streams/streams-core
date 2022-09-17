@@ -37,9 +37,6 @@
             "Streams\\Core\\Tests\\": "tests/"
         }
     },
-    "config": {
-        "bin-dir": "bin"
-    },
     "extra": {
         "branch-alias": {
             "dev-master": "2.x-dev"

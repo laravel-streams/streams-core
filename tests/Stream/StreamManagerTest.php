@@ -108,4 +108,9 @@ class StreamManagerTest extends CoreTestCase
     {
         $this->assertInstanceOf(Repository::class, Streams::repository('films'));
     }
+
+    public function test_it_parses_schema()
+    {
+        $stream = Streams::parse('https://raw.githubusercontent.com/OAI/OpenAPI-Specification/main/examples/v3.0/petstore.yaml');
+    }
 }

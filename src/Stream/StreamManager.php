@@ -3,6 +3,7 @@
 namespace Streams\Core\Stream;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Streams\Core\Stream\Stream;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
@@ -13,6 +14,7 @@ use Streams\Core\Support\Traits\HasMemory;
 use Streams\Core\Support\Traits\FiresCallbacks;
 use Streams\Core\Repository\Contract\RepositoryInterface;
 use Illuminate\Contracts\Container\BindingResolutionException;
+use Symfony\Component\Yaml\Yaml;
 
 class StreamManager
 {
@@ -101,6 +103,49 @@ class StreamManager
         Arr::set($stream, 'id', Arr::get($stream, 'id', $id));
 
         return $this->register($stream);
+    }
+
+    public function parse(string $schema)
+    {
+        if (Str::startsWith($schema, 'http')) {
+            $schema = file_get_contents($schema);
+        }
+
+        // Check if the string is JSON
+        if (Str::startsWith($schema, '{')) {
+            $schema = json_decode($schema, true);
+        }
+
+        if (is_string($schema)) {
+            $schema = Yaml::parse($schema);
+        }
+
+        $streams = [];
+
+        $schemas = Arr::get($schema, 'components.schemas', []);
+
+        foreach ($schemas as $id => $schema) {
+            
+            $stream = ['id' => $id];
+
+            $required = Arr::get($schema, 'required', []);
+            $properties = Arr::get($schema, 'properties', []);
+
+            foreach ($properties as $handle => $property) {
+
+                $field = ['handle' => $handle, 'type' => $property['type']];
+
+                if (in_array($handle, $required)) {
+                    $field['rules'][] = 'required';
+                }
+
+                $stream['fields'][] = $field;
+            }
+
+            $streams[] = $stream = new Stream($stream);
+
+            file_put_contents(base_path('streams/' . $id . '.json'), $stream->toJson());
+        }
     }
 
     public function entries(string $id): Criteria
