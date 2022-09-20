@@ -17,7 +17,7 @@ class Application extends \Illuminate\Console\Application
      *
      * @return \Symfony\Component\Console\Input\InputDefinition
      */
-    protected function getDefaultInputDefinition()
+    protected function getDefaultInputDefinition(): \Symfony\Component\Console\Input\InputDefinition
     {
         $definition = parent::getDefaultInputDefinition();
 
