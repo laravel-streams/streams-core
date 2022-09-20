@@ -754,7 +754,7 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
      * @param  mixed $offset
      * @return bool
      */
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return !method_exists($this, $offset) && !is_null($this->$offset);
     }
