@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform;
 
 use Anomaly\Streams\Platform\Artisan\ArtisanServiceProvider;
-use Anomaly\Streams\Platform\Database\Migration\MigrationServiceProvider;
 use Illuminate\Foundation\Providers\ComposerServiceProvider;
 use Illuminate\Foundation\Providers\ConsoleSupportServiceProvider;
 
@@ -22,7 +21,6 @@ class StreamsConsoleProvider extends ConsoleSupportServiceProvider
      */
     protected $providers = [
         ArtisanServiceProvider::class,
-        MigrationServiceProvider::class,
         ComposerServiceProvider::class,
     ];
 }
