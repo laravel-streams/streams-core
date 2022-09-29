@@ -5,6 +5,7 @@ namespace Anomaly\Streams\Platform;
 use Illuminate\Support\Str;
 use Illuminate\Routing\Redirector;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\ServiceProvider;
 use Asm89\Twig\CacheExtension\Extension;
 use Anomaly\Streams\Platform\Event\Ready;
@@ -16,7 +17,6 @@ use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Field\FieldModel;
-use Anomaly\Streams\Platform\Addon\AddonManager;
 use Anomaly\Streams\Platform\Stream\StreamModel;
 use Anomaly\Streams\Platform\Entry\EntryObserver;
 use Anomaly\Streams\Platform\Field\FieldObserver;
@@ -47,15 +47,7 @@ use Anomaly\Streams\Platform\Application\Command\InitializeApplication;
 use Anomaly\Streams\Platform\Application\Command\ConfigureFileCacheStore;
 use Anomaly\Streams\Platform\Application\Command\LoadEnvironmentOverrides;
 use Anomaly\Streams\Platform\Application\Command\LoadStreamsConfiguration;
-use Illuminate\Support\Facades\Request;
 
-/**
- * Class StreamsServiceProvider
- *
- * @link   http://pyrocms.com/
- * @author PyroCMS, Inc. <support@pyrocms.com>
- * @author Ryan Thompson <ryan@pyrocms.com>
- */
 class StreamsServiceProvider extends ServiceProvider
 {
 
@@ -95,7 +87,6 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public $bindings = [
         'Illuminate\Contracts\Debug\ExceptionHandler'                                    => 'Anomaly\Streams\Platform\Exception\ExceptionHandler',
-        'Illuminate\Database\Migrations\MigrationRepositoryInterface'                    => 'Anomaly\Streams\Platform\Database\Migration\MigrationRepository',
         'Anomaly\Streams\Platform\Entry\EntryModel'                                      => 'Anomaly\Streams\Platform\Entry\EntryModel',
         'Anomaly\Streams\Platform\Entry\Contract\EntryRepositoryInterface'               => 'Anomaly\Streams\Platform\Entry\EntryRepository',
         'Anomaly\Streams\Platform\Field\FieldModel'                                      => 'Anomaly\Streams\Platform\Field\FieldModel',
@@ -125,11 +116,9 @@ class StreamsServiceProvider extends ServiceProvider
      * @var array
      */
     public $singletons = [
-        'Illuminate\Database\Migrations\Migrator'                                            => 'Anomaly\Streams\Platform\Database\Migration\Migrator',
         'Anomaly\Streams\Platform\Routing\UrlGenerator'                                      => 'url',
         'Intervention\Image\ImageManager'                                                    => 'image',
         'League\Flysystem\MountManager'                                                      => 'League\Flysystem\MountManager',
-        'Illuminate\Database\Seeder'                                                         => 'Anomaly\Streams\Platform\Database\Seeder\Seeder',
         'Illuminate\Console\Scheduling\Schedule'                                             => 'Illuminate\Console\Scheduling\Schedule',
         'Anomaly\Streams\Platform\Application\Application'                                   => 'Anomaly\Streams\Platform\Application\Application',
         'Anomaly\Streams\Platform\Addon\AddonLoader'                                         => 'Anomaly\Streams\Platform\Addon\AddonLoader',
@@ -326,7 +315,7 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        
+
         $this->publishes([
             base_path('vendor/anomaly/streams-platform/migrations/core')
             => base_path('database/migrations')
