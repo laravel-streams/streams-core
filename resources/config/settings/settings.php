@@ -270,6 +270,9 @@ return [
         'env'  => 'MAIL_ENCRYPTION',
         'bind' => 'mail.encryption',
         'type' => 'anomaly.field_type.text',
+        'config' => [
+            'default_value' => 'ssl',
+        ],
     ],
     'http_cache'            => [
         'env'    => 'HTTP_CACHE',
