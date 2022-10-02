@@ -14,6 +14,7 @@ class Parser
         $parsed = parse_url(Request::url());
 
         $data = [
+            'timestamp' => time(),
             'request' => [
                 'ip' => Request::ip(),
                 'url' => Request::url(),
