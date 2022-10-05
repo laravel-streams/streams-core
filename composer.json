@@ -28,7 +28,7 @@
         "ezyang/htmlpurifier": "~4.0",
         "tubalmartin/cssmin": "~4.0",
         "fzaninotto/faker": "~1.4",
-        "leafo/scssphp": "^0.8.4"
+        "scssphp/scssphp": "^1.11"
     },
     "autoload": {
         "psr-4": {
