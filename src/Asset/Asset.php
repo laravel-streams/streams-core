@@ -13,7 +13,7 @@ use Illuminate\Filesystem\Filesystem;
 use Anomaly\Streams\Platform\Support\Template;
 use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Addon\Theme\ThemeCollection;
-use Leafo\ScssPhp\Compiler;
+use ScssPhp\ScssPhp\Compiler;
 
 /**
  * Class Asset
