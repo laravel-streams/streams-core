@@ -69,6 +69,20 @@ class EloquentAdapter extends AbstractAdapter
         return $this;
     }
 
+    public function groupBy(...$groups): static
+    {
+        $this->query = $this->query->groupBy(...$groups);
+
+        return $this;
+    }
+
+    public function select($columns = ['*']): static
+    {
+        $this->query = $this->query->select($columns);
+
+        return $this;
+    }
+
     public function with($relations): static
     {
         $this->query = $this->query->with($relations);
