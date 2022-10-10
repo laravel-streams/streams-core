@@ -9,9 +9,14 @@ use Streams\Core\Field\FieldDecorator;
 class StringDecorator extends FieldDecorator
 {
 
-    public function lines()
+    public function lines($separator = "\n", ?int $limit)
     {
-        return explode("\n", $this->value);
+        return explode($separator, $this->value, $limit);
+    }
+
+    public function json(bool $associative = false, int $depth = 512, int $flags = 0)
+    {
+        return json_decode($this->value, $associative, $depth, $flags);
     }
 
     public function render(array $payload = [])
