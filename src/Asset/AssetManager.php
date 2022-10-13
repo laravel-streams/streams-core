@@ -3,6 +3,7 @@
 namespace Streams\Core\Asset;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Collective\Html\HtmlBuilder;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Filesystem\Filesystem;
@@ -117,8 +118,8 @@ class AssetManager
     {
         $asset = $this->resolve($asset);
 
-        if (!filter_var($asset, FILTER_VALIDATE_URL)) {
-            $asset = public_path(ltrim($asset, '/\\'));
+        if (!Str::startsWith($asset, [base_path(), 'http://', 'https://'])) {
+            $asset = base_path(ltrim($asset, '/\\'));
         }
 
         return file_get_contents($asset);
