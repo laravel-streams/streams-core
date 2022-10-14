@@ -9,7 +9,7 @@ use Streams\Core\Field\Decorator\StringDecorator;
 
 class SlugFieldType extends Field
 {
-    public function rules()
+    public function rules(): array
     {
         return array_merge([
             'regex:/^[a-z0-9]+(?:[-_][a-z0-9]+)*$/',

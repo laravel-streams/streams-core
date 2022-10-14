@@ -8,27 +8,14 @@ use Streams\Core\Field\FieldDecorator;
 
 class ArrayDecorator extends FieldDecorator
 {
-
-    /**
-     * Return a collection of the value.
-     * 
-     * @return Collection
-     */
-    public function collect()
+    public function collect(): Collection
     {
         return collect($this->value);
     }
 
-    /**
-     * Return the array value as an html attributes string.
-     *
-     * @param array $attributes
-     *
-     * @return string
-     */
-    public function htmlAttributes($attributes = []): string
+    public function htmlAttributes($extra = []): string
     {
-        $attributes = array_merge($this->value, $attributes);
+        $attributes = array_merge($this->value, $extra);
 
         array_walk($attributes, function (&$value, $key) {
             $value = $key . '="' . $value . '"';
@@ -37,13 +24,6 @@ class ArrayDecorator extends FieldDecorator
         return implode(' ', $attributes);
     }
 
-    /**
-     * Map calls through the array helper.
-     *
-     * @param $method
-     * @param $arguments
-     * @return mixed
-     */
     public function __call($method, $parameters)
     {
         if (is_object($this->value)) {
@@ -55,21 +35,5 @@ class ArrayDecorator extends FieldDecorator
         }
 
         throw new \Exception("Method [{$method}] does not exist on [{self::class}].");
-    }
-
-    /**
-     * Map calls through the array helper.
-     *
-     * @param $method
-     * @param $arguments
-     * @return mixed
-     */
-    public function __get($attribute)
-    {
-        if (is_object($this->value)) {
-            return $this->value->$attribute;
-        }
-
-        return Arr::get($this->value, $attribute);
     }
 }

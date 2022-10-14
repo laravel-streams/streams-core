@@ -8,11 +8,9 @@ use Streams\Core\Field\Decorator\IntegerDecorator;
 
 class IntegerFieldType extends Field
 {
-    protected $__attributes = [
-        'rules' => [
-            'numeric',
-            'integer',
-        ],
+    public $rules = [
+        'numeric',
+        'integer',
     ];
 
     public function cast($value): int
@@ -58,7 +56,7 @@ class IntegerFieldType extends Field
     //     return $this->generator()->randomNumber();
     // }
 
-    public function getNextIncrementValue()
+    protected function getNextIncrementValue()
     {
         $last = $this->stream->entries()->orderBy($this->handle, 'DESC')->first();
 

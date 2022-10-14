@@ -8,7 +8,7 @@ use Streams\Core\Field\Schema\DateSchema;
 
 class DateFieldType extends DatetimeFieldType
 {
-    public function default($value)
+    public function default($value): Carbon
     {
         return $this->cast($value);
     }

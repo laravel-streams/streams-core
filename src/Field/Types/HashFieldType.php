@@ -3,9 +3,9 @@
 namespace Streams\Core\Field\Types;
 
 use Streams\Core\Field\Field;
+use Illuminate\Support\Facades\Hash;
 use Streams\Core\Field\Schema\HashSchema;
 use Streams\Core\Field\Decorator\HashDecorator;
-use Illuminate\Support\Facades\Hash as HashFacade;
 
 class HashFieldType extends Field
 {
@@ -15,7 +15,7 @@ class HashFieldType extends Field
             return $value;
         }
 
-        return HashFacade::make($value);
+        return Hash::make($value);
     }
 
     public function getSchemaName()

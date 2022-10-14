@@ -15,14 +15,11 @@ use Streams\Core\Field\Types\Validation\ValidateArrayItems;
 
 class ArrayFieldType extends Field
 {
-    #[Field([
-        'type' => 'array',
-    ])]
-    public $rules = ['array', 'valid_items'];
+    public $rules = [
+        'array',
+        'valid_items',
+    ];
     
-    #[Field([
-        'type' => 'array',
-    ])]
     public $validators = [
         'valid_items' => [
             'handler' => ValidateArrayItems::class,

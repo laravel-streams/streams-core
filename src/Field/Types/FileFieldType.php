@@ -8,7 +8,6 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class FileFieldType extends StringFieldType
 {
-    
     public function cast($value)
     {
         if (is_string($value)) {

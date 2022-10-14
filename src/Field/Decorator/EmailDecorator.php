@@ -6,9 +6,14 @@ use Collective\Html\HtmlFacade;
 
 class EmailDecorator extends StringDecorator
 {
-    public function mailto($email = null, $title = null, $attributes = [], $escape = true)
-    {
-        $email = $email ?: $this->value;
+    public function mailto(
+        $title = null,
+        $attributes = [],
+        $default = null,
+        $escape = true
+    ): string {
+
+        $email = $default ?: $this->value;
 
         if (!$title) {
             $title = $email;
@@ -17,11 +22,6 @@ class EmailDecorator extends StringDecorator
         return HtmlFacade::mailto($email, $title, $attributes, $escape);
     }
 
-    /**
-     * Normalize the URL by default.
-     *
-     * @return bool|string
-     */
     public function __toString()
     {
         return (string) $this->mailto();

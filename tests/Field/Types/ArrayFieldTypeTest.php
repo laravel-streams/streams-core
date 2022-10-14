@@ -11,6 +11,16 @@ use Streams\Core\Field\Decorator\ArrayDecorator;
 
 class ArrayFieldTypeTest extends CoreTestCase
 {
+    public function test_it_returns_default_rules()
+    {
+        $field = new ArrayFieldType([
+            'stream' => Streams::make('films')
+        ]);
+
+        $this->assertContains('array', $field->rules());
+        $this->assertContains('valid_items', $field->rules());
+    }
+
     public function test_it_casts_json_to_array()
     {
         $field = new ArrayFieldType([

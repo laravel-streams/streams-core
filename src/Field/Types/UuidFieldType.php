@@ -9,8 +9,7 @@ use Streams\Core\Field\Decorator\StringDecorator;
 
 class UuidFieldType extends Field
 {
-
-    public function default($value)
+    public function default($value): string
     {
         return $this->generate();
     }

@@ -8,10 +8,8 @@ use Streams\Core\Field\Schema\NumberSchema;
 
 class NumberFieldType extends Field
 {
-    protected $__attributes = [
-        'rules' => [
-            'numeric',
-        ],
+    public $rules = [
+        'numeric',
     ];
 
     public function cast($value): float|int

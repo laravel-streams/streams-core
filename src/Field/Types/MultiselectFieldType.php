@@ -75,7 +75,7 @@ class MultiselectFieldType extends Field
     //     return array_unique($values);
     // }
 
-    public function rules()
+    public function rules(): array
     {
         return array_merge([
             'in:' . implode(',', array_keys($this->options()))

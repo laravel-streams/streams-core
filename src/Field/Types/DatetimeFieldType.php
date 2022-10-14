@@ -40,7 +40,7 @@ class DatetimeFieldType extends Field
     //     return $this->cast($this->generator()->dateTime());
     // }
 
-    public function toCarbon($value): Carbon
+    protected function toCarbon($value): Carbon
     {
         if ($value instanceof Carbon) {
             return Date::instance($value);

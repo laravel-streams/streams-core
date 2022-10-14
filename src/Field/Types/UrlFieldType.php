@@ -8,11 +8,8 @@ use Streams\Core\Field\Decorator\UrlDecorator;
 
 class UrlFieldType extends Field
 {
-
-    protected $__attributes = [
-        'rules' => [
-            'url',
-        ],
+    public $rules = [
+        'url',
     ];
 
     public function getSchemaName()

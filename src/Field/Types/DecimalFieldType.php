@@ -8,11 +8,8 @@ use Streams\Core\Field\Decorator\DecimalDecorator;
 
 class DecimalFieldType extends Field
 {
-
-    protected $__attributes = [
-        'rules' => [
-            'numeric',
-        ],
+    public $rules = [
+        'numeric',
     ];
 
     public function modify($value)

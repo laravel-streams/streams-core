@@ -9,6 +9,16 @@ use Streams\Core\Field\Decorator\IntegerDecorator;
 
 class IntegerFieldTypeTest extends CoreTestCase
 {
+    public function test_it_returns_default_rules()
+    {
+        $field = new IntegerFieldType([
+            'stream' => Streams::make('films')
+        ]);
+
+        $this->assertContains('numeric', $field->rules());
+        $this->assertContains('integer', $field->rules());
+    }
+
     public function test_it_casts_to_integer()
     {
         $field = new IntegerFieldType([

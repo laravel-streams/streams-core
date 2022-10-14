@@ -36,24 +36,7 @@ Basic value access displays the stored key value:
 {{ $entry->enabled }}@endverbatim
 ```
 
-### Decorator Usage
-
-Boolean types also provide decorated values.
-
-```blade
-@verbatim// Decorated value
-@if ($entry->enabled()->isTrue())
-    // ...
-@endif@endverbatim
-```
-
-#### Methods
-
-@todo Generate methods from @docs
-
 ## Configuration
-
-@todo Generate config options from class::configuration
 
 ```json
 // streams/users.json

@@ -9,7 +9,16 @@ use Streams\Core\Field\Decorator\DecimalDecorator;
 
 class DecimalFieldTypeTest extends CoreTestCase
 {
-    public function test_casts_to_decimal()
+    public function test_it_returns_default_rule()
+    {
+        $field = new DecimalFieldType([
+            'stream' => Streams::make('films')
+        ]);
+
+        $this->assertContains('numeric', $field->rules());
+    }
+    
+    public function test_it_casts_to_decimal()
     {
         $field = new DecimalFieldType([
             'stream' => Streams::make('films')

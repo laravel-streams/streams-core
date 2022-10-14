@@ -144,7 +144,7 @@ class Field implements
         return FieldDecorator::class;
     }
 
-    public function rules()
+    public function rules(): array
     {
         return $this->rules ?: [];
     }

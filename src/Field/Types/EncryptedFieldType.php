@@ -9,7 +9,6 @@ use Streams\Core\Field\Decorator\EncryptedDecorator;
 
 class EncryptedFieldType extends Field
 {
-    
     public function cast($value)
     {
         return Crypt::encrypt($value);

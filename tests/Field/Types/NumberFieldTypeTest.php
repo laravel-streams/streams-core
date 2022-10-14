@@ -9,6 +9,15 @@ use Streams\Core\Field\Decorator\NumberDecorator;
 
 class NumberFieldTypeTest extends CoreTestCase
 {
+    public function test_it_returns_default_rule()
+    {
+        $field = new NumberFieldType([
+            'stream' => Streams::make('films')
+        ]);
+
+        $this->assertContains('numeric', $field->rules());
+    }
+
     public function test_it_casts_default_values()
     {
         $field = new NumberFieldType([

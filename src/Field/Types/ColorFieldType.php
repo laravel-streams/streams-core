@@ -3,12 +3,12 @@
 namespace Streams\Core\Field\Types;
 
 use Streams\Core\Field\Field;
-use Streams\Core\Field\Decorator\ColorDecorator;
 use Streams\Core\Field\Schema\StringSchema;
+use Streams\Core\Field\Decorator\ColorDecorator;
 
 class ColorFieldType extends Field
 {
-    public function cast($value)
+    public function cast($value): string
     {
         return strtolower((string) $value);
     }
