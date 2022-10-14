@@ -7,7 +7,7 @@ use Streams\Core\Field\Field;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Traits\Macroable;
 
-class FieldGenerator
+abstract class FieldGenerator
 {
     use Macroable;
 
@@ -21,4 +21,6 @@ class FieldGenerator
 
         $this->faker = App::make('faker');
     }
+
+    abstract public function generate();
 }

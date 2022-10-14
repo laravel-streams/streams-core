@@ -94,27 +94,16 @@ class Field implements
         return $value;
     }
 
-    /**
-     * Cast the value when
-     * setting a value.
-     */
     public function cast($value)
     {
         return $value;
     }
 
-    /**
-     * Modify the value
-     * for storage.
-     */
     public function modify($value)
     {
         return $value;
     }
 
-    /**
-     * Restore a value from storage.
-     */
     public function restore($value)
     {
         return $value;
@@ -146,6 +135,23 @@ class Field implements
     public function getDecoratorName()
     {
         return FieldDecorator::class;
+    }
+
+    public function generate()
+    {
+        return $this->generator()->generate();
+    }
+
+    public function generator(): FieldGenerator
+    {
+        $generator = $this->config('generator') ?: $this->getGeneratorName();
+
+        return new $generator($this);
+    }
+
+    public function getGeneratorName()
+    {
+        return FieldGenerator::class;
     }
 
     public function rules(): array

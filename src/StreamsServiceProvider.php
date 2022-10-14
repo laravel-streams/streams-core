@@ -90,7 +90,7 @@ class StreamsServiceProvider extends ServiceProvider
         $this->addImageNamespaces();
         $this->loadTranslations();
 
-        $this->app->instance('faker', fn () => \Faker\Factory::create());
+        $this->app->singleton('faker', fn () => \Faker\Factory::create());
 
         // if ($this->app->runningInConsole()) {
         //     $this->commands([
