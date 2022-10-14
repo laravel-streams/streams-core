@@ -50,9 +50,6 @@ return [
         'email' => \Streams\Core\Field\Types\EmailFieldType::class,
         'encrypted' => \Streams\Core\Field\Types\EncryptedFieldType::class,
 
-        // Markup
-        'markdown' => \Streams\Core\Field\Types\MarkdownFieldType::class,
-
         // Boolean
         'boolean' => \Streams\Core\Field\Types\BooleanFieldType::class,
 
@@ -75,9 +72,11 @@ return [
 
         // Relationships
         'relationship' => \Streams\Core\Field\Types\RelationshipFieldType::class,
+        'polymorphic' => \Streams\Core\Field\Types\PolymorphicFieldType::class,
 
-        // Miscellaneous
+        // Other
         'color' => \Streams\Core\Field\Types\ColorFieldType::class,
+        'markdown' => \Streams\Core\Field\Types\MarkdownFieldType::class,
     ],
 
     /**
