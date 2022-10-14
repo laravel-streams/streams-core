@@ -27,10 +27,10 @@ class StringFieldType extends Field
         return $this->cast($value);
     }
 
-    // public function generate()
-    // {
-    //     return $this->generator()->text();
-    // }
+    public function generate()
+    {
+        return $this->generator()->text();
+    }
 
     public function getSchemaName()
     {

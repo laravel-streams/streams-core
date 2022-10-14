@@ -39,37 +39,32 @@ class Stream implements
     use ForwardsCalls;
     use FiresCallbacks;
 
-    protected $__attributes = [
+    #[Field([
+        'type' => 'object',
         'config' => [
-            'key_name' => 'id',
-            'created_at_name' => false,
-            'updated_at_name' => false,
-            'created_by_name' => false,
-            'updated_by_name' => false,
+            'default' => [
+                'key_name' => 'id',
+            ],
         ],
+    ])]
+    public $config = [
+        'key_name' => 'id',
+        'created_at_name' => false,
+        'updated_at_name' => false,
+        'created_by_name' => false,
+        'updated_by_name' => false,
     ];
 
-    protected $__properties = [
+    #[Field([
+        'type' => 'array',
         'config' => [
-            'type' => 'object',
-            'config' => [
-                'default' => [
-                    'key_name' => 'id',
-                ],
-            ],
+            'wrapper' => FieldCollection::class,
         ],
-        'fields' => [
-            'type' => 'array',
-            'config' => [
-                'wrapper' => FieldCollection::class,
-            ],
-        ],
-    ];
+    ])]
+    public $fields = [];
 
     public function __construct(array $attributes = [])
     {
-        $attributes = array_replace_recursive($this->__attributes, $attributes);
-
         $callbackData = new Collection([
             'attributes' => $attributes,
         ]);
@@ -82,7 +77,8 @@ class Stream implements
 
         $this->loadPrototypeAttributes($callbackData->get('attributes'));
 
-        $this->loadPrototypeProperties($this->__properties);
+        // @todo this should not be necessary anymore
+        //$this->loadPrototypeProperties($this->__properties);
 
         $this->fire('initialized', [
             'stream' => $this,

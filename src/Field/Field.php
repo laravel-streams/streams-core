@@ -8,7 +8,6 @@ use Illuminate\Support\Str;
 use Streams\Core\Stream\Stream;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Traits\Macroable;
-use Streams\Core\Support\Facades\Streams;
 use Illuminate\Contracts\Support\Jsonable;
 use Streams\Core\Support\Facades\Hydrator;
 use Streams\Core\Support\Traits\HasMemory;
@@ -35,20 +34,25 @@ class Field implements
 
     public $stream;
 
-    protected $__properties = [
-        'handle' => [
-            'type' => 'slug',
-        ],
-        'type' => [
-            'type' => 'string',
-        ],
-        'name' => [
-            'type' => 'string',
-        ],
-        'description' => [
-            'type' => 'string',
-        ],
-    ];
+    #[Field([
+        'type' => 'slug',
+    ])]
+    public $handle;
+
+    #[Field([
+        'type' => 'string',
+    ])]
+    public $type;
+
+    #[Field([
+        'type' => 'string',
+    ])]
+    public $name;
+
+    #[Field([
+        'type' => 'string',
+    ])]
+    public $description;
 
     public function __construct(array $attributes = [])
     {
