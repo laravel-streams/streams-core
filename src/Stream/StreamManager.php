@@ -3,19 +3,18 @@
 namespace Streams\Core\Stream;
 
 use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 use Streams\Core\Stream\Stream;
+use Symfony\Component\Yaml\Yaml;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Streams\Core\Criteria\Criteria;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Traits\Macroable;
+use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Support\Traits\HasMemory;
 use Streams\Core\Support\Traits\FiresCallbacks;
 use Streams\Core\Repository\Contract\RepositoryInterface;
 use Illuminate\Contracts\Container\BindingResolutionException;
-use Streams\Core\Support\Facades\Streams;
-use Symfony\Component\Yaml\Yaml;
 
 class StreamManager
 {

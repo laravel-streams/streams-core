@@ -102,7 +102,13 @@ abstract class AbstractAdapter implements AdapterInterface
      */
     protected function make($entry)
     {
-        $data = Arr::undot($entry->toArray());
+        $data = $entry;
+        
+        if (!is_array($entry)) {
+            $data = $entry->toArray();
+        }
+
+        $data = Arr::undot($data);
         
         unset($data['__created_at']);
         unset($data['__updated_at']);

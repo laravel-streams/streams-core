@@ -16,6 +16,7 @@ use Streams\Core\Support\Traits\FiresCallbacks;
 use Streams\Core\Criteria\Adapter\DatabaseAdapter;
 use Streams\Core\Criteria\Adapter\EloquentAdapter;
 use Streams\Core\Criteria\Adapter\FilebaseAdapter;
+use Streams\Core\Criteria\Adapter\FilesystemAdapter;
 use Streams\Core\Repository\Contract\RepositoryInterface;
 
 /**
@@ -163,6 +164,11 @@ class Repository implements RepositoryInterface
     public function newFileAdapter(): FileAdapter
     {
         return new FileAdapter($this->stream);
+    }
+
+    public function newFilesystemAdapter(): FilesystemAdapter
+    {
+        return new FilesystemAdapter($this->stream);
     }
 
     public function newFilebaseAdapter(): FilebaseAdapter
