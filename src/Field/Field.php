@@ -54,6 +54,11 @@ class Field implements
     ])]
     public $description;
 
+    #[Field([
+        'type' => 'boolean',
+    ])]
+    public $protected = false;
+
     public function __construct(array $attributes = [])
     {
         $callbackData = new Collection([

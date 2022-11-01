@@ -22,14 +22,18 @@ class FilesystemAdapter extends AbstractAdapter
 
     public function orderBy($field, $direction = 'asc'): static
     {
-        $this->query = $this->query->orderBy($field, $direction);
+        $this->query = $this->query->sortBy(
+            $field,
+            SORT_REGULAR,
+            strtolower($direction) === 'desc' ? true : false
+        );
 
         return $this;
     }
 
     public function limit($limit, $offset = 0): static
     {
-        $this->query = $this->query->limit($limit, $offset);
+        $this->query = $this->query->slice($offset, $limit);
 
         return $this;
     }
@@ -45,7 +49,18 @@ class FilesystemAdapter extends AbstractAdapter
 
         $method = $nested ? Str::studly($nested . '_where') : 'where';
 
-        $this->query = $this->query->{$method}($field, $operator, $value);
+        if ($operator == 'LIKE') {
+            $this->query = $this->query->filter(function ($entry) use ($field, $value) {
+                return strpos(
+                    strtolower(data_get($entry, $field)),
+                    strtolower(str_replace('%', '', $value))
+                ) !== false;
+            });
+        } elseif ($operator == 'IN') {
+            $this->query = $this->query->whereIn($field, $value);
+        } else {
+            $this->query = $this->query->{$method}($field, $operator, $value);
+        }
 
         return $this;
     }
@@ -104,6 +119,6 @@ class FilesystemAdapter extends AbstractAdapter
 
     protected function make($entry)
     {
-        return ['name' => $entry];
+        return ['path' => $entry];
     }
 }

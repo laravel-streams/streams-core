@@ -69,7 +69,7 @@ class EntryTest extends CoreTestCase
 
     public function test_it_supports_macros()
     {
-        Entry::macro('episode', function() {
+        Entry::macro('episode', function () {
             return 'ID: ' . $this->episode_id;
         });
 
@@ -111,7 +111,7 @@ class EntryTest extends CoreTestCase
         $entry->save();
 
         $entry = Streams::repository('films')->find(8);
-        
+
         $this->assertEquals('New Title', $entry->title);
     }
 
@@ -124,10 +124,21 @@ class EntryTest extends CoreTestCase
         $this->assertTrue($result);
 
         $entry = Streams::repository('films')->find(8);
-        
+
         $result = $entry->delete();
 
         $this->assertTrue($result);
+    }
+
+    public function test_it_protects_protected_fields()
+    {
+        Streams::make('films')->fields
+            ->get('director')
+            ->setPrototypeAttribute('protected', true);
+
+        $entry = Streams::repository('films')->newInstance($this->filmData());
+
+        $this->assertFalse(in_array('director', array_keys($entry->toArray())));
     }
 
     protected function filmData()

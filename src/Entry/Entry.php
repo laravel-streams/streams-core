@@ -87,7 +87,7 @@ class Entry implements
      * 
      * @return Stream
      */
-    public function stream()
+    public function stream(): Stream
     {
         return $this->stream;
     }
@@ -143,11 +143,15 @@ class Entry implements
 
     public function toArray()
     {
-        return array_diff_key($this->getAttributes(), array_flip([
+        $protected = $this->stream()->fields->filter(function($field) {
+            return $field?->protected ? $field : null;
+        });
+
+        return array_diff_key($this->getAttributes(), array_flip(array_merge([
             '__prototype',
             '__created_at',
             '__updated_at',
-        ]));
+        ], $protected->keys()->toArray())));
     }
 
     public function toJson($options = 0)
