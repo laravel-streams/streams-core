@@ -3,6 +3,7 @@
 namespace Streams\Core\Stream;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Streams\Core\Stream\Stream;
 use Symfony\Component\Yaml\Yaml;
 use Illuminate\Support\Collection;
@@ -90,7 +91,7 @@ class StreamManager
         $original = $this->make($id)->getOriginalPrototypeAttributes();
 
         $attributes = array_replace_recursive($original, $attributes);
-        
+
         return $this->build($attributes);
     }
 
@@ -114,7 +115,7 @@ class StreamManager
         $schemas = Arr::get($schema, 'components.schemas', []);
 
         foreach ($schemas as $id => $schema) {
-            
+
             $stream = ['id' => $id];
 
             $required = Arr::get($schema, 'required', []);
@@ -196,6 +197,16 @@ class StreamManager
                 $route['middleware'] = Arr::get($route, 'middleware', 'web');
 
                 /**
+                 * Parse the route with entry data if needed.
+                 */
+                if (Arr::pull($route, 'parse')) {
+
+                    $this->parseRoute($route, $stream);
+
+                    continue;
+                }
+
+                /**
                  * Defer if opted to.
                  */
                 if (Arr::pull($route, 'defer')) {
@@ -212,6 +223,19 @@ class StreamManager
                  */
                 Route::streams(Arr::pull($route, 'uri'), $route);
             }
+        }
+    }
+
+    protected function parseRoute($route, Stream $stream): void
+    {
+        foreach ($stream->entries()->get() as $entry) {
+
+            $array = Arr::make($entry);
+
+            Route::streams(
+                Str::parse(Arr::get($route, 'uri'), $array),
+                Arr::parse($route, $array)
+            );
         }
     }
 }

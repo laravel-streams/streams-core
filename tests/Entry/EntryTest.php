@@ -139,6 +139,8 @@ class EntryTest extends CoreTestCase
         $entry = Streams::repository('films')->newInstance($this->filmData());
 
         $this->assertFalse(in_array('director', array_keys($entry->toArray())));
+
+        $this->assertFalse(in_array('director', array_keys(json_decode($entry->toJson(), true))));
     }
 
     protected function filmData()
