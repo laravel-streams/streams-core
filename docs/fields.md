@@ -47,7 +47,8 @@ To define more information about the field use an array:
             "config": {
                 "default": "Untitled"
             },
-            "example": "Star Wars: The Force Awakens"
+            "example": "Star Wars: The Force Awakens",
+            "protected": false
         }
     ]
 }
