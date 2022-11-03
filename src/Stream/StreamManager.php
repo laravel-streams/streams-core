@@ -232,6 +232,10 @@ class StreamManager
 
             $array = Arr::make($entry);
 
+            $route['entry'] = $entry->{$stream->config('key_name', 'id')};
+
+            $route['as'] = $route['as'] . '.' . $route['entry'];
+
             Route::streams(
                 Str::parse(Arr::get($route, 'uri'), $array),
                 Arr::parse($route, $array)

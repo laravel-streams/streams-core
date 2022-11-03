@@ -31,11 +31,11 @@ class ObjectSchema extends FieldSchema
         $schema = $data->get('schema');
 
         if ($min = $this->field->ruleParameter('min')) {
-            $schema = $schema->minItems($min);
+            $schema = $schema->minItems($this->toNumber($min));
         }
 
         if ($max = $this->field->ruleParameter('max')) {
-            $schema = $schema->maxItems($max);
+            $schema = $schema->maxItems($this->toNumber($max));
         }
 
         $data->put('schema', $schema);

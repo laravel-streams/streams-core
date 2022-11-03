@@ -63,6 +63,20 @@ class Stream implements
     ])]
     public $fields = [];
 
+    #[Field([
+        'type' => 'array',
+        'config' => [
+            'items' => [
+                ['handle' => 'handle'],
+                ['handle' => 'uri'],
+                ['handle' => 'view'],
+                ['handle' => 'defer'],
+                ['handle' => 'parse'],
+            ],
+        ],
+    ])]
+    public $routes = [];
+
     public function __construct(array $attributes = [])
     {
         $callbackData = new Collection([

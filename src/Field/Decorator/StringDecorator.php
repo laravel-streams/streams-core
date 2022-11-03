@@ -9,7 +9,7 @@ use Streams\Core\Field\FieldDecorator;
 class StringDecorator extends FieldDecorator
 {
 
-    public function lines($separator = "\n", ?int $limit)
+    public function lines($separator = "\n", ?int $limit = null)
     {
         return explode($separator, $this->value, $limit);
     }

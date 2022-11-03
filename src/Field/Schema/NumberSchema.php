@@ -19,11 +19,11 @@ class NumberSchema extends FieldSchema
         $schema = $data->get('schema');
 
         if ($min = $this->field->ruleParameter('min')) {
-            $schema = $schema->minimum($min);
+            $schema = $schema->minimum($this->toNumber($min));
         }
 
         if ($max = $this->field->ruleParameter('max')) {
-            $schema = $schema->maximum($max);
+            $schema = $schema->maximum($this->toNumber($max));
         }
 
         $data->put('schema', $schema);

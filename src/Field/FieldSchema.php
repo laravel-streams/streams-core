@@ -85,11 +85,11 @@ class FieldSchema
         $schema = $data->get('schema');
 
         if ($min = $this->field->ruleParameter('min')) {
-            $schema = $schema->minLength($min);
+            $schema = $schema->minLength($this->toNumber($min));
         }
 
         if ($max = $this->field->ruleParameter('max')) {
-            $schema = $schema->maxLength($max);
+            $schema = $schema->maxLength($this->toNumber($max));
         }
 
         $data->put('schema', $schema);
@@ -139,5 +139,22 @@ class FieldSchema
         }
 
         $data->put('schema', $schema);
+    }
+
+    protected function toNumber($value)
+    {
+        if (is_string($value)) {
+            $value = preg_replace('/[^\da-z\.\-]/i', '', $value);
+        }
+
+        $float = floatval($value);
+
+        if ($float && intval($float) != $float) {
+            $value = $float;
+        } else {
+            $value = intval($value);
+        }
+
+        return $value;
     }
 }
