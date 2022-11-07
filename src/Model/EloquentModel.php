@@ -657,7 +657,7 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
             }
         }
 
-        return $attributes;
+        return array_merge($attributes, $this->relationsToArray());
     }
 
     /**
