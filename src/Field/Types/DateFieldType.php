@@ -3,8 +3,8 @@
 namespace Streams\Core\Field\Types;
 
 use Carbon\Carbon;
-use Streams\Core\Field\Decorator\DateDecorator;
 use Streams\Core\Field\Schema\DateSchema;
+use Streams\Core\Field\Decorator\DateDecorator;
 
 class DateFieldType extends DatetimeFieldType
 {

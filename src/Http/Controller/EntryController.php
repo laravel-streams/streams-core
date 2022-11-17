@@ -70,7 +70,7 @@ class EntryController extends Controller
         }
 
         $action = $data->get('action', []);
-
+        
         if ($entry = Arr::get($action, 'entry')) {
 
             $data->put('entry', $stream->repository()->find($entry));
