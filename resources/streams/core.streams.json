@@ -1,6 +1,6 @@
 {
     "name": "Streams",
-    "description": "The stream definition schema.",
+    "description": "Model definitions for the application.",
     "docs": "https://streams.dev/docs/core/streams",
     "config": {
         "source": {
