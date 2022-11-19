@@ -153,8 +153,6 @@ trait Prototype
     {
         $this->__prototype['attributes'] = [];
 
-        // @todo reset properties?
-
         foreach ($attributes as $key => $value) {
             $this->setPrototypeAttribute($key, $value);
         }
@@ -167,7 +165,7 @@ trait Prototype
         $allowed = $this->getPrototypeProperties();
         $attributes = $this->getPrototypeAttributes();
 
-        $this->setRawPrototypeAttributes(array_intersect_key($attributes, $allowed));
+        //$this->setRawPrototypeAttributes(array_intersect_key($attributes, $allowed));
 
         return $this;
     }

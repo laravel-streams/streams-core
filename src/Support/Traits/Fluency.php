@@ -4,7 +4,6 @@ namespace Streams\Core\Support\Traits;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use Streams\Core\Field\FieldDecorator;
 use Streams\Core\Support\Facades\Hydrator;
 
 /**
