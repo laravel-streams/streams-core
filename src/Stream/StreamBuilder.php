@@ -142,7 +142,7 @@ class StreamBuilder extends Workflow
         /**
          * Minimal standardization
          */
-        foreach ($attributes['fields'] ?: [] as $key => &$attributes) {
+        foreach (Arr::get($attributes, 'fields', []) as $key => &$attributes) {
 
             $attributes = is_string($attributes) ? ['type' => $attributes] : $attributes;
 
