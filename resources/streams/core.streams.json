@@ -61,6 +61,14 @@
                         }
                     },
                     {
+                        "handle": "abstract",
+                        "type": "string",
+                        "description": "The entry abstract class to use.",
+                        "config": {
+                            "default": "Streams\\Core\\Entry\\Entry"
+                        }
+                    },
+                    {
                         "handle": "criteria",
                         "type": "string",
                         "description": "The entry criteria class to use.",
