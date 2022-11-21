@@ -54,7 +54,7 @@ class Stream implements
             'wrapper' => FieldCollection::class,
         ],
     ])]
-    public $fields = [];
+    public $fields;
 
     #[Field([
         'type' => 'array',
