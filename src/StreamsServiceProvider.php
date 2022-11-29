@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\View;
 use Streams\Core\Support\Integrator;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\AliasLoader;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Translation\Translator;
 use Illuminate\Support\Facades\Request;

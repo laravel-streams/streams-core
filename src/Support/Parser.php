@@ -2,6 +2,8 @@
 
 namespace Streams\Core\Support;
 
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
@@ -65,5 +67,18 @@ class Parser
         }
 
         return $data;
+    }
+
+    static public function addData($key, $data)
+    {
+        if (is_object($data)) {
+            $data = Arr::make($data);
+        }
+
+        $parser = App::make('streams.parser_data');
+
+        Arr::set($parser, $key, $data);
+
+        App::instance('streams.parser_data', $parser);
     }
 }
