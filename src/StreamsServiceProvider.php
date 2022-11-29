@@ -315,7 +315,8 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function register()
     {
-
+        define('IS_ADMIN', null);
+        
         $this->publishes([
             base_path('vendor/anomaly/streams-platform/migrations/core')
             => base_path('database/migrations')
