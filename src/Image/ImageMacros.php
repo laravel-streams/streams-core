@@ -51,7 +51,9 @@ class ImageMacros
             return $image;
         }
 
-        array_forget($process, 'description');
+        if (is_array($process)) {
+            array_forget($process, 'description');
+        }
 
         if (is_array($process)) {
             foreach ($process as $method => $arguments) {

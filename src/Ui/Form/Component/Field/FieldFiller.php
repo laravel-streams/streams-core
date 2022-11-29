@@ -48,6 +48,7 @@ class FieldFiller
          * set the position.
          */
         foreach ($fields as $parameters) {
+            
             if (is_string($parameters) && $parameters === '*') {
                 continue;
             }
@@ -66,10 +67,19 @@ class FieldFiller
          * in the remaining fill fields in place
          * of the fill marker.
          */
-        if (($position = array_search('*', $fields)) !== false) {
-            array_splice($fields, $position, null, $fill);
-
-            unset($fields[array_search('*', $fields)]);
+        if (array_search('*', $fields) !== false) {
+            foreach ($fill as $field) {
+                $fields[] = $field;
+            }
+        }
+        
+        /**
+         * Remove the fill symbol.
+         */
+        foreach ($fields as $key => $field) {
+            if (is_string($field) && $field === '*') {
+                unset($fields[$key]);
+            }
         }
 
         $builder->setFields($fields);
