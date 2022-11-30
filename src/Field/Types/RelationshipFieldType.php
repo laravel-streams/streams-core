@@ -22,6 +22,16 @@ class RelationshipFieldType extends Field
         return $value->{$keyName};
     }
 
+    // public function restore($value)
+    // {
+    //     return $this->decorate($value);
+    // }
+
+    // public function cast($value)
+    // {
+    //     return $this->decorate($value);
+    // }
+
     public function decorate($value)
     {
         if (is_object($value)) {
