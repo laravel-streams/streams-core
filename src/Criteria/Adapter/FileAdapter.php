@@ -56,6 +56,8 @@ class FileAdapter extends AbstractAdapter
             });
         } elseif ($operator == 'IN') {
             $this->query = $this->query->whereIn($field, $value);
+        } elseif ($operator == 'NOT IN') {
+            $this->query = $this->query->whereNotIn($field, $value);
         } else {
             $this->query = $this->query->{$method}($field, $operator, $value);
         }

@@ -24,6 +24,7 @@ return [
             'formats' => [
                 'json' => \Streams\Core\Criteria\Format\Json::class,
                 'yaml' => \Streams\Core\Criteria\Format\Yaml::class,
+                'html' => \Streams\Core\Criteria\Format\Html::class,
                 'md' => \Streams\Core\Criteria\Format\Markdown::class,
                 'tpl' => \Streams\Core\Criteria\Format\Template::class,
             ],

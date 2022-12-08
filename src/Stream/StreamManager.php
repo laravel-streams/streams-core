@@ -152,6 +152,13 @@ class StreamManager
             ->repository();
     }
 
+    public function filesystem(string $id)
+    {
+        return $this
+            ->make($id)
+            ->filesystem();
+    }
+
     public function schema(string $id): StreamSchema
     {
         return $this

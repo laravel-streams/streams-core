@@ -3,9 +3,10 @@
 namespace Streams\Core\Criteria\Format;
 
 use Illuminate\Support\Arr;
+use Symfony\Component\Yaml\Yaml;
 use Filebase\Format\FormatInterface;
 
-class Json implements FormatInterface
+class Html implements FormatInterface
 {
 
     /**
@@ -15,7 +16,7 @@ class Json implements FormatInterface
      */
     public static function getFileExtension()
     {
-        return 'json';
+        return 'html';
     }
 
     /**
@@ -36,7 +37,11 @@ class Json implements FormatInterface
         Arr::pull($data, '__created_at');
         Arr::pull($data, '__updated_at');
 
-        return json_encode($data, JSON_PRETTY_PRINT);
+        $body = Arr::pull($data, 'body');
+
+        $encoded = $data ? Yaml::dump($data) : null;
+
+        return "---\n{$encoded}---\n{$body}";
     }
 
     /**
@@ -47,8 +52,22 @@ class Json implements FormatInterface
      */
     public static function decode($data)
     {
+        $pattern = '/^[\s\r\n]?---[\s\r\n]?$/sm';
+
+        $parts = preg_split($pattern, PHP_EOL . ltrim($data));
+
+        if (count($parts) < 3) {
+            return ['data' => ['body' => $data]];
+        }
+
+        if (!$matter = json_decode(trim($parts[1]), true)) {
+            $matter = Yaml::parse(trim($parts[1]));
+        }
+
+        $body = implode(PHP_EOL . '---' . PHP_EOL, array_slice($parts, 2));
+
         return [
-            'data' => json_decode($data, true),
+            'data' => array_merge(Arr::get($matter, 'data', $matter), ['body' => $body])
         ];
     }
 }
