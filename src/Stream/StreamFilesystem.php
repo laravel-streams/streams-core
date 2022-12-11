@@ -163,7 +163,22 @@ class StreamFilesystem implements Filesystem
 
     public function delete($paths): bool
     {
-        dd('Implement StreamDisk::delete');
+        $result = true;
+
+        foreach ((array) $paths as $path) {
+
+            if ($this->storage->delete($path)) {
+                $this->stream
+                    ->entries()
+                    ->where('disk', $this->disk)
+                    ->where('path', $path)
+                    ->delete();
+            } else {
+                $result = false;
+            }
+        }
+
+        return $result;
     }
 
     public function copy($from, $to): bool
@@ -244,22 +259,14 @@ class StreamFilesystem implements Filesystem
 
     public function deleteDirectory($directory): bool
     {
-        dd('Implement StreamDisk::deleteDirectory');
-    }
-
-
-    protected function extractDisk(string $path = null): array
-    {
-        $parts = explode('://', $path);
-
-        $path = array_pop($parts);
-
-        $disk = config('filesystems.default');
-
-        if ($parts) {
-            $disk = array_pop($parts);
+        if ($result = $this->storage->delete($directory)) {
+            $this->stream
+                ->entries()
+                ->where('disk', $this->disk)
+                ->where('path', $directory)
+                ->delete();
         }
 
-        return [$disk, $path];
+        return $result;
     }
 }
