@@ -10,6 +10,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Streams\Core\Criteria\Criteria;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Traits\Macroable;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Support\Traits\HasMemory;
@@ -152,18 +153,22 @@ class StreamManager
             ->repository();
     }
 
-    public function filesystem(string $id)
-    {
-        return $this
-            ->make($id)
-            ->filesystem();
-    }
-
     public function schema(string $id): StreamSchema
     {
         return $this
             ->make($id)
             ->schema();
+    }
+
+    public function filesystem(string $disk): StreamFilesystem
+    {
+        if (!$id = Config::get("filesystems.disks.{$disk}.stream")) {
+            throw new \Exception("Disk [$disk] does not have a configured \"stream\".");
+        }
+
+        return $this
+            ->make($id)
+            ->filesystem($disk);
     }
 
     public function collection(): Collection
@@ -248,5 +253,20 @@ class StreamManager
                 Arr::parse($route, $array)
             );
         }
+    }
+
+    public function __call(string $name, array $arguments)
+    {
+        $id = Str::snake($name);
+
+        if ($this->exists($id)) {
+            return $this->entries($id);
+        }
+
+        throw new \BadMethodCallException(sprintf(
+            'Method %s::%s does not exist.',
+            static::class,
+            $name
+        ));
     }
 }

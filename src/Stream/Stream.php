@@ -118,6 +118,18 @@ class Stream implements
             ->newCriteria();
     }
 
+    public function filesystem(string $disk): StreamFilesystem
+    {
+        return static::once($this->id . __METHOD__, fn () => $this->newFilesystem($disk));
+    }
+
+    protected function newFilesystem(string $disk): StreamFilesystem
+    {
+        $filesystem  = $this->config('filesystem', StreamFilesystem::class);
+
+        return new $filesystem($this, $disk);
+    }
+
     public function schema(): StreamSchema
     {
         return static::once($this->id . __METHOD__, fn () => $this->newSchema());
