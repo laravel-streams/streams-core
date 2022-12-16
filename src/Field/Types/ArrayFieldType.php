@@ -17,7 +17,7 @@ class ArrayFieldType extends Field
 {
     public $rules = [
         'array',
-        'valid_items',
+        //'valid_items',
     ];
     
     public $validators = [
