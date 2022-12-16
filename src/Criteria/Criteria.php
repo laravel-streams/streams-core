@@ -8,8 +8,8 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Traits\Macroable;
 use Streams\Core\Support\Traits\HasMemory;
+use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\DB;
 use Streams\Core\Entry\Contract\EntryInterface;
 use Streams\Core\Criteria\Contract\AdapterInterface;
 
@@ -268,13 +268,7 @@ class Criteria
         $this->adapter->truncate();
     }
 
-    /**
-     * Return paginated entries.
-     *
-     * @param  array|int $parameters
-     * @return Paginator
-     */
-    public function paginate($parameters = [])
+    public function paginate(array $parameters = []): Paginator
     {
         if (is_numeric($parameters)) {
             $parameters = [

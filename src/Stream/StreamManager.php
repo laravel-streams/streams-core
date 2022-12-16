@@ -93,7 +93,13 @@ class StreamManager
 
         $attributes = array_replace_recursive($original, $attributes);
 
-        return $this->build($attributes);
+        $stream = $this->build($attributes);
+
+        App::instance('streams.instances.' . $stream->id, $stream);
+
+        $this->collection->put($stream->id, $stream);
+
+        return $stream;
     }
 
     public function load(string $file): Stream
