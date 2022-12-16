@@ -95,10 +95,12 @@ class StreamManager
 
         $stream = $this->build($attributes);
 
+        $stream::resetMemory();
+
         App::instance('streams.instances.' . $stream->id, $stream);
 
         $this->collection->put($stream->id, $stream);
-
+dd(get_class(Streams::make('films')->repository()));
         return $stream;
     }
 
