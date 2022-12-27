@@ -29,6 +29,7 @@ use Anomaly\Streams\Platform\Support\Collection;
 use Illuminate\Console\Command;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Symfony\Component\Console\Input\InputOption;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class Install
@@ -82,6 +83,9 @@ class Install extends Command
         $this->dispatchNow(new InitializeApplication());
 
         $this->dispatchNow(new ConfigureDatabase());
+        
+        DB::purge(config()->get('database.default'));
+        
         $this->dispatchNow(new SetDatabasePrefix());
 
         $installers = new InstallerCollection();
