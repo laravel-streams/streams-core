@@ -1,0 +1,30 @@
+{
+  "name": "webpack-env",
+  "version": "0.8.0",
+  "description": "read variables from a .env.js file and make them available to webpack as globals",
+  "main": "index.js",
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/toastynerd/webpack_env.git"
+  },
+  "keywords": [
+    "weback",
+    "env"
+  ],
+  "author": "Tyler Morgan <tyler@codefellows.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/toastynerd/webpack_env/issues"
+  },
+  "homepage": "https://github.com/toastynerd/webpack_env#readme",
+  "dependencies": {
+    "webpack": "^1.12.2"
+  },
+  "devDependencies": {
+    "chai": "^3.3.0",
+    "mocha": "^2.3.3"
+  }
+}

@@ -1,0 +1,1 @@
+{"version":3,"file":"unmanaged.js","sourceRoot":"","sources":["../../src/annotation/unmanaged.ts"],"names":[],"mappings":";;;;IAIA,SAAS,SAAS;QACd,OAAO,UAAS,MAAW,EAAE,SAAiB,EAAE,KAAa;YACzD,IAAM,QAAQ,GAAG,IAAI,mBAAQ,CAAC,YAAY,CAAC,aAAa,EAAE,IAAI,CAAC,CAAC;YAChE,8BAAY,CAAC,MAAM,EAAE,SAAS,EAAE,KAAK,EAAE,QAAQ,CAAC,CAAC;QACrD,CAAC,CAAC;IACN,CAAC;IAEQ,8BAAS"}
