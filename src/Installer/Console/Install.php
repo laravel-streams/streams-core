@@ -84,6 +84,9 @@ class Install extends Command
         $this->dispatchNow(new InitializeApplication());
 
         $this->dispatchNow(new ConfigureDatabase());
+        
+        DB::purge(config()->get('database.default'));
+        
         $this->dispatchNow(new SetDatabasePrefix());
 
         $installers = new InstallerCollection();
@@ -115,8 +118,6 @@ class Install extends Command
             )
         );
         
-        DB::purge('mysql');
-
         $this->dispatchNow(new LoadModuleSeeders($installers));
         $this->dispatchNow(new LoadExtensionSeeders($installers));
 
