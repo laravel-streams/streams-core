@@ -30,6 +30,7 @@ use Anomaly\Streams\Platform\Support\Collection;
 use Illuminate\Console\Command;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Symfony\Component\Console\Input\InputOption;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class Install
@@ -113,6 +114,8 @@ class Install extends Command
                 }
             )
         );
+        
+        DB::purge('mysql');
 
         $this->dispatchNow(new LoadModuleSeeders($installers));
         $this->dispatchNow(new LoadExtensionSeeders($installers));
