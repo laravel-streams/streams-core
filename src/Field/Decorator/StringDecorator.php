@@ -21,6 +21,11 @@ class StringDecorator extends FieldDecorator
 
     public function render(array $payload = [])
     {
+        return View::parse($this->value, $payload);
+    }
+
+    public function markdown(array $payload = [])
+    {
         return Str::markdown(View::parse($this->value, $payload));
     }
 
