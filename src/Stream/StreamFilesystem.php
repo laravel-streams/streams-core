@@ -21,7 +21,6 @@ class StreamFilesystem implements Filesystem
     public function scan(string $path = null): void
     {
         foreach ($this->storage->allDirectories($path) as $directory) {
-            dd($directory);
             $this->indexDirectory($directory);
         }
 

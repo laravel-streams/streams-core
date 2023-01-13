@@ -25,10 +25,11 @@ class ImageManager
 
     public function make(string|array $source): Image
     {
+        
         $attributes = is_array($source) ? $source : compact('source');
 
         $attributes['original'] = basename($attributes['source']);
-
+        
         if (is_string($attributes['source'])) {
             $attributes['source'] = $this->resolve($attributes['source']);
         }
@@ -52,7 +53,7 @@ class ImageManager
         if (
             !isset($attributes['type'])
             && is_string($attributes['source'])
-            && Str::is('*://*', $attributes['source'])
+            && Str::is('*::*', $attributes['source'])
         ) {
             $attributes['type'] = 'storage';
         }
