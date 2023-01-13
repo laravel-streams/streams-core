@@ -178,10 +178,11 @@ class EntryController extends Controller
         $action = $data->get('action');
 
         if (isset($action['redirect'])) {
-
             $data->put('redirect', Str::parse($action['redirect'], $data->toArray()));
+        }
 
-            return;
+        if (isset($action['status_code'])) {
+            $data->put('status_code', (int) Str::parse($action['status_code'], $data->toArray()));
         }
     }
 
@@ -197,7 +198,7 @@ class EntryController extends Controller
 
         if ($redirect = $data->get('redirect')) {
 
-            $data->put('response', Redirect::to($redirect, $data->get('status_code', 302)));
+            $data->put('response', Redirect::to($redirect, (int) $data->get('status_code', 301)));
 
             return;
         }
