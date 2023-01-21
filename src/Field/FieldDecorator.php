@@ -12,6 +12,7 @@ class FieldDecorator
     use ForwardsCalls;
 
     protected $object;
+    protected $value;
 
     protected Field $field;
 
