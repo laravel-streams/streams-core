@@ -8,24 +8,29 @@ use Streams\Core\Field\Decorator\DateDecorator;
 
 class DateFieldType extends DatetimeFieldType
 {
-    public function default($value): Carbon
+    #[Field([
+        'type' => 'object',
+        'config' => [
+            'wrapper' => 'array',
+        ],
+    ])]
+    public array $config = [
+        'format' => 'Y-m-d',
+    ];
+
+    public function default($value): \Datetime
     {
         return $this->cast($value);
     }
 
-    public function cast($value): Carbon
+    public function cast($value): \Datetime
     {
         return $this->toCarbon($value)->startOfDay();
     }
 
     public function modify($value)
     {
-        return $this->cast($value)->format('Y-m-d');
-    }
-
-    public function restore($value)
-    {
-        return $value ? $this->cast($value) : null;
+        return $this->toCarbon($value)->format('Y-m-d');
     }
 
     public function getSchemaName()
