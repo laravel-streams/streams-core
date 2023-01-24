@@ -103,7 +103,7 @@ abstract class AbstractAdapter implements AdapterInterface
     protected function make($entry)
     {
         $data = $entry;
-        
+
         if (!is_array($entry)) {
             $data = $entry->toArray();
         }

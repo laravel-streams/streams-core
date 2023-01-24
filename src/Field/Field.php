@@ -45,6 +45,15 @@ class Field implements
     public $type;
 
     #[Field([
+        'type' => 'object',
+        'config' => [
+            'default' => [],
+            'wrapper' => 'array',
+        ],
+    ])]
+    public array $config = [];
+
+    #[Field([
         'type' => 'string',
     ])]
     public $name;

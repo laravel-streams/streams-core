@@ -63,6 +63,7 @@ return [
         'array' => \Streams\Core\Field\Types\ArrayFieldType::class,
 
         // Selections
+        'enum' => \Streams\Core\Field\Types\SelectFieldType::class,
         'select' => \Streams\Core\Field\Types\SelectFieldType::class,
         'multiselect' => \Streams\Core\Field\Types\MultiselectFieldType::class,
 

@@ -15,6 +15,6 @@ class MarkdownDecorator extends FieldDecorator
     
     public function render(array $payload = [])
     {
-        return Str::markdown(View::parse($this->value, $payload));
+        return View::parse($this->parse($this->value), $payload);
     }
 }

@@ -10,17 +10,27 @@ use Streams\Core\Field\Decorator\DatetimeDecorator;
 
 class DatetimeFieldType extends Field
 {
-    public function cast($value): Carbon
+    #[Field([
+        'type' => 'object',
+        'config' => [
+            'wrapper' => 'array',
+        ],
+    ])]
+    public array $config = [
+        'format' => 'Y-m-d H:i:s',
+    ];
+
+    public function cast($value): \Datetime
     {
         return $this->toCarbon($value);
     }
 
     public function modify($value)
     {
-        return $this->cast($value)->format('Y-m-d H:i:s');
+        return $this->toCarbon($value)->format($this->config('format'));
     }
 
-    public function restore($value)
+    public function restore($value): \Datetime
     {
         return $this->cast($value);
     }
@@ -48,7 +58,7 @@ class DatetimeFieldType extends Field
 
         if ($value instanceof \Datetime) {
             return Date::parse(
-                $value->format('Y-m-d H:i:s'),
+                $value->format($this->config('format')),
                 $value->getTimezone()
             );
         }
