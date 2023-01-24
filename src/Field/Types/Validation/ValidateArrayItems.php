@@ -3,22 +3,23 @@
 namespace Streams\Core\Field\Types\Validation;
 
 use Streams\Core\Field\Field;
+use Illuminate\Support\Facades\App;
 
 class ValidateArrayItems extends Field
 {
-    public function __invoke(Field $field, $value)
+    public function __invoke(Field $field, $value): bool
     {
         if (!is_array($value)) {
             return false;
         }
 
-        if (!$config = $field->config('items')) {
+        if (!$allowed = $field->config('allowed')) {
             return true;
         }
 
         foreach ($value as $item) {
 
-            if ($this->itemIsValid($item, $config)) {
+            if ($this->itemIsValid($item, $allowed)) {
                 continue;
             }
 
@@ -36,15 +37,13 @@ class ValidateArrayItems extends Field
                 throw new \Exception("The [type] parameter is required when configuring allowed array items.");
             }
 
-            if ($allowed['type'] == 'array' && is_array($item)) {
-                return true;
+            if (!App::has('streams.core.field_type.' . $allowed['type'])) {
+                throw new \Exception("Invalid field type [{$allowed['type']}] in array items configuration [{$this->handle}].");
             }
 
-            if ($allowed['type'] == 'string' && is_string($item)) {
-                return true;
-            }
+            $field = App::make('streams.core.field_type.' . $allowed['type']);
 
-            if ($allowed['type'] == 'int' && is_integer($item)) {
+            if ($field->validator($item)->passes()) {
                 return true;
             }
         }

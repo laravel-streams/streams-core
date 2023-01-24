@@ -4,6 +4,7 @@ namespace Streams\Core\Tests\Field\Types;
 
 use Streams\Core\Entry\Entry;
 use Illuminate\Support\Collection;
+use stdClass;
 use Streams\Core\Tests\CoreTestCase;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Field\Types\ArrayFieldType;
@@ -247,7 +248,7 @@ class ArrayFieldTypeTest extends CoreTestCase
                         'required',
                     ],
                     'config' => [
-                        'items' => [
+                        'allowed' => [
                             ['type' => 'array']
                         ]
                     ],
@@ -255,13 +256,19 @@ class ArrayFieldTypeTest extends CoreTestCase
             ],
         ]);
 
-        $data = ['items' => 'Test'];
+        $field = $stream->fields->get('items');
 
-        $this->assertFalse($stream->validator($data)->passes());
+        $data = 'Test';
 
-        $data = ['items' => [['Test']]];
+        $this->assertFalse($field->validator($data)->passes());
 
-        $this->assertTrue($stream->validator($data)->passes());
+        $data = [['foo' => 'bar']];
+        
+        $this->assertTrue($field->validator($data)->passes());
+
+        $data = [['foo' => 'bar'], 'Test'];
+        
+        $this->assertFalse($field->validator($data)->passes());
     }
 }
 

@@ -7,14 +7,14 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Streams\Core\Stream\Stream;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\App;
+use Illuminate\Validation\Validator;
 use Illuminate\Support\Traits\Macroable;
 use Illuminate\Contracts\Support\Jsonable;
 use Streams\Core\Support\Facades\Hydrator;
 use Streams\Core\Support\Traits\HasMemory;
 use Streams\Core\Support\Traits\Prototype;
 use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationRuleParser;
 use Streams\Core\Support\Traits\FiresCallbacks;
 use Streams\Core\Validation\StreamsPresenceVerifier;
@@ -146,14 +146,12 @@ class Field implements
                 $rule,
                 function ($attribute, $value, $parameters, Validator $validator) use ($handler) {
 
-                    $field = $this->fields->get($attribute);
-
                     return App::call(
                         $handler,
                         [
-                            'stream' => $this,
+                            'field' => $this,
                             'value' => $value,
-                            'field' => $field,
+                            'stream' => $this->stream,
                             'attribute' => $attribute,
                             'validator' => $validator,
                             'parameters' => $parameters,
