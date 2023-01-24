@@ -4,24 +4,21 @@ namespace Streams\Core\Field\Types\Validation;
 
 use Streams\Core\Field\Field;
 
-use function GuzzleHttp\Promise\all;
-
 class ValidateArrayItems extends Field
 {
-    public function __construct(
-        public Field $field
-    ) {
-    }
-
-    public function __invoke($value)
+    public function __invoke(Field $field, $value)
     {
-        if (!$this->field->config('items')) {
+        if (!is_array($value)) {
+            return false;
+        }
+
+        if (!$config = $field->config('items')) {
             return true;
         }
 
-        foreach ($value as $key => $value) {
+        foreach ($value as $item) {
 
-            if ($this->validateItems($value)) {
+            if ($this->itemIsValid($item, $config)) {
                 continue;
             }
 
@@ -31,40 +28,26 @@ class ValidateArrayItems extends Field
         return true;
     }
 
-    protected function validateItems($value)
+    protected function itemIsValid($item, $config): bool
     {
-        $items = $this->field->config('items');
+        foreach ($config as $allowed) {
 
-        foreach ($items as $allowed) {
-
-            if ($this->validateItem($value, $allowed)) {
-                continue;
+            if (!isset($allowed['type'])) {
+                throw new \Exception("The [type] parameter is required when configuring allowed array items.");
             }
 
-            return false;
-        }
-    }
+            if ($allowed['type'] == 'array' && is_array($item)) {
+                return true;
+            }
 
-    protected function validateItem(mixed $value, array $allowed = [])
-    {
-        if (!isset($allowed['type'])) {
-            throw new \Exception("The [type] parameter is required when configuring allowed array items.");
-        }
+            if ($allowed['type'] == 'string' && is_string($item)) {
+                return true;
+            }
 
-        if ($allowed['type'] == 'array' && is_array($value)) {
-            return true;
+            if ($allowed['type'] == 'int' && is_integer($item)) {
+                return true;
+            }
         }
-
-        if ($allowed['type'] == 'string' && is_string($value)) {
-            return true;
-        }
-
-        if ($allowed['type'] == 'int' && is_integer($value)) {
-            return true;
-        }
-
-        dump($allowed);
-        dd($value);
 
         return false;
     }

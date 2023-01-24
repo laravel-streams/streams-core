@@ -3,12 +3,11 @@
 namespace Streams\Core\Tests\Field;
 
 use Streams\Core\Field\Field;
+use Streams\Core\Field\FieldSchema;
 use Streams\Core\Tests\CoreTestCase;
 use Streams\Core\Field\FieldDecorator;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Field\Decorator\IntegerDecorator;
-use Streams\Core\Field\FieldSchema;
-use Streams\Core\Stream\Stream;
 
 class FieldTest extends CoreTestCase
 {

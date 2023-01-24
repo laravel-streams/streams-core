@@ -74,7 +74,7 @@ class ArrayFieldTypeTest extends CoreTestCase
             'stream' => Streams::make('films')
         ]);
 
-        
+
         $this->assertSame([array_merge(
             ['@abstract' => get_class($field)],
             $field->toArray()
@@ -91,7 +91,7 @@ class ArrayFieldTypeTest extends CoreTestCase
         $restored = $field->restore($field->modify($data));
 
         $this->assertIsArray($restored);
-        
+
         $this->assertSame('Test Name', $restored[0]);
         $this->assertSame('Films', $restored[1]->name);
     }
@@ -127,7 +127,7 @@ class ArrayFieldTypeTest extends CoreTestCase
         $restored = $field->restore($field->modify([$entry]));
 
         $this->assertInstanceOf(Entry::class, $restored[0]);
-        
+
         $this->assertSame('Test Name', $restored[0]->name);
     }
 
@@ -211,7 +211,7 @@ class ArrayFieldTypeTest extends CoreTestCase
         $restored = $field->restore($field->modify([$entry]));
 
         $this->assertInstanceOf(Collection::class, $restored);
-        
+
         $this->assertSame(1, $restored->count());
     }
 
@@ -231,7 +231,7 @@ class ArrayFieldTypeTest extends CoreTestCase
         $restored = $field->restore($field->modify([$entry, $entry]));
 
         $this->assertInstanceOf(CustomArrayWrapper::class, $restored);
-        
+
         $this->assertSame(2, $restored->count());
     }
 
@@ -247,7 +247,9 @@ class ArrayFieldTypeTest extends CoreTestCase
                         'required',
                     ],
                     'config' => [
-                        ['type' => 'array']
+                        'items' => [
+                            ['type' => 'array']
+                        ]
                     ],
                 ],
             ],
@@ -257,7 +259,7 @@ class ArrayFieldTypeTest extends CoreTestCase
 
         $this->assertFalse($stream->validator($data)->passes());
 
-        $data = ['items' => ['Test']];
+        $data = ['items' => [['Test']]];
 
         $this->assertTrue($stream->validator($data)->passes());
     }
