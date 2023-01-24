@@ -13,8 +13,11 @@ use Streams\Core\Support\Facades\Hydrator;
 use Streams\Core\Support\Traits\HasMemory;
 use Streams\Core\Support\Traits\Prototype;
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationRuleParser;
 use Streams\Core\Support\Traits\FiresCallbacks;
+use Streams\Core\Validation\StreamsPresenceVerifier;
 
 /**
  * @property  string $handle
@@ -79,7 +82,7 @@ class Field implements
         if ($stream && $stream instanceof Stream) {
             $this->stream = $stream;
         }
-        
+
         $this->fire('initializing', [
             'callbackData' => $callbackData,
         ]);
@@ -121,6 +124,78 @@ class Field implements
     public function restore($value)
     {
         return $value;
+    }
+
+    public function validator($value, bool $fresh = true)
+    {
+        $factory = App::make(\Illuminate\Validation\Factory::class);
+
+        $keyName = $this->config('key_name', 'id');
+
+        $data = [$this->handle => $value];
+
+        $factory->setPresenceVerifier(new StreamsPresenceVerifier(App::make('db')));
+
+        $rules = $this->rules();
+
+        foreach ($this->validators ?: [] as $rule => $validator) {
+
+            $handler = Arr::get($validator, 'handler');
+
+            $factory->extend(
+                $rule,
+                function ($attribute, $value, $parameters, Validator $validator) use ($handler) {
+
+                    $field = $this->fields->get($attribute);
+
+                    return App::call(
+                        $handler,
+                        [
+                            'stream' => $this,
+                            'value' => $value,
+                            'field' => $field,
+                            'attribute' => $attribute,
+                            'validator' => $validator,
+                            'parameters' => $parameters,
+                        ]
+                    );
+                },
+                Arr::get($validator, 'message')
+            );
+        }
+
+        array_walk($rules, function (&$rule, $field) use ($fresh, $data, $keyName) {
+
+            /**
+             * Automate unique options.
+             */
+            if (Str::startsWith($rule, 'unique')) {
+
+                $parts = explode(':', $rule);
+                $parameters = array_filter(explode(',', Arr::get($parts, 1)));
+
+                if (!$parameters) {
+                    $parameters[] = $this->stream->id;
+                }
+
+                if (count($parameters) === 1) {
+                    $parameters[] = $field;
+                }
+
+                if (!$fresh && $key = Arr::get($data, $keyName)) {
+                    $parameters[] = $key;
+                    $parameters[] = $keyName;
+                }
+
+                $rule = 'unique:' . implode(',', $parameters);
+            }
+
+            if (strpos($rule, '\\')) {
+                $rule = new $rule;
+            }
+        });
+
+        return $factory->make($data, [$this->handle => $rules]);
     }
 
     public function schema(): FieldSchema

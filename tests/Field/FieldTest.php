@@ -2,6 +2,7 @@
 
 namespace Streams\Core\Tests\Field;
 
+use Illuminate\Support\Str;
 use Streams\Core\Field\Field;
 use Streams\Core\Field\FieldSchema;
 use Streams\Core\Tests\CoreTestCase;
@@ -136,5 +137,18 @@ class FieldTest extends CoreTestCase
 
         $this->assertSame([], $field->ruleParameters('min'));
         $this->assertNull($field->ruleParameter('min'));
+    }
+
+    public function test_it_validates_values()
+    {
+        $field = Streams::make('films')->fields->get('episode_id');
+
+        $this->assertTrue($field->validator(25)->passes());
+        $this->assertFalse($field->validator('Foo')->passes());
+
+        $field = Streams::make('films')->fields->get('title');
+
+        $this->assertTrue($field->validator(Str::random(20))->passes());
+        $this->assertFalse($field->validator(Str::random(30))->passes());
     }
 }
