@@ -2,8 +2,6 @@
 
 namespace Streams\Core\Field\Types\Validation;
 
-use Streams\Core\Field\Field;
-use Illuminate\Support\Facades\App;
 use Streams\Core\Field\Types\ObjectFieldType;
 
 class ValidateObjectType

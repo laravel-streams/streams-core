@@ -4,7 +4,6 @@ namespace Streams\Core\Tests\Field\Types;
 
 use Streams\Core\Entry\Entry;
 use Illuminate\Support\Collection;
-use stdClass;
 use Streams\Core\Tests\CoreTestCase;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Field\Types\ArrayFieldType;
