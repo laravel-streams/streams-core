@@ -20,7 +20,6 @@ use Streams\Core\Support\Traits\Prototype;
  */
 class Hydrator
 {
-
     public function dehydrate($object, array $except = []): array
     {
         $attributes = [];

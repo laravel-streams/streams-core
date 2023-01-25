@@ -9,7 +9,7 @@ use Streams\Core\Field\Types\ObjectFieldType;
 
 class ObjectFieldTypeTest extends CoreTestCase
 {
-    public function test_it_casts_json_to_array()
+    public function test_it_casts_json_to_generic()
     {
         $field = new ObjectFieldType([
             'stream' => Streams::make('films')
@@ -22,7 +22,7 @@ class ObjectFieldTypeTest extends CoreTestCase
         $this->assertEquals($data, $field->cast($json));
     }
 
-    public function test_it_casts_serialized_to_array()
+    public function test_it_casts_serialized_to_generic()
     {
         $field = new ObjectFieldType([
             'stream' => Streams::make('films')
@@ -35,7 +35,7 @@ class ObjectFieldTypeTest extends CoreTestCase
         $this->assertEquals($data, $field->cast($serialized));
     }
 
-    public function test_it_casts_arrays_to_objects()
+    public function test_it_casts_to_generic_default()
     {
         $field = new ObjectFieldType([
             'stream' => Streams::make('films')
@@ -46,34 +46,30 @@ class ObjectFieldTypeTest extends CoreTestCase
         $this->assertEquals(json_decode(json_encode($value)), $field->cast($value));
     }
 
-    public function test_it_stores_abstract_types()
+    public function test_it_supports_generics()
     {
         $field = new ObjectFieldType([
-            'name' => 'Test Name',
-            'stream' => Streams::make('films'),
-        ]);
-
-        $this->assertSame([
-            '@abstract' => get_class($field),
-            'name' => 'Test Name',
-        ], $field->modify($field));
-    }
-
-    public function test_it_restores_abstract_types()
-    {
-        $field = new ObjectFieldType([
-            'name' => 'Test Name',
             'stream' => Streams::make('films')
         ]);
 
-        $restored = $field->restore($field->modify($field));
+        $entry = json_decode(json_encode([
+            'name' => 'Test Name',
+        ]));
 
-        $this->assertInstanceOf(ObjectFieldType::class, $restored);
-        
-        $this->assertSame('Test Name', $restored->name);
+        $this->assertSame([
+            '@generic' => 'stdClass',
+            'name' => 'Test Name',
+        ], $field->modify($entry));
+
+        $this->assertEquals(
+            $entry,
+            $field->restore([
+                'name' => 'Test Name',
+            ])
+        );
     }
 
-    public function test_it_stores_entries()
+    public function test_it_supports_entries()
     {
         $field = new ObjectFieldType([
             'stream' => Streams::make('films')
@@ -88,83 +84,74 @@ class ObjectFieldTypeTest extends CoreTestCase
             '@stream' => $entry->stream()->id,
             'name' => 'Test Name',
         ], $field->modify($entry));
-    }
-
-    public function test_it_restores_entries()
-    {
-        $field = new ObjectFieldType([
-            'stream' => Streams::make('films')
-        ]);
-
-        $entry = new Entry([
-            'name' => 'Test Name',
-            'stream' => Streams::make('films')
-        ]);
-
+    
         $restored = $field->restore($field->modify($entry));
 
         $this->assertInstanceOf(Entry::class, $restored);
-        
+
         $this->assertSame('Test Name', $restored->name);
     }
 
-    public function test_it_stores_generics()
+    public function test_it_supports_abstracts()
     {
         $field = new ObjectFieldType([
-            'stream' => Streams::make('films')
-        ]);
-
-        $entry = json_decode(json_encode([
             'name' => 'Test Name',
-        ]));
+            'stream' => Streams::make('films'),
+        ]);
 
         $this->assertSame([
+            '@generic' => ObjectFieldTypeTestDummy::class,
             'name' => 'Test Name',
-        ], $field->modify($entry));
+        ], $field->modify(new ObjectFieldTypeTestDummy(...[
+            'name' => 'Test Name',
+        ])));
+    
+        $restored = $field->restore($field->modify($field));
+
+        $this->assertInstanceOf(ObjectFieldType::class, $restored);
+
+        $this->assertSame('Test Name', $restored->name);
     }
 
-    public function test_it_restores_generics_to_array()
+    public function test_it_validates_types()
     {
-        $field = new ObjectFieldType([
-            'stream' => Streams::make('films')
+        $stream = Streams::build([
+            'id' => 'tmp',
+            'fields' => [
+                [
+                    'handle' => 'object',
+                    'type' => 'object',
+                    'rules' => [
+                        'required',
+                    ],
+                    'config' => [
+                        'types' => [
+                            ['generic' => 'stdClass'],
+                            ['stream' => 'planets']
+                        ]
+                    ],
+                ],
+            ],
         ]);
 
-        $entry = json_decode(json_encode([
-            'name' => 'Test Name',
-        ]), true);
+        $field = $stream->fields->get('object');
 
-        $restored = $field->restore($field->modify($entry));
+        $generic = json_decode(json_encode(['foo' => 'bar']));
+        
+        $film = Streams::films()->first();
+        $planet = Streams::planets()->first();
 
-        $this->assertEquals($entry, $restored);
+        $this->assertFalse($field->validator('Test')->passes());
+        $this->assertTrue($field->validator($generic)->passes());
+
+        $this->assertFalse($field->validator($film)->passes());
+        $this->assertTrue($field->validator($planet)->passes());
     }
+}
 
-    public function test_it_restores_generics()
+class ObjectFieldTypeTestDummy
+{
+    public function __construct(public string $name)
     {
-        $field = new ObjectFieldType([
-            'stream' => Streams::make('films')
-        ]);
-
-        $entry = json_decode(json_encode([
-            'name' => 'Test Name',
-        ]));
-
-        $this->assertSame([
-            'name' => 'Test Name',
-        ], $field->modify($entry));
     }
-
-    // public function test_it_returns_object()
-    // {
-    //     $field = new ObjectFieldType([
-    //         'stream' => Streams::make('films'),
-    //     ]);
-
-    //     $this->assertInstanceOf(Entry::class, $field->decorate([
-    //         '@stream' => 'films',
-    //     ]));
-
-    //     $this->assertInstanceOf(Entry::class, $field->decorate([
-    //         '@stream' => 'films',
-    //     ]));
-    // }
 }
