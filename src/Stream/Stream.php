@@ -236,7 +236,7 @@ class Stream implements
 
             $field = $this->fields->get($attribute);
 
-            App::call(
+            return App::call(
                 $handler,
                 [
                     'stream' => $this,

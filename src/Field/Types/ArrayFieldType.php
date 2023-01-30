@@ -80,11 +80,6 @@ class ArrayFieldType extends Field
 
     public function restore($value)
     {
-        // @todo what is this.. should not be restoring null
-        if (is_null($value)) {
-            $value = [];
-        }
-        
         if (is_string($value)) {
             $value = $this->cast($value);
         }

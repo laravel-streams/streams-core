@@ -8,12 +8,26 @@ use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Support\Facades\Hydrator;
 use Streams\Core\Support\Traits\Prototype;
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\App;
 use Streams\Core\Field\Schema\ObjectSchema;
 use Streams\Core\Entry\Contract\EntryInterface;
+use Streams\Core\Field\Types\Validation\ValidateObjectType;
 
 class ObjectFieldType extends Field
 {
-    public function modify($value)
+    public $rules = [
+        //'object',
+        'valid_type',
+    ];
+
+    public $validators = [
+        'valid_type' => [
+            'handler' => ValidateObjectType::class,
+        ],
+    ];
+
+    public function modify($value): array
     {
         if (is_object($value) && $value instanceof EntryInterface) {
             $value = [
@@ -22,37 +36,38 @@ class ObjectFieldType extends Field
         }
 
         if (
-            is_object($value) && ($value instanceof Arrayable
-                || in_array(Prototype::class, class_uses($value)))
+            is_object($value) && method_exists($value, 'getPrototypeAttribute')
         ) {
             $value = array_merge([
-                '@abstract' => get_class($value),
+                '@prototype' => get_class($value),
             ], $value->toArray());
         }
 
         if (is_object($value)) {
-            $value = Hydrator::dehydrate($value);
+            $value = array_merge([
+                '@generic' => get_class($value),
+            ], Hydrator::dehydrate($value));
         }
 
         return $value;
     }
 
-    public function restore($value)
+    public function restore($value): object
     {
         [$meta, $value] = $this->separateMeta((array) $value);
 
         if (isset($meta['@stream'])) {
-            return $this->restoreStreamEntry($meta, $value);
+            return $this->restoreEntry($meta, $value);
         }
 
-        if (isset($meta['@abstract'])) {
-            return $this->restoreInstance($meta, $value);
+        if (isset($meta['@prototype'])) {
+            return $this->restorePrototype($meta, $value);
         }
 
-        return $value;
+        return $this->restoreGeneric($value, Arr::get($meta, '@generic', 'stdClass'));
     }
 
-    public function cast($value)
+    public function cast($value): object
     {
         if (is_object($value)) {
             return $value;
@@ -66,7 +81,7 @@ class ObjectFieldType extends Field
             return unserialize($value);
         }
 
-        return (object) $value;
+        throw new \Exception('Value cannot be cast to object.');
     }
 
     protected function separateMeta(array $value)
@@ -82,21 +97,21 @@ class ObjectFieldType extends Field
         return [$meta, $value];
     }
 
-    protected function restoreStreamEntry(array $meta, array $value)
+    protected function restoreEntry(array $meta, array $value)
     {
         return Streams::repository($meta['@stream'])->newInstance($value);
     }
 
-    protected function restoreInstance(array $meta, array $value)
+    protected function restorePrototype(array $meta, array $value)
     {
-        return new $meta['@abstract']($value);
+        return new $meta['@prototype']($value);
     }
 
-    protected function restoreGeneric(array $value)
+    protected function restoreGeneric(array $attributes, string $generic = 'stdClass')
     {
-        $generic = new \stdClass;
+        $generic = new $generic;
 
-        foreach ($value as $key => $value) {
+        foreach ($attributes as $key => $value) {
             $generic->{$key} = $value;
         }
 

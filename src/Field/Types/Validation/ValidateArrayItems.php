@@ -3,25 +3,23 @@
 namespace Streams\Core\Field\Types\Validation;
 
 use Streams\Core\Field\Field;
+use Illuminate\Support\Facades\App;
 
-use function GuzzleHttp\Promise\all;
-
-class ValidateArrayItems extends Field
+class ValidateArrayItems
 {
-    public function __construct(
-        public Field $field
-    ) {
-    }
-
-    public function __invoke($value)
+    public function __invoke(Field $field, $value): bool
     {
-        if (!$this->field->config('items')) {
+        if (!is_array($value)) {
+            return false;
+        }
+
+        if (!$allowed = $field->config('items')) {
             return true;
         }
 
-        foreach ($value as $key => $value) {
+        foreach ($value as $item) {
 
-            if ($this->validateItems($value)) {
+            if ($this->itemIsValid($item, $allowed, $field)) {
                 continue;
             }
 
@@ -31,40 +29,24 @@ class ValidateArrayItems extends Field
         return true;
     }
 
-    protected function validateItems($value)
+    protected function itemIsValid($item, $config, Field $field): bool
     {
-        $items = $this->field->config('items');
+        foreach ($config as $allowed) {
 
-        foreach ($items as $allowed) {
-
-            if ($this->validateItem($value, $allowed)) {
-                continue;
+            if (!isset($allowed['type'])) {
+                throw new \Exception("The [type] parameter is required when configuring allowed array items.");
             }
 
-            return false;
-        }
-    }
+            if (!App::has('streams.core.field_type.' . $allowed['type'])) {
+                throw new \Exception("Invalid field type [{$allowed['type']}] in array items configuration [{$field->handle}].");
+            }
 
-    protected function validateItem(mixed $value, array $allowed = [])
-    {
-        if (!isset($allowed['type'])) {
-            throw new \Exception("The [type] parameter is required when configuring allowed array items.");
-        }
+            $field = App::make('streams.core.field_type.' . $allowed['type']);
 
-        if ($allowed['type'] == 'array' && is_array($value)) {
-            return true;
+            if ($field->validator($item)->passes()) {
+                return true;
+            }
         }
-
-        if ($allowed['type'] == 'string' && is_string($value)) {
-            return true;
-        }
-
-        if ($allowed['type'] == 'int' && is_integer($value)) {
-            return true;
-        }
-
-        dump($allowed);
-        dd($value);
 
         return false;
     }
