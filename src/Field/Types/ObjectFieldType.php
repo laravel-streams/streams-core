@@ -69,6 +69,10 @@ class ObjectFieldType extends Field
 
     public function cast($value): object
     {
+        if (is_array($value)) {
+            return (object) $value;
+        }
+
         if (is_object($value)) {
             return $value;
         }
