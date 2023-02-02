@@ -302,6 +302,7 @@ class StreamsServiceProvider extends ServiceProvider
         Factory::macro('override', $this->app[\Streams\Core\Support\Macros\FactoryOverride::class]());
 
         Str::macro('parse', $this->app[\Streams\Core\Support\Macros\StrParse::class]());
+        Str::macro('purify', $this->app[\Streams\Core\Support\Macros\StrPurify::class]());
         Str::macro('humanize', $this->app[\Streams\Core\Support\Macros\StrHumanize::class]());
         Str::macro('truncate', $this->app[\Streams\Core\Support\Macros\StrTruncate::class]());
         Str::macro('isSerialized', $this->app[\Streams\Core\Support\Macros\StrIsSerialized::class]());

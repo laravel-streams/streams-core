@@ -20,7 +20,8 @@
         "laravel/framework": "^8.0|^9.0",
         "goldspecdigital/oooas": "^2.10",
         "laravelcollective/html": "^6.3",
-        "nicmart/string-template": "^0.1"
+        "nicmart/string-template": "^0.1",
+        "ezyang/htmlpurifier": "^4.16"
     },
     "require-dev": {
         "streams/testing": "^1.0",
