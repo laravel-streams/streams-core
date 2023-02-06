@@ -12,7 +12,7 @@ class ValidateObjectType
             return false;
         }
 
-        if (!$types = $field->config('types')) {
+        if (!$types = $field->config('allowed')) {
             return true;
         }
 

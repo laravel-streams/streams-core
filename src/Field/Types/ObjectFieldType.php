@@ -2,14 +2,11 @@
 
 namespace Streams\Core\Field\Types;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Streams\Core\Field\Field;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Support\Facades\Hydrator;
-use Streams\Core\Support\Traits\Prototype;
-use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\App;
 use Streams\Core\Field\Schema\ObjectSchema;
 use Streams\Core\Entry\Contract\EntryInterface;
 use Streams\Core\Field\Types\Validation\ValidateObjectType;
@@ -17,7 +14,6 @@ use Streams\Core\Field\Types\Validation\ValidateObjectType;
 class ObjectFieldType extends Field
 {
     public $rules = [
-        //'object',
         'valid_type',
     ];
 
