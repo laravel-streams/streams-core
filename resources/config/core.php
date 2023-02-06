@@ -59,16 +59,18 @@ return [
         'date' => \Streams\Core\Field\Types\DateFieldType::class,
         'time' => \Streams\Core\Field\Types\TimeFieldType::class,
 
-        // Arrays
-        'array' => \Streams\Core\Field\Types\ArrayFieldType::class,
-
         // Selections
         'enum' => \Streams\Core\Field\Types\SelectFieldType::class,
         'select' => \Streams\Core\Field\Types\SelectFieldType::class,
         'multiselect' => \Streams\Core\Field\Types\MultiselectFieldType::class,
 
+        // Arrays
+        'array' => \Streams\Core\Field\Types\ArrayFieldType::class,
+
         // Objects
         'object' => \Streams\Core\Field\Types\ObjectFieldType::class,
+
+        // Files
         'image' => \Streams\Core\Field\Types\ImageFieldType::class,
         'file' => \Streams\Core\Field\Types\FileFieldType::class,
 

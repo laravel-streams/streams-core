@@ -13,7 +13,7 @@ class ValidateArrayItems
             return false;
         }
 
-        if (!$allowed = $field->config('items')) {
+        if (!$allowed = $field->config('allowed')) {
             return true;
         }
 
