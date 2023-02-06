@@ -16,12 +16,15 @@ class ValidateObjectType
             return true;
         }
 
+        // Need properties / inline definition support
         foreach ($types as $allowed) {
 
+            // @todo - this is sus
             if (isset($allowed['generic']) && $value instanceof $allowed['generic']) {
                 return true;
             }
 
+            // @todo - this is sus
             if (isset($allowed['prototype']) && $value instanceof $allowed['prototype']) {
                 return true;
             }
