@@ -2,13 +2,15 @@
 
 namespace Streams\Core\Stream;
 
-use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
-use Streams\Core\Support\Facades\Streams;
-use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Contracts\Filesystem\Filesystem;
 
+/**
+ * This class is a wrapper for the Laravel
+ * filesystem. It is used to index data
+ * but otherwise passes through to the
+ * underlying filesystem.
+ */
 class StreamFilesystem implements Filesystem
 {
     public Filesystem $storage;
@@ -18,7 +20,7 @@ class StreamFilesystem implements Filesystem
         $this->storage = Storage::disk($disk);
     }
 
-    public function scan(string $path = null): void
+    public function index(string $path = null): void
     {
         foreach ($this->storage->allDirectories($path) as $directory) {
             $this->indexDirectory($directory);
@@ -26,76 +28,6 @@ class StreamFilesystem implements Filesystem
 
         foreach ($this->storage->allFiles($path) as $file) {
             $this->indexFile($file);
-        }
-    }
-
-    public function indexDirectory(string $directory)
-    {
-        $entry = $this->stream
-            ->entries()
-            ->where('disk', $this->disk)
-            ->where('path', $directory)
-            ->first();
-
-        if (!$entry) {
-            $this->stream
-                ->entries()
-                ->create([
-                    'disk' => $this->disk,
-                    'is_dir' => true,
-                    'path' => $directory,
-                    'name' => basename($directory),
-                    'visibility' => $this->storage->getVisibility($directory),
-                    'last_modified' => $this->storage->lastModified($directory),
-                ]);
-        } else {
-            $entry->loadPrototypeAttributes([
-                'is_dir' => true,
-                'name' => basename($directory),
-                'visibility' => $this->storage->getVisibility($directory),
-                'last_modified' => $this->storage->lastModified($directory),
-            ]);
-
-            $entry->save();
-        }
-    }
-
-    public function indexFile(string $file)
-    {
-        $entry = $this->stream
-            ->entries()
-            ->where('disk', $this->disk)
-            ->where('path', $file)
-            ->first();
-
-        if (!$entry) {
-            $this->stream
-                ->entries()
-                ->create([
-                    'path' => $file,
-                    'is_dir' => false,
-                    'disk' => $this->disk,
-                    'name' => basename($file),
-                    'size' => $this->storage->size($file),
-                    'mime_type' => $this->storage->mimeType($file),
-                    'visibility' => $this->storage->getVisibility($file),
-                    'last_modified' => $this->storage->lastModified($file),
-                    'extension' => pathinfo($file, PATHINFO_EXTENSION),
-                ]);
-        } else {
-            $entry->fill([
-                'path' => $file,
-                'is_dir' => false,
-                'disk' => $this->disk,
-                'name' => basename($file),
-                'size' => $this->storage->size($file),
-                'mime_type' => $this->storage->mimeType($file),
-                'visibility' => $this->storage->getVisibility($file),
-                'last_modified' => $this->storage->lastModified($file),
-                'extension' => pathinfo($file, PATHINFO_EXTENSION),
-            ]);
-
-            $entry->save();
         }
     }
 
@@ -132,16 +64,6 @@ class StreamFilesystem implements Filesystem
         return $result;
     }
 
-    public function getVisibility($path): string
-    {
-        return $this->storage->getVisibility($path);
-    }
-
-    public function setVisibility($path, $visibility): bool
-    {
-        return $this->storage->setVisibility($path, $visibility);
-    }
-
     public function prepend($path, $data): bool
     {
         if ($result = $this->storage->prepend($path, $data)) {
@@ -155,26 +77,6 @@ class StreamFilesystem implements Filesystem
     {
         if ($result = $this->storage->append($path, $data)) {
             $this->indexFile($path);
-        }
-
-        return $result;
-    }
-
-    public function delete($paths): bool
-    {
-        $result = true;
-
-        foreach ((array) $paths as $path) {
-
-            if ($this->storage->delete($path)) {
-                $this->stream
-                    ->entries()
-                    ->where('disk', $this->disk)
-                    ->where('path', $path)
-                    ->delete();
-            } else {
-                $result = false;
-            }
         }
 
         return $result;
@@ -207,44 +109,68 @@ class StreamFilesystem implements Filesystem
         return $result;
     }
 
+    public function delete($paths): bool
+    {
+        $result = true;
+
+        foreach ((array) $paths as $path) {
+
+            if ($this->storage->delete($path)) {
+                $this->stream
+                    ->entries()
+                    ->where('disk', $this->disk)
+                    ->where('path', $path)
+                    ->delete();
+            } else {
+                $result = false;
+            }
+        }
+
+        return $result;
+    }
+
+    public function getVisibility($path): string
+    {
+        // @todo sync the value
+        return $this->storage->getVisibility($path);
+    }
+
+    public function setVisibility($path, $visibility): bool
+    {
+        // @todo sync the value
+        return $this->storage->setVisibility($path, $visibility);
+    }
+
     public function size($path): int
     {
-        return $this->stream
-            ->entries()
-            ->where('disk', $this->disk)
-            ->where('path', $path)
-            ->first()
-            ?->size;
+        // @todo sync the value
+        return $this->storage->size($path);
     }
 
     public function lastModified($path): int
     {
-        return $this->stream
-            ->entries()
-            ->where('disk', $this->disk)
-            ->where('path', $path)
-            ->first()
-            ?->last_modified;
+        // @todo sync the value
+        return $this->storage->lastModified($path);
     }
 
     public function files($directory = null, $recursive = false): array
     {
-        dd('Implement StreamDisk::files');
+        return $this->storage->files($directory, $recursive);
     }
 
     public function allFiles($directory = null): array
     {
-        dd('Implement StreamDisk::allFiles');
+        return $this->storage->allFiles($directory);
     }
 
     public function directories($directory = null, $recursive = false): array
     {
-        dd('Implement StreamDisk::directories');
+        return $this->storage->directories($directory, $recursive);
     }
 
     public function allDirectories($directory = null): array
     {
-        dd('Implement StreamDisk::allDirectories');
+        return $this->storage->allDirectories($directory);
     }
 
     public function makeDirectory($path): bool
