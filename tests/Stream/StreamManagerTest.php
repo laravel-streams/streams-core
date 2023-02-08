@@ -2,11 +2,13 @@
 
 namespace Streams\Core\Tests\Stream;
 
+use Illuminate\Support\Facades\Config;
 use Streams\Core\Stream\Stream;
 use Streams\Core\Criteria\Criteria;
 use Streams\Core\Tests\CoreTestCase;
 use Illuminate\Support\Facades\Route;
 use Streams\Core\Repository\Repository;
+use Streams\Core\Stream\StreamFilesystem;
 use Streams\Core\Support\Facades\Streams;
 
 class StreamManagerTest extends CoreTestCase
@@ -107,6 +109,20 @@ class StreamManagerTest extends CoreTestCase
     public function test_it_returns_entry_repository()
     {
         $this->assertInstanceOf(Repository::class, Streams::repository('films'));
+    }
+
+    public function test_it_returns_filesystems()
+    {
+        Config::set('filesystems.disks.local.stream', 'files');
+
+        $this->assertInstanceOf(StreamFilesystem::class, Streams::filesystem('local'));
+    }
+
+    public function test_it_throws_exception_for_non_configured_filesystems()
+    {
+        $this->expectException(\Exception::class);
+
+        Streams::filesystem('foo');
     }
 
     public function test_it_parses_schema()

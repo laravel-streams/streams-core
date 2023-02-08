@@ -184,7 +184,7 @@ class StreamFilesystem implements Filesystem
 
     public function deleteDirectory($directory): bool
     {
-        if ($result = $this->storage->delete($directory)) {
+        if ($result = $this->storage->deleteDirectory($directory)) {
             $this->stream
                 ->entries()
                 ->where('disk', $this->disk)
@@ -193,5 +193,75 @@ class StreamFilesystem implements Filesystem
         }
 
         return $result;
+    }
+
+    protected function indexDirectory(string $directory)
+    {
+        $entry = $this->stream
+            ->entries()
+            ->where('disk', $this->disk)
+            ->where('path', $directory)
+            ->first();
+
+        if (!$entry) {
+            $this->stream
+                ->entries()
+                ->create([
+                    'disk' => $this->disk,
+                    'is_dir' => true,
+                    'path' => $directory,
+                    'name' => basename($directory),
+                    'visibility' => $this->storage->getVisibility($directory),
+                    'last_modified' => $this->storage->lastModified($directory),
+                ]);
+        } else {
+            $entry->loadPrototypeAttributes([
+                'is_dir' => true,
+                'name' => basename($directory),
+                'visibility' => $this->storage->getVisibility($directory),
+                'last_modified' => $this->storage->lastModified($directory),
+            ]);
+
+            $entry->save();
+        }
+    }
+
+    protected function indexFile(string $file)
+    {
+        $entry = $this->stream
+            ->entries()
+            ->where('disk', $this->disk)
+            ->where('path', $file)
+            ->first();
+
+        if (!$entry) {
+            $this->stream
+                ->entries()
+                ->create([
+                    'path' => $file,
+                    'is_dir' => false,
+                    'disk' => $this->disk,
+                    'name' => basename($file),
+                    'size' => $this->storage->size($file),
+                    'mime_type' => $this->storage->mimeType($file),
+                    'visibility' => $this->storage->getVisibility($file),
+                    'last_modified' => $this->storage->lastModified($file),
+                    'extension' => pathinfo($file, PATHINFO_EXTENSION),
+                ]);
+        } else {
+            $entry->fill([
+                'path' => $file,
+                'is_dir' => false,
+                'disk' => $this->disk,
+                'name' => basename($file),
+                'size' => $this->storage->size($file),
+                'mime_type' => $this->storage->mimeType($file),
+                'visibility' => $this->storage->getVisibility($file),
+                'last_modified' => $this->storage->lastModified($file),
+                'extension' => pathinfo($file, PATHINFO_EXTENSION),
+            ]);
+
+            $entry->save();
+        }
     }
 }
