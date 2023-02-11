@@ -34,7 +34,7 @@
             "Streams\\Core\\": "src/"
         },
         "files": [
-            "src/Support/helpers.php"
+            "src/helpers.php"
         ]
     },
     "autoload-dev": {
