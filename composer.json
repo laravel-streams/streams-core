@@ -32,7 +32,10 @@
     "autoload": {
         "psr-4": {
             "Streams\\Core\\": "src/"
-        }
+        },
+        "files": [
+            "src/Support/helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
