@@ -270,7 +270,7 @@ class Criteria
         $this->adapter->truncate();
     }
 
-    public function paginate(array $parameters = []): Paginator
+    public function paginate(array|int $parameters = []): Paginator
     {
         if (is_numeric($parameters)) {
             $parameters = [

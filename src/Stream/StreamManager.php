@@ -91,7 +91,7 @@ class StreamManager
     {
         $original = $this->make($id)->getOriginalPrototypeAttributes();
 
-        $attributes = array_merge_recursive($original, $attributes);
+        $attributes = array_replace_recursive($original, $attributes);
 
         $stream = $this->build($attributes);
 

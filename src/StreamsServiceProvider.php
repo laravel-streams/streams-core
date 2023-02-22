@@ -229,8 +229,8 @@ class StreamsServiceProvider extends ServiceProvider
 
     protected function registerAddons(): void
     {
-        $composer = json_decode(file_get_contents(base_path('composer.json')), true);
-        $lock = json_decode(file_get_contents(base_path('composer.lock')), true);
+        $composer = $this->app['composer.json'];
+        $lock = $this->app['composer.lock'];
 
         $directory = base_path('vendor');
 
@@ -318,7 +318,7 @@ class StreamsServiceProvider extends ServiceProvider
 
     protected function extendApp(): void
     {
-        $composer = json_decode(file_get_contents(base_path('composer.json')), true);
+        $composer = $this->app['composer.json'];
 
         $path = (string)base_path(Arr::get($composer, 'config.vendor-dir', 'vendor'));
 
