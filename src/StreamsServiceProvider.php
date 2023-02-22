@@ -194,10 +194,6 @@ class StreamsServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__ . '/../resources/config/core.php', 'streams.core');
 
-        if (file_exists($config = __DIR__ . '/../../../../config/streams/core.php')) {
-            $this->mergeConfigFrom($config, 'streams');
-        }
-
         $this->publishes([
             __DIR__ . '/../resources/config/core.php' => config_path('streams/core.php'),
         ], 'config');
