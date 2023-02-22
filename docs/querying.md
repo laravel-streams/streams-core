@@ -153,6 +153,21 @@ $favorites = Streams::entries('books')
 
 For more information on managing cache please see the [cache documentation](caching).
 
+
+### Eager Loading
+
+The `with` method accepts an array of `relations` to load eagerly in order to optimize querying:
+
+```php
+$people = Streams::entries('people')
+    ->with(['hometown'])
+    ->get();
+
+foreach ($people as $person) {
+    echo $person->hometown?->name;
+}
+```
+
 ## Extending Queries
 
 There are numerous techniques you can use to extend querying logic.
