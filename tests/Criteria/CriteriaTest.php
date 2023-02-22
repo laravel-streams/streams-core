@@ -305,6 +305,13 @@ class CriteriaTest extends CoreTestCase
         $this->assertEquals('The Phantom Menace', $entry->title);
     }
 
+    public function test_it_supports_eager_loading()
+    {
+        $entries = Streams::people()->with(['homeworld'])->get();
+
+        $this->assertEquals('Tatooine', $entries->first()->homeworld->name);
+    }
+
     public function test_it_supports_macros()
     {
         Streams::entries('films')->macro('testMacro', function () {

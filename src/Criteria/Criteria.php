@@ -32,6 +32,8 @@ class Criteria
 
     protected Stream $stream;
 
+    protected array $eagerLoad = [];
+
     public AdapterInterface $adapter;
 
     public function __construct(
@@ -139,11 +141,11 @@ class Criteria
             $key = Arr::get($cache, 1);
 
             return $this->stream->cache()->remember($key ?: $fingerprint, $seconds, function () {
-                return $this->adapter->get($this->parameters);
+                return $this->eagerLoadRelations($this->adapter->get($this->parameters));
             });
         }
 
-        return $this->adapter->get($this->parameters);
+        return $this->eagerLoadRelations($this->adapter->get($this->parameters));
     }
 
     /**
@@ -314,6 +316,49 @@ class Criteria
         $paginator->appends(Request::all());
 
         return $paginator;
+    }
+
+    public function with($relations = []): Criteria
+    {
+        $relations = (array) $relations;
+
+        foreach ($relations as $relation) {
+            $this->eagerLoad[$relation] = $relation;
+        }
+
+        return $this;
+    }
+
+    protected function eagerLoadRelations(Collection $entries): Collection
+    {
+        foreach ($this->eagerLoad as $relation) {
+            $this->eagerLoadRelation($relation, $entries);
+        }
+
+        return $entries;
+    }
+
+    protected function eagerLoadRelation(string $relation, Collection $entries): Collection
+    {
+        $ids = $entries->map(function ($entry) use ($relation) {
+            return $entry->{$relation};
+        })->filter()->all();
+
+        $related = $this->stream->fields->get($relation)->related();
+
+        $keyName = $related->config('key_name', 'id');
+
+        $relatives = $related->entries()
+            ->where($keyName, 'IN', $ids)
+            ->get();
+
+        $entries->each(function ($entry) use ($relation, $keyName, $relatives) {
+            if ($relative = $relatives->where($keyName, $entry->{$relation})->first()) {
+                $entry->{$relation} = $relative;
+            }
+        });
+
+        return $entries;
     }
 
     /**
