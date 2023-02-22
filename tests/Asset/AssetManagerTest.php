@@ -68,7 +68,7 @@ class AssetManagerTest extends CoreTestCase
     {
         $content = file_get_contents(public_path('vendor/testing/css/example.css'));
 
-        $this->assertEquals($content, Assets::contents('vendor/testing/css/example.css'));
+        $this->assertEquals($content, Assets::contents('public::vendor/testing/css/example.css'));
     }
 
     public function test_it_returns_asset_urls()

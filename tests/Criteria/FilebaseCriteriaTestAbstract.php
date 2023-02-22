@@ -5,7 +5,7 @@ namespace Streams\Core\Tests\Criteria;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Criteria\Adapter\FilebaseAdapter;
 
-abstract class FilebaseCriteriaTest extends CriteriaTest
+abstract class FilebaseCriteriaTestAbstract extends CriteriaTest
 {
 
     public function test_it_uses_stream_defined_adapter()

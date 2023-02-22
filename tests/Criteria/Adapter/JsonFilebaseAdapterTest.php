@@ -4,9 +4,9 @@ namespace Streams\Core\Tests\Criteria\Adapter;
 
 use Illuminate\Support\Facades\File;
 use Streams\Core\Support\Facades\Streams;
-use Streams\Core\Tests\Criteria\FilebaseCriteriaTest;
+use Streams\Core\Tests\Criteria\FilebaseCriteriaTestAbstract;
 
-class JsonFilebaseAdapterTest extends FilebaseCriteriaTest
+class JsonFilebaseAdapterTest extends FilebaseCriteriaTestAbstract
 {
     
     protected function setUp():void

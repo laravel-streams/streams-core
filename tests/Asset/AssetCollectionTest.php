@@ -120,7 +120,7 @@ class AssetCollectionTest extends CoreTestCase
     {
         $assets = new AssetCollection();
 
-        $assets->add('vendor/testing/css/example.css');
+        $assets->add('public::vendor/testing/css/example.css');
 
         $content = file_get_contents(public_path('vendor/testing/css/example.css'));
 
