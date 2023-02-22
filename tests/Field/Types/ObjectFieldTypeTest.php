@@ -125,7 +125,7 @@ class ObjectFieldTypeTest extends CoreTestCase
                         'required',
                     ],
                     'config' => [
-                        'types' => [
+                        'allowed' => [
                             ['generic' => 'stdClass'],
                             ['stream' => 'planets']
                         ]
@@ -146,6 +146,26 @@ class ObjectFieldTypeTest extends CoreTestCase
 
         $this->assertFalse($field->validator($film)->passes());
         $this->assertTrue($field->validator($planet)->passes());
+    }
+
+    public function test_it_allows_null_if_not_required()
+    {
+        $stream = Streams::build([
+            'id' => 'tmp',
+            'fields' => [
+                [
+                    'handle' => 'object',
+                    'type' => 'object',
+                ],
+            ],
+        ]);
+
+        $field = $stream->fields->get('object');
+
+        $generic = json_decode(json_encode(['foo' => 'bar']));
+        
+        $this->assertTrue($field->validator(null)->passes());
+        $this->assertTrue($field->validator($generic)->passes());
     }
 }
 

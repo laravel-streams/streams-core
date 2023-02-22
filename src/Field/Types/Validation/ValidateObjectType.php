@@ -8,6 +8,10 @@ class ValidateObjectType
 {
     public function __invoke(ObjectFieldType $field, $value): bool
     {
+        if (is_null($value)) {
+            return $field->isRequired() ? false : true;
+        }
+
         if (!is_object($value)) {
             return false;
         }
