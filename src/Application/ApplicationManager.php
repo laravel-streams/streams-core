@@ -3,6 +3,7 @@
 namespace Streams\Core\Application;
 
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Config;
 use Streams\Core\Application\Application;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Support\Traits\HasMemory;
@@ -14,11 +15,13 @@ class ApplicationManager
 
     protected Collection $collection;
 
-    protected string $active = '';
+    protected ?string $active = null;
 
     public function __construct()
     {
-        $this->collection = Streams::entries('core.applications')->get()->keyBy('id');
+        $id = Config::get('streams.core.applications_id');
+
+        $this->collection = Streams::entries($id)->get()->keyBy('id');
     }
 
     public function make(string $id): Application

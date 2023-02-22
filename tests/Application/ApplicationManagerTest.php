@@ -27,7 +27,7 @@ class ApplicationManagerTest extends CoreTestCase
     public function test_it_can_activate_an_addon()
     {
         $addon = new Application([
-            'stream' => Streams::make('core.applications'),
+            'stream' => Streams::make('applications'),
             'id' => 'new',
             'match' => '*',
         ]);

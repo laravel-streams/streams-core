@@ -14,7 +14,7 @@ Applications provides a fundamental interface to configure your application base
 
 ### Defining Applications
 
-Applications are defined using the `core.applications` stream. Entries are defined using `JSON` entry files within the `/streams/apps` directory by default.
+Applications are defined using the `applications` stream. Entries are defined using `JSON` entry files within the `/streams/apps` directory by default.
 
 The `match` value is compared to request URLs to determine the active application.
 

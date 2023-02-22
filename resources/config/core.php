@@ -3,6 +3,17 @@
 return [
 
     /**
+     * Specify the base Streams definition.
+     */
+    'streams_id' => 'streams',
+
+    /**
+     * Specify the stream used for
+     * multitenancy and applications.
+     */
+    'applications_id' => 'applications',
+
+    /**
      * Specify the default directory for VCS compatible (file based) data.
      */
     'data_path' => env('STREAMS_DATA_PATH', 'streams/data'),

@@ -119,8 +119,17 @@ class StreamsServiceProvider extends ServiceProvider
         );
     }
 
+    // @todo move to a deferred application service provider
     protected function registerApplications(): void
     {
+        $directory  = dirname(__DIR__) . '/resources/streams/';
+
+        $id = Config::get('streams.core.applications_id');
+
+        if (!Streams::exists($id)) {
+            Streams::load($directory . $id . '.json');
+        }
+
         $url = Request::fullUrl();
         $applications = Applications::collection();
 
@@ -143,7 +152,7 @@ class StreamsServiceProvider extends ServiceProvider
         if (!$active) {
 
             $active = new Application([
-                'stream' => Streams::make('core.applications'),
+                'stream' => Streams::make($id),
                 'id'    => 'default',
                 'match' => '*',
             ]);
@@ -196,29 +205,22 @@ class StreamsServiceProvider extends ServiceProvider
 
     protected function registerStreams(): void
     {
-        $prefix  = dirname(__DIR__) . '/resources/streams/';
-        $streams = ['core.streams', 'core.filesystem', 'core.applications'];
-
-        foreach ($streams as $stream) {
-            if (!Streams::exists($stream)) {
-                Streams::load($prefix . $stream . '.json');
-            }
-        }
+        $directory  = dirname(__DIR__) . '/resources/streams/';
 
         $this->publishes([
-            dirname(__DIR__) . '/resources/streams/' => base_path('streams/'),
+            $directory => base_path('streams/'),
         ], 'streams');
 
-        /**
-         * Register stream configurations.
-         */
-        $streams = Streams::repository('core.streams')->all();
+        $id = Config::get('streams.core.streams_id');
 
-        /**
-         * Defer registering streams that extend others.
-         */
+        if (!Streams::exists($id)) {
+            Streams::load($directory . $id . '.json');
+        }
+
+        $streams = Streams::repository($id)->all();
+
         $base = $streams->where('extends', null)->keyBy('id');
-        $extending = $streams->where('extends', '!=', null)->keyBy('id');
+        $extending = $streams->where('extends', '!=', null)->keyBy('id'); // Deferred
 
         foreach ((new Collection)->merge($base)->merge($extending) as $stream) {
             Streams::register(Arr::parse($stream->toArray()));
