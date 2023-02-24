@@ -45,6 +45,7 @@
                                             "filebase": "Flat File Database",
                                             "file": "Single File",
                                             "database": "Laravel Database",
+                                            "eloquent": "Eloquent Model",
                                             "self": "Store data in the stream"
                                         }
                                     }
