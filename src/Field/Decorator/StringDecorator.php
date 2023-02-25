@@ -27,7 +27,7 @@ class StringDecorator extends FieldDecorator
 
     public function markdown(array $payload = [])
     {
-        return Str::markdown(View::parse($this->value, $payload));
+        return Str::markdown($this->value, $payload);
     }
 
     public function tel($text = null, array $attributes = []): string
