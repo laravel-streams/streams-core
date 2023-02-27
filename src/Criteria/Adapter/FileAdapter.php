@@ -54,6 +54,10 @@ class FileAdapter extends AbstractAdapter
                     strtolower(str_replace('%', '', $value))
                 ) !== false;
             });
+        } elseif ($operator == 'CONTAINS') {
+            $this->query = $this->query->filter(function ($entry) use ($field, $value) {
+                return in_array($value, $entry->{$field}) > 0;
+            });
         } elseif ($operator == 'IN') {
             $this->query = $this->query->whereIn($field, $value);
         } elseif ($operator == 'NOT IN') {
