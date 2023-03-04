@@ -154,36 +154,15 @@ class Stream implements
         return new $repository($this);
     }
 
-    public function validator($data, $fresh = true): Validator
+    public function rules(array $rules = []): array
     {
-        $data = Arr::make($data);
-
-        $factory = App::make(Factory::class);
+        $rules = $this->fields->map(function (Field $field) {
+            return $field->rules();
+        })->all();
 
         $keyName = $this->config('key_name', 'id');
 
-        $factory->setPresenceVerifier(new StreamsPresenceVerifier(App::make('db')));
-
-        /**
-         * https://gph.is/g/Eqn635a
-         */
-        $rules = $this->fields->each(function(Field $field) use ($factory) {
-            
-            foreach ($field->validators ?: [] as $rule => $validator) {
-
-                $handler = Arr::get($validator, 'handler');
-    
-                $factory->extend(
-                    $rule,
-                    $this->callback($handler),
-                    Arr::get($validator, 'message')
-                );
-            }
-        })->map(function (Field $field) {
-            return $field->rules;
-        })->all();
-
-        array_walk($rules, function (&$rules, $field) use ($fresh, $data, $keyName) {
+        array_walk($rules, function (&$rules, $field) use ($keyName) {
 
             foreach ($rules as &$rule) {
 
@@ -203,10 +182,10 @@ class Stream implements
                         $parameters[] = $field;
                     }
 
-                    if (!$fresh && $key = Arr::get($data, $keyName)) {
-                        $parameters[] = $key;
-                        $parameters[] = $keyName;
-                    }
+                    // if (!$fresh && $key = Arr::get($data, $keyName)) {
+                    //     $parameters[] = $key;
+                    //     $parameters[] = $keyName;
+                    // }
 
                     $rule = 'unique:' . implode(',', $parameters);
                 }
@@ -216,6 +195,19 @@ class Stream implements
                 }
             }
         });
+
+        return $rules;
+    }
+
+    public function validator($data, $fresh = true): Validator
+    {
+        $data = Arr::make($data);
+
+        $factory = App::make(Factory::class);
+
+        $factory->setPresenceVerifier(new StreamsPresenceVerifier(App::make('db')));
+
+        $rules = $this->rules();
 
         return $factory->make($data, $rules);
     }
