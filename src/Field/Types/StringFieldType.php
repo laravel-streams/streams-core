@@ -10,7 +10,7 @@ class StringFieldType extends Field
 {
     public function cast($value)
     {
-        if (is_array($value)) {
+        if (is_array($value) || is_object($value)) {
             $value = json_encode($value);
         }
 
