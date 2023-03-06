@@ -48,6 +48,7 @@ trait Prototype
         // $this->fill($attributes);
 
         // $this->syncOriginal();
+        // @todo remove this
         if ($this->__attributes) {
             $attributes = array_replace_recursive($this->__attributes, $attributes);
         }
