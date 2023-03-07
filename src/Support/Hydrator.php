@@ -4,6 +4,7 @@ namespace Streams\Core\Support;
 
 use ReflectionProperty;
 use Illuminate\Support\Str;
+use ReflectionUnionType;
 use Streams\Core\Support\Traits\Prototype;
 
 /**
@@ -60,6 +61,11 @@ class Hydrator
                     return Str::snake($property->getName());
                 }, $properties),
                 array_map(function (ReflectionProperty $property) {
+
+                    if ($property->getType() instanceof ReflectionUnionType) {
+                        return null; // @todo Skip for now. 
+                    }
+
                     return ($type = $property->getType()) ? $type->getName() : null;
                 }, $properties)
             )
