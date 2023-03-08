@@ -176,6 +176,6 @@ class EntryControllerTest extends CoreTestCase
 
         $response = $this->get('test-redirect-route');
 
-        $response->assertStatus(302);
+        $response->assertStatus(301);
     }
 }
