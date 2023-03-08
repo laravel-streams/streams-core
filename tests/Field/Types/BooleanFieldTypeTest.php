@@ -9,7 +9,7 @@ use Streams\Core\Field\Decorator\BooleanDecorator;
 
 class BooleanFieldTypeTest extends CoreTestCase
 {
-    public function test_it_returns_boolean_value()
+    public function test_it_returns_boolean_decorator()
     {
         $field = new BooleanFieldType([
             'stream' => Streams::make('films')

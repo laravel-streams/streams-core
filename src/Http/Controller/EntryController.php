@@ -51,7 +51,7 @@ class EntryController extends Controller
 
         $parameters = Request::route()->parameters;
 
-        if (isset($parameters['stream']) && Streams::exists($action['stream'])) {
+        if (isset($parameters['stream']) && Streams::exists($parameters['stream'])) {
 
             $data->put('stream', Streams::make($parameters['stream']));
 

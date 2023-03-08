@@ -2,6 +2,7 @@
 
 namespace Streams\Core\Tests\Http\Controller;
 
+use Illuminate\Support\Facades\Log;
 use Streams\Core\Tests\CoreTestCase;
 use Illuminate\Support\Facades\Route;
 use Streams\Core\Support\Facades\Streams;

@@ -191,7 +191,7 @@ class Stream implements
                 }
 
                 if (strpos($rule, '\\')) {
-                    $rule = new $rule;
+                    $rule = new $rule($this->fields->get($field));
                 }
             }
         });

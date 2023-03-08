@@ -17,13 +17,7 @@ class ArrayFieldType extends Field
 {
     public $rules = [
         'array',
-        'valid_items',
-    ];
-    
-    public $validators = [
-        'valid_items' => [
-            'handler' => ValidateArrayItems::class,
-        ],
+        'valid_items' => ValidateArrayItems::class,
     ];
 
     public function cast($value)

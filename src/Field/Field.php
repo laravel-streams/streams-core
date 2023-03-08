@@ -138,31 +138,14 @@ class Field implements
 
         $rules = $this->rules();
 
-        foreach ($this->validators ?: [] as $rule => $validator) {
+        array_walk($rules, function (&$rule, $key) use ($fresh, $data, $keyName) {
 
-            $handler = Arr::get($validator, 'handler');
+            if (is_string($key) && class_exists($rule)) {
+                
+                $rule = new $rule($this);
 
-            $factory->extend(
-                $rule,
-                function ($attribute, $value, $parameters, Validator $validator) use ($handler) {
-
-                    return App::call(
-                        $handler,
-                        [
-                            'field' => $this,
-                            'value' => $value,
-                            'stream' => $this->stream,
-                            'attribute' => $attribute,
-                            'validator' => $validator,
-                            'parameters' => $parameters,
-                        ]
-                    );
-                },
-                Arr::get($validator, 'message')
-            );
-        }
-
-        array_walk($rules, function (&$rule, $field) use ($fresh, $data, $keyName) {
+                return;
+            }
 
             /**
              * Automate unique options.
@@ -174,10 +157,6 @@ class Field implements
 
                 if (!$parameters) {
                     $parameters[] = $this->stream->id;
-                }
-
-                if (count($parameters) === 1) {
-                    $parameters[] = $field;
                 }
 
                 if (!$fresh && $key = Arr::get($data, $keyName)) {

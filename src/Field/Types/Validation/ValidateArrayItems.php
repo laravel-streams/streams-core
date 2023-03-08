@@ -4,32 +4,35 @@ namespace Streams\Core\Field\Types\Validation;
 
 use Streams\Core\Field\Field;
 use Illuminate\Support\Facades\App;
+use Illuminate\Contracts\Validation\InvokableRule;
 
-class ValidateArrayItems
+class ValidateArrayItems implements InvokableRule
 {
-    public function __invoke(Field $field, $value): bool
+    public function __construct(public Field $field)
+    {
+    }
+
+    public function __invoke($attribute, $value, $fail)
     {
         if (!is_array($value)) {
-            return false;
+            return $fail('The :attribute has invalid items.');
         }
 
-        if (!$allowed = $field->config('allowed')) {
-            return true;
+        if (!$allowed = $this->field->config('allowed')) {
+            return;
         }
 
         foreach ($value as $item) {
 
-            if ($this->itemIsValid($item, $allowed, $field)) {
+            if ($this->itemIsValid($item, $allowed)) {
                 continue;
             }
 
-            return false;
+            return $fail('The :attribute has invalid items.');
         }
-
-        return true;
     }
 
-    protected function itemIsValid($item, $config, Field $field): bool
+    protected function itemIsValid($item, $config): bool
     {
         foreach ($config as $allowed) {
 
@@ -38,7 +41,7 @@ class ValidateArrayItems
             }
 
             if (!App::has('streams.core.field_type.' . $allowed['type'])) {
-                throw new \Exception("Invalid field type [{$allowed['type']}] in array items configuration [{$field->handle}].");
+                throw new \Exception("Invalid field type [{$allowed['type']}] in array items configuration [{$this->field->handle}].");
             }
 
             $field = App::make('streams.core.field_type.' . $allowed['type']);

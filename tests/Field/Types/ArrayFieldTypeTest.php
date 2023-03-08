@@ -18,7 +18,7 @@ class ArrayFieldTypeTest extends CoreTestCase
         ]);
 
         $this->assertContains('array', $field->rules());
-        $this->assertContains('valid_items', $field->rules());
+        $this->assertContains('valid_items', array_keys($field->rules()));
     }
 
     public function test_it_casts_json_to_array()

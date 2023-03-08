@@ -117,7 +117,7 @@ class FieldTest extends CoreTestCase
     {
         $field = Streams::make('films')->fields->get('episode_id');
 
-        $this->assertSame(['required', 'unique'], $field->rules());
+        $this->assertSame(['numeric', 'integer', 'required', 'unique'], $field->rules());
     }
 
     public function test_it_detects_rules()

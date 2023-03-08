@@ -107,11 +107,11 @@ class StreamFilesystemTest extends CoreTestCase
 
         Streams::filesystem('local')->index();
 
-        $this->assertEquals(8, Streams::repository('files')->count());
+        $this->assertEquals(4, Streams::repository('files')->count());
 
         Streams::filesystem('local')->index();
 
-        $this->assertEquals(8, Streams::repository('files')->count());
+        $this->assertEquals(4, Streams::repository('files')->count());
     }
 
     public function test_it_can_read_from_filesystem()
@@ -125,10 +125,10 @@ class StreamFilesystemTest extends CoreTestCase
         $this->assertIsResource($filesystem->readStream('img/example.jpg'));
 
         $this->assertSame(1, count($filesystem->files()));
-        $this->assertSame(5, count($filesystem->allFiles()));
+        $this->assertSame(3, count($filesystem->allFiles()));
 
-        $this->assertSame(3, count($filesystem->directories()));
-        $this->assertSame(3, count($filesystem->allDirectories()));
+        $this->assertSame(1, count($filesystem->directories()));
+        $this->assertSame(1, count($filesystem->allDirectories()));
 
         $this->assertIsInt($filesystem->size('img/example.jpg'));
         $this->assertIsInt($filesystem->lastModified('img/example.jpg'));

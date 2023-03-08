@@ -14,13 +14,7 @@ use Streams\Core\Field\Types\Validation\ValidateObjectType;
 class ObjectFieldType extends Field
 {
     public $rules = [
-        'valid_type',
-    ];
-
-    public $validators = [
-        'valid_type' => [
-            'handler' => ValidateObjectType::class,
-        ],
+        'valid_type' => ValidateObjectType::class,
     ];
 
     public function modify($value): array

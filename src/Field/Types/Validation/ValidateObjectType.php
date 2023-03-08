@@ -2,22 +2,28 @@
 
 namespace Streams\Core\Field\Types\Validation;
 
-use Streams\Core\Field\Types\ObjectFieldType;
+use Streams\Core\Field\Field;
+use Streams\Core\Entry\Contract\EntryInterface;
+use Illuminate\Contracts\Validation\InvokableRule;
 
-class ValidateObjectType
+class ValidateObjectType implements InvokableRule
 {
-    public function __invoke(ObjectFieldType $field, $value): bool
+    public function __construct(protected Field $field)
+    {
+    }
+
+    public function __invoke($attribute, $value, $fail)
     {
         if (is_null($value)) {
-            return $field->isRequired() ? false : true;
+            return;
         }
 
         if (!is_object($value)) {
-            return false;
+            $fail('The :attribute must be an object.');
         }
 
-        if (!$types = $field->config('allowed')) {
-            return true;
+        if (!$types = $this->field->config('allowed')) {
+            return;
         }
 
         // Need properties / inline definition support
@@ -25,19 +31,19 @@ class ValidateObjectType
 
             // @todo - this is sus
             if (isset($allowed['generic']) && $value instanceof $allowed['generic']) {
-                return true;
+                return;
             }
 
             // @todo - this is sus
             if (isset($allowed['prototype']) && $value instanceof $allowed['prototype']) {
-                return true;
+                return;
             }
 
-            if (isset($allowed['stream']) && $value->stream()->id == $allowed['stream']) {
-                return true;
+            if (isset($allowed['stream']) && $value instanceof EntryInterface && $value->stream()->id == $allowed['stream']) {
+                return;
             }
         }
 
-        return false;
+        return $fail('The :attribute is not a valid object type.');
     }
 }
