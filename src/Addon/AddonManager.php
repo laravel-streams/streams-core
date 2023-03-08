@@ -21,7 +21,7 @@ class AddonManager
     {
         $path = rtrim($path, '/\\');
 
-        $composer = App::make('composer.json');
+        $composer = json_decode(file_get_contents($path . '/composer.json'), true);
 
         $addon = [
             'name' => $composer['name'],
