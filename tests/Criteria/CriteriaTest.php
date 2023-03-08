@@ -10,7 +10,6 @@ use Streams\Core\Criteria\Adapter\FileAdapter;
 
 class CriteriaTest extends CoreTestCase
 {
-
     public function test_it_returns_entries()
     {
         $entries = Streams::entries('films')->get();

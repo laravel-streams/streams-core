@@ -89,17 +89,13 @@ class StreamManager
 
     public function overload(string $id, array $attributes): Stream
     {
-        $original = $this->make($id)->getOriginalPrototypeAttributes();
+        $original = Arr::make($this->make($id)->getOriginalPrototypeAttributes());
 
         $attributes = array_replace_recursive($original, $attributes);
 
         $stream = $this->build($attributes);
 
         $stream::resetMemory();
-
-        App::instance('streams.instances.' . $stream->id, $stream);
-
-        $this->collection->put($stream->id, $stream);
 
         return $stream;
     }

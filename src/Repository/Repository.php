@@ -141,9 +141,6 @@ class Repository implements RepositoryInterface
 
             $adapter = $this->stream->config('source.type', $default);
 
-            if (!is_string($adapter)) { 
-                dump($adapter);
-            }
             $adapter = Str::camel("new_{$adapter}_adapter");
 
             $adapter = $this->$adapter();

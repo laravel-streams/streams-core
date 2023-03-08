@@ -15,6 +15,7 @@ class CsvFileAdapterTest extends CriteriaTest
         Streams::extend('films', [
             'config' => [
                 'source' => [
+                    'type' => 'file',
                     'format' => 'csv',
                 ],
             ],
