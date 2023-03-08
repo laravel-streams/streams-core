@@ -3,17 +3,20 @@
 namespace Streams\Core\Field\Types\Validation;
 
 use Streams\Core\Field\Types\ColorFieldType;
+use Illuminate\Contracts\Validation\InvokableRule;
 
-class ValidateColorValue
+class ValidateColorValue implements InvokableRule
 {
-    public function __invoke(ColorFieldType $field, $value): bool
+    public function __construct(protected ColorFieldType $field)
+    {
+    }
+
+    public function __invoke($attribute, $value, $fail)
     {
         try {
-            $field->decorate($value)->levels();
+            $this->field->decorate($value)->levels();
         } catch (\Exception) {
-            return false;
+            return $fail('The :attribute is not a valid color.');
         }
-
-        return true;
     }
 }

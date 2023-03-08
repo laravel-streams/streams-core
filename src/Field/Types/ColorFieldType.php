@@ -10,13 +10,7 @@ use Streams\Core\Field\Types\Validation\ValidateColorValue;
 class ColorFieldType extends Field
 {
     public array $rules = [
-        'valid_color',
-    ];
-
-    public array $validators = [
-        'valid_color' => [
-            'handler' => ValidateColorValue::class,
-        ],
+        'valid_color' => ValidateColorValue::class,
     ];
 
     public function cast($value): string

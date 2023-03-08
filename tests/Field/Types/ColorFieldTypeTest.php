@@ -15,7 +15,7 @@ class ColorFieldTypeTest extends CoreTestCase
             'stream' => Streams::make('films')
         ]);
 
-        $this->assertTrue($field->hasRule('regex'));
+        $this->assertContains('valid_color', array_keys($field->rules()));
     }
 
     public function test_it_casts_to_lowercase()
