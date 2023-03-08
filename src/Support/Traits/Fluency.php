@@ -4,7 +4,7 @@ namespace Streams\Core\Support\Traits;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use Streams\Core\Support\Facades\Hydrator;
+use Streams\Core\Field\FieldDecorator;
 
 /**
  * Trait Fluency
@@ -33,7 +33,7 @@ trait Fluency
         return $this->loadPrototypeAttributes($attributes);
     }
 
-    public function decorate(string $key): mixed
+    public function decorate(string $key): FieldDecorator
     {
         //return $this->decoratePrototypeAttribute($key);
 
@@ -84,17 +84,5 @@ trait Fluency
     public function setAttribute($key, $value)
     {
         return $this->setPrototypeAttribute($key, $value);
-    }
-
-    public function toArray()
-    {
-        return Hydrator::dehydrate($this, [
-            'stream',
-        ]);
-    }
-
-    public function toJson($options = 0)
-    {
-        return json_encode($this->toArray(), $options);
     }
 }

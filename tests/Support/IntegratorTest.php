@@ -20,6 +20,7 @@ use Illuminate\Support\ServiceProvider;
 use Streams\Core\Support\Facades\Assets;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Support\Facades\Includes;
+use Illuminate\Console\Scheduling\Schedule;
 use Streams\Core\Support\Facades\Overrides;
 use Illuminate\Routing\Route as RouteInstance;
 
@@ -187,6 +188,38 @@ class IntegratorTest extends CoreTestCase
         $this->assertInstanceOf(Stream::class, Streams::make('films'));
         $this->assertSame('Testing Array Stream', Streams::make('testing.array.stream')->name);
     }
+
+    public function test_it_registers_middleware(Type $var = null)
+    {
+        Integrator::middleware([
+            'testing' => [CustomTestingMiddleware::class],
+        ]);
+
+        $routes = Route::getMiddlewareGroups();
+
+        $this->assertContains(CustomTestingMiddleware::class, $routes['testing']);
+    }
+
+    public function test_it_registers_scheduled_commands()
+    {
+        $count = count(app(Schedule::class)->events());
+
+        Integrator::schedules([
+            'daily' => [
+                'testing:command',
+            ],
+            '0 * * * *' => [
+                'testing:command',
+            ],
+            'monthly' => [
+                'testing:command' => [
+                    'withoutOverlapping',
+                ],
+            ],
+        ]);
+
+        $this->assertTrue(count(app(Schedule::class)->events()) == $count + 3);
+    }
 }
 
 class CustomIntegratorService
@@ -247,5 +280,15 @@ class CustomTestingSecondaryProvider extends ServiceProvider
         Integrator::bindings([
             'TestCustomProviderBinding' => CustomIntegratorService::class,
         ]);
+    }
+}
+
+class CustomTestingCommand extends Command
+{
+    protected $signature = 'testing:command';
+
+    public function handle()
+    {
+        echo 'Fired!';
     }
 }

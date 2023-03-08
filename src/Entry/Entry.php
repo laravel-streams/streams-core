@@ -23,7 +23,6 @@ class Entry implements
     Arrayable,
     Jsonable
 {
-
     use Macroable {
         Macroable::__call as private callMacroable;
     }
@@ -52,9 +51,6 @@ class Entry implements
         $this->constructFluency($attributes);
     }
 
-    /**
-     * Map the ID attribute to the desired key.
-     */
     public function getIdAttribute()
     {
         $name = $this->stream()->config('meta.key_name', 'id');
@@ -64,10 +60,7 @@ class Entry implements
         return $value;
     }
 
-    /**
-     * Return the last modified date if possible.
-     */
-    public function lastModified()
+    public function lastModified(): Carbon
     {
         return $this->once(__METHOD__, function () {
 
@@ -82,68 +75,34 @@ class Entry implements
         });
     }
 
-    /**
-     * Return the entry stream.
-     * 
-     * @return Stream
-     */
     public function stream(): Stream
     {
         return $this->stream;
     }
 
-    /**
-     * Save the entry.
-     * 
-     * @param array $options
-     * @var bool
-     */
-    public function save(array $options = [])
+    public function save(array $options = []): bool
     {
         return $this->stream()
             ->repository()
             ->save($this);
     }
 
-    /**
-     * Delete the entry.
-     *
-     * @return bool
-     */
-    public function delete()
+    public function delete(): bool
     {
         return $this->stream()
             ->repository()
             ->delete($this);
     }
 
-    /**
-     * Return the entry validator.
-     * 
-     * @return Validator
-     */
-    public function validator()
+    public function validator(): Validator
     {
         return $this->stream()->validator($this);
     }
 
-    /**
-     * Return the entry with defined attributes only.
-     */
-    public function strict()
-    {
-        $attributes = $this->getPrototypeAttributes();
-        $allowedKeys = $this->stream()->fields->keys()->all();
-
-        $this->setPrototypeAttributes(array_intersect_key($attributes, array_flip($allowedKeys)));
-
-        return $this;
-    }
-
-
     public function toArray()
     {
-        $protected = $this->stream ? $this->stream()->fields->filter(function($field) {
+        // @todo needs work
+        $protected = $this->stream ? $this->stream()->fields->filter(function ($field) {
             return $field?->protected ? $field : null;
         })->keys()->toArray() : [];
 
@@ -167,16 +126,6 @@ class Entry implements
     public function __toString()
     {
         return $this->toJson();
-    }
-
-    public function __get($key)
-    {
-        return $this->getPrototypeAttribute($key);
-    }
-
-    public function __set($key, $value)
-    {
-        $this->setPrototypeAttribute($key, $value);
     }
 
     public function __call($method, $arguments)

@@ -1,6 +1,6 @@
 <?php
 
-namespace Streams\Core\Tests\Support\Traits;
+namespace Streams\Core\Tests\Support\Macros;
 
 use Streams\Core\Tests\CoreTestCase;
 use Illuminate\Support\Facades\View;

@@ -2,8 +2,8 @@
 
 namespace Streams\Core\Entry\Contract;
 
-use Streams\Core\Field\FieldDecorator;
 use Streams\Core\Stream\Stream;
+use Streams\Core\Field\FieldDecorator;
 
 interface EntryInterface
 {
@@ -37,13 +37,6 @@ interface EntryInterface
      * @var bool
      */
     public function hasAttribute($key);
-
-    /**
-     * Remove any non-defined attributes.
-     * 
-     * @return $this
-     */
-    public function strict();
     
     /**
      * Return the last modified date if possible.
@@ -64,5 +57,5 @@ interface EntryInterface
      */
     public function save(array $options = []);
 
-    public function decorate(string $key): mixed;
+    public function decorate(string $field): FieldDecorator;
 }

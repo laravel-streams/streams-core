@@ -1,6 +1,6 @@
 <?php
 
-namespace Streams\Core\Tests\Support\Traits;
+namespace Streams\Core\Tests\Support\Macros;
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\App;

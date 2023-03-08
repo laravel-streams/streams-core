@@ -47,19 +47,6 @@ class EntryTest extends CoreTestCase
         $this->assertInstanceOf(Validator::class, $entry->validator());
     }
 
-    public function test_it_removes_non_defined_attributes()
-    {
-        $entry = Streams::repository('films')->newInstance($this->filmData());
-
-        $entry->foo_bar = 'Baz';
-
-        $this->assertEquals('Baz', $entry->foo_bar);
-
-        $entry->strict();
-
-        $this->assertNull($entry->foo_bar);
-    }
-
     public function test_it_returns_last_modified()
     {
         $entry = Streams::repository('films')->find(4);
