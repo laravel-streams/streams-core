@@ -166,7 +166,7 @@ trait Prototype
         $allowed = $this->getPrototypeProperties();
         $attributes = $this->getPrototypeAttributes();
 
-        //$this->setRawPrototypeAttributes(array_intersect_key($attributes, $allowed));
+        $this->setRawPrototypeAttributes(array_intersect_key($attributes, $allowed));
 
         return $this;
     }

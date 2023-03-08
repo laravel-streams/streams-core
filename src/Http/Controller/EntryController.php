@@ -198,7 +198,7 @@ class EntryController extends Controller
 
         if ($redirect = $data->get('redirect')) {
 
-            $data->put('response', Redirect::to($redirect, (int) $data->get('status_code', 301)));
+            $data->put('response', Redirect::to($redirect, (int) $data->get('status_code', 302)));
 
             return;
         }

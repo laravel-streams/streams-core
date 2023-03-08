@@ -143,15 +143,15 @@ class Entry implements
 
     public function toArray()
     {
-        $protected = $this->stream()->fields->filter(function($field) {
+        $protected = $this->stream ? $this->stream()->fields->filter(function($field) {
             return $field?->protected ? $field : null;
-        });
+        })->keys()->toArray() : [];
 
         return array_diff_key($this->getAttributes(), array_flip(array_merge([
             '__prototype',
             '__created_at',
             '__updated_at',
-        ], $protected->keys()->toArray())));
+        ], $protected)));
     }
 
     public function toJson($options = 0)
