@@ -154,7 +154,7 @@ class Stream implements
         return new $repository($this);
     }
 
-    public function rules(array $rules = []): array
+    public function rules(array $rules = [], $key = null): array
     {
         $rules = $this->fields->map(function (Field $field) {
             return $field->rules();
@@ -162,7 +162,7 @@ class Stream implements
 
         $keyName = $this->config('key_name', 'id');
 
-        array_walk($rules, function (&$rules, $field) use ($keyName) {
+        array_walk($rules, function (&$rules, $field) use ($key, $keyName) {
 
             foreach ($rules as &$rule) {
 
@@ -182,10 +182,10 @@ class Stream implements
                         $parameters[] = $field;
                     }
 
-                    // if (!$fresh && $key = Arr::get($data, $keyName)) {
-                    //     $parameters[] = $key;
-                    //     $parameters[] = $keyName;
-                    // }
+                    if (!$key) {
+                        $parameters[] = $key;
+                        $parameters[] = $keyName;
+                    }
 
                     $rule = 'unique:' . implode(',', $parameters);
                 }
@@ -199,15 +199,17 @@ class Stream implements
         return $rules;
     }
 
-    public function validator($data, $fresh = true): Validator
+    public function validator($data, $key = true): Validator
     {
+        $keyName = $this->config('key_name', 'id');
+
         $data = Arr::make($data);
 
         $factory = App::make(Factory::class);
 
         $factory->setPresenceVerifier(new StreamsPresenceVerifier(App::make('db')));
 
-        $rules = $this->rules();
+        $rules = $this->rules([], Arr::get($keyName, $key));
 
         return $factory->make($data, $rules);
     }
