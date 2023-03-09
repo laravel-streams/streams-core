@@ -263,23 +263,25 @@ class StreamsServiceProvider extends ServiceProvider
     {
         Images::addPath('public', public_path());
         Images::addPath('resources', resource_path());
+        // @todo core or streams
         Images::addPath('streams', dirname(__DIR__) . '/resources');
     }
 
     protected function addViewNamespaces(): void
     {
+        // @todo core or streams
         View::addNamespace('core', dirname(__DIR__) . '/resources/views');
         View::addNamespace('storage', storage_path('streams/' . Applications::active()->id));
     }
 
     protected function loadTranslations(): void
     {
+        // @todo core or streams
         Lang::addNamespace('streams', dirname(__DIR__) . '/resources/lang');
     }
 
     protected function extendView(): void
     {
-
         View::composer('*', function ($view) {
             if ($override = Overrides::get($view->name())) {
                 $view->setPath(base_path($override));

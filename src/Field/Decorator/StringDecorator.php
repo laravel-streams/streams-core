@@ -2,35 +2,50 @@
 
 namespace Streams\Core\Field\Decorator;
 
-use Collective\Html\HtmlFacade;
 use Illuminate\Support\Str;
+use Collective\Html\HtmlFacade;
 use Illuminate\Support\Facades\View;
 use Streams\Core\Field\FieldDecorator;
+use Symfony\Component\Yaml\Yaml;
 
 class StringDecorator extends FieldDecorator
 {
+    public function yaml(int $flags = 0)
+    {
+        return Yaml::parse($this->value, $flags);
+    }
+    
+    public function markdown(): string
+    {
+        return Str::markdown($this->value);
+    }
 
-    public function lines($separator = "\n", ?int $limit = null)
+    public function parse(array $data = []): string
+    {
+        return Str::parse($this->value, $data);
+    }
+    
+    public function render(array $data = []): string
+    {
+        return View::parse($this->value, $data)->render();
+    }
+
+    public function lines($separator = "\n", ?int $limit = 9999): array
     {
         return explode($separator, $this->value, $limit);
     }
 
-    public function json(bool $associative = false, int $depth = 512, int $flags = 0)
+    public function decode(bool $associative = false, int $depth = 512, int $flags = 0): array|object|null
     {
         return json_decode($this->value, $associative, $depth, $flags);
     }
 
-    public function render(array $payload = [])
+    public function unserialize(array $options = []): array|object|null
     {
-        return View::parse($this->value, $payload);
+        return unserialize($this->value, $options);
     }
 
-    public function markdown(array $payload = [])
-    {
-        return Str::markdown($this->value, $payload);
-    }
-
-    public function tel($text = null, array $attributes = []): string
+    public function tel($text = null, array $attributes = []): string|null
     {
         if (!$this->value) {
             return null;
@@ -43,15 +58,15 @@ class StringDecorator extends FieldDecorator
         );
     }
 
-    public function sms($text = null, array $attributes = []): string
+    public function sms($text = null, array $attributes = []): string|null
     {
-        if (!$phone = $this->object->getValue()) {
+        if (!$this->value) {
             return null;
         }
 
         return HtmlFacade::link(
-            'sms:' . preg_replace('/[^\+\d]/', '', $phone),
-            $text ?: $phone,
+            'sms:' . preg_replace('/[^\+\d]/', '', $this->value),
+            $text ?: $this->value,
             $attributes
         );
     }

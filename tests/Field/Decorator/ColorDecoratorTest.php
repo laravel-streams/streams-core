@@ -25,6 +25,12 @@ class ColorDecoratorTest extends CoreTestCase
         $this->assertSame(255, $decorator->levels()['red']);
         $this->assertSame(0, $decorator->levels()['blue']);
         $this->assertSame(0, $decorator->levels()['green']);
+
+        $decorator = (new ColorFieldType())->decorate('#fff');
+
+        $this->assertSame(255, $decorator->levels()['red']);
+        $this->assertSame(255, $decorator->levels()['blue']);
+        $this->assertSame(255, $decorator->levels()['green']);
     }
 
     public function test_it_creates_from_rgb()
@@ -66,6 +72,9 @@ class ColorDecoratorTest extends CoreTestCase
         $decorator = (new ColorFieldType())->decorate('rgba(255, 0, 0)');
 
         $this->assertSame(255, $decorator->red());
+        $this->assertSame(0, $decorator->green());
+        $this->assertSame(0, $decorator->blue());
+        $this->assertSame(1, $decorator->alpha());
     }
 
     public function test_it_returns_configured_output()
@@ -77,6 +86,20 @@ class ColorDecoratorTest extends CoreTestCase
         ]))->decorate('#ff0000');
 
         $this->assertSame('rgb(255, 0, 0)', $decorator->output());
+    }
+
+    public function test_it_defaults_to_transparent()
+    {
+        $decorator = (new ColorFieldType([
+            'config' => [
+                'format' => 'rgb',
+            ]
+        ]))->decorate(null);
+
+        $this->assertSame(
+            ['red' => 0, 'green' => 0, 'blue' => 0, 'alpha' => 0],
+            $decorator->levels()
+        );
     }
 
     public function test_it_returns_hex_code()
@@ -114,6 +137,7 @@ class ColorDecoratorTest extends CoreTestCase
         $this->assertSame(255, $decorator->red());
         $this->assertSame(0, $decorator->blue());
         $this->assertSame(0, $decorator->green());
+        $this->assertSame(1, $decorator->alpha());
         
         $this->assertSame([
             'red' => 255,

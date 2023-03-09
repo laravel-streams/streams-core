@@ -53,7 +53,7 @@ class ImageManager
         if (
             !isset($attributes['type'])
             && is_string($attributes['source'])
-            && Str::is('*::*', $attributes['source'])
+            && Str::is('*://*', $attributes['source'])
         ) {
             $attributes['type'] = 'storage';
         }
@@ -100,11 +100,7 @@ class ImageManager
 
         $image = $this->{$method}($attributes->all());
 
-        /**
-         * It is done. Give others a chance to
-         * alter the image before getting started.
-         */
-        $this->fire('make', ['image' => $image]);
+        $this->fire('ready', ['image' => $image]);
 
         return $image;
     }

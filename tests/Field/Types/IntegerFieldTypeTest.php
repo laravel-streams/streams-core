@@ -5,7 +5,7 @@ namespace Streams\Core\Tests\Field\Types;
 use Streams\Core\Tests\CoreTestCase;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Field\Types\IntegerFieldType;
-use Streams\Core\Field\Decorator\IntegerDecorator;
+use Streams\Core\Field\Decorator\NumberDecorator;
 
 class IntegerFieldTypeTest extends CoreTestCase
 {
@@ -57,7 +57,7 @@ class IntegerFieldTypeTest extends CoreTestCase
             'stream' => Streams::make('films'),
         ]);
 
-        $this->assertInstanceOf(IntegerDecorator::class, $field->decorate(2));
+        $this->assertInstanceOf(NumberDecorator::class, $field->decorate(2));
     }
 
     public function test_it_returns_incremental_default_decorator()

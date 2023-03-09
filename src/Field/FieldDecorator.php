@@ -11,14 +11,12 @@ class FieldDecorator
     use Macroable;
     use ForwardsCalls;
 
-    protected $object;
-    protected $value;
+    public $value;
 
     protected Field $field;
 
-    public function __construct(Field $field, $value, $object = null)
+    public function __construct(Field $field, $value)
     {
-        $this->object = $object;
         $this->value = $value;
         $this->field = $field;
     }
@@ -26,11 +24,6 @@ class FieldDecorator
     public function getField(): Field
     {
         return $this->field;
-    }
-
-    public function getValue()
-    {
-        return $this->value;
     }
 
     public function __toString()

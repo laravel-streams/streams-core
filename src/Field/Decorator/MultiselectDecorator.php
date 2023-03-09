@@ -2,22 +2,24 @@
 
 namespace Streams\Core\Field\Decorator;
 
+use Illuminate\Support\Arr;
 use Streams\Core\Field\FieldDecorator;
 
 class MultiselectDecorator extends FieldDecorator
 {
-    public function option()
+    public function selected()
     {
-        return '@todo - ' . __METHOD__ . ' - ' . $this->value;
-    }
+        if (!$this->value) {
+            return null;
+        }
+        
+        $options = $this->field->options();
 
-    /**
-     * Normalize the URL by default.
-     *
-     * @return bool|string
-     */
-    public function __toString()
-    {
-        return (string) $this->value;
+        return array_combine(
+            $this->value,
+            array_map(function ($value) use ($options) {
+                return (Arr::get($options, $value) ?: $value);
+            }, $this->value ?: [])
+        );
     }
 }

@@ -7,6 +7,7 @@ use Streams\Core\Tests\CoreTestCase;
 use Streams\Core\Field\Schema\TimeSchema;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Field\Types\TimeFieldType;
+use Streams\Core\Field\Decorator\DatetimeDecorator;
 
 class TimeFieldTypeTest extends CoreTestCase
 {
@@ -38,5 +39,16 @@ class TimeFieldTypeTest extends CoreTestCase
         ]);
 
         $this->assertInstanceOf(TimeSchema::class, $field->schema());
+    }
+
+    public function test_it_returns_time_decorator()
+    {
+        $field = new TimeFieldType([
+            'stream' => Streams::make('films')
+        ]);
+
+        $decorator = $field->decorate($field->cast('9am'));
+
+        $this->assertInstanceOf(DatetimeDecorator::class, $decorator);
     }
 }

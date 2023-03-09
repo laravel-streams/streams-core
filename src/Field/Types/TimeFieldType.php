@@ -4,6 +4,7 @@ namespace Streams\Core\Field\Types;
 
 use Carbon\Carbon;
 use Streams\Core\Field\Schema\TimeSchema;
+use Streams\Core\Field\Decorator\DatetimeDecorator;
 
 class TimeFieldType extends DatetimeFieldType
 {
@@ -25,5 +26,10 @@ class TimeFieldType extends DatetimeFieldType
     public function getSchemaName()
     {
         return TimeSchema::class;
+    }
+    
+    public function getDecoratorName()
+    {
+        return DatetimeDecorator::class;
     }
 }

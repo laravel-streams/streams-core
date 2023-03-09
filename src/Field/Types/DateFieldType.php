@@ -4,7 +4,7 @@ namespace Streams\Core\Field\Types;
 
 use Carbon\Carbon;
 use Streams\Core\Field\Schema\DateSchema;
-use Streams\Core\Field\Decorator\DateDecorator;
+use Streams\Core\Field\Decorator\DatetimeDecorator;
 
 class DateFieldType extends DatetimeFieldType
 {
@@ -40,7 +40,7 @@ class DateFieldType extends DatetimeFieldType
 
     public function getDecoratorName()
     {
-        return DateDecorator::class;
+        return DatetimeDecorator::class;
     }
 
     // public function generate()
@@ -48,7 +48,7 @@ class DateFieldType extends DatetimeFieldType
     //     return $this->cast($this->generator()->date());
     // }
 
-    public function toCarbon($value): Carbon
+    protected function toCarbon($value): Carbon
     {
         if ($value instanceof Carbon) {
             return $value;

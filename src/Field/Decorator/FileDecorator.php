@@ -8,20 +8,8 @@ use Streams\Core\Support\Facades\Images;
 
 class FileDecorator extends FieldDecorator
 {
-    public function make(): Image
+    public function image(): Image
     {
         return Images::make($this->value);
-    }
-
-    /**
-     * Forward calls to the repository.
-     *
-     * @param string $method
-     * @param array $parameters
-     * @return mixed
-     */
-    public function __call($method, $parameters)
-    {
-        return $this->forwardCallTo($this->make(), $method, $parameters);
     }
 }

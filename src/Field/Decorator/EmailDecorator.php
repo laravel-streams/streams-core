@@ -22,7 +22,7 @@ class EmailDecorator extends StringDecorator
         return HtmlFacade::mailto($email, $title, $attributes, $escape);
     }
 
-    public function obfuscate(): string
+    public function obfuscate(): string|null
     {
         if (!$this->value) {
             return null;

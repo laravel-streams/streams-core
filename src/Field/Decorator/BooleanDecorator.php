@@ -55,6 +55,6 @@ class BooleanDecorator extends FieldDecorator
             return $off;
         }
 
-        return trans($this->value ? 'ui::message.on' : 'ui::message.off');
+        return $this->value ? 'streams::labels.on' : 'streams::labels.off';
     }
 }

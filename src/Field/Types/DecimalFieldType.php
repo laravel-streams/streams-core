@@ -4,7 +4,7 @@ namespace Streams\Core\Field\Types;
 
 use Streams\Core\Field\Field;
 use Streams\Core\Field\Schema\DecimalSchema;
-use Streams\Core\Field\Decorator\DecimalDecorator;
+use Streams\Core\Field\Decorator\NumberDecorator;
 
 class DecimalFieldType extends Field
 {
@@ -46,7 +46,7 @@ class DecimalFieldType extends Field
 
     public function getDecoratorName()
     {
-        return DecimalDecorator::class;
+        return NumberDecorator::class;
     }
 
     // public function generate()
