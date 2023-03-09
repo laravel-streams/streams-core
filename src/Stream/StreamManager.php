@@ -9,6 +9,7 @@ use Symfony\Component\Yaml\Yaml;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Streams\Core\Criteria\Criteria;
+use Streams\Core\Entry\EntryFactory;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Traits\Macroable;
@@ -20,7 +21,6 @@ use Illuminate\Contracts\Container\BindingResolutionException;
 
 class StreamManager
 {
-
     use HasMemory;
     use Macroable;
     use FiresCallbacks;
@@ -162,6 +162,13 @@ class StreamManager
         return $this
             ->make($id)
             ->schema();
+    }
+
+    public function factory(string $id): EntryFactory
+    {
+        return $this
+            ->make($id)
+            ->factory();
     }
 
     public function filesystem(string $disk): StreamFilesystem

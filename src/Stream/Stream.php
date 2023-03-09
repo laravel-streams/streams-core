@@ -11,6 +11,7 @@ use Illuminate\Validation\Factory;
 use Illuminate\Support\Facades\App;
 use Streams\Core\Criteria\Criteria;
 use Illuminate\Validation\Validator;
+use Streams\Core\Entry\EntryFactory;
 use Streams\Core\Stream\StreamCache;
 use Streams\Core\Field\FieldCollection;
 use Streams\Core\Repository\Repository;
@@ -152,6 +153,11 @@ class Stream implements
         $repository  = $this->config('repository', Repository::class);
 
         return new $repository($this);
+    }
+
+    public function factory(): EntryFactory
+    {
+        return new EntryFactory($this);
     }
 
     public function rules(array $rules = [], $key = null): array
