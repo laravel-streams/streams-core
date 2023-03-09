@@ -5,22 +5,28 @@ namespace Streams\Core\Field\Schema;
 use Illuminate\Support\Collection;
 use Streams\Core\Field\FieldSchema;
 use Streams\Core\Support\Facades\Streams;
+use GoldSpecDigital\ObjectOrientedOAS\Objects\AnyOf;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
 
 class ArraySchema extends FieldSchema
 {
-
     public function type(): Schema
     {
         $schema = Schema::array($this->field->handle);
 
-        if ($items = $this->field->config('items')) {
-            
-            $items = Streams::build([
+        if (
+            ($items = $this->field->config('items'))
+            && $this->field->config('enforce_items') !== false
+        ) {
+
+            $stream = Streams::build([
                 'fields' => $items
             ]);
 
-            $schema = $schema->items($items->schema()->object());
+            $schema = $schema->items(AnyOf::create()
+                ->schemas(...$stream->fields->map(function ($field) {
+                    return $field->schema()->type();
+                })->toArray()));
         }
 
         return $schema;
@@ -50,10 +56,5 @@ class ArraySchema extends FieldSchema
         }
 
         $data->put('schema', $schema);
-    }
-
-    public function getSchemaName()
-    {
-        return ArraySchema::class;
     }
 }

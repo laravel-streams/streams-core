@@ -259,7 +259,7 @@ class ArrayFieldTypeTest extends CoreTestCase
                         'required',
                     ],
                     'config' => [
-                        'allowed' => [
+                        'items' => [
                             ['type' => 'array']
                         ]
                     ],

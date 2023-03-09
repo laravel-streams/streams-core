@@ -20,11 +20,8 @@ class FieldSchema
     use Macroable;
     use FiresCallbacks;
 
-    protected Field $type;
-
-    public function __construct(Field $field)
+    public function __construct(protected Field $field)
     {
-        $this->field = $field;
     }
 
     public function type(): Schema

@@ -18,13 +18,17 @@ class ValidateArrayItems implements InvokableRule
             return $fail('The :attribute has invalid items.');
         }
 
-        if (!$allowed = $this->field->config('allowed')) {
+        if (!$items = $this->field->config('items')) {
+            return;
+        }
+
+        if ($this->field->config('enforce_items', true) === false) {
             return;
         }
 
         foreach ($value as $item) {
 
-            if ($this->itemIsValid($item, $allowed)) {
+            if ($this->itemIsValid($item, $items)) {
                 continue;
             }
 
@@ -32,21 +36,21 @@ class ValidateArrayItems implements InvokableRule
         }
     }
 
-    protected function itemIsValid($item, $config): bool
+    protected function itemIsValid($value, $items): bool
     {
-        foreach ($config as $allowed) {
+        foreach ($items as $item) {
 
-            if (!isset($allowed['type'])) {
-                throw new \Exception("The [type] parameter is required when configuring allowed array items.");
+            if (!isset($item['type'])) {
+                throw new \Exception("The [type] parameter is required when configuring item types.");
             }
 
-            if (!App::has('streams.core.field_type.' . $allowed['type'])) {
-                throw new \Exception("Invalid field type [{$allowed['type']}] in array items configuration [{$this->field->handle}].");
+            if (!App::has('streams.core.field_type.' . $item['type'])) {
+                throw new \Exception("Invalid field type [{$item['type']}] in items configuration [{$this->field->handle}].");
             }
 
-            $field = App::make('streams.core.field_type.' . $allowed['type']);
+            $field = App::make('streams.core.field_type.' . $item['type']);
 
-            if ($field->validator($item)->passes()) {
+            if ($field->validator($value)->passes()) {
                 return true;
             }
         }
