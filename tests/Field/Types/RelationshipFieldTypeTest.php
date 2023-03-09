@@ -9,7 +9,7 @@ use Streams\Core\Field\Types\RelationshipFieldType;
 
 class RelationshipFieldTypeTest extends CoreTestCase
 {
-    public function test_it_stores_the_key_value()
+    public function test_it_stores_the_key_decorator()
     {
         $field = new RelationshipFieldType([
             'stream' => Streams::make('films'),

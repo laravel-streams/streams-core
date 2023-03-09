@@ -60,7 +60,7 @@ class IntegerFieldTypeTest extends CoreTestCase
         $this->assertInstanceOf(IntegerDecorator::class, $field->decorate(2));
     }
 
-    public function test_it_returns_incremental_default_value()
+    public function test_it_returns_incremental_default_decorator()
     {
         $field = new IntegerFieldType([
             'handle' => 'episode_id',

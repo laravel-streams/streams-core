@@ -4,6 +4,7 @@ namespace Streams\Core\Tests\Field\Types;
 
 use Streams\Core\Tests\CoreTestCase;
 use Streams\Core\Support\Facades\Streams;
+use Streams\Core\Field\Schema\SelectSchema;
 use Streams\Core\Field\Types\SelectFieldType;
 use Streams\Core\Field\Decorator\SelectDecorator;
 
@@ -43,6 +44,15 @@ class SelectFieldTypeTest extends CoreTestCase
         ]);
 
         $this->assertInstanceOf(SelectDecorator::class, $field->decorate('foo'));
+    }
+
+    public function test_it_returns_select_schema()
+    {
+        $field = new SelectFieldType([
+            'stream' => Streams::make('films'),
+        ]);
+
+        $this->assertInstanceOf(SelectSchema::class, $field->schema());
     }
 
     public function test_it_automates_array_validation()

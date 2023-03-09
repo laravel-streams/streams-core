@@ -3,6 +3,7 @@
 namespace Streams\Core\Tests\Field\Types;
 
 use Streams\Core\Tests\CoreTestCase;
+use Streams\Core\Field\Schema\UrlSchema;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Field\Types\UrlFieldType;
 use Streams\Core\Field\Decorator\UrlDecorator;
@@ -29,12 +30,21 @@ class UrlFieldTypeTest extends CoreTestCase
         $this->assertSame($url, $field->cast($url));
     }
 
-    public function test_it_returns_url_value()
+    public function test_it_returns_url_decorator()
     {
         $field = new UrlFieldType([
             'stream' => Streams::make('films')
         ]);
 
         $this->assertInstanceOf(UrlDecorator::class, $field->decorate(url('testing')));
+    }
+
+    public function test_it_returns_url_schema()
+    {
+        $field = new UrlFieldType([
+            'stream' => Streams::make('films')
+        ]);
+
+        $this->assertInstanceOf(UrlSchema::class, $field->schema());
     }
 }

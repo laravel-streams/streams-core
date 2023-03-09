@@ -6,6 +6,7 @@ use Streams\Core\Entry\Entry;
 use Illuminate\Support\Collection;
 use Streams\Core\Tests\CoreTestCase;
 use Streams\Core\Support\Facades\Streams;
+use Streams\Core\Field\Schema\ArraySchema;
 use Streams\Core\Field\Types\ArrayFieldType;
 use Streams\Core\Field\Decorator\ArrayDecorator;
 
@@ -65,6 +66,15 @@ class ArrayFieldTypeTest extends CoreTestCase
         ]);
 
         $this->assertInstanceOf(ArrayDecorator::class, $field->decorate($field, []));
+    }
+
+    public function test_it_returns_array_schema()
+    {
+        $field = new ArrayFieldType([
+            'stream' => Streams::make('films')
+        ]);
+
+        $this->assertInstanceOf(ArraySchema::class, $field->schema());
     }
 
     public function test_it_stores_abstract_types()
@@ -228,8 +238,10 @@ class ArrayFieldTypeTest extends CoreTestCase
             'Test Name',
         ];
 
+        $cast = $field->restore($field->cast([$entry, $entry]));
         $restored = $field->restore($field->modify([$entry, $entry]));
 
+        $this->assertInstanceOf(CustomArrayWrapper::class, $cast);
         $this->assertInstanceOf(CustomArrayWrapper::class, $restored);
 
         $this->assertSame(2, $restored->count());

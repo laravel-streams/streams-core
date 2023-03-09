@@ -4,6 +4,7 @@ namespace Streams\Core\Tests\Field\Types;
 
 use Streams\Core\Tests\CoreTestCase;
 use Streams\Core\Support\Facades\Streams;
+use Streams\Core\Field\Schema\EmailSchema;
 use Streams\Core\Field\Types\EmailFieldType;
 use Streams\Core\Field\Decorator\EmailDecorator;
 
@@ -44,6 +45,15 @@ class EmailFieldTypeTest extends CoreTestCase
         ]);
 
         $this->assertInstanceOf(EmailDecorator::class, $field->decorate('test@email.com'));
+    }
+
+    public function test_it_returns_email_schema()
+    {
+        $field = new EmailFieldType([
+            'stream' => Streams::make('films')
+        ]);
+
+        $this->assertInstanceOf(EmailSchema::class, $field->schema());
     }
 
     public function test_it_can_generate_emails()

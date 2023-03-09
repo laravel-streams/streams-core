@@ -4,6 +4,7 @@ namespace Streams\Core\Tests\Field\Types;
 
 use Illuminate\Support\Facades\Hash;
 use Streams\Core\Tests\CoreTestCase;
+use Streams\Core\Field\Schema\HashSchema;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Field\Types\HashFieldType;
 use Streams\Core\Field\Decorator\HashDecorator;
@@ -38,5 +39,14 @@ class HashFieldTypeTest extends CoreTestCase
         ]);
 
         $this->assertInstanceOf(HashDecorator::class, $field->decorate(''));
+    }
+
+    public function test_it_returns_hash_schema()
+    {
+        $field = new HashFieldType([
+            'stream' => Streams::make('films')
+        ]);
+
+        $this->assertInstanceOf(HashSchema::class, $field->schema());
     }
 }

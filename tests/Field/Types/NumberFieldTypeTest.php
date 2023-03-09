@@ -27,7 +27,7 @@ class NumberFieldTypeTest extends CoreTestCase
         $this->assertSame(-1234.50, $field->default("-1,234.50"));
     }
 
-    public function test_it_casts_to_numeric_value()
+    public function test_it_casts_to_numeric_decorator()
     {
         $field = new NumberFieldType([
             'stream' => Streams::make('films')

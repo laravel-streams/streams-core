@@ -4,6 +4,7 @@ namespace Streams\Core\Tests\Field\Types;
 
 use Streams\Core\Tests\CoreTestCase;
 use Streams\Core\Support\Facades\Streams;
+use Streams\Core\Field\Schema\StringSchema;
 use Streams\Core\Field\Types\ColorFieldType;
 use Streams\Core\Field\Decorator\ColorDecorator;
 
@@ -36,6 +37,15 @@ class ColorFieldTypeTest extends CoreTestCase
         ]);
 
         $this->assertInstanceOf(ColorDecorator::class, $field->decorate('#ffffff'));
+    }
+
+    public function test_it_returns_color_schemma()
+    {
+        $field = new ColorFieldType([
+            'stream' => Streams::make('films')
+        ]);
+
+        $this->assertInstanceOf(StringSchema::class, $field->schema());
     }
 
     public function test_it_validates_values()

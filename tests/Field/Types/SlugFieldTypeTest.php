@@ -4,6 +4,7 @@ namespace Streams\Core\Tests\Field\Types;
 
 use Streams\Core\Tests\CoreTestCase;
 use Streams\Core\Support\Facades\Streams;
+use Streams\Core\Field\Schema\StringSchema;
 use Streams\Core\Field\Types\SlugFieldType;
 use Streams\Core\Field\Decorator\StringDecorator;
 
@@ -22,12 +23,21 @@ class SlugFieldTypeTest extends CoreTestCase
         $this->assertSame('test_slug', $field->restore('Test Slug'));
     }
 
-    public function test_it_returns_string_value()
+    public function test_it_returns_string_decorator()
     {
         $field = new SlugFieldType([
             'stream' => Streams::make('films')
         ]);
 
         $this->assertInstanceOf(StringDecorator::class, $field->decorate('example'));
+    }
+
+    public function test_it_returns_string_schema()
+    {
+        $field = new SlugFieldType([
+            'stream' => Streams::make('films')
+        ]);
+
+        $this->assertInstanceOf(StringSchema::class, $field->schema());
     }
 }
