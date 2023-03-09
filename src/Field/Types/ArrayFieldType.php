@@ -34,6 +34,10 @@ class ArrayFieldType extends Field
             $value = (array) $value;
         }
 
+        if ($value instanceof Collection) {
+            $value = $value->all();
+        }
+
         if ($wrapper = $this->config('wrapper')) {
             $value = $this->wrapArray($value, $wrapper);
         }

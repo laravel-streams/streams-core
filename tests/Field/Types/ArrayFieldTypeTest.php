@@ -88,7 +88,7 @@ class ArrayFieldTypeTest extends CoreTestCase
         $this->assertSame([array_merge(
             ['@abstract' => get_class($field)],
             $field->toArray()
-        )], $field->modify([$field]));
+        )], $field->modify(collect([$field])));
     }
 
     public function test_it_restores_abstract_types()
