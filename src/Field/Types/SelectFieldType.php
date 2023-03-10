@@ -11,13 +11,16 @@ class SelectFieldType extends Field
 {
     public function options(): array
     {
-        $options = $this->config('options', []);
+        return $this->once($this->handle . '.options', function () {
 
-        if (is_string($options)) {
-            return App::call($options, ['field', $this]);
-        }
+            $options = $this->config('options', []);
 
-        return $options;
+            if (is_string($options) || is_callable($options)) {
+                return App::call($options, ['field', $this]);
+            }
+
+            return $options;
+        });
     }
 
     public function rules(): array

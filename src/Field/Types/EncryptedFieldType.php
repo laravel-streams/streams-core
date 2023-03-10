@@ -14,6 +14,19 @@ class EncryptedFieldType extends Field
         return Crypt::encrypt($value);
     }
 
+    public function generator()
+    {
+        return function () {
+
+            $string = new StringFieldType([
+                'handle' => $this->handle,
+                'rules' => $this->rules,
+            ]);
+
+            return Crypt::encrypt($string->generate());
+        };
+    }
+
     public function getSchemaName()
     {
         return EncryptedSchema::class;
@@ -22,12 +35,5 @@ class EncryptedFieldType extends Field
     public function getDecoratorName()
     {
         return EncryptedDecorator::class;
-    }
-
-    public function generator()
-    {
-        return function () {
-            return Crypt::encrypt(fake()->text(15, 50));
-        };
     }
 }

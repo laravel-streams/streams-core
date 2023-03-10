@@ -33,14 +33,21 @@ class RelationshipFieldType extends Field
 
     public function related()
     {
-        return Streams::make($this->config('related'));
+        $stream = $this->config('related');
+
+        return $this->once(
+            $this->handle . '.related.' . $stream,
+            function () use ($stream) {
+                return Streams::make($stream);
+            }
+        );
     }
 
     public function generator()
     {
         return function () {
 
-            $stream = Streams::make($this->config('related'));
+            $stream = $this->related();
 
             $entries = $stream->entries()->limit(100)->get();
 

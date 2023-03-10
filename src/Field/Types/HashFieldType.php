@@ -31,7 +31,11 @@ class HashFieldType extends Field
     public function generator()
     {
         return function () {
-            return Hash::make(fake()->text(15, 50));
+
+            $min = $this->ruleParameter('min');
+            $max = $this->ruleParameter('max');
+
+            return Hash::make(fake()->password($min ?: 6, $max ?: 20));
         };
     }
 }

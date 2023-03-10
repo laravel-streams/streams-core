@@ -75,5 +75,17 @@ class IntegerFieldTypeTest extends CoreTestCase
         $field = new IntegerFieldType();
 
         $this->assertIsInt($field->generate());
+
+        $field = new IntegerFieldType([
+            'rules' => [
+                'min:100',
+                'max:101',
+            ],
+        ]);
+
+        $value = $field->generate();
+
+        $this->assertLessThanOrEqual(101, $value);
+        $this->assertGreaterThanOrEqual(100, $value);
     }
 }

@@ -57,5 +57,14 @@ class TimeFieldTypeTest extends CoreTestCase
         $field = new TimeFieldType();
 
         $this->assertInstanceOf(\Datetime::class, $field->generate());
+
+        $field = new TimeFieldType([
+            'rules' => [
+                'min:9am',
+                'max:10am',
+            ],
+        ]);
+
+        $this->assertTrue($field->generate()->between('9am', '10am'));
     }
 }

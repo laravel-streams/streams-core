@@ -62,5 +62,23 @@ class DecimalFieldTypeTest extends CoreTestCase
         $field = new DecimalFieldType();
 
         $this->assertIsFloat($field->generate());
+
+        $field = new DecimalFieldType([
+            'rules' => [
+                'min:1',
+                'max:2',
+            ],
+            'config' => [
+                'precision' => 2,
+            ],
+        ]);
+
+        $value = $field->generate();
+
+        $precision = strlen(explode('.', $value)[1] ?? null);
+
+        $this->assertLessThanOrEqual(2, $value);
+        $this->assertGreaterThanOrEqual(1, $value);
+        $this->assertLessThanOrEqual(2, $precision);
     }
 }

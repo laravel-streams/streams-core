@@ -36,7 +36,27 @@ class DecimalFieldType extends Field
             $value = intval($value);
         }
 
-        return round($value, $this->config('precision') ?: 1);
+        if ($precision = $this->config('precision')) {
+            $value = round($value, $precision);
+        }
+
+        return $value;
+    }
+
+    public function generator()
+    {
+        $min = $this->ruleParameter('min');
+        $max = $this->ruleParameter('max');
+
+        if ($min || $max) {
+            return function () use ($min, $max) {
+                return $this->cast(fake()->randomFloat(null, $min, $max));
+            };
+        }
+
+        return function () {
+            return $this->cast(fake()->randomFloat());
+        };
     }
 
     public function getSchemaName()
@@ -47,12 +67,5 @@ class DecimalFieldType extends Field
     public function getDecoratorName()
     {
         return NumberDecorator::class;
-    }
-
-    public function generator()
-    {
-        return function () {
-            return fake()->randomFloat();
-        };
     }
 }

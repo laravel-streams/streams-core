@@ -28,6 +28,13 @@ class EmailFieldType extends Field
         return $this->cast($value);
     }
 
+    public function generator()
+    {
+        return function () {
+            return fake()->safeEmail();
+        };
+    }
+
     public function getSchemaName()
     {
         return EmailSchema::class;
@@ -36,12 +43,5 @@ class EmailFieldType extends Field
     public function getDecoratorName()
     {
         return EmailDecorator::class;
-    }
-
-    public function generator()
-    {
-        return function () {
-            return fake()->email();
-        };
     }
 }

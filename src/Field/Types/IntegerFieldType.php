@@ -41,6 +41,23 @@ class IntegerFieldType extends Field
         return $this->cast($value);
     }
 
+    public function generator()
+    {
+        $min = $this->ruleParameter('min');
+        $max = $this->ruleParameter('max');
+
+
+        if ($min || $max) {
+            return function () use ($min, $max) {
+                return $this->cast(fake()->numberBetween($min, $max));
+            };
+        }
+
+        return function () {
+            return $this->cast(fake()->randomNumber());
+        };
+    }
+
     public function getSchemaName()
     {
         return IntegerSchema::class;
@@ -49,13 +66,6 @@ class IntegerFieldType extends Field
     public function getDecoratorName()
     {
         return NumberDecorator::class;
-    }
-
-    public function generator()
-    {
-        return function () {
-            return fake()->randomNumber();
-        };
     }
 
     protected function getNextIncrementValue()

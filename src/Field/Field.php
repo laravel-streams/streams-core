@@ -140,7 +140,7 @@ class Field implements
         array_walk($rules, function (&$rule, $key) use ($fresh, $data, $keyName) {
 
             if (is_string($key) && class_exists($rule)) {
-                
+
                 $rule = new $rule($this);
 
                 return;
@@ -204,19 +204,20 @@ class Field implements
 
     public function generator()
     {
-        return function() {
+        return function () {
             return fake()->text();
         };
     }
 
     public function generate()
     {
-        return $this->generator()();
-    }
+        $generator = $this->config('generator');
 
-    public function getGeneratorName()
-    {
-        return FieldGenerator::class;
+        if (is_string($generator)) {
+            return App::call($generator, ['field' => $this]);
+        }
+
+        return $this->generator()();
     }
 
     public function rules(): array

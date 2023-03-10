@@ -17,4 +17,14 @@ class ImageFieldTypeTest extends CoreTestCase
 
         $this->assertInstanceOf(ImageDecorator::class, $field->decorate(''));
     }
+
+    public function test_it_generates_image_paths()
+    {
+        $field = new ImageFieldType();
+
+        $this->assertContains(
+            pathinfo($field->generate(), PATHINFO_EXTENSION),
+            ['jpg', 'png', 'gif']
+        );
+    }
 }

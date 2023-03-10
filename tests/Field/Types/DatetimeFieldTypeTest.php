@@ -80,5 +80,16 @@ class DatetimeFieldTypeTest extends CoreTestCase
         $field = new DatetimeFieldType();
 
         $this->assertInstanceOf(Carbon::class, $field->generate());
+
+        $field = new DatetimeFieldType([
+            'rules' => [
+                'min:2021-01-01 9:30',
+                'max:2021-01-01 9:31',
+            ],
+        ]);
+
+        $this->assertTrue(
+            $field->generate()->between('2021-01-01 9:30', '2021-01-01 9:31')
+        );
     }
 }

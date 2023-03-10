@@ -54,5 +54,59 @@ class StringFieldTypeTest extends CoreTestCase
         $field = new StringFieldType();
 
         $this->assertIsString($field->generate());
+
+
+        $field = new StringFieldType([
+            'rules' => [
+                'max:40',
+            ],
+        ]);
+
+        $this->assertTrue(strlen($field->generate()) < 41);
+    
+        
+        $field = new StringFieldType([
+            'handle' => 'name',
+        ]);
+
+        $this->assertTrue(strlen($field->generate()) < 50);
+
+        $field = new StringFieldType([
+            'handle' => 'first_name',
+        ]);
+
+        $this->assertTrue(strlen($field->generate()) < 50);
+
+        $field = new StringFieldType([
+            'handle' => 'last_name',
+        ]);
+
+        $this->assertTrue(strlen($field->generate()) < 50);
+        
+
+        $field = new StringFieldType([
+            'handle' => 'position',
+        ]);
+
+        $this->assertTrue(strlen($field->generate()) < 50);
+
+        $field = new StringFieldType([
+            'handle' => 'job_title',
+        ]);
+
+        $this->assertTrue(strlen($field->generate()) < 50);
+
+
+        $field = new StringFieldType([
+            'handle' => 'phone',
+        ]);
+
+        $this->assertTrue(strlen($field->generate()) < 50);
+
+        $field = new StringFieldType([
+            'handle' => 'phone_number',
+        ]);
+
+        $this->assertTrue(strlen($field->generate()) < 50);
     }
 }

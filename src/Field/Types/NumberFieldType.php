@@ -44,6 +44,27 @@ class NumberFieldType extends Field
         return $this->cast($value);
     }
 
+    public function generator()
+    {
+        $min = $this->ruleParameter('min');
+        $max = $this->ruleParameter('max');
+
+        if ($min || $max) {
+            return function () use ($min, $max) {
+                return fake()->randomElement([
+                    fake()->numberBetween($min ?: 0, $max ?: 2147483647),
+                    fake()->randomFloat(null, $min ?: 0, $max),
+                ]);
+            };
+        }
+        return function () {
+            return fake()->randomElement([
+                fake()->randomNumber(),
+                fake()->randomFloat(),
+            ]);
+        };
+    }
+
     public function getSchemaName()
     {
         return NumberSchema::class;
@@ -52,16 +73,5 @@ class NumberFieldType extends Field
     public function getDecoratorName()
     {
         return NumberDecorator::class;
-    }
-
-    public function generator()
-    {
-        return function () {
-            return fake()->randomElement([
-                fake()->randomNumber(),
-                fake()->randomFloat(),
-                round(fake()->randomFloat(), 1),
-            ]);
-        };
     }
 }

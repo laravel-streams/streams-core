@@ -2,9 +2,11 @@
 
 namespace Streams\Core\Field\Types;
 
+use Illuminate\Support\Str;
+use Streams\Core\Field\Field;
 use Streams\Core\Field\Decorator\FileDecorator;
 
-class FileFieldType extends StringFieldType
+class FileFieldType extends Field
 {
     public function cast($value)
     {
@@ -13,6 +15,20 @@ class FileFieldType extends StringFieldType
         }
 
         throw new \Exception("Could not determine file type.");
+    }
+
+    public function generator()
+    {
+        return function () {
+
+            $file = Str::uuid();
+            $directory = 'tmp/';
+            $extension = fake()->randomElement([
+                'md', 'html', 'json', 'pdf', 'doc'
+            ]);
+
+            return "$directory/$file.$extension";
+        };
     }
 
     public function getDecoratorName()

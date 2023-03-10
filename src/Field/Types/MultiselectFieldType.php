@@ -10,15 +10,25 @@ use Streams\Core\Field\Decorator\MultiselectDecorator;
 
 class MultiselectFieldType extends Field
 {
+    public function rules(): array
+    {
+        return array_merge([
+            'in:' . implode(',', array_keys($this->options()))
+        ], parent::rules());
+    }
+
     public function options()
     {
-        $options = $this->config('options', []);
+        return $this->once($this->handle . '.options', function () {
 
-        if (is_string($options)) {
-            return App::call($options, ['type', $this]);
-        }
+            $options = $this->config('options', []);
 
-        return $options;
+            if (is_string($options) || is_callable($options)) {
+                return App::call($options, ['field', $this]);
+            }
+
+            return $options;
+        });
     }
 
     public function cast($value)
@@ -52,16 +62,6 @@ class MultiselectFieldType extends Field
         return (array) $value;
     }
 
-    public function getSchemaName()
-    {
-        return MultiselectSchema::class;
-    }
-
-    public function getDecoratorName()
-    {
-        return MultiselectDecorator::class;
-    }
-
     public function generator()
     {
         return function () {
@@ -80,10 +80,13 @@ class MultiselectFieldType extends Field
         };
     }
 
-    public function rules(): array
+    public function getSchemaName()
     {
-        return array_merge([
-            'in:' . implode(',', array_keys($this->options()))
-        ], parent::rules());
+        return MultiselectSchema::class;
+    }
+
+    public function getDecoratorName()
+    {
+        return MultiselectDecorator::class;
     }
 }

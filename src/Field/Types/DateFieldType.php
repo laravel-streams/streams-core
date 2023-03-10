@@ -3,6 +3,7 @@
 namespace Streams\Core\Field\Types;
 
 use Carbon\Carbon;
+use Streams\Core\Field\Field;
 use Streams\Core\Field\Schema\DateSchema;
 use Streams\Core\Field\Decorator\DatetimeDecorator;
 
@@ -45,8 +46,17 @@ class DateFieldType extends DatetimeFieldType
 
     public function generator()
     {
+        $min = $this->ruleParameter('min');
+        $max = $this->ruleParameter('max');
+
+        if ($min || $max) {
+            return function () use ($min, $max) {
+                return $this->cast(fake()->dateTimeBetween($min, $max));
+            };
+        }
+
         return function () {
-            return $this->cast(fake()->date());
+            return $this->cast(fake()->dateTime());
         };
     }
 
