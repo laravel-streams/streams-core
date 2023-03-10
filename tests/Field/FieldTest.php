@@ -151,4 +151,54 @@ class FieldTest extends CoreTestCase
         $this->assertTrue($field->validator(Str::random(20))->passes());
         $this->assertFalse($field->validator(Str::random(30))->passes());
     }
+
+    public function test_it_generates_values()
+    {
+        $field = new Field();
+
+        $this->assertNotNull($field->generate());
+
+        $field = new Field([
+            'config' => [
+                'generator' => FieldTestValueGenerator::class,
+            ],
+        ]);
+
+        $this->assertSame('Hello World', $field->generate());
+
+        $field = new Field([
+            'config' => [
+                'generator' => FieldTestValueGenerator::class . '@lorem',
+            ],
+        ]);
+
+        $this->assertSame('Lorem Ipsum', $field->generate());
+
+        $field = new Field([
+            'handle' => 'test',
+            'config' => [
+                'generator' => FieldTestValueGenerator::class . '@handle',
+            ],
+        ]);
+
+        $this->assertSame('Test Field', $field->generate());
+    }
+}
+
+class FieldTestValueGenerator
+{
+    public function __invoke()
+    {
+        return 'Hello World';
+    }
+
+    public function lorem()
+    {
+        return 'Lorem Ipsum';
+    }
+
+    public function handle(Field $field)
+    {
+        return ucfirst($field->handle) . ' Field';
+    }
 }
