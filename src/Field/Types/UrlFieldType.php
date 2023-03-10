@@ -12,6 +12,13 @@ class UrlFieldType extends Field
         'url',
     ];
 
+    public function generator()
+    {
+        return function () {
+            return fake()->url();
+        };
+    }
+    
     public function getSchemaName()
     {
         return UrlSchema::class;
@@ -20,12 +27,5 @@ class UrlFieldType extends Field
     public function getDecoratorName()
     {
         return UrlDecorator::class;
-    }
-
-    public function generator()
-    {
-        return function () {
-            return fake()->url();
-        };
     }
 }

@@ -33,7 +33,7 @@ class SlugFieldType extends Field
     public function generator()
     {
         return function () {
-            return $this->modify(fake()->words(2, true));
+            return $this->cast(fake()->slug(3));
         };
     }
 
