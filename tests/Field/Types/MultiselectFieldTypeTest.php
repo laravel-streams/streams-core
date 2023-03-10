@@ -108,6 +108,13 @@ class MultiselectFieldTypeTest extends CoreTestCase
 
         $this->assertSame(['in:foo,bar'], $field->rules());
     }
+
+    public function test_it_generates_integer_values()
+    {
+        $field = new MultiselectFieldType();
+
+        $this->assertIsArray($field->generate());
+    }
 }
 
 class CallableMultiselectOptions

@@ -40,4 +40,11 @@ class UuidFieldTypeTest extends CoreTestCase
 
         $this->assertInstanceOf(StringSchema::class, $field->schema());
     }
+
+    public function test_it_generates_uuid_values()
+    {
+        $field = new UuidFieldType();
+
+        $this->assertTrue(Str::is('*-*-*-*-*', $field->generate()));
+    }
 }

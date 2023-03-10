@@ -18,10 +18,12 @@ class TimeFieldType extends DatetimeFieldType
         return $this->cast($value);
     }
 
-    // public function generate()
-    // {
-    //     return $this->generator()->time();
-    // }
+    public function generator()
+    {
+        return function () {
+            return $this->cast(fake()->time());
+        };
+    }
 
     public function getSchemaName()
     {

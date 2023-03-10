@@ -14,7 +14,7 @@ class EntryFactory
 {
     use HasMemory;
     use FiresCallbacks;
-    
+
     use Macroable {
         Macroable::__call as private callMacroable;
     }
@@ -66,10 +66,10 @@ class EntryFactory
         return new $collection($items);
     }
 
-    protected function state($callback)
+    public function state($callback)
     {
         if (is_array($callback)) {
-            
+
             $this->attributes = array_merge($this->attributes, $callback);
 
             return $this;
@@ -82,7 +82,10 @@ class EntryFactory
             return $this;
         }
 
-        $this->attributes = array_merge($this->attributes, App::call($callback, ['attributes' => $this->attributes]));
+        $this->attributes = array_merge(
+            $this->attributes,
+            App::call($callback, ['attributes' => $this->attributes])
+        );
 
         return $this;
     }

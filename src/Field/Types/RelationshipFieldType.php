@@ -9,11 +9,11 @@ class RelationshipFieldType extends Field
 {
     public function modify($value)
     {
-        if(is_numeric($value)) {
+        if (is_numeric($value)) {
             return (int) $value;
         }
-        
-        if(is_string($value)) {
+
+        if (is_string($value)) {
             return $value;
         }
 
@@ -22,22 +22,12 @@ class RelationshipFieldType extends Field
         return $value->{$keyName};
     }
 
-    // public function restore($value)
-    // {
-    //     return $this->decorate($value);
-    // }
-
-    // public function cast($value)
-    // {
-    //     return $this->decorate($value);
-    // }
-
     public function decorate($value)
     {
         if (is_object($value)) {
             return $value;
         }
-        
+
         return $this->related()->repository()->find($value);
     }
 
@@ -46,22 +36,25 @@ class RelationshipFieldType extends Field
         return Streams::make($this->config('related'));
     }
 
-    // public function generate()
-    // {
-    //     $stream = Streams::make($this->config('related'));
-        
-    //     $entries = $stream->entries()->limit(100)->get();
+    public function generator()
+    {
+        return function () {
 
-    //     $keyName = $stream->config('key_name', 'id');
+            $stream = Streams::make($this->config('related'));
 
-    //     if ($entries->isEmpty()) {
-    //         return null;
-    //     }
-        
-    //     if (!$entry = $entries->random()) {
-    //         return null;
-    //     }
-        
-    //     return $entry->{$keyName};
-    // }
+            $entries = $stream->entries()->limit(100)->get();
+
+            $keyName = $stream->config('key_name', 'id');
+
+            if ($entries->isEmpty()) {
+                return null;
+            }
+
+            if (!$entry = $entries->random()) {
+                return null;
+            }
+
+            return $entry->{$keyName};
+        };
+    }
 }

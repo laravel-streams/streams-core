@@ -107,4 +107,11 @@ class DateFieldTypeTest extends CoreTestCase
 
         $this->assertInstanceOf(DateDecorator::class, $field->decorate('2021-01-01'));
     }
+
+    public function test_it_generates_date_values()
+    {
+        $field = new DateFieldType();
+
+        $this->assertInstanceOf(Carbon::class, $field->generate());
+    }
 }

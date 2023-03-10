@@ -54,12 +54,14 @@ class NumberFieldType extends Field
         return NumberDecorator::class;
     }
 
-    // public function generate()
-    // {
-    //     return $this->generator()->randomElement([
-    //         $this->generator()->randomNumber(),
-    //         $this->generator()->randomFloat(),
-    //         round($this->generator()->randomFloat(), 1),
-    //     ]);
-    // }
+    public function generator()
+    {
+        return function () {
+            return fake()->randomElement([
+                fake()->randomNumber(),
+                fake()->randomFloat(),
+                round(fake()->randomFloat(), 1),
+            ]);
+        };
+    }
 }

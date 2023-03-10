@@ -38,8 +38,10 @@ class EmailFieldType extends Field
         return EmailDecorator::class;
     }
 
-    public function getGeneratorName()
+    public function generator()
     {
-        return EmailGenerator::class;
+        return function () {
+            return fake()->email();
+        };
     }
 }

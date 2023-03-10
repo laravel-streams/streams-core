@@ -74,4 +74,11 @@ class NumberFieldTypeTest extends CoreTestCase
         
         $this->assertInstanceOf(NumberDecorator::class, $field->decorate(100));
     }
+
+    public function test_it_generates_numeric_values()
+    {
+        $field = new NumberFieldType();
+        
+        $this->assertIsNumeric($field->generate());
+    }
 }

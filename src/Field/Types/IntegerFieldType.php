@@ -51,10 +51,12 @@ class IntegerFieldType extends Field
         return NumberDecorator::class;
     }
 
-    // public function generate(): int
-    // {
-    //     return $this->generator()->randomNumber();
-    // }
+    public function generator()
+    {
+        return function () {
+            return fake()->randomNumber();
+        };
+    }
 
     protected function getNextIncrementValue()
     {

@@ -28,8 +28,10 @@ class HashFieldType extends Field
         return HashDecorator::class;
     }
 
-    // public function generate()
-    // {
-    //     return HashFacade::make($this->generator()->text(15, 50));
-    // }
+    public function generator()
+    {
+        return function () {
+            return Hash::make(fake()->text(15, 50));
+        };
+    }
 }

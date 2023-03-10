@@ -51,4 +51,11 @@ class TimeFieldTypeTest extends CoreTestCase
 
         $this->assertInstanceOf(DatetimeDecorator::class, $decorator);
     }
+
+    public function test_it_generates_time_values()
+    {
+        $field = new TimeFieldType();
+
+        $this->assertInstanceOf(\Datetime::class, $field->generate());
+    }
 }

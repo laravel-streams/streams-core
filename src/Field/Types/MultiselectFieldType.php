@@ -62,18 +62,23 @@ class MultiselectFieldType extends Field
         return MultiselectDecorator::class;
     }
 
-    // public function generate()
-    // {
-    //     $values = [];
+    public function generator()
+    {
+        return function () {
 
-    //     $keys = array_keys($this->options());
+            $values = [];
 
-    //     for ($i = 1; $i <= $this->generator()->numberBetween(1, count($keys)); $i++) {
-    //         $values[] = $this->generator()->randomElement($keys);
-    //     }
+            $keys = array_keys($this->options());
 
-    //     return array_unique($values);
-    // }
+            $count = count($keys);
+
+            for ($i = 1; $i <= fake()->numberBetween(1, $count); $i++) {
+                $values[] = fake()->randomElement($keys);
+            }
+
+            return array_unique($values);
+        };
+    }
 
     public function rules(): array
     {

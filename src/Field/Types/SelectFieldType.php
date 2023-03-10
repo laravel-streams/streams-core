@@ -26,6 +26,13 @@ class SelectFieldType extends Field
             'in:' . implode(',', array_keys($this->options()))
         ], parent::rules());
     }
+
+    public function generator()
+    {
+        return function () {
+            return array_rand($this->options());
+        };
+    }
     
     public function getSchemaName()
     {

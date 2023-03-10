@@ -56,4 +56,11 @@ class DecimalFieldTypeTest extends CoreTestCase
 
         $this->assertInstanceOf(DecimalDecorator::class, $field->decorate(1.2));
     }
+
+    public function test_it_generates_decimal_values()
+    {
+        $field = new DecimalFieldType();
+
+        $this->assertIsFloat($field->generate());
+    }
 }

@@ -281,6 +281,13 @@ class ArrayFieldTypeTest extends CoreTestCase
         
         $this->assertFalse($field->validator($data)->passes());
     }
+
+    public function test_it_generates_array_values()
+    {
+        $field = new ArrayFieldType();
+
+        $this->assertIsArray($field->generate());
+    }
 }
 
 class CustomArrayWrapper extends Collection

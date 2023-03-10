@@ -43,4 +43,18 @@ class RelationshipFieldTypeTest extends CoreTestCase
 
         $this->assertInstanceOf(EntryInterface::class, $field->decorate('4'));
     }
+
+    public function test_it_generates_related_values()
+    {
+        $field = new RelationshipFieldType([
+            'config' => [
+                'related' => 'films',
+            ]
+        ]);
+
+        $this->assertInstanceOf(
+            EntryInterface::class,
+            Streams::repository('films')->find($field->generate())
+        );
+    }
 }

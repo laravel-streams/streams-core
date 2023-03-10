@@ -69,6 +69,20 @@ class SelectFieldTypeTest extends CoreTestCase
 
         $this->assertSame(['in:foo,bar'], $field->rules());
     }
+
+    public function test_it_generates_selectable_values()
+    {
+        $field = new SelectFieldType([
+            'config' => [
+                'options' => [
+                    'foo' => 'Foo',
+                    'bar' => 'Bar'
+                ],
+            ],
+        ]);
+
+        $this->assertContains($field->generate(), ['foo', 'bar']);
+    }
 }
 
 class CallableSelectOptions

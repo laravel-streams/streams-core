@@ -47,4 +47,11 @@ class BooleanFieldTypeTest extends CoreTestCase
         $this->assertSame(true, $field->modify('yes'));
         $this->assertSame(true, $field->restore('yes'));
     }
+
+    public function test_it_generates_boolean_values()
+    {
+        $field = new BooleanFieldType();
+
+        $this->assertIsBool($field->generate());
+    }
 }

@@ -22,8 +22,10 @@ class UrlFieldType extends Field
         return UrlDecorator::class;
     }
 
-    // public function generate()
-    // {
-    //     return $this->generator()->url();
-    // }
+    public function generator()
+    {
+        return function () {
+            return fake()->url();
+        };
+    }
 }

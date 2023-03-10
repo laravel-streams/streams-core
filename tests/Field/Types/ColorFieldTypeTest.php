@@ -74,4 +74,13 @@ class ColorFieldTypeTest extends CoreTestCase
 
         $this->assertTrue($field->validator($data)->passes());
     }
+
+    public function test_it_generates_color_values()
+    {
+        $field = new ColorFieldType();
+
+        $value = $field->generate();
+
+        $this->assertSame($value, $field->cast($value));
+    }
 }

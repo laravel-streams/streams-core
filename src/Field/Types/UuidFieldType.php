@@ -14,9 +14,11 @@ class UuidFieldType extends Field
         return $this->generate();
     }
 
-    public function generate()
+    public function generator()
     {
-        return (string) Str::uuid();
+        return function () {
+            return (string) Str::uuid();
+        };
     }
 
     public function getSchemaName()

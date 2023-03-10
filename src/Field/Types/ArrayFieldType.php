@@ -149,17 +149,20 @@ class ArrayFieldType extends Field
         return ArrayDecorator::class;
     }
 
-    // public function generate()
-    // {
-    //     for ($i = 0; $i < 10; $i++) {
-    //         $values[] = $this->generator()->randomElement([
-    //             $this->generator()->word(),
-    //             $this->generator()->randomNumber(),
-    //         ]);
-    //     }
-
-    //     return $values;
-    // }
+    public function generator()
+    {
+        return function () {
+            for ($i = 0; $i < 10; $i++) {
+                $values[] = fake()->randomElement([
+                    // @todo Support types as defined in items
+                    fake()->word(),
+                    fake()->randomNumber(),
+                ]);
+            }
+    
+            return $values;
+        };
+    }
 
     protected function wrapArray($array, $wrapper)
     {

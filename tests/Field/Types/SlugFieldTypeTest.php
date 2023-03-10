@@ -32,11 +32,9 @@ class SlugFieldTypeTest extends CoreTestCase
         $this->assertInstanceOf(StringDecorator::class, $field->decorate('example'));
     }
 
-    public function test_it_returns_string_schema()
+    public function test_it_generates_slug_values()
     {
-        $field = new SlugFieldType([
-            'stream' => Streams::make('films')
-        ]);
+        $field = new SlugFieldType();
 
         $this->assertInstanceOf(StringSchema::class, $field->schema());
     }

@@ -38,8 +38,10 @@ class BooleanFieldType extends Field
         return BooleanDecorator::class;
     }
 
-    // public function generate()
-    // {
-    //     return $this->generator()->randomElement([true, false]);
-    // }
+    public function generator()
+    {
+        return function () {
+            return fake()->randomElement([true, false]);
+        };
+    }
 }

@@ -43,10 +43,12 @@ class DateFieldType extends DatetimeFieldType
         return DatetimeDecorator::class;
     }
 
-    // public function generate()
-    // {
-    //     return $this->cast($this->generator()->date());
-    // }
+    public function generator()
+    {
+        return function () {
+            return $this->cast(fake()->date());
+        };
+    }
 
     protected function toCarbon($value): Carbon
     {

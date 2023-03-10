@@ -202,16 +202,16 @@ class Field implements
         return FieldDecorator::class;
     }
 
-    public function generate()
+    public function generator()
     {
-        return $this->generator()->generate();
+        return function() {
+            return fake()->text();
+        };
     }
 
-    public function generator(): FieldGenerator
+    public function generate()
     {
-        $generator = $this->config('generator') ?: $this->getGeneratorName();
-
-        return new $generator($this);
+        return $this->generator()();
     }
 
     public function getGeneratorName()

@@ -48,4 +48,11 @@ class StringFieldTypeTest extends CoreTestCase
 
         $this->assertInstanceOf(StringSchema::class, $field->schema());
     }
+
+    public function test_it_generates_string_values()
+    {
+        $field = new StringFieldType();
+
+        $this->assertIsString($field->generate());
+    }
 }

@@ -43,4 +43,13 @@ class EncryptedFieldTypeTest extends CoreTestCase
 
         $this->assertInstanceOf(EncryptedSchema::class, $field->schema());
     }
+
+    public function test_it_generates_encrypted_values()
+    {
+        $field = new EncryptedFieldType();
+
+        $value = $field->generate();
+
+        $this->assertNotSame($value, Crypt::decrypt($value));
+    }
 }

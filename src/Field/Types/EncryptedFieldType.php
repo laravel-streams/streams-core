@@ -24,8 +24,10 @@ class EncryptedFieldType extends Field
         return EncryptedDecorator::class;
     }
 
-    // public function generate()
-    // {
-    //     return Crypt::encrypt($this->generator()->text(15, 50));
-    // }
+    public function generator()
+    {
+        return function () {
+            return Crypt::encrypt(fake()->text(15, 50));
+        };
+    }
 }

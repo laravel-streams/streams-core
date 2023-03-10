@@ -69,4 +69,11 @@ class IntegerFieldTypeTest extends CoreTestCase
 
         $this->assertSame(8, $field->default('increment'));
     }
+
+    public function test_it_generates_integer_values()
+    {
+        $field = new IntegerFieldType();
+
+        $this->assertIsInt($field->generate());
+    }
 }

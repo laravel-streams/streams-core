@@ -30,18 +30,20 @@ class SlugFieldType extends Field
         return $this->cast($value);
     }
 
+    public function generator()
+    {
+        return function () {
+            return $this->modify(fake()->words(2, true));
+        };
+    }
+
     public function getSchemaName()
     {
         return StringSchema::class;
     }
-    
+
     public function getDecoratorName()
     {
         return StringDecorator::class;
     }
-
-    // public function generate()
-    // {
-    //     return $this->modify($this->generator()->words(2, true));
-    // }
 }

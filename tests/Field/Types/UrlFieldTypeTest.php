@@ -47,4 +47,11 @@ class UrlFieldTypeTest extends CoreTestCase
 
         $this->assertInstanceOf(UrlSchema::class, $field->schema());
     }
+
+    public function test_it_generates_url_values()
+    {
+        $field = new UrlFieldType();
+
+        $this->assertTrue($field->validator($field->generate())->passes());
+    }
 }
