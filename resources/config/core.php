@@ -91,7 +91,6 @@ return [
 
         // Other
         'color' => \Streams\Core\Field\Types\ColorFieldType::class,
-        'markdown' => \Streams\Core\Field\Types\MarkdownFieldType::class,
     ],
 
     /**
