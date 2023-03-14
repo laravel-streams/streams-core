@@ -9,6 +9,10 @@ use Streams\Core\Field\Decorator\SelectDecorator;
 
 class SelectFieldType extends Field
 {
+    public $rules = [
+        'icon' => 'nullable',
+    ];
+
     public function options(): array
     {
         return $this->once($this->handle . '.options', function () {

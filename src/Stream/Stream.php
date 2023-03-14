@@ -188,7 +188,7 @@ class Stream implements
                         $parameters[] = $field;
                     }
 
-                    if (!$key) {
+                    if ($key) {
                         $parameters[] = $key;
                         $parameters[] = $keyName;
                     }
@@ -205,7 +205,7 @@ class Stream implements
         return $rules;
     }
 
-    public function validator($data, $key = true): Validator
+    public function validator($data, $key = null): Validator
     {
         $keyName = $this->config('key_name', 'id');
 
@@ -215,7 +215,7 @@ class Stream implements
 
         $factory->setPresenceVerifier(new StreamsPresenceVerifier(App::make('db')));
 
-        $rules = $this->rules([], Arr::get($keyName, $key));
+        $rules = $this->rules([], Arr::get($data, $keyName, $key));
 
         return $factory->make($data, $rules);
     }
