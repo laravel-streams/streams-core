@@ -188,7 +188,7 @@ class Stream implements
                         $parameters[] = $field;
                     }
 
-                    if (!$key) {
+                    if ($key) {
                         $parameters[] = $key;
                         $parameters[] = $keyName;
                     }
