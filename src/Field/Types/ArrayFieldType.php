@@ -16,7 +16,7 @@ use Streams\Core\Field\Types\Validation\ValidateArrayItems;
 class ArrayFieldType extends Field
 {
     public $rules = [
-        'array',
+        'nullable',
         'valid_items' => ValidateArrayItems::class,
     ];
 
