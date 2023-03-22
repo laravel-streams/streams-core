@@ -10,6 +10,7 @@ class UrlFieldType extends Field
 {
     public $rules = [
         'url',
+        'nullable',
     ];
 
     public function generator()
