@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Robbo\Presenter\PresentableInterface;
+use Anomaly\Streams\Platform\Stream\StreamModel;
 
 /**
  * Class EloquentModel
@@ -655,6 +656,10 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
             if ($translation = $this->getTranslation()) {
                 $attributes[$field] = $translation->$field;
             }
+        }
+
+       if ($this instanceof StreamModel) {
+            return $attributes;
         }
 
         return array_merge($attributes, $this->relationsToArray());
