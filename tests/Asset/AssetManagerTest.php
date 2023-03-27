@@ -3,6 +3,7 @@
 namespace Streams\Core\Tests\Asset;
 
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\View;
 use Streams\Core\Tests\CoreTestCase;
 use Streams\Core\Asset\AssetCollection;
 use Streams\Core\Support\Facades\Assets;
@@ -93,5 +94,16 @@ class AssetManagerTest extends CoreTestCase
     public function test_to_string_returns_empty_string()
     {
         $this->assertEquals('', (string) Assets::load('testing', 'testing.css'));
+    }
+
+    public function test_it_provides_directive_access()
+    {
+        View::parse('
+            @assets("styles", "input/style.css")
+                <style>body { background: red; }</style>
+            @endassets
+        ')->render();
+
+        $this->assertTrue(Assets::collection('styles')->has('input/style.css'));
     }
 }

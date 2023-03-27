@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\View;
 use Streams\Core\Support\Integrator;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\AliasLoader;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Translation\Translator;
 use Illuminate\Support\Facades\Request;
@@ -59,6 +60,7 @@ class StreamsServiceProvider extends ServiceProvider
     {
         $this->registerConfig();
 
+        $this->registerBladeDirectives();
         $this->registerComposerJson();
         $this->registerComposerLock();
         $this->registerFieldTypes();
@@ -321,5 +323,31 @@ class StreamsServiceProvider extends ServiceProvider
         $path = (string)base_path(Arr::get($composer, 'config.vendor-dir', 'vendor'));
 
         $this->app['vendor.path'] = $path;
+    }
+
+    protected function registerBladeDirectives(): void
+    {
+        $persisted = [];
+
+        Factory::macro('assetsStart', function ($expression) use (&$persisted) {
+            dd($expression);
+            $persisted = explode(',', $expression);
+        });
+
+        Factory::macro('assetsFinish', function ($content) use (&$persisted) {
+
+            $method = array_shift($persisted);
+
+            Assets::$method(...$persisted);
+        });
+
+
+        Blade::directive('assets', function ($expression) {
+            return "<?php app('view')->assetsStart('".$expression."'); ob_start(); ?>";
+        });
+    
+        Blade::directive('endassets', function ($expression) {
+            return "<?php app('view')->assetsFinish(ob_get_clean()); ?>";
+        });    
     }
 }
