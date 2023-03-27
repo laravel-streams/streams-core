@@ -125,7 +125,10 @@ class AssetManager
         array $parameters = [],
         bool $secure = null
     ): string {
-        return URL::to($this->resolve($asset), $parameters, $secure);
+        return URL::to(str_replace([
+            public_path(),
+            base_path(),
+        ], '', $this->resolve($asset)), $parameters, $secure);
     }
 
     public function tag(string $asset, array $attributes = []): string
