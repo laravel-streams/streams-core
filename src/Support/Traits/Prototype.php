@@ -42,25 +42,10 @@ trait Prototype
 
     public function __construct(array $attributes = [])
     {
-        // $this->bootIfNotBooted();
-        // $this->initializeTraits();
-
-        // $this->fill($attributes);
-
-        // $this->syncOriginal();
-        // @todo remove this
-        if ($this->__attributes) {
-            $attributes = array_replace_recursive($this->__attributes, $attributes);
-        }
-
         $this->syncPrototypePropertyAttributes();
         $this->syncOriginalPrototypeAttributes($attributes);
 
         $this->setPrototypeAttributes($attributes);
-
-        if (isset($this->__properties)) {
-            $this->loadPrototypeProperties($this->__properties);
-        }
     }
 
     public function __get($key)
@@ -281,7 +266,7 @@ trait Prototype
         }
 
         $type = $this->newProtocolPropertyFieldType($key);
-
+        
         $type->entry = $this;
 
         return $type->decorate($value);

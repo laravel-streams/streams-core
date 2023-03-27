@@ -55,12 +55,7 @@ class AssetManager
         return $collection;
     }
 
-    /**
-     * @param string $collection
-     * @param string|array $assets
-     * @return void
-     */
-    public function add(string $collection, $assets): void
+    public function add(string $collection, array|string $assets = null): void
     {
         $collection = $this->collection($collection);
 
