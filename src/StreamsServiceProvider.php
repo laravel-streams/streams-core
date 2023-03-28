@@ -87,6 +87,7 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public $bindings = [
         'Illuminate\Contracts\Debug\ExceptionHandler'                                    => 'Anomaly\Streams\Platform\Exception\ExceptionHandler',
+        'Illuminate\Database\Migrations\MigrationRepositoryInterface'                    => 'Anomaly\Streams\Platform\Database\Migration\MigrationRepository',
         'Anomaly\Streams\Platform\Entry\EntryModel'                                      => 'Anomaly\Streams\Platform\Entry\EntryModel',
         'Anomaly\Streams\Platform\Entry\Contract\EntryRepositoryInterface'               => 'Anomaly\Streams\Platform\Entry\EntryRepository',
         'Anomaly\Streams\Platform\Field\FieldModel'                                      => 'Anomaly\Streams\Platform\Field\FieldModel',
@@ -116,9 +117,11 @@ class StreamsServiceProvider extends ServiceProvider
      * @var array
      */
     public $singletons = [
+        'Illuminate\Database\Migrations\Migrator'                                            => 'Anomaly\Streams\Platform\Database\Migration\Migrator',
         'Anomaly\Streams\Platform\Routing\UrlGenerator'                                      => 'url',
         'Intervention\Image\ImageManager'                                                    => 'image',
         'League\Flysystem\MountManager'                                                      => 'League\Flysystem\MountManager',
+        'Illuminate\Database\Seeder'                                                         => 'Anomaly\Streams\Platform\Database\Seeder\Seeder',
         'Illuminate\Console\Scheduling\Schedule'                                             => 'Illuminate\Console\Scheduling\Schedule',
         'Anomaly\Streams\Platform\Application\Application'                                   => 'Anomaly\Streams\Platform\Application\Application',
         'Anomaly\Streams\Platform\Addon\AddonLoader'                                         => 'Anomaly\Streams\Platform\Addon\AddonLoader',
@@ -315,19 +318,6 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        define('IS_ADMIN', null);
-        
-        $this->publishes([
-            base_path('vendor/anomaly/streams-platform/migrations/core')
-            => base_path('database/migrations')
-        ], ['migrations']);
-
-        $this->publishes([
-            base_path('vendor/anomaly/streams-platform/migrations/application')
-            => base_path('database/migrations')
-        ], ['migrations']);
-
-
         if (Request::segment(1) !== 'admin' && env('INSTALLED') === 'admin') {
 
             /**
