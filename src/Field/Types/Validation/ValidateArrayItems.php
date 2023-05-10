@@ -14,7 +14,7 @@ class ValidateArrayItems implements InvokableRule
 
     public function __invoke($attribute, $value, $fail)
     {
-        $value = $this->field->cast($value)[0] ?? [];
+        $value = $this->field->cast($value);
 
         if (!is_array($value)) {
             return $fail('The :attribute has invalid items.');

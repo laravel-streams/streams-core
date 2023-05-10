@@ -99,6 +99,13 @@ class CriteriaTest extends CoreTestCase
         $this->assertEquals(0, $entries->count());
     }
 
+    public function test_it_finds_by_keyname()
+    {
+        $entry = Streams::entries('films')->find(6);
+
+        $this->assertEquals('Return of the Jedi', $entry->title);
+    }
+
     public function test_it_returns_the_first_result()
     {
         $entry = Streams::entries('films')->orderBy('episode_id', 'ASC')->first();

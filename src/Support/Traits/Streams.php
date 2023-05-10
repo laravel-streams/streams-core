@@ -56,7 +56,7 @@ trait Streams
      * @param  array  $options
      * @return bool
      */
-    public function save(array $options = [])
+    public function save(array $options = []): bool
     {
         $stream = $this->stream();
         $attributes = $this->getAttributes();
@@ -123,23 +123,9 @@ trait Streams
         return $this;
     }
 
-    public function stream()
-    {
-        if ($this->stream && $this->stream instanceof Stream) {
-            return $this->stream;
-        }
-
-        return $this->stream = StreamsFacade::make($this->stream);
-    }
-
     public function decorate(string $key): FieldDecorator
     {
         return $this->decoratePrototypeAttribute($key);
-    }
-
-    public function validator()
-    {
-        return $this->stream()->validator($this);
     }
 
     public function setRawAttributes(array $attributes, $sync = false)

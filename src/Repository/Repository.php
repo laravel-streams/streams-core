@@ -25,7 +25,6 @@ use Streams\Core\Repository\Contract\RepositoryInterface;
  */
 class Repository implements RepositoryInterface
 {
-
     use Macroable;
     use HasMemory;
     use FiresCallbacks;
@@ -43,12 +42,9 @@ class Repository implements RepositoryInterface
 
     public function find(string|int $id)
     {
-        $keyName = $this->stream->config('key_name', 'id');
-
         return $this
             ->newCriteria()
-            ->where($keyName, $id)
-            ->first();
+            ->find($id);
     }
 
     public function findAll(array $ids): Collection

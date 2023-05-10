@@ -9,6 +9,7 @@ use Streams\Core\Field\Decorator\NumberDecorator;
 class IntegerFieldType extends Field
 {
     public $rules = [
+        'nullable',
         'numeric',
         'integer',
     ];

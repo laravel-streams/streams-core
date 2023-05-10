@@ -46,9 +46,15 @@ class Criteria
         $this->stream = $stream;
     }
 
-    /**
-     * @return null|EntryInterface
-     */
+    public function find(string|int $id)
+    {
+        $keyName = $this->stream->config('key_name', 'id');
+
+        return $this
+            ->where($keyName, $id)
+            ->first();
+    }
+
     public function first()
     {
         if (!isset($this->parameters['limit'])) {
