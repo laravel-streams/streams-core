@@ -52,7 +52,7 @@ class Currency
             $suffix = $this->symbol($currency);
         }
 
-        return $prefix . number_format(floor(($number * 1000)) / 1000, $decimals, $point, $separator) . $suffix;
+        return $prefix . number_format(round($number, $decimals), $decimals, $point, $separator) . $suffix;
     }
 
     /**
