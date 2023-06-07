@@ -23,8 +23,7 @@
         "barryvdh/laravel-httpcache": "^0.3",
         "asm89/twig-cache-extension": "^1.4.0",
         "vstelmakh/url-highlight": "^2.3",
-        "ezyang/htmlpurifier": "~4.0",
-        "composer/composer": "^2.0"
+        "ezyang/htmlpurifier": "~4.0"
     },
     "autoload": {
         "psr-4": {
