@@ -106,7 +106,7 @@ class AssetManager
             return $this->style(null, [], file_get_contents($asset));
         }
 
-        return '';
+        return file_get_contents($asset);
     }
 
     public function contents(string $asset): string
@@ -147,7 +147,7 @@ class AssetManager
         array $attributes = [],
         string $content = null
     ): string {
-        
+
         if (!$content) {
             $attributes['src'] = $this->resolve($asset);
         }
@@ -184,6 +184,23 @@ class AssetManager
         }
 
         return '<link' . $this->html->attributes($attributes) . '/>';
+    }
+
+    public function svg(string $asset = null, array $attributes = [], $content = null): string
+    {
+        $output = $content ?: $this->inline($asset);
+
+        foreach ($attributes as $attribute => $value) {
+            
+            // Add or replace the attribute value.
+            if (preg_match("/{$attribute}=\".*?\"/", $output)) {
+                $output = preg_replace("/{$attribute}=\".*?\"/", "{$attribute}=\"{$value}\"", $output);
+            } else {
+                $output = str_replace('<svg', "<svg {$attribute}=\"{$value}\"", $output);
+            }
+        }
+
+        return $output;
     }
 
     /**
