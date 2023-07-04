@@ -35,11 +35,13 @@ class UrlGenerator extends \Illuminate\Routing\UrlGenerator
         parent::__construct(app('router')->getRoutes(), $request);
 
         $this->parser = app(Engine::class);
-        $this->forceRootUrl(config('app.url'));
-        
+        $forcedRoot = config('app.url');
+
         if (defined('LOCALE')) {
-            $this->forceRootUrl(config('app.url') . '/' . LOCALE);
+            $forcedRoot.='/'.LOCALE;
         }
+
+        $this->forceRootUrl($forcedRoot);
     }
 
     /**
