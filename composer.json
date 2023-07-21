@@ -10,7 +10,7 @@
     "require": {
         "laravel/framework": "^10.0",
         "laravel/helpers": "^1.5",
-        "laravel/scout": "^8.2",
+        "laravel/scout": "^10.0",
         "doctrine/dbal": "^3.4",
         "intervention/image": "^2.7.0",
         "laravelcollective/html": "^6.3",
