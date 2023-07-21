@@ -8,17 +8,6 @@ use Collective\Html\HtmlBuilder;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Filesystem\Filesystem;
 
-/**
- * The asset manager is a base named-asset pipeline utility:
- *
- * ```php
- * Assets::load('scripts', 'your/script.js');
- * ```
- * 
- * ```blade
- * {!! Assets::collection('scripts')->output() !!}
- * ```
- */
 class AssetManager
 {
 
@@ -184,6 +173,26 @@ class AssetManager
         }
 
         return '<link' . $this->html->attributes($attributes) . '/>';
+    }
+
+    public function img(string $src = null, array $attributes = []): string
+    {
+        $defaults = [];
+
+        $attributes = $attributes + $defaults;
+
+        if (!isset($attributes['src'])) {
+            $attributes['src'] = $this->resolve($src);
+        }
+
+        if (
+            isset($attributes['src'])
+            && $attributes['src'] === basename($attributes['src'])
+        ) {
+            $attributes['src'] = '/' . $attributes['src'];
+        }
+
+        return '<img' . $this->html->attributes($attributes) . '/>';
     }
 
     public function svg(string $asset = null, array $attributes = [], $content = null): string
