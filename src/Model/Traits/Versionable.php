@@ -120,7 +120,7 @@ trait Versionable
      */
     public function pushVersion()
     {
-        return dispatch(new SaveVersion($this));
+        return dispatch_sync(new SaveVersion($this));
     }
 
     /**

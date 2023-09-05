@@ -54,7 +54,7 @@ class AppendEntityStreamLang
     {
 
         if (!$files->exists($path = $this->addon->getPath("resources/lang/en/stream.php"))) {
-            $this->dispatchNow(new WriteAddonStreamLang($this->addon->getPath()));
+            dispatch_sync(new WriteAddonStreamLang($this->addon->getPath()));
         }
 
         $name = ucfirst(humanize($this->slug));

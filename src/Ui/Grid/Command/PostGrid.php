@@ -36,6 +36,6 @@ class PostGrid
      */
     public function handle()
     {
-        $this->dispatchNow(new SaveGrid($this->builder));
+        dispatch_sync(new SaveGrid($this->builder));
     }
 }

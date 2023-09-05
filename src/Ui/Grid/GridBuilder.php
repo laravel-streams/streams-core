@@ -79,10 +79,10 @@ class GridBuilder
     {
         $this->fire('ready', ['builder' => $this]);
 
-        $this->dispatchNow(new BuildGrid($this));
+        dispatch_sync(new BuildGrid($this));
 
         if (app('request')->isMethod('post')) {
-            $this->dispatchNow(new PostGrid($this));
+            dispatch_sync(new PostGrid($this));
         }
     }
 
@@ -94,9 +94,9 @@ class GridBuilder
         $this->build();
 
         if (!app('request')->isMethod('post')) {
-            $this->dispatchNow(new LoadGrid($this));
-            $this->dispatchNow(new AddAssets($this));
-            $this->dispatchNow(new MakeGrid($this));
+            dispatch_sync(new LoadGrid($this));
+            dispatch_sync(new AddAssets($this));
+            dispatch_sync(new MakeGrid($this));
         }
     }
 
@@ -109,7 +109,7 @@ class GridBuilder
     {
         $this->make();
 
-        $this->dispatchNow(new SetGridResponse($this));
+        dispatch_sync(new SetGridResponse($this));
 
         return $this->grid->getResponse();
     }

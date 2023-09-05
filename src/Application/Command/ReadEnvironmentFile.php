@@ -23,7 +23,7 @@ class ReadEnvironmentFile
     {
         $data = [];
 
-        $file = $this->dispatchNow(new GetEnvironmentFile());
+        $file = dispatch_sync(new GetEnvironmentFile());
 
         if (!file_exists($file)) {
             return $data;

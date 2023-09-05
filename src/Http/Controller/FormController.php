@@ -41,7 +41,7 @@ class FormController extends PublicController
         }
 
         /* @var FormCriteria $criteria */
-        $criteria = $this->dispatchNow(new GetFormCriteria($parameters));
+        $criteria = dispatch_sync(new GetFormCriteria($parameters));
 
         /* @var FormBuilder $builder */
         $builder = $criteria->build();

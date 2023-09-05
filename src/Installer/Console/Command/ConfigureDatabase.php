@@ -22,6 +22,6 @@ class ConfigureDatabase
     {
         config()->set('database', require base_path('config/database.php'));
 
-        $this->dispatchNow(new SetCoreConnection());
+        dispatch_sync(new SetCoreConnection());
     }
 }

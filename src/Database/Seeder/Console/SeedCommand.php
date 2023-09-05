@@ -21,7 +21,7 @@ class SeedCommand extends \Illuminate\Database\Console\Seeds\SeedCommand
      */
     public function handle()
     {
-        $this->dispatchNow(
+        dispatch_sync(
             new SetAddonSeederClass(
                 $this,
                 $this->input

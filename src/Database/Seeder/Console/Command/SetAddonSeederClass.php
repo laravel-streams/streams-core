@@ -49,7 +49,7 @@ class SetAddonSeederClass
             return;
         }
 
-        if (!$addon = $this->dispatch(new GetAddon($identifier))) {
+        if (!$addon = dispatch_sync(new GetAddon($identifier))) {
             throw new \Exception("[$identifier] addon could not be found.");
         }
 

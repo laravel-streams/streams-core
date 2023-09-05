@@ -27,7 +27,7 @@ class ExtensionManager
      */
     public function install(Extension $module, $seed = false)
     {
-        return $this->dispatchNow(new InstallExtension($module, $seed));
+        return dispatch_sync(new InstallExtension($module, $seed));
     }
 
     /**
@@ -39,7 +39,7 @@ class ExtensionManager
      */
     public function migrate(Extension $module, $seed = false)
     {
-        return $this->dispatchNow(new MigrateExtension($module, $seed));
+        return dispatch_sync(new MigrateExtension($module, $seed));
     }
 
     /**
@@ -50,7 +50,7 @@ class ExtensionManager
      */
     public function uninstall(Extension $module)
     {
-        return $this->dispatchNow(new UninstallExtension($module));
+        return dispatch_sync(new UninstallExtension($module));
     }
 
     /**
@@ -61,7 +61,7 @@ class ExtensionManager
      */
     public function enable(Extension $extension)
     {
-        $this->dispatchNow(new EnableExtension($extension));
+        dispatch_sync(new EnableExtension($extension));
     }
 
     /**
@@ -71,7 +71,7 @@ class ExtensionManager
      */
     public function disable(Extension $extension)
     {
-        $this->dispatchNow(new DisableExtension($extension));
+        dispatch_sync(new DisableExtension($extension));
     }
 
 }
