@@ -24,7 +24,7 @@ class Store extends \Symfony\Component\HttpKernel\HttpCache\Store
      *
      * @return string A key for the given Request
      */
-    protected function generateCacheKey(Request $request)
+    protected function generateCacheKey(Request $request) : string
     {
 
         /**
