@@ -322,17 +322,6 @@ class StreamsServiceProvider extends ServiceProvider
         if (!defined('IS_ADMIN')) {
             define('IS_ADMIN', null);
         }
-        
-        $this->publishes([
-            base_path('vendor/anomaly/streams-platform/migrations/core')
-            => base_path('database/migrations')
-        ], ['migrations']);
-
-        $this->publishes([
-            base_path('vendor/anomaly/streams-platform/migrations/application')
-            => base_path('database/migrations')
-        ], ['migrations']);
-
 
         if (Request::segment(1) !== 'admin' && env('INSTALLED') === 'admin') {
 
