@@ -19,11 +19,11 @@ class GenerateEntryModelClassmap
      * @param ClassMapGenerator $generator
      * @param Filesystem $files
      */
-    public function handle(ClassMapGenerator $generator, Filesystem $files)
+    public function handle(Filesystem $files)
     {
         foreach ($files->directories(base_path('storage/streams')) as $directory) {
             if (is_dir($models = $directory . '/models')) {
-                $generator->dump($files->directories($models), $models . '/classmap.php');
+                ClassMapGenerator::dump($files->directories($models), $models . '/classmap.php');
             }
         }
     }
