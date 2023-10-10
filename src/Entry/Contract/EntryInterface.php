@@ -7,13 +7,7 @@ use Streams\Core\Field\FieldDecorator;
 
 interface EntryInterface
 {
-
-    /**
-     * Return the Stream definition.
-     *
-     * @var Stream
-     */
-    public function stream();
+    public function stream(): Stream;
 
     /**
      * Return the entry attributes.

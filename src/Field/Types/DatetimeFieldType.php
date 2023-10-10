@@ -20,6 +20,15 @@ class DatetimeFieldType extends Field
         'format' => 'Y-m-d H:i:s',
     ];
 
+    public function default($value)
+    {
+        if ($value === null) {
+            return null;
+        }
+
+        return $this->toCarbon($value);
+    }
+
     public function cast($value): \Datetime
     {
         return $this->toCarbon($value);

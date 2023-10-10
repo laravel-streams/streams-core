@@ -8,17 +8,6 @@ use Collective\Html\HtmlBuilder;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Filesystem\Filesystem;
 
-/**
- * The asset manager is a base named-asset pipeline utility:
- *
- * ```php
- * Assets::load('scripts', 'your/script.js');
- * ```
- * 
- * ```blade
- * {!! Assets::collection('scripts')->output() !!}
- * ```
- */
 class AssetManager
 {
 
@@ -106,7 +95,7 @@ class AssetManager
             return $this->style(null, [], file_get_contents($asset));
         }
 
-        return '';
+        return file_get_contents($asset);
     }
 
     public function contents(string $asset): string
@@ -147,7 +136,7 @@ class AssetManager
         array $attributes = [],
         string $content = null
     ): string {
-        
+
         if (!$content) {
             $attributes['src'] = $this->resolve($asset);
         }
@@ -184,6 +173,43 @@ class AssetManager
         }
 
         return '<link' . $this->html->attributes($attributes) . '/>';
+    }
+
+    public function img(string $src = null, array $attributes = []): string
+    {
+        $defaults = [];
+
+        $attributes = $attributes + $defaults;
+
+        if (!isset($attributes['src'])) {
+            $attributes['src'] = $this->resolve($src);
+        }
+
+        if (
+            isset($attributes['src'])
+            && $attributes['src'] === basename($attributes['src'])
+        ) {
+            $attributes['src'] = '/' . $attributes['src'];
+        }
+
+        return '<img' . $this->html->attributes($attributes) . '/>';
+    }
+
+    public function svg(string $asset = null, array $attributes = [], $content = null): string
+    {
+        $output = $content ?: $this->inline($asset);
+
+        foreach ($attributes as $attribute => $value) {
+            
+            // Add or replace the attribute value.
+            if (preg_match("/{$attribute}=\".*?\"/", $output)) {
+                $output = preg_replace("/{$attribute}=\".*?\"/", "{$attribute}=\"{$value}\"", $output);
+            } else {
+                $output = str_replace('<svg', "<svg {$attribute}=\"{$value}\"", $output);
+            }
+        }
+
+        return $output;
     }
 
     /**

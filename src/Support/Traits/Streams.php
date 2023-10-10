@@ -3,9 +3,9 @@
 namespace Streams\Core\Support\Traits;
 
 use Illuminate\Support\Arr;
-use Streams\Core\Stream\Stream;
-use Illuminate\Support\Traits\ForwardsCalls;
 use Streams\Core\Field\FieldDecorator;
+use Illuminate\Support\Traits\ForwardsCalls;
+use Streams\Core\Stream\Stream;
 use Streams\Core\Support\Facades\Streams as StreamsFacade;
 
 /**
@@ -39,6 +39,15 @@ trait Streams
         $this->attributes = $this->getPrototypeAttributes();
     }
 
+    function stream(): Stream
+    {
+        if (is_object($this->stream)) {
+            return $this->stream;
+        }
+        
+        return StreamsFacade::make($this->stream);
+    }
+
     public function fill(array $attributes)
     {
         $this->loadPrototypeAttributes($attributes);
@@ -60,9 +69,9 @@ trait Streams
     {
         $stream = $this->stream();
         $attributes = $this->getAttributes();
-        
+
         foreach ($stream->fields as $field) {
-            
+
             if (array_key_exists($field->handle, $attributes)) {
                 $attributes[$field->handle] = $field->modify($attributes[$field->handle]);
             }
