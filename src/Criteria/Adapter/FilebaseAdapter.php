@@ -30,14 +30,18 @@ class FilebaseAdapter extends AbstractAdapter
 
         $path = ltrim($stream->config('source.path', Config::get('streams.core.data_path') . '/' . $stream->id), '/\\');
         
-        $this->query = new Database([
-            'pretty' => true,
-            'format' => $format,
-            'safe_filename' => true,
-            'dir' => base_path($path),
-            'cache' => $stream->config('cache', false),
-            'cache_expires' => $stream->config('ttl', 1800),
-        ]);
+        try {
+            $this->query = new Database([
+                'pretty' => true,
+                'format' => $format,
+                'safe_filename' => true,
+                'dir' => base_path($path),
+                'cache' => $stream->config('cache', false),
+                'cache_expires' => $stream->config('ttl', 1800),
+            ]);
+        } catch (\Exception $e) {
+            dd($stream->id . ' - ' . $e->getMessage());
+        }
     }
 
     public function orderBy($field, $direction = 'asc'): static

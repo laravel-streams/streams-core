@@ -178,7 +178,7 @@ class AssetManager
 
         if (
             isset($attributes['href'])
-            && $attributes['href'] === basename($attributes['href'])
+            && !filter_var($attributes['href'], FILTER_VALIDATE_URL)
         ) {
             $attributes['href'] = '/' . $attributes['href'];
         }
