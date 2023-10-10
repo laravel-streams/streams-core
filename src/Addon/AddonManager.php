@@ -52,4 +52,11 @@ class AddonManager
     {
         return $this->collection;
     }
+
+    public function providing($service)
+    {
+        return $this->collection->filter(function ($addon) use ($service) {
+            return $addon->provides($service);
+        });
+    }
 }
