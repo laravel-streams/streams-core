@@ -42,7 +42,7 @@ class StreamBuilder extends Workflow
         $callbackData->put('attributes', $attributes);
         $callbackData->put('stream', $stream);
     }
-    
+
     public function load(Collection $callbackData)
     {
         $attributes = $callbackData->get('attributes');

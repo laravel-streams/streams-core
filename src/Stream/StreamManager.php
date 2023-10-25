@@ -9,6 +9,7 @@ use Symfony\Component\Yaml\Yaml;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Streams\Core\Criteria\Criteria;
+use Illuminate\Support\Facades\File;
 use Streams\Core\Entry\EntryFactory;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Config;
@@ -18,6 +19,7 @@ use Streams\Core\Support\Traits\HasMemory;
 use Streams\Core\Support\Traits\FiresCallbacks;
 use Streams\Core\Repository\Contract\RepositoryInterface;
 use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Support\Facades\Log;
 
 class StreamManager
 {
@@ -100,13 +102,34 @@ class StreamManager
         return $stream;
     }
 
+    public function loadDirectory(string $path): void
+    {
+        $directory = Str::startsWith($path, base_path()) ? $path : base_path($path);
+
+        foreach (File::files($directory) as $file) {
+            $this->load($file->getPathname());
+        }
+    }
+
     public function load(string $file): Stream
     {
-        $stream = json_decode(file_get_contents($file), true);
+        try {
+            $stream = json_decode(file_get_contents($file), true);
+        } catch (\Exception $e) {
+            throw new \Exception("Stream file [{$file}] failed to load.");
+        }
 
-        $id = basename($file, '.json');
+        /**
+         * @deprecated version 2.0-dev
+         * @todo remove this thing and update docs.
+         */
+        if ($handle = Arr::pull($stream, 'handle')) {
+            $stream['id'] = $handle;
+        }
 
-        Arr::set($stream, 'id', Arr::get($stream, 'id', $id));
+        if (!isset($stream['id'])) {
+            $stream['id'] = basename($file, '.json');
+        }
 
         return $this->register($stream);
     }
