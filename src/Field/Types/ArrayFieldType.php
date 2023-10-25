@@ -109,7 +109,7 @@ class ArrayFieldType extends Field
                 continue;
             }
 
-            // @todo eager loading
+            // @todo eager loading/array of IDs
             if (!$meta && $stream = $this->config('related')) {
 
                 $value[$key] = Streams::repository($stream)->find($item);
