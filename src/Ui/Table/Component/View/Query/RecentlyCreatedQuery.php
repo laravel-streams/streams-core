@@ -1,8 +1,11 @@
-<?php namespace Anomaly\Streams\Platform\Ui\Table\Component\View\Query;
+<?php
 
-use Anomaly\Streams\Platform\Ui\Table\Component\View\Contract\ViewQueryInterface;
-use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+namespace Anomaly\Streams\Platform\Ui\Table\Component\View\Query;
+
+use Illuminate\Support\Facades\Request;
 use Illuminate\Database\Eloquent\Builder;
+use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Anomaly\Streams\Platform\Ui\Table\Component\View\Contract\ViewQueryInterface;
 
 /**
  * Class ViewAllQueryQuery
@@ -22,6 +25,8 @@ class RecentlyCreatedQuery implements ViewQueryInterface
      */
     public function handle(TableBuilder $builder, Builder $query)
     {
-        $query->orderBy('created_at', 'desc');
+        if (Request::get('order_by') !== 'created_at') {
+            $query->orderBy('created_at', 'desc');
+        }
     }
 }
