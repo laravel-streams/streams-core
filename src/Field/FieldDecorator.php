@@ -26,6 +26,11 @@ class FieldDecorator
         return $this->field;
     }
 
+    public function getValue()
+    {
+        return $this->value;
+    }
+
     public function __toString()
     {
         return (string) $this->value;

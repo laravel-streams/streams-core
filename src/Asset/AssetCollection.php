@@ -30,7 +30,7 @@ class AssetCollection extends Collection
 
             $this->loaded[$name] = $name;
 
-            $this->put($asset, $asset);
+            $this->put(ltrim($asset, '/'), $asset);
         }
 
         return $this;

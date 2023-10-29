@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Streams\Core\Tests\CoreTestCase;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Field\Types\DateFieldType;
-use Streams\Core\Field\Decorator\DateDecorator;
+use Streams\Core\Field\Decorator\DatetimeDecorator;
 
 class DateFieldTypeTest extends CoreTestCase
 {
@@ -105,7 +105,7 @@ class DateFieldTypeTest extends CoreTestCase
             'stream' => Streams::make('films')
         ]);
 
-        $this->assertInstanceOf(DateDecorator::class, $field->decorate('2021-01-01'));
+        $this->assertInstanceOf(DatetimeDecorator::class, $field->decorate('2021-01-01'));
     }
 
     public function test_it_generates_date_values()

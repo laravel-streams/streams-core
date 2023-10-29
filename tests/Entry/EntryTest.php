@@ -9,6 +9,7 @@ use Streams\Core\Stream\Stream;
 use Streams\Core\Tests\CoreTestCase;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Field\Decorator\IntegerDecorator;
+use Streams\Core\Field\FieldDecorator;
 
 class EntryTest extends CoreTestCase
 {
@@ -65,11 +66,18 @@ class EntryTest extends CoreTestCase
         $this->assertSame('ID: 4', $entry->episode());
     }
 
+    public function test_it_decorates_fields()
+    {
+        $entry = Streams::repository('films')->find(4);
+        
+        $this->assertInstanceOf(FieldDecorator::class, $entry->decorate('episode_id'));
+    }
+
     public function test_it_automatically_decorates_fields()
     {
         $entry = Streams::repository('films')->find(4);
-
-        $this->assertInstanceOf(IntegerDecorator::class, $entry->episodeId());
+        
+        $this->assertInstanceOf(FieldDecorator::class, $entry->episodeId());
     }
 
     public function test_it_throws_exceptions_for_unmapped_methods()

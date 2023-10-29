@@ -3,11 +3,22 @@
 namespace Streams\Core\Field\Types;
 
 use Carbon\Carbon;
+use Streams\Core\Field\Field;
 use Streams\Core\Field\Schema\TimeSchema;
 use Streams\Core\Field\Decorator\DatetimeDecorator;
 
 class TimeFieldType extends DatetimeFieldType
 {
+    #[Field([
+        'type' => 'object',
+        'config' => [
+            'wrapper' => 'array',
+        ],
+    ])]
+    public array $config = [
+        'format' => 'H:i:s',
+    ];
+
     public function modify($value): string
     {
         $format = $this->config('format', 'H:i:s');

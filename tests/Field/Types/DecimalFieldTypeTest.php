@@ -5,7 +5,7 @@ namespace Streams\Core\Tests\Field\Types;
 use Streams\Core\Tests\CoreTestCase;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Field\Types\DecimalFieldType;
-use Streams\Core\Field\Decorator\DecimalDecorator;
+use Streams\Core\Field\Decorator\NumberDecorator;
 
 class DecimalFieldTypeTest extends CoreTestCase
 {
@@ -54,7 +54,7 @@ class DecimalFieldTypeTest extends CoreTestCase
             'stream' => Streams::make('films')
         ]);
 
-        $this->assertInstanceOf(DecimalDecorator::class, $field->decorate(1.2));
+        $this->assertInstanceOf(NumberDecorator::class, $field->decorate(1.2));
     }
 
     public function test_it_generates_decimal_values()

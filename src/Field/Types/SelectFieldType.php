@@ -10,7 +10,7 @@ use Streams\Core\Field\Decorator\SelectDecorator;
 class SelectFieldType extends Field
 {
     public $rules = [
-        'icon' => 'nullable',
+        'nullable',
     ];
 
     public function options(): array

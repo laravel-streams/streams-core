@@ -3,9 +3,9 @@
 namespace Streams\Core\Tests\Field\Types;
 
 use Streams\Core\Tests\CoreTestCase;
+use Streams\Core\Field\FieldDecorator;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Field\Types\ImageFieldType;
-use Streams\Core\Field\Decorator\ImageDecorator;
 
 class ImageFieldTypeTest extends CoreTestCase
 {
@@ -15,7 +15,7 @@ class ImageFieldTypeTest extends CoreTestCase
             'stream' => Streams::make('films')
         ]);
 
-        $this->assertInstanceOf(ImageDecorator::class, $field->decorate(''));
+        $this->assertInstanceOf(FieldDecorator::class, $field->decorate(''));
     }
 
     public function test_it_generates_image_paths()

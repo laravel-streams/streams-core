@@ -68,7 +68,7 @@ class ArraySchemaTest extends CoreTestCase
         ]);
 
         $this->assertSame(
-            '{"title":"Title","type":"array","items":{"anyOf":[{"type":"string"},{"type":"integer"}]}}',
+            '{"title":"Title","type":"array","items":{"anyOf":[{"type":"string"},{"type":"integer"}]},"nullable":true}',
             $field->schema()->property()->toJson()
         );
     }

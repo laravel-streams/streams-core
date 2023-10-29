@@ -3,7 +3,6 @@
 namespace Streams\Core\Field\Types;
 
 use Illuminate\Support\Str;
-use Streams\Core\Field\Decorator\ImageDecorator;
 
 class ImageFieldType extends FileFieldType
 {
@@ -17,10 +16,5 @@ class ImageFieldType extends FileFieldType
 
             return "$directory/$file.$extension";
         };
-    }
-
-    public function getDecoratorName()
-    {
-        return ImageDecorator::class;
     }
 }

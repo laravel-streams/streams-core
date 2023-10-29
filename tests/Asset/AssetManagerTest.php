@@ -30,7 +30,7 @@ class AssetManagerTest extends CoreTestCase
     {
         Assets::load('scripts', 'theme.js');
 
-        $this->assertEquals(['/theme.js' => '/theme.js'], Assets::collection('scripts')->all());
+        $this->assertEquals(['theme.js' => '/theme.js'], Assets::collection('scripts')->all());
     }
 
     public function test_it_loads_registered_assets()
@@ -62,6 +62,10 @@ class AssetManagerTest extends CoreTestCase
             '<script>' . $content . '</script>',
             Assets::inline('vendor/testing/js/example.js')
         );
+
+        $content = file_get_contents(public_path('vendor/testing/img/example.svg'));
+
+        $this->assertEquals($content, Assets::inline('vendor/testing/img/example.svg'));
     }
 
     public function test_it_returns_asset_contents()
@@ -88,6 +92,22 @@ class AssetManagerTest extends CoreTestCase
             '<script src="/vendor/testing/js/example.js"></script>',
             Assets::tag('vendor/testing/js/example.js')
         );
+    }
+
+    public function test_it_returns_img_tags()
+    {
+        $this->assertEquals(
+            '<img alt="Example" src="/vendor/testing/img/example.jpg"/>',
+            Assets::img('vendor/testing/img/example.jpg', ['alt' => 'Example'])
+        );
+    }
+
+    public function test_it_returns_svg_tags()
+    {
+        $this->assertTrue(Str::containsAll(
+            Assets::svg('vendor/testing/img/example.svg', ['id' => 'ExampleSVG', 'class' => 'example-svg']),
+            ['<svg ', 'id="ExampleSVG"', 'class="example-svg"']
+        ));
     }
 
     public function test_to_string_returns_empty_string()

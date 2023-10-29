@@ -67,7 +67,7 @@ class SelectFieldTypeTest extends CoreTestCase
             ],
         ]);
 
-        $this->assertSame(['in:foo,bar'], $field->rules());
+        $this->assertSame(['in:foo,bar', 'nullable'], $field->rules());
     }
 
     public function test_it_generates_selectable_values()

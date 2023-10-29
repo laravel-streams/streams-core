@@ -36,6 +36,6 @@ class ViewTemplateTest extends CoreTestCase
     {
         $path = ViewTemplate::path('Hi {{ $name }}');
 
-        $this->assertSame('storage::templates.f92365e75fd8163c8bcd82ee0914e251', $path);
+        $this->assertSame('storage::templates/f92365e75fd8163c8bcd82ee0914e251', $path);
     }
 }

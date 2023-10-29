@@ -5,6 +5,7 @@ namespace Streams\Core\Support\Traits;
 use Illuminate\Support\Arr;
 use Streams\Core\Field\FieldDecorator;
 use Illuminate\Support\Traits\ForwardsCalls;
+use Illuminate\Validation\Validator;
 use Streams\Core\Stream\Stream;
 use Streams\Core\Support\Facades\Streams as StreamsFacade;
 
@@ -48,6 +49,11 @@ trait Streams
         return StreamsFacade::make($this->stream);
     }
 
+    public function validator(): Validator
+    {
+        return $this->stream()->validator($this);
+    }
+
     public function fill(array $attributes)
     {
         $this->loadPrototypeAttributes($attributes);
@@ -57,14 +63,6 @@ trait Streams
         return;
     }
 
-    /**
-     * Save the model to the database.
-     * 
-     * @todo Improve this garbage. 
-     *
-     * @param  array  $options
-     * @return bool
-     */
     public function save(array $options = []): bool
     {
         $stream = $this->stream();

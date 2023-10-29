@@ -7,6 +7,11 @@ use Streams\Core\Support\Facades\Addons;
 
 class AddonTest extends CoreTestCase
 {
+    public function test_it_returns_provisions()
+    {
+        $this->assertEquals(false, Addons::make('streams/testing')->provides('example.*'));
+    }
+
     public function test_it_is_arrayable()
     {
         $this->assertEquals([

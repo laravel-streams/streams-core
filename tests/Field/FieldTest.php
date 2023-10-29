@@ -8,7 +8,7 @@ use Streams\Core\Field\FieldSchema;
 use Streams\Core\Tests\CoreTestCase;
 use Streams\Core\Field\FieldDecorator;
 use Streams\Core\Support\Facades\Streams;
-use Streams\Core\Field\Decorator\IntegerDecorator;
+use Streams\Core\Field\Decorator\NumberDecorator;
 
 class FieldTest extends CoreTestCase
 {
@@ -95,7 +95,7 @@ class FieldTest extends CoreTestCase
     {
         $field = Streams::make('films')->fields->get('episode_id');
 
-        $this->assertInstanceOf(IntegerDecorator::class, $field->decorate(8));
+        $this->assertInstanceOf(NumberDecorator::class, $field->decorate(8));
 
         $field = new Field();
 
@@ -117,7 +117,7 @@ class FieldTest extends CoreTestCase
     {
         $field = Streams::make('films')->fields->get('episode_id');
 
-        $this->assertSame(['numeric', 'integer', 'required', 'unique'], $field->rules());
+        $this->assertSame(['nullable', 'numeric', 'integer', 'required', 'unique'], $field->rules());
     }
 
     public function test_it_detects_rules()

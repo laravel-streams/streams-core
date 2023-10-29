@@ -2,7 +2,6 @@
 
 namespace Streams\Core\Tests\Support;
 
-use Tests\TestCase;
 use Illuminate\Support\Arr;
 use Illuminate\Console\Command;
 use Streams\Core\Stream\Stream;
@@ -12,7 +11,6 @@ use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Gate;
 use Streams\Core\Support\Integrator;
 use Streams\Core\Tests\CoreTestCase;
-use Streams\Core\View\ViewOverrides;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Artisan;
@@ -26,7 +24,6 @@ use Illuminate\Routing\Route as RouteInstance;
 
 class IntegratorTest extends CoreTestCase
 {
-
     public function test_it_integrates_arrays_of_services()
     {
         Integrator::integrate([
@@ -58,9 +55,9 @@ class IntegratorTest extends CoreTestCase
             'styles.css',
         ]);
 
-        Assets::load('styles', 'styles.css');
+        Assets::load('styles', '/styles.css');
 
-        $this->assertEquals(['styles.css' => 'styles.css'], Assets::collection('styles')->all());
+        $this->assertEquals(['styles.css' => '/styles.css'], Assets::collection('styles')->all());
     }
 
     public function test_it_registers_aliases()

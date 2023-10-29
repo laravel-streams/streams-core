@@ -24,4 +24,9 @@ class AddonManagerTest extends CoreTestCase
 
         $this->assertInstanceOf(Collection::class, $addons);
     }
+
+    public function test_it_returns_provisioning_addons()
+    {
+        $this->assertTrue(Addons::providing('testing.*')->isEmpty());
+    }
 }

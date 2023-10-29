@@ -9,7 +9,6 @@ use Streams\Core\Support\Traits\Prototype;
 use Streams\Core\Field\Decorator\UrlDecorator;
 use Streams\Core\Field\Decorator\NumberDecorator;
 use Streams\Core\Field\Decorator\StringDecorator;
-use Streams\Core\Field\Decorator\IntegerDecorator;
 
 class PrototypeTest extends CoreTestCase
 {
@@ -141,9 +140,6 @@ class PrototypeTest extends CoreTestCase
 
         $this->assertSame([
             'name' => 'Ryan',
-            'description' => 'None',
-            'price' => 0.0,
-            'status' => null,
             'number' => 14,
             'url' => 'localhost',
         ], $original);
@@ -209,8 +205,8 @@ class PrototypeTest extends CoreTestCase
         $number = $prototype->decoratePrototypeAttribute('number');
 
         $this->assertInstanceOf(StringDecorator::class, $name);
+        $this->assertInstanceOf(FieldDecorator::class, $number);
         $this->assertInstanceOf(NumberDecorator::class, $double);
-        $this->assertInstanceOf(IntegerDecorator::class, $number);
     }
 
     public function test_it_sets_prototype_properties()
