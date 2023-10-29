@@ -63,18 +63,11 @@ class AssetManager
         return $this;
     }
 
-    /**
-     * Register assets by name.
-     *
-     * @param string $name
-     * @param string|array|null $assets
-     * @return $this
-     */
     public function register(string $name, $assets = null)
     {
         $assets = $assets ?: $name;
 
-        $this->registry->register($name, $assets);
+        $this->registry->register(ltrim($name, '/'), $assets);
 
         return $this;
     }
@@ -141,13 +134,6 @@ class AssetManager
             $attributes['src'] = $this->resolve($asset);
         }
 
-        if (
-            isset($attributes['src'])
-            && $attributes['src'] === basename($attributes['src'])
-        ) {
-            $attributes['src'] = '/' . $attributes['src'];
-        }
-
         return '<script' . $this->html->attributes($attributes) . '>' . $content . '</script>';
     }
 
@@ -165,13 +151,6 @@ class AssetManager
             $attributes['href'] = $this->resolve($asset);
         }
 
-        if (
-            isset($attributes['href'])
-            && !filter_var($attributes['href'], FILTER_VALIDATE_URL)
-        ) {
-            $attributes['href'] = '/' . $attributes['href'];
-        }
-
         return '<link' . $this->html->attributes($attributes) . '/>';
     }
 
@@ -185,13 +164,6 @@ class AssetManager
             $attributes['src'] = $this->resolve($src);
         }
 
-        if (
-            isset($attributes['src'])
-            && $attributes['src'] === basename($attributes['src'])
-        ) {
-            $attributes['src'] = '/' . $attributes['src'];
-        }
-
         return '<img' . $this->html->attributes($attributes) . '/>';
     }
 
@@ -200,7 +172,7 @@ class AssetManager
         $output = $content ?: $this->inline($asset);
 
         foreach ($attributes as $attribute => $value) {
-            
+
             // Add or replace the attribute value.
             if (preg_match("/{$attribute}=\".*?\"/", $output)) {
                 $output = preg_replace("/{$attribute}=\".*?\"/", "{$attribute}=\"{$value}\"", $output);
@@ -246,7 +218,13 @@ class AssetManager
 
     public function realPath(string $asset)
     {
-        return $this->paths->real($asset);
+        $real = $this->paths->real($asset);
+
+        if (!Str::startsWith($real, [base_path(), 'http://', 'https://'])) {
+            $real = '/' . ltrim($real, '/');
+        }
+
+        return $real;
     }
 
     public function __toString(): string

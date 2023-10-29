@@ -164,7 +164,7 @@ abstract class AbstractAdapter implements AdapterInterface
                 continue;
             }
 
-            $attributes[$field->handle] = $field->default($default);
+            $attributes[$field->handle] = $default;
         }
     }
 }

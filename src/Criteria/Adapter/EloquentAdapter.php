@@ -5,8 +5,6 @@ namespace Streams\Core\Criteria\Adapter;
 use Illuminate\Support\Str;
 use Streams\Core\Stream\Stream;
 use Illuminate\Support\Collection;
-use Illuminate\Database\Query\Builder;
-use Illuminate\Database\Eloquent\Model;
 use Streams\Core\Entry\Contract\EntryInterface;
 
 class EloquentAdapter extends AbstractAdapter

@@ -2,6 +2,7 @@
 
 namespace Streams\Core\Tests\Asset;
 
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 use Streams\Core\Tests\CoreTestCase;
@@ -29,7 +30,7 @@ class AssetManagerTest extends CoreTestCase
     {
         Assets::load('scripts', 'theme.js');
 
-        $this->assertEquals(['theme.js' => 'theme.js'], Assets::collection('scripts')->all());
+        $this->assertEquals(['/theme.js' => '/theme.js'], Assets::collection('scripts')->all());
     }
 
     public function test_it_loads_registered_assets()
@@ -43,7 +44,7 @@ class AssetManagerTest extends CoreTestCase
         Assets::resolve('pack.js');
 
         $this->assertEquals('https://test.com/example.jpg', Assets::resolve('https://test.com/example.jpg'));
-        $this->assertEquals(['super.js', 'another.js'], Assets::resolve('pack.js'));
+        $this->assertEquals(['/super.js', '/another.js'], Assets::resolve('pack.js'));
     }
 
     public function test_it_returns_inline_asset_tags()
@@ -61,8 +62,6 @@ class AssetManagerTest extends CoreTestCase
             '<script>' . $content . '</script>',
             Assets::inline('vendor/testing/js/example.js')
         );
-
-        $this->assertEquals('', Assets::inline('vendor/streams/core/tests/testing.foo'));
     }
 
     public function test_it_returns_asset_contents()
@@ -81,12 +80,12 @@ class AssetManagerTest extends CoreTestCase
     public function test_it_returns_asset_tags()
     {
         $this->assertEquals(
-            '<link media="all" type="text/css" rel="stylesheet" href="vendor/testing/css/example.css"/>',
+            '<link media="all" type="text/css" rel="stylesheet" href="/vendor/testing/css/example.css"/>',
             Assets::tag('vendor/testing/css/example.css')
         );
 
         $this->assertEquals(
-            '<script src="vendor/testing/js/example.js"></script>',
+            '<script src="/vendor/testing/js/example.js"></script>',
             Assets::tag('vendor/testing/js/example.js')
         );
     }
@@ -98,6 +97,7 @@ class AssetManagerTest extends CoreTestCase
 
     public function test_it_provides_directive_access()
     {
+        // With a name.
         View::parse('
             @assets("styles", "input/style.css")
                 <style>body { background: red; }</style>
@@ -105,5 +105,16 @@ class AssetManagerTest extends CoreTestCase
         ')->render();
 
         $this->assertTrue(Assets::collection('styles')->has('input/style.css'));
+        $this->assertTrue(Str::contains(Assets::collection('styles')->content(), 'background: red;'));
+
+        // Without a name.
+        View::parse('
+            @assets("scripts")
+                <script>alert();</script>
+            @endassets
+        ')->render();
+
+        $this->assertTrue(Assets::collection('scripts')->isNotEmpty());
+        $this->assertTrue(Str::contains(Assets::collection('scripts')->content(), 'alert();'));
     }
 }

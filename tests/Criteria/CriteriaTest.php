@@ -338,10 +338,12 @@ class CriteriaTest extends CoreTestCase
 
     protected function filmData()
     {
+        $datetime = now();
+
         return [
             'title' => 'Star Wars: The Last Jedi',
-            'created' => now(),
-            'edited' => now(),
+            'created' => $datetime,
+            'edited' => $datetime,
             'director' => 'Rian Johnson',
             'producer' => 'Kathleen Kennedy, Ram Bergman, J. J. Abrams',
             'release_date' => '2017-12-15',
@@ -349,7 +351,7 @@ class CriteriaTest extends CoreTestCase
 
 Only General Leia Organa\'s band of RESISTANCE fighters stand against the rising tyranny, certain that Jedi Master Luke Skywalker will return and restore a spark of hope to the fight.
 
-"But the Resistance has been exposed. As the First Order speeds toward the rebel base, the brave heroes mount a desperate escape....',
+But the Resistance has been exposed. As the First Order speeds toward the rebel base, the brave heroes mount a desperate escape....',
             'characters' => [1, 5],
             'starships' => [9],
             'vehicles' => [],

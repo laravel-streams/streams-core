@@ -44,6 +44,6 @@ class ViewTemplate
             file_put_contents($storage . '.' . $extension, $template);
         }
 
-        return 'storage::' . str_replace('/', '.', $root);
+        return 'storage::' . $root;
     }
 }

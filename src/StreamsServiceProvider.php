@@ -25,6 +25,7 @@ use Streams\Core\Application\Application;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Support\Facades\Overrides;
 use Streams\Core\Support\Facades\Applications;
+use Streams\Core\View\ViewTemplate;
 
 class StreamsServiceProvider extends ServiceProvider
 {
@@ -86,7 +87,7 @@ class StreamsServiceProvider extends ServiceProvider
 
         $this->bootApplication();
 
-        $this->addAssets();
+        $this->addAssetPaths();
         $this->registerAddons();
         $this->addViewNamespaces();
         $this->addImageNamespaces();
@@ -252,11 +253,12 @@ class StreamsServiceProvider extends ServiceProvider
         }, $addons);
     }
 
-    protected function addAssets(): void
+    protected function addAssetPaths(): void
     {
         Assets::addPath('public', public_path());
         Assets::addPath('core', dirname(__DIR__));
         Assets::addPath('resources', resource_path());
+        Assets::addPath('storage', storage_path('streams/' . Applications::active()->id));
 
         Assets::register('core::js/core.js');
     }
@@ -330,15 +332,20 @@ class StreamsServiceProvider extends ServiceProvider
         $persisted = [];
 
         Factory::macro('assetsStart', function ($expression) use (&$persisted) {
-            dd($expression);
-            $persisted = explode(',', $expression);
+            $persisted = explode(',', str_replace(['"', ' '], '', $expression));
         });
 
         Factory::macro('assetsFinish', function ($content) use (&$persisted) {
 
-            $method = array_shift($persisted);
+            $collection = array_shift($persisted);
+            
+            $path = ViewTemplate::path($content) . '.blade.php';
 
-            Assets::$method(...$persisted);
+            if ($name = array_shift($persisted)) {
+                Assets::register($name, $path);
+            }
+
+            Assets::add($collection, $name ?: $path);
         });
 
 

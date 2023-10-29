@@ -14,7 +14,7 @@ class AssetCollectionTest extends CoreTestCase
 
         $assets->add('theme.js');
 
-        $this->assertEquals(['theme.js'], $assets->values()->all());
+        $this->assertEquals(['/theme.js'], $assets->values()->all());
     }
 
     public function test_it_loads_unregistered_assets()
@@ -23,7 +23,7 @@ class AssetCollectionTest extends CoreTestCase
 
         $assets->load('load.js');
 
-        $this->assertEquals(['load.js'], $assets->values()->all());
+        $this->assertEquals(['/load.js'], $assets->values()->all());
     }
 
     public function test_it_loads_registered_assets()
@@ -34,7 +34,7 @@ class AssetCollectionTest extends CoreTestCase
 
         $assets->load('load.js');
 
-        $this->assertEquals(['load.js'], $assets->values()->all());
+        $this->assertEquals(['/load.js'], $assets->values()->all());
     }
 
     public function test_it_only_loads_assets_once()
@@ -46,7 +46,7 @@ class AssetCollectionTest extends CoreTestCase
         $assets->load('load.js');
         $assets->load('load.js');
 
-        $this->assertEquals(['load.js'], $assets->values()->all());
+        $this->assertEquals(['/load.js'], $assets->values()->all());
     }
 
     public function test_it_returns_asset_urls()

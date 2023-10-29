@@ -2,18 +2,16 @@
 
 namespace Streams\Core\Tests\Criteria\Adapter;
 
+use Illuminate\Support\Facades\DB;
 use Streams\Core\Tests\EloquentModel;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\DB;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Tests\Criteria\CriteriaTest;
 use Streams\Core\Criteria\Adapter\EloquentAdapter;
-use Streams\Core\Support\Traits\Streams as TraitsStreams;
 
 class EloquentAdapterTest extends CriteriaTest
 {
-
     protected function setUp(): void
     {
         parent::setUp();
