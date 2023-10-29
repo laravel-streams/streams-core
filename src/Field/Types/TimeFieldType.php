@@ -10,7 +10,9 @@ class TimeFieldType extends DatetimeFieldType
 {
     public function modify($value): string
     {
-        return $this->cast($value)->format('H:i:s');
+        $format = $this->config('format', 'H:i:s');
+
+        return $this->toCarbon($value)->format($format);
     }
 
     public function restore($value): Carbon
