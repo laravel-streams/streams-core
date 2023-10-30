@@ -3,11 +3,8 @@
 namespace Anomaly\Streams\Platform\Asset;
 
 use Illuminate\Support\Str;
-use Assetic\Asset\FileAsset;
-use Assetic\Asset\GlobAsset;
 use Collective\Html\HtmlBuilder;
 use tubalmartin\CssMin\Minifier;
-use Assetic\Asset\AssetCollection;
 use League\Flysystem\MountManager;
 use Illuminate\Filesystem\Filesystem;
 use Anomaly\Streams\Platform\Support\Template;
