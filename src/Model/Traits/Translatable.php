@@ -136,19 +136,7 @@ trait Translatable
     }
 
     /*
-     * Check Transaction Validity
-     */
-    public function checkTranslation($translation)
-    {
-        if (!empty($translation->getAttribute('name')) || !empty($translation->getAttribute('title'))) {
-            return true;
-        }
-
-        return false;
-    }
-    
-   /**
-     * Check Transaction Null
+     * Check Transaction Is Valid
      */
     public function checkTranslation($translation)
     {
