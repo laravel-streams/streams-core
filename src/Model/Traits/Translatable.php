@@ -176,15 +176,15 @@ trait Translatable
 
         // Default to the current locale.
         $locale = $locale ?: app()->getLocale();
-
         /**
          * If we have a desired locale and
          * it exists then just use that locale.
          */
         if ($translation = $this->getTranslationByLocaleKey($locale)) {
-            return $translation;
+            if (!empty($translation->getAttribute('name'))) {
+                return $translation;
+            }
         }
-
         /**
          * If we don't have a locale or it does not exist
          * then go ahead and try using a fallback in using
@@ -193,9 +193,10 @@ trait Translatable
         if ($withFallback
             && $translation = $this->getTranslationByLocaleKey($this->getDefaultLocale())
         ) {
-            return $translation;
+            if (!empty($translation->getAttribute('name'))) {
+                return $translation;
+            }
         }
-
         /**
          * If we still don't have a translation then
          * try looking up the FALLBACK translation.
@@ -205,7 +206,22 @@ trait Translatable
             && $this->getTranslationByLocaleKey($this->getFallbackLocale())
             && $translation = $this->getTranslationByLocaleKey($this->getFallbackLocale())
         ) {
-            return $translation;
+            if (!empty($translation->getAttribute('name'))) {
+                return $translation;
+            }
+        }
+
+        /**
+         * If we still don't have a translation then
+         * try looking up first translation any exist.
+         */
+
+        if ($withFallback) {
+            foreach ($this->getTranslations() as $translation) {
+                if (!empty($translation->getAttribute('name'))) {
+                    return $translation;
+                }
+            }
         }
 
         return null;
