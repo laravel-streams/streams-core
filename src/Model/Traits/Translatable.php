@@ -181,7 +181,7 @@ trait Translatable
          * it exists then just use that locale.
          */
         if ($translation = $this->getTranslationByLocaleKey($locale)) {
-            if (!empty($translation->getAttribute('name'))) {
+            if ($this->checkTranslation($translation)) {
                 return $translation;
             }
         }
@@ -193,7 +193,7 @@ trait Translatable
         if ($withFallback
             && $translation = $this->getTranslationByLocaleKey($this->getDefaultLocale())
         ) {
-            if (!empty($translation->getAttribute('name'))) {
+            if ($this->checkTranslation($translation)) {
                 return $translation;
             }
         }
@@ -206,7 +206,7 @@ trait Translatable
             && $this->getTranslationByLocaleKey($this->getFallbackLocale())
             && $translation = $this->getTranslationByLocaleKey($this->getFallbackLocale())
         ) {
-            if (!empty($translation->getAttribute('name'))) {
+            if ($this->checkTranslation($translation)) {
                 return $translation;
             }
         }
@@ -218,7 +218,7 @@ trait Translatable
 
         if ($withFallback) {
             foreach ($this->getTranslations() as $translation) {
-                if (!empty($translation->getAttribute('name'))) {
+                if ($this->checkTranslation($translation)) {
                     return $translation;
                 }
             }
