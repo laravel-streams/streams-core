@@ -32,3 +32,21 @@ if (!function_exists('memory_usage')) {
         return round($size / pow(1024, ($i = floor(log($size, 1024)))), $precision) . ' ' . $unit[$i];
     }
 }
+
+if (!function_exists('html_attributes')) {
+
+    function html_attributes(array $attributes = []): string
+    {
+        $html = [];
+
+        foreach ((array) $attributes as $key => $value) {
+            //$element = $this->attributeElement($key, $value);
+
+            if (! is_null($element)) {
+                $html[] = $element;
+            }
+        }
+
+        return count($html) > 0 ? ' ' . implode(' ', $html) : '';
+    }
+}

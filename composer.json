@@ -19,8 +19,9 @@
         "intervention/image": "^2.7",
         "laravel/framework": "^8.0|^9.0|^10",
         "goldspecdigital/oooas": "^2.10",
-        "laravelcollective/html": "^6.3",
         "nicmart/string-template": "^0.1",
+        "laravelcollective/html": "^6.3",
+        "spatie/laravel-html": "^3.3",
         "ezyang/htmlpurifier": "^4.16"
     },
     "require-dev": {
