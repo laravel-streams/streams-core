@@ -140,11 +140,9 @@ trait Translatable
      */
     public function checkTranslation($translation)
     {
-        if (!empty($translation->getAttribute('name')) || !empty($translation->getAttribute('title'))) {
+        if ($translation || (!empty($translation->name) || !empty($translation->title))) {
             return true;
         }
-
-        return false;
     }
 
     /**
@@ -179,8 +177,8 @@ trait Translatable
     /**
      * Get a translation.
      *
-     * @param  null $locale
-     * @param  bool|null $withFallback
+     * @param null $locale
+     * @param bool|null $withFallback
      * @return EloquentModel|null
      */
     public function getTranslation($locale = null, $withFallback = true)
@@ -452,9 +450,9 @@ trait Translatable
     /**
      * Return if the entry is trashed or not.
      *
+     * @return bool
      * @todo is this really used/needed?
      *
-     * @return bool
      */
     public function trashed()
     {
