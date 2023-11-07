@@ -55,8 +55,7 @@ class LoadModuleInstallers
                         $console->call(
                             'addon:install',
                             [
-                                'addon' => $module->getNamespace(),
-                                '--app'  => $application->getReference(),
+                                'addon' => $module->getNamespace()
                             ]
                         );
                     }
