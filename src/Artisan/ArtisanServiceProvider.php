@@ -57,6 +57,7 @@ class ArtisanServiceProvider extends \Illuminate\Foundation\Providers\ArtisanSer
         \Anomaly\Streams\Platform\Application\Console\Refresh::class,
         \Anomaly\Streams\Platform\Application\Console\AppPublish::class,
         \Anomaly\Streams\Platform\Application\Console\StreamsPublish::class,
+        SeedCommand::class
     ];
 
     /**
