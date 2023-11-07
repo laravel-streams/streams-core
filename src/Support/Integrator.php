@@ -52,8 +52,6 @@ class Integrator
         array_walk($aliases, function ($value, $key) {
             App::alias($value, $key);
         });
-
-        //AliasLoader::getInstance($aliases)->register();
     }
 
     public static function bindings(array $bindings): void
