@@ -51,8 +51,7 @@ class LoadExtensionInstallers
                         $console->call(
                             'addon:install',
                             [
-                                'addon' => $extension->getNamespace(),
-                                '--app'     => $application->getReference(),
+                                'addon' => $extension->getNamespace()
                             ]
                         );
                     }
