@@ -2,4 +2,3 @@ composer.lock
 /bin
 /vendor
 /coverage
-/node_modules

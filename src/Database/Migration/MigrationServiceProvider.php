@@ -5,9 +5,6 @@ use Anomaly\Streams\Platform\Database\Migration\Console\MigrateCommand;
 use Anomaly\Streams\Platform\Database\Migration\Console\RefreshCommand;
 use Anomaly\Streams\Platform\Database\Migration\Console\RollbackCommand;
 use Anomaly\Streams\Platform\Database\Migration\Console\MigrateMakeCommand;
-use Illuminate\Database\Console\Migrations\FreshCommand;
-use Illuminate\Database\Console\Migrations\InstallCommand;
-use Illuminate\Database\Console\Migrations\StatusCommand;
 
 /**
  * Class MigrationServiceProvider
@@ -18,16 +15,6 @@ use Illuminate\Database\Console\Migrations\StatusCommand;
  */
 class MigrationServiceProvider extends \Illuminate\Database\MigrationServiceProvider
 {
-    protected $commands = [
-        'Migrate' => 'command.migrate',
-        'MigrateFresh' => FreshCommand::class,
-        'MigrateInstall' => InstallCommand::class,
-        'MigrateRefresh' => 'command.migrate.refresh',
-        'MigrateReset' => 'command.migrate.reset',
-        'MigrateRollback' => 'command.migrate.rollback',
-        'MigrateStatus' => StatusCommand::class,
-        'MigrateMake' => 'command.migrate.make',
-    ];
 
     /**
      * Register the migration repository service.

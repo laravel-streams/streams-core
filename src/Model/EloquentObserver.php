@@ -89,11 +89,11 @@ class EloquentObserver extends Observer
      */
     public function deleting(EloquentModel $entry)
     {
-        if (dispatch_sync(new RestrictDelete($entry))) {
+        if ($this->dispatchNow(new RestrictDelete($entry))) {
             return false;
         }
 
-        dispatch_sync(new CascadeDelete($entry));
+        $this->dispatchNow(new CascadeDelete($entry));
 
         return true;
     }
@@ -148,7 +148,7 @@ class EloquentObserver extends Observer
     {
         $model->flushCache();
 
-        dispatch_sync(new CascadeRestore($model));
+        $this->dispatchNow(new CascadeRestore($model));
 
         $this->events->dispatch(new ModelWasRestored($model));
     }

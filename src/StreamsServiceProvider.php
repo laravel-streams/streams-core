@@ -5,7 +5,6 @@ namespace Anomaly\Streams\Platform;
 use Illuminate\Support\Str;
 use Illuminate\Routing\Redirector;
 use Illuminate\Pagination\Paginator;
-use Illuminate\Support\Facades\Request;
 use Illuminate\Support\ServiceProvider;
 use Asm89\Twig\CacheExtension\Extension;
 use Anomaly\Streams\Platform\Event\Ready;
@@ -17,6 +16,7 @@ use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Field\FieldModel;
+use Anomaly\Streams\Platform\Addon\AddonManager;
 use Anomaly\Streams\Platform\Stream\StreamModel;
 use Anomaly\Streams\Platform\Entry\EntryObserver;
 use Anomaly\Streams\Platform\Field\FieldObserver;
@@ -47,7 +47,15 @@ use Anomaly\Streams\Platform\Application\Command\InitializeApplication;
 use Anomaly\Streams\Platform\Application\Command\ConfigureFileCacheStore;
 use Anomaly\Streams\Platform\Application\Command\LoadEnvironmentOverrides;
 use Anomaly\Streams\Platform\Application\Command\LoadStreamsConfiguration;
+use Illuminate\Support\Facades\Request;
 
+/**
+ * Class StreamsServiceProvider
+ *
+ * @link   http://pyrocms.com/
+ * @author PyroCMS, Inc. <support@pyrocms.com>
+ * @author Ryan Thompson <ryan@pyrocms.com>
+ */
 class StreamsServiceProvider extends ServiceProvider
 {
 
@@ -189,9 +197,9 @@ class StreamsServiceProvider extends ServiceProvider
     {
         if (Request::segment(1) !== 'admin' && env('INSTALLED') === 'admin') {
 
-            dispatch_sync(new SetCoreConnection());
-            dispatch_sync(new AutoloadEntryModels());
-            dispatch_sync(new InitializeApplication());
+            $this->dispatchNow(new SetCoreConnection());
+            $this->dispatchNow(new AutoloadEntryModels());
+            $this->dispatchNow(new InitializeApplication());
 
             return;
         }
@@ -199,23 +207,23 @@ class StreamsServiceProvider extends ServiceProvider
         $events->dispatch(new Booting());
 
         // Next take care of core utilities.
-        dispatch_sync(new SetCoreConnection());
-        dispatch_sync(new ConfigureUriValidator());
-        dispatch_sync(new InitializeApplication());
+        $this->dispatchNow(new SetCoreConnection());
+        $this->dispatchNow(new ConfigureUriValidator());
+        $this->dispatchNow(new InitializeApplication());
 
         // Load application specific .env file.
-        dispatch_sync(new LoadEnvironmentOverrides());
+        $this->dispatchNow(new LoadEnvironmentOverrides());
 
         // Setup and preparing utilities.
-        dispatch_sync(new LoadStreamsConfiguration());
-        dispatch_sync(new ConfigureFileCacheStore());
-        dispatch_sync(new ConfigureTranslator());
-        dispatch_sync(new AutoloadEntryModels());
+        $this->dispatchNow(new LoadStreamsConfiguration());
+        $this->dispatchNow(new ConfigureFileCacheStore());
+        $this->dispatchNow(new ConfigureTranslator());
+        $this->dispatchNow(new AutoloadEntryModels());
         $this->overrideUrlSingleton();
-        dispatch_sync(new AddAssetNamespaces());
-        dispatch_sync(new AddImageNamespaces());
-        dispatch_sync(new ConfigureRequest());
-        dispatch_sync(new ConfigureScout());
+        $this->dispatchNow(new AddAssetNamespaces());
+        $this->dispatchNow(new AddImageNamespaces());
+        $this->dispatchNow(new ConfigureRequest());
+        $this->dispatchNow(new ConfigureScout());
 
         // Observe our base models.
         EntryModel::observe(EntryObserver::class);
@@ -286,17 +294,17 @@ class StreamsServiceProvider extends ServiceProvider
                  * Do this after addons are registered
                  * so that they can override named routes.
                  */
-                dispatch_sync(new IncludeRoutes());
+                $this->dispatchNow(new IncludeRoutes());
 
-                dispatch_sync(new LoadCurrentTheme());
-                dispatch_sync(new AddViewNamespaces());
-                dispatch_sync(new SetApplicationDomain());
+                $this->dispatchNow(new LoadCurrentTheme());
+                $this->dispatchNow(new AddViewNamespaces());
+                $this->dispatchNow(new SetApplicationDomain());
 
                 /*
                  * Do this after addons are registered
                  * so that they can override named routes.
                  */
-                dispatch_sync(new IncludeRoutes());
+                $this->dispatchNow(new IncludeRoutes());
 
                 $events->dispatch(new Ready());
             }
@@ -318,11 +326,6 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function register()
     {
-
-        if (!defined('IS_ADMIN')) {
-            define('IS_ADMIN', null);
-        }
-
         if (Request::segment(1) !== 'admin' && env('INSTALLED') === 'admin') {
 
             /**
@@ -404,7 +407,7 @@ class StreamsServiceProvider extends ServiceProvider
          */
         $this->app->instance(
             'streams.path',
-            $this->app->make('path.base') . '/vendor/anomaly/streams-platform'
+            $this->app->make('path.base') . '/vendor/visiosoft/streams-platform'
         );
 
         /*

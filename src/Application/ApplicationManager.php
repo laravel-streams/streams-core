@@ -22,6 +22,6 @@ class ApplicationManager
      */
     public function create(array $attributes)
     {
-        return dispatch_sync(new CreateApplication($attributes));
+        return $this->dispatchNow(new CreateApplication($attributes));
     }
 }

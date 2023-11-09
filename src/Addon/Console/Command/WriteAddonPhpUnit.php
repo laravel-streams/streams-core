@@ -68,7 +68,7 @@ class WriteAddonPhpUnit
         $path = "{$this->path}/phpunit.xml";
 
         $template = $filesystem->get(
-            base_path('vendor/anomaly/streams-platform/resources/stubs/addons/phpunit.stub')
+            base_path('vendor/visiosoft/streams-platform/resources/stubs/addons/phpunit.stub')
         );
 
         $filesystem->makeDirectory(dirname($path), 0755, true, true);

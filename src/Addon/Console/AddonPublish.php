@@ -55,9 +55,9 @@ class AddonPublish extends Command
 
         $addon = $addons->get($this->argument('addon'));
 
-        dispatch_sync(new PublishViews($addon, $this));
-        dispatch_sync(new PublishConfig($addon, $this));
-        dispatch_sync(new PublishTranslations($addon, $this));
+        $this->dispatchNow(new PublishViews($addon, $this));
+        $this->dispatchNow(new PublishConfig($addon, $this));
+        $this->dispatchNow(new PublishTranslations($addon, $this));
     }
 
     /**

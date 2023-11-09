@@ -51,16 +51,16 @@ class BuildControlPanel
 
         $asset->add('scripts.js', 'streams::js/cp/click.js');
 
-        dispatch_sync(new BuildNavigation($this->builder));
-        dispatch_sync(new SetActiveNavigationLink($this->builder));
-        dispatch_sync(new SetMainNavigationLinks($this->builder));
+        $this->dispatchNow(new BuildNavigation($this->builder));
+        $this->dispatchNow(new SetActiveNavigationLink($this->builder));
+        $this->dispatchNow(new SetMainNavigationLinks($this->builder));
 
-        dispatch_sync(new BuildSections($this->builder));
-        dispatch_sync(new SetActiveSection($this->builder));
+        $this->dispatchNow(new BuildSections($this->builder));
+        $this->dispatchNow(new SetActiveSection($this->builder));
 
-        dispatch_sync(new BuildShortcuts($this->builder));
+        $this->dispatchNow(new BuildShortcuts($this->builder));
 
-        dispatch_sync(new BuildButtons($this->builder));
+        $this->dispatchNow(new BuildButtons($this->builder));
 
         event(new ControlPanelWasBuilt($this->builder));
     }

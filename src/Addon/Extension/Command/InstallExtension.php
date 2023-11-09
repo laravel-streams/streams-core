@@ -67,7 +67,7 @@ class InstallExtension
 
         $extensions->install($this->extension);
 
-        dispatch_sync(new AutoloadEntryModels);
+        dispatch_now(new AutoloadEntryModels);
         
         $manager->register();
 

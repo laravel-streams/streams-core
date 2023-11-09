@@ -11,7 +11,7 @@ return [
     |
     */
 
-    'name'        => 'Streams Platform',
-    'description' => 'Streams is an abstracted modular platform for developing web applications.',
+    'name'        => 'PHP Classifieds Marketplace software',
+    'description' => 'OpenClassify is modular and most advanced open source classified platform build with Laravel.Use it in real estate classifieds, auto, e-commerce and other ...',
     'version'     => 'v1.1',
 ];

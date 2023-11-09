@@ -2,11 +2,14 @@
 
 namespace Anomaly\Streams\Platform\Http\Middleware;
 
-use Jenssegers\Agent\Agent;
-use Illuminate\Http\Request;
-use Illuminate\Session\Store;
-use Illuminate\Http\RedirectResponse;
 use Anomaly\Streams\Platform\Message\MessageBag;
+use Closure;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Routing\Route;
+use Illuminate\Session\Store;
+use Jenssegers\Agent\Agent;
 
 /**
  * Class HttpCache
@@ -34,6 +37,7 @@ class HttpCache
         '/locks/touch',
         '/locks/release',
         '/logout*',
+        '/login*',
     ];
 
     /**
@@ -78,7 +82,7 @@ class HttpCache
      * @param  \Closure $next
      * @return mixed
      */
-    public function handle(Request $request, \Closure $next)
+    public function handle(Request $request, Closure $next)
     {
         /* @var Response $response */
         $response = $next($request);

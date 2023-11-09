@@ -68,6 +68,8 @@ class InitializeApplication
         if (env('DB_CONNECTION', env('DB_DRIVER'))) {
 
             try {
+
+                $application->setup();
                 
                 if ($application->isInstalled()) {
                     if (PHP_SAPI != 'cli') {
@@ -78,9 +80,6 @@ class InitializeApplication
                         abort(503);
                     }
                 }
-                
-                $application->setup();
-                
             } catch (\Exception $e) {
                 // Do nothing.
             }

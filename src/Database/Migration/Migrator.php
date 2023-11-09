@@ -141,7 +141,7 @@ class Migrator extends \Illuminate\Database\Migrations\Migrator
         }
 
         if ($migration instanceof Migration) {
-            dispatch_sync(new Migrate($migration));
+            $this->dispatchNow(new Migrate($migration));
         }
 
         parent::runUp($file, $batch, $pretend);
@@ -175,7 +175,7 @@ class Migrator extends \Illuminate\Database\Migrations\Migrator
         }
 
         if ($migration instanceof Migration) {
-            dispatch_sync(new Reset($migration));
+            $this->dispatchNow(new Reset($migration));
         }
 
         parent::runDown($file, $migration, $pretend);

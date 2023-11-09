@@ -39,7 +39,7 @@ class ChangeFieldAssignments
     public function handle()
     {
         foreach ($this->field->getAssignments() as $assignment) {
-            dispatch_sync(new ChangeAssignmentColumn($assignment->setRelation('field', $this->field)));
+            $this->dispatchNow(new ChangeAssignmentColumn($assignment->setRelation('field', $this->field)));
         }
     }
 }

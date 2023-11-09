@@ -29,8 +29,8 @@ class AppPublish extends Command
      */
     public function handle()
     {
-        dispatch_sync(new PublishEnv($this));
-        dispatch_sync(new PublishRoutes($this));
+        $this->dispatchNow(new PublishEnv($this));
+        $this->dispatchNow(new PublishRoutes($this));
     }
 
     /**

@@ -23,6 +23,8 @@ class CacheKernel extends \Barryvdh\HttpCache\CacheKernel
     protected static $excluded = [
         '/admin',
         '/admin/*',
+        '/cron',
+        '/cron/*',
         '/streams/*-field_type/*',
         '/streams/*-extension/*',
         '/streams/*-module/*',
@@ -31,6 +33,7 @@ class CacheKernel extends \Barryvdh\HttpCache\CacheKernel
         '/locks/touch',
         '/locks/release',
         '/logout*',
+        '/login*',
     ];
 
     /**
@@ -90,14 +93,6 @@ class CacheKernel extends \Barryvdh\HttpCache\CacheKernel
          * accessing the control panel as well.
          */
         if (isset($_COOKIE['session_proxy'])) {
-            return $kernel;
-        }
-
-        /**
-         * Disable if HTTP cache 
-         * is intended to miss.
-         */
-        if (isset($_COOKIE['http_cache_proxy'])) {
             return $kernel;
         }
 

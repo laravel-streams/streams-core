@@ -3,13 +3,17 @@
 namespace Anomaly\Streams\Platform\Asset;
 
 use Illuminate\Support\Str;
+use Assetic\Asset\FileAsset;
+use Assetic\Asset\GlobAsset;
 use Collective\Html\HtmlBuilder;
 use tubalmartin\CssMin\Minifier;
+use Assetic\Asset\AssetCollection;
 use League\Flysystem\MountManager;
 use Illuminate\Filesystem\Filesystem;
 use Anomaly\Streams\Platform\Support\Template;
 use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Addon\Theme\ThemeCollection;
+use ScssPhp\ScssPhp\Compiler;
 
 /**
  * Class Asset
@@ -557,6 +561,13 @@ class Asset
          * of the asset collection.
          */
         $contents = $this->content($collection);
+
+        //scss fix
+        $type = explode('.', $collection);
+        if (end($type) == "scss") {
+            $compiler_scss = new Compiler();
+            $contents = $compiler_scss->compile($contents);
+        }
 
         /**
          * Parse the content. Always parse CSS.

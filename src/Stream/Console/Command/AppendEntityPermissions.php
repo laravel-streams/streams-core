@@ -54,7 +54,7 @@ class AppendEntityPermissions
     {
 
         if (!$files->exists($path = $this->addon->getPath("resources/config/permissions.php"))) {
-            dispatch_sync(new WriteAddonPermissions($this->addon->getPath()));
+            $this->dispatchNow(new WriteAddonPermissions($this->addon->getPath()));
         }
 
         $permissions = "    '{$this->slug}' => [\n";

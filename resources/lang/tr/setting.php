@@ -134,6 +134,10 @@ return [
         'label'        => 'SMTP Şifresi',
         'instructions' => 'Kullanılacak SMTP şifresini belirtin.',
     ],
+    'mail_encrypt'         => [
+        'label'        => 'SMTP Şifreleme',
+        'instructions' => 'Kullanılacak SMTP şifreleme yöntemini belirtin.',
+    ],
     'http_cache'            => [
         'label'        => 'HTTP Önbelleği',
         'instructions' => 'HTTP önbelleğini etkinleştirmek istiyor musunuz?',

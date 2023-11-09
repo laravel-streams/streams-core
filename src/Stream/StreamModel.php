@@ -199,7 +199,7 @@ class StreamModel extends EloquentModel implements StreamInterface, PresentableI
      */
     public function compile()
     {
-        dispatch_sync(new CompileStream($this));
+        $this->dispatchNow(new CompileStream($this));
     }
 
     /**
@@ -326,7 +326,7 @@ class StreamModel extends EloquentModel implements StreamInterface, PresentableI
     public function getConfig($key = null, $default = null)
     {
         if (!isset($this->cache['cache'])) {
-            dispatch_sync(new MergeStreamConfig($this));
+            $this->dispatchNow(new MergeStreamConfig($this));
         }
 
         $this->cache['cache'] = $this->config;

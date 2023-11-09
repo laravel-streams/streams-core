@@ -31,7 +31,7 @@ class RollbackCommand extends \Illuminate\Database\Console\Migrations\RollbackCo
      */
     public function handle()
     {
-        dispatch_sync(
+        $this->dispatchNow(
             new ConfigureMigrator(
                 $this,
                 $this->input,

@@ -65,7 +65,7 @@ class ConfigureCreator
             return;
         }
 
-        if (!$addon = dispatch_sync(new GetAddon($addon))) {
+        if (!$addon = $this->dispatchNow(new GetAddon($addon))) {
             throw new \Exception("Addon could not be found.");
         }
 

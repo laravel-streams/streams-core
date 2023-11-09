@@ -31,7 +31,7 @@ class ResetCommand extends \Illuminate\Database\Console\Migrations\ResetCommand
      */
     public function handle()
     {
-        dispatch_sync(
+        $this->dispatchNow(
             new ConfigureMigrator(
                 $this,
                 $this->input,

@@ -31,9 +31,9 @@ class StreamsPublish extends Command
      */
     public function handle()
     {
-        dispatch_sync(new PublishViews($this));
-        dispatch_sync(new PublishConfig($this));
-        dispatch_sync(new PublishTranslations($this));
+        $this->dispatchNow(new PublishViews($this));
+        $this->dispatchNow(new PublishConfig($this));
+        $this->dispatchNow(new PublishTranslations($this));
     }
 
     /**

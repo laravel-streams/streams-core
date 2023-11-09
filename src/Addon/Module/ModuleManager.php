@@ -26,7 +26,7 @@ class ModuleManager
      */
     public function install(Module $module, $seed = false)
     {
-        dispatch_sync(new InstallModule($module, $seed));
+        $this->dispatchNow(new InstallModule($module, $seed));
     }
 
     /**
@@ -36,7 +36,7 @@ class ModuleManager
      */
     public function uninstall(Module $module)
     {
-        dispatch_sync(new UninstallModule($module));
+        $this->dispatchNow(new UninstallModule($module));
     }
 
     /**
@@ -47,7 +47,7 @@ class ModuleManager
      */
     public function enable(Module $module)
     {
-        dispatch_sync(new EnableModule($module));
+        $this->dispatchNow(new EnableModule($module));
     }
 
     /**
@@ -57,7 +57,7 @@ class ModuleManager
      */
     public function disable(Module $module)
     {
-        dispatch_sync(new DisableModule($module));
+        $this->dispatchNow(new DisableModule($module));
     }
 
     /**
@@ -68,7 +68,7 @@ class ModuleManager
      */
     public function migrate(Module $module, $seed = false)
     {
-        dispatch_sync(new MigrateModule($module, $seed));
+        $this->dispatchNow(new MigrateModule($module, $seed));
     }
 
 }

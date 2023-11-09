@@ -59,6 +59,7 @@ return [
     ],
     'maintenance'           => [
         'label'        => 'Maintenance Mode',
+        'warning'      => 'Only admin users will be able to access the site.',
         'instructions' => 'Use this option to the disable the public-facing part of the system.<br>This is useful when you want to take the site down for maintenance or development.',
     ],
     'debug'                 => [
@@ -133,6 +134,10 @@ return [
     'mail_password'         => [
         'label'        => 'SMTP Password',
         'instructions' => 'Specify the SMTP password to use.',
+    ],
+    'mail_encrypt'         => [
+        'label'        => 'SMTP Encryption',
+        'instructions' => 'Specify the SMTP encryption to use.',
     ],
     'http_cache'            => [
         'label'        => 'HTTP Cache',

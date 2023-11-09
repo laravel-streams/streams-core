@@ -17,7 +17,6 @@ use Anomaly\Streams\Platform\Routing\UrlGenerator;
 use Anomaly\FilesModule\File\Contract\FileInterface;
 use Anomaly\Streams\Platform\Application\Application;
 use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
-use League\Flysystem\AwsS3v3\AwsS3Adapter;
 
 /**
  * Class Image
@@ -936,18 +935,7 @@ class Image
     protected function makeImage()
     {
         if ($this->image instanceof FileInterface) {
-            
-            $location = $this->image->location();
-
-            $manager = app(MountManager::class);
-
-            $filesystem = $manager->getFilesystem($this->image->getDiskSlug());
-
-            if ($filesystem->getAdapter() instanceof AwsS3Adapter) {
-                $location = str_replace(' ', '%20', $location);
-            }
-
-            return $this->manager->make($manager->url($location));
+            return $this->manager->make(app(MountManager::class)->url($this->image->location()));
         }
 
         if (is_string($this->image) && str_is('*://*', $this->image)) {

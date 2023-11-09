@@ -54,7 +54,7 @@ class WriteEnvironmentFile
             }
         }
 
-        $file = dispatch_sync(new GetEnvironmentFile());
+        $file = $this->dispatchNow(new GetEnvironmentFile());
 
         file_put_contents($file, $contents);
     }

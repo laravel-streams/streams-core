@@ -43,7 +43,7 @@ class MigrateMakeCommand extends \Illuminate\Database\Console\Migrations\Migrate
      */
     public function handle()
     {
-        dispatch_sync(
+        $this->dispatchNow(
             new ConfigureCreator(
                 $this,
                 $this->input,

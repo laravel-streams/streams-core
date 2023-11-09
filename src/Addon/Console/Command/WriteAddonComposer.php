@@ -75,7 +75,7 @@ class WriteAddonComposer
         $prefix = ucfirst(camel_case($vendor)) . '\\\\' . $addon . '\\\\';
 
         $template = $filesystem->get(
-            base_path('vendor/anomaly/streams-platform/resources/stubs/addons/composer.stub')
+            base_path('vendor/visiosoft/streams-platform/resources/stubs/addons/composer.stub')
         );
 
         $filesystem->makeDirectory(dirname($path), 0755, true, true);

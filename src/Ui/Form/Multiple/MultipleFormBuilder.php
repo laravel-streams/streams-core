@@ -56,9 +56,9 @@ class MultipleFormBuilder extends FormBuilder
     {
         $this->fire('ready', ['builder' => $this]);
 
-        dispatch_sync(new BuildForms($this));
-        dispatch_sync(new MergeFields($this));
-        dispatch_sync(new HandleLocks($this));
+        $this->dispatchNow(new BuildForms($this));
+        $this->dispatchNow(new MergeFields($this));
+        $this->dispatchNow(new HandleLocks($this));
 
         parent::build($entry);
 
@@ -75,8 +75,8 @@ class MultipleFormBuilder extends FormBuilder
     public function post()
     {
         if (app('request')->isMethod('post')) {
-            dispatch_sync(new PostForms($this));
-            dispatch_sync(new HandleErrors($this));
+            $this->dispatchNow(new PostForms($this));
+            $this->dispatchNow(new HandleErrors($this));
         }
 
         parent::post();
@@ -99,7 +99,7 @@ class MultipleFormBuilder extends FormBuilder
             }
         );
 
-        dispatch_sync(new HandleErrors($this));
+        $this->dispatchNow(new HandleErrors($this));
 
         return $this;
     }
@@ -125,7 +125,7 @@ class MultipleFormBuilder extends FormBuilder
             $this->fire('saved_' . $slug, compact('builder', 'forms'));
         }
 
-        dispatch_sync(new VersionForms($this));
+        $this->dispatchNow(new VersionForms($this));
 
         $this->fire('saved', ['builder' => $this]);
     }

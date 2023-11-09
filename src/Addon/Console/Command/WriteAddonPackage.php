@@ -44,7 +44,7 @@ class WriteAddonPackage
         $path = "{$this->path}/package.json";
 
         $template = $filesystem->get(
-            base_path('vendor/anomaly/streams-platform/resources/stubs/addons/package.addon.stub')
+            base_path('vendor/visiosoft/streams-platform/resources/stubs/addons/package.addon.stub')
         );
 
         $filesystem->makeDirectory(dirname($path), 0755, true, true);

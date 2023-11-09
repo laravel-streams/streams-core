@@ -26,16 +26,16 @@ class EntryUtility
     public function recompile(StreamInterface $stream)
     {
         // Generate the base model.
-        dispatch_sync(new GenerateEntryModel($stream));
+        $this->dispatchNow(new GenerateEntryModel($stream));
 
         /*
          * If the stream is translatable generate
          * the translations model too.
          */
         if ($stream->isTranslatable()) {
-            dispatch_sync(new GenerateEntryTranslationsModel($stream));
+            $this->dispatchNow(new GenerateEntryTranslationsModel($stream));
         }
 
-        dispatch_sync(new GenerateEntryModelClassmap());
+        $this->dispatchNow(new GenerateEntryModelClassmap());
     }
 }

@@ -54,7 +54,7 @@ class AppendEntityPermissionLang
     {
 
         if (!$files->exists($path = $this->addon->getPath("resources/lang/en/permission.php"))) {
-            dispatch_sync(new WriteAddonPermissionLang($this->addon->getPath()));
+            $this->dispatchNow(new WriteAddonPermissionLang($this->addon->getPath()));
         }
 
         $human = humanize($this->slug);

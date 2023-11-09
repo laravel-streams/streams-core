@@ -59,7 +59,7 @@ class LoadTable
             $template->put('title', $title);
         }
 
-        dispatch_sync(new LoadTablePagination($table));
+        $this->dispatchNow(new LoadTablePagination($table));
 
         if ($breadcrumb = $table->getOption('breadcrumb')) {
             $breadcrumbs->put($breadcrumb, '#');

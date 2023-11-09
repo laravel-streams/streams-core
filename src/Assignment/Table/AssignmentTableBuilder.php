@@ -95,7 +95,7 @@ class AssignmentTableBuilder extends TableBuilder
      */
     public function build()
     {
-        dispatch_sync(new SetDefaultProperties($this));
+        $this->dispatchNow(new SetDefaultProperties($this));
 
         parent::build();
     }
@@ -135,7 +135,7 @@ class AssignmentTableBuilder extends TableBuilder
 
         $stream->load('assignments');
 
-        dispatch_sync(new CompileStream($this->getStream()));
+        $this->dispatchNow(new CompileStream($this->getStream()));
     }
 
     /**

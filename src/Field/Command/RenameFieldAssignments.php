@@ -38,7 +38,7 @@ class RenameFieldAssignments
     public function handle()
     {
         foreach ($this->field->getAssignments() as $assignment) {
-            dispatch_sync(new RenameAssignmentColumn($assignment->setRelation('field', $this->field)));
+            $this->dispatchNow(new RenameAssignmentColumn($assignment->setRelation('field', $this->field)));
         }
     }
 }
