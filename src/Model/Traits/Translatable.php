@@ -191,8 +191,10 @@ trait Translatable
          * If we have a desired locale and
          * it exists then just use that locale.
          */
-        if ($translation = $this->getTranslationByLocaleKey($locale) && $this->checkTranslation($translation)) {
-            return $translation;
+        if ($translation = $this->getTranslationByLocaleKey($locale)) {
+            if ($this->checkTranslation($translation)) {
+                return $translation;
+            }
         }
 
         /**
@@ -200,10 +202,12 @@ trait Translatable
          * then go ahead and try using a fallback in using
          * the system's designated DEFAULT (not active) locale.
          */
-        if ($withFallback && $this->checkTranslation($translation)
+        if ($withFallback
             && $translation = $this->getTranslationByLocaleKey($this->getDefaultLocale())
         ) {
-            return $translation;
+            if ($this->checkTranslation($translation)) {
+                return $translation;
+            }
         }
 
         /**
