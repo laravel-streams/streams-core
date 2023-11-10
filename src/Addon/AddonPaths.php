@@ -127,16 +127,16 @@ class AddonPaths
         if (!is_dir($path)) {
             return false;
         }
-        
+
         $paths = [];
 
         foreach (config('streams::addons.types') as $type) {
             $paths = array_merge($paths, glob("{$path}/*/*-{$type}", GLOB_ONLYDIR));
         }
-        
+
         return $paths;
     }
-    
+
     /**
      * Return all core addon paths in a given folder.
      *
@@ -211,7 +211,7 @@ class AddonPaths
      */
     public function testing()
     {
-        $path = base_path('vendor/anomaly/streams-platform/addons');
+        $path = base_path('vendor/visiosoft/streams-platform/addons');
 
         if (env('APP_ENV') !== 'testing') {
             return false;

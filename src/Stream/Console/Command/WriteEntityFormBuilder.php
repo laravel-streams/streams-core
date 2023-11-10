@@ -67,7 +67,7 @@ class WriteEntityFormBuilder
         $path = $this->addon->getPath("src/{$entity}/Form/{$entity}FormBuilder.php");
 
         $template = $filesystem->get(
-            base_path("vendor/anomaly/streams-platform/resources/stubs/entity/form/builder.stub")
+            base_path("vendor/visiosoft/streams-platform/resources/stubs/entity/form/builder.stub")
         );
 
         $filesystem->makeDirectory(dirname($path), 0755, true, true);

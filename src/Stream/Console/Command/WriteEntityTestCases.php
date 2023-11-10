@@ -71,7 +71,7 @@ class WriteEntityTestCases
         $extends   = "{$addon}TestCase";
 
         $template = $filesystem->get(
-            base_path("vendor/anomaly/streams-platform/resources/stubs/entity/test.stub")
+            base_path("vendor/visiosoft/streams-platform/resources/stubs/entity/test.stub")
         );
 
         /* @var SplFileInfo $file */

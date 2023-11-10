@@ -76,7 +76,7 @@ class WriteAddonServiceProvider
         $path = "{$this->path}/src/{$provider}.php";
 
         $template = $filesystem->get(
-            base_path('vendor/anomaly/streams-platform/resources/stubs/addons/provider.stub')
+            base_path('vendor/visiosoft/streams-platform/resources/stubs/addons/provider.stub')
         );
 
         $filesystem->makeDirectory(dirname($path), 0755, true, true);

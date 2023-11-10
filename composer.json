@@ -1,10 +1,16 @@
 {
-    "name": "anomaly/streams-platform",
+    "name": "visiosoft/streams-platform",
     "description": "A powerful, inclusive, modular PHP application engine built lovingly for Laravel.",
     "authors": [
         {
             "name": "Ryan Thompson",
-            "email": "ryan@pyrocms.com"
+            "email": "ryan@pyrocms.com",
+            "role": "Owner"
+        },
+        {
+            "name": "Vedat Akdogan",
+            "email": "vedatakdogan@live.com",
+            "role": "Developer"
         }
     ],
     "require": {
