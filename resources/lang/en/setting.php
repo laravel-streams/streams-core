@@ -134,6 +134,10 @@ return [
         'label'        => 'SMTP Password',
         'instructions' => 'Specify the SMTP password to use.',
     ],
+    'mail_encrypt'         => [
+        'label'        => 'SMTP Encryption',
+        'instructions' => 'Specify the SMTP encryption to use.',
+    ],
     'http_cache'            => [
         'label'        => 'HTTP Cache',
         'instructions' => 'Do you want to enable HTTP cache?',
