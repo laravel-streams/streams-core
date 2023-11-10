@@ -49,18 +49,18 @@ class PostForm
          * @todo: Decouple validation into it's own method like multiple form builders
          */
         if (!$this->builder instanceof MultipleFormBuilder) {
-            $this->dispatchNow(new ValidateForm($this->builder));
+            dispatch_sync(new ValidateForm($this->builder));
         }
 
-        $this->dispatchNow(new LoadFormValues($this->builder));
-        $this->dispatchNow(new RemoveSkippedFields($this->builder));
-        $this->dispatchNow(new HandleForm($this->builder));
-        $this->dispatchNow(new HandleVersioning($this->builder));
-        $this->dispatchNow(new SetSuccessMessage($this->builder));
-        $this->dispatchNow(new SetActionResponse($this->builder));
+        dispatch_sync(new LoadFormValues($this->builder));
+        dispatch_sync(new RemoveSkippedFields($this->builder));
+        dispatch_sync(new HandleForm($this->builder));
+        dispatch_sync(new HandleVersioning($this->builder));
+        dispatch_sync(new SetSuccessMessage($this->builder));
+        dispatch_sync(new SetActionResponse($this->builder));
 
         if ($this->builder->isAjax()) {
-            $this->dispatchNow(new SetJsonResponse($this->builder));
+            dispatch_sync(new SetJsonResponse($this->builder));
         }
 
         $this->builder->fire('posted', ['builder' => $this->builder]);

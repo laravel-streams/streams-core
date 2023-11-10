@@ -14,7 +14,7 @@
             {{ structure()
             .bootstrap4()
             .listClass('nav navbar-nav')
-            .cache({'namespace': user().id ~ ':' ~ config('app.locale')})
+            .cache({'namespace': auth_user().id ~ ':' ~ config('app.locale')})
             .render()|raw }}
 
             <ul class="nav navbar-nav">

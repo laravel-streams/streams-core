@@ -53,7 +53,7 @@ class ScaffoldTheme
     {
         foreach ($this->copy as $copy) {
             $filesystem->copyDirectory(
-                base_path('vendor/visiosoft/streams-platform/resources/stubs/addons/resources/' . $copy),
+                base_path('vendor/anomaly/streams-platform/resources/stubs/addons/resources/' . $copy),
                 "{$this->path}/resources/" . $copy
             );
         }

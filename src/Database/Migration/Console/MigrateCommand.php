@@ -49,14 +49,14 @@ class MigrateCommand extends \Illuminate\Database\Console\Migrations\MigrateComm
     public function handle()
     {
         if ($this->input->getOption('streams')) {
-            return $this->dispatchNow(new MigrateStreams($this));
+            return dispatch_sync(new MigrateStreams($this));
         }
 
         if ($this->input->getOption('all-addons')) {
-            return $this->dispatchNow(new MigrateAllAddons($this));
+            return dispatch_sync(new MigrateAllAddons($this));
         }
 
-        $this->dispatchNow(
+        dispatch_sync(
             new ConfigureMigrator(
                 $this,
                 $this->input,

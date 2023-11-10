@@ -44,7 +44,7 @@ class LoadApplicationInstallers
                         'migrate',
                         [
                             '--force' => true,
-                            '--path'  => 'vendor/visiosoft/streams-platform/migrations/application',
+                            '--path'  => 'vendor/anomaly/streams-platform/migrations/application',
                         ]
                     );
                 }

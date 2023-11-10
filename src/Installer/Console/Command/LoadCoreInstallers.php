@@ -44,7 +44,7 @@ class LoadCoreInstallers
                         'migrate',
                         [
                             '--force' => true,
-                            '--path'  => 'vendor/visiosoft/streams-platform/migrations/core',
+                            '--path'  => 'vendor/anomaly/streams-platform/migrations/core',
                         ]
                     );
                 }

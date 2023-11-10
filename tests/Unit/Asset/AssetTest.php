@@ -204,11 +204,11 @@ class AssetTest extends TestCase
 
         $asset->addPath(
             'test',
-            base_path('vendor/visiosoft/streams-platform/addons/anomaly/test-module/resources')
+            base_path('vendor/anomaly/streams-platform/addons/anomaly/test-module/resources')
         );
 
         $this->assertEquals(
-            base_path('vendor/visiosoft/streams-platform/addons/anomaly/test-module/resources/styles/test.css'),
+            base_path('vendor/anomaly/streams-platform/addons/anomaly/test-module/resources/styles/test.css'),
             $asset->realPath('test::styles/test.css')
         );
     }

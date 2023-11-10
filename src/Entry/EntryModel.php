@@ -1,31 +1,24 @@
 <?php namespace Anomaly\Streams\Platform\Entry;
 
-use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
-use Anomaly\Streams\Platform\Addon\FieldType\FieldTypePresenter;
-use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeQuery;
-use Anomaly\Streams\Platform\Assignment\AssignmentCollection;
-use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
-use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
-use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
+use Carbon\Carbon;
+use Laravel\Scout\Searchable;
+use Laravel\Scout\ModelObserver;
+use Illuminate\Database\Eloquent\Builder;
+use Robbo\Presenter\PresentableInterface;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Contracts\Auth\Authenticatable;
+use Anomaly\Streams\Platform\Stream\StreamModel;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Model\Traits\Versionable;
+use Anomaly\Streams\Platform\Addon\FieldType\FieldType;
+use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
+use Anomaly\Streams\Platform\Field\Contract\FieldInterface;
+use Anomaly\Streams\Platform\Addon\FieldType\FieldTypeQuery;
+use Anomaly\Streams\Platform\Assignment\AssignmentCollection;
 use Anomaly\Streams\Platform\Stream\Contract\StreamInterface;
-use Anomaly\Streams\Platform\Stream\StreamModel;
-use Carbon\Carbon;
-use Illuminate\Contracts\Auth\Authenticatable;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
-use Laravel\Scout\ModelObserver;
-use Laravel\Scout\Searchable;
-use Robbo\Presenter\PresentableInterface;
+use Anomaly\Streams\Platform\Addon\FieldType\FieldTypePresenter;
+use Anomaly\Streams\Platform\Assignment\Contract\AssignmentInterface;
 
-/**
- * Class EntryModel
- *
- * @link   http://pyrocms.com/
- * @author PyroCMS, Inc. <support@pyrocms.com>
- * @author Ryan Thompson <ryan@pyrocms.com>
- */
 class EntryModel extends EloquentModel implements EntryInterface, PresentableInterface
 {
 

@@ -78,7 +78,7 @@ class WriteAddonFeatureTest
         $path = "{$this->path}/tests/Feature/{$addon}Test.php";
 
         $template = $filesystem->get(
-            base_path("vendor/visiosoft/streams-platform/resources/stubs/addons/tests/feature.stub")
+            base_path("vendor/anomaly/streams-platform/resources/stubs/addons/tests/feature.stub")
         );
 
         $filesystem->makeDirectory(dirname($path), 0755, true, true);

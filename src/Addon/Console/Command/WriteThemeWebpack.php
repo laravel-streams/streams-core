@@ -44,7 +44,7 @@ class WriteThemeWebpack
         $path = "{$this->path}/webpack.mix.js";
 
         $template = $filesystem->get(
-            base_path('vendor/visiosoft/streams-platform/resources/stubs/addons/webpack.theme.stub')
+            base_path('vendor/anomaly/streams-platform/resources/stubs/addons/webpack.theme.stub')
         );
 
         $filesystem->makeDirectory(dirname($path), 0755, true, true);

@@ -73,7 +73,7 @@ class WriteEntityModel
         $path = $this->addon->getPath("src/{$entity}/{$entity}Model.php");
 
         $template = $filesystem->get(
-            base_path("vendor/visiosoft/streams-platform/resources/stubs/entity/model.stub")
+            base_path("vendor/anomaly/streams-platform/resources/stubs/entity/model.stub")
         );
 
         $filesystem->makeDirectory(dirname($path), 0755, true, true);

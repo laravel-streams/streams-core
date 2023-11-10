@@ -113,7 +113,7 @@ class NavigationLink implements NavigationLinkInterface
             return $this->image->make($icon)->data();
         }
 
-        return $this->dispatchNow(new GetIcon($icon));
+        return dispatch_sync(new GetIcon($icon));
     }
 
     /**

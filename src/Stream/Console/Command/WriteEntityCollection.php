@@ -67,7 +67,7 @@ class WriteEntityCollection
         $path = $this->addon->getPath("src/{$entity}/{$entity}Collection.php");
 
         $template = $filesystem->get(
-            base_path("vendor/visiosoft/streams-platform/resources/stubs/entity/collection.stub")
+            base_path("vendor/anomaly/streams-platform/resources/stubs/entity/collection.stub")
         );
 
         $filesystem->makeDirectory(dirname($path), 0755, true, true);

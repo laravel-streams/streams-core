@@ -211,7 +211,7 @@ class AddonPaths
      */
     public function testing()
     {
-        $path = base_path('vendor/visiosoft/streams-platform/addons');
+        $path = base_path('vendor/anomaly/streams-platform/addons');
 
         if (env('APP_ENV') !== 'testing') {
             return false;

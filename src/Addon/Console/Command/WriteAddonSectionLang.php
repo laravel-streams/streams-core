@@ -43,7 +43,7 @@ class WriteAddonSectionLang
         $path = "{$this->path}/resources/lang/en/section.php";
 
         $template = $filesystem->get(
-            base_path('vendor/visiosoft/streams-platform/resources/stubs/addons/resources/lang/en/section.stub')
+            base_path('vendor/anomaly/streams-platform/resources/stubs/addons/resources/lang/en/section.stub')
         );
 
         $filesystem->makeDirectory(dirname($path), 0755, true, true);

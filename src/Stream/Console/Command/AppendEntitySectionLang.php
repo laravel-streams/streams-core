@@ -54,7 +54,7 @@ class AppendEntitySectionLang
     {
 
         if (!$files->exists($path = $this->addon->getPath("resources/lang/en/section.php"))) {
-            $this->dispatchNow(new WriteAddonSectionLang($this->addon->getPath()));
+            dispatch_sync(new WriteAddonSectionLang($this->addon->getPath()));
         }
 
         $name = ucfirst(humanize($this->slug));

@@ -44,7 +44,7 @@ class LockModel extends EloquentModel implements LockInterface
      *
      * @return bool
      */
-    public function touch()
+    public function touch($attribute = null)
     {
         $this->locked_at = new Carbon();
 

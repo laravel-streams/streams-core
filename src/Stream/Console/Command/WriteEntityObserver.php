@@ -67,7 +67,7 @@ class WriteEntityObserver
         $path = $this->addon->getPath("src/{$entity}/{$entity}Observer.php");
 
         $template = $filesystem->get(
-            base_path("vendor/visiosoft/streams-platform/resources/stubs/entity/observer.stub")
+            base_path("vendor/anomaly/streams-platform/resources/stubs/entity/observer.stub")
         );
 
         $filesystem->makeDirectory(dirname($path), 0755, true, true);

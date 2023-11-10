@@ -4,7 +4,7 @@ use Anomaly\Streams\Platform\Support\Collection;
 use Assetic\Asset\AssetInterface;
 use Assetic\Filter\ScssphpFilter;
 use Illuminate\Foundation\Bus\DispatchesJobs;
-use ScssPhp\ScssPhp\Compiler;
+use Leafo\ScssPhp\Compiler;
 
 /**
  * Class ScssFilter

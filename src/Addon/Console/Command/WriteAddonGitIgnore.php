@@ -68,7 +68,7 @@ class WriteAddonGitIgnore
         $path = "{$this->path}/.gitignore";
 
         $template = $filesystem->get(
-            base_path('vendor/visiosoft/streams-platform/resources/stubs/addons/gitignore.stub')
+            base_path('vendor/anomaly/streams-platform/resources/stubs/addons/gitignore.stub')
         );
 
         $filesystem->makeDirectory(dirname($path), 0755, true, true);

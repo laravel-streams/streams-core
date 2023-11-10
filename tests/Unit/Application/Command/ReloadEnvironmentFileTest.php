@@ -10,17 +10,17 @@ class ReloadEnvironmentFileTest extends TestCase
         $this->markTestSkipped('We should not be touching the file.');
 
         return;
-        
-        $this->dispatchNow(
+
+        dispatch_sync(
             new \Anomaly\Streams\Platform\Application\Command\WriteEnvironmentFile(
                 array_merge(
-                    $this->dispatchNow(new \Anomaly\Streams\Platform\Application\Command\ReadEnvironmentFile()),
+                    dispatch_sync(new \Anomaly\Streams\Platform\Application\Command\ReadEnvironmentFile()),
                     ['DUMMY_TEST' => ($time = time())]
                 )
             )
         );
 
-        $this->dispatchNow(new \Anomaly\Streams\Platform\Application\Command\ReloadEnvironmentFile());
+        dispatch_sync(new \Anomaly\Streams\Platform\Application\Command\ReloadEnvironmentFile());
 
         $this->assertTrue(env('DUMMY_TEST') == $time);
     }

@@ -33,7 +33,7 @@ class EntryTranslationsObserver extends Observer
      */
     public function saving(EntryTranslationsModel $entry)
     {
-        $this->commands->dispatch(new SetMetaInformation($entry));
+        dispatch_sync(new SetMetaInformation($entry));
     }
 
     /**

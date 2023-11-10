@@ -1,24 +1,16 @@
 <?php namespace Anomaly\Streams\Platform\Model;
 
-use Anomaly\Streams\Platform\Collection\CacheCollection;
-use Anomaly\Streams\Platform\Model\Traits\Translatable;
-use Anomaly\Streams\Platform\Model\Traits\Versionable;
-use Anomaly\Streams\Platform\Traits\Hookable;
-use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Foundation\Bus\DispatchesJobs;
 use Robbo\Presenter\PresentableInterface;
+use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Database\Eloquent\Collection;
+use Anomaly\Streams\Platform\Traits\Hookable;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 use Anomaly\Streams\Platform\Stream\StreamModel;
+use Anomaly\Streams\Platform\Model\Traits\Versionable;
+use Anomaly\Streams\Platform\Model\Traits\Translatable;
+use Anomaly\Streams\Platform\Collection\CacheCollection;
 
-/**
- * Class EloquentModel
- *
- * @link   http://pyrocms.com/
- * @author PyroCMS, Inc. <support@pyrocms.com>
- * @author Ryan Thompson <ryan@pyrocms.com>
- */
 class EloquentModel extends Model implements Arrayable, PresentableInterface
 {
 
@@ -658,7 +650,7 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
             }
         }
 
-       if ($this instanceof StreamModel) {
+        if ($this instanceof StreamModel) {
             return $attributes;
         }
 
@@ -759,7 +751,7 @@ class EloquentModel extends Model implements Arrayable, PresentableInterface
      * @param  mixed $offset
      * @return bool
      */
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return !method_exists($this, $offset) && !is_null($this->$offset);
     }

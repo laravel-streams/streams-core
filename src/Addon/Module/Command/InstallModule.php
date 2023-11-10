@@ -65,7 +65,7 @@ class InstallModule
 
         $console->call('migrate', $options);
 
-        dispatch_now(new AutoloadEntryModels);
+        dispatch_sync(new AutoloadEntryModels);
         
         $modules->install($this->module);
 

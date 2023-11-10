@@ -67,7 +67,7 @@ class WriteEntityPresenter
         $path = $this->addon->getPath("src/{$entity}/{$entity}Presenter.php");
 
         $template = $filesystem->get(
-            base_path("vendor/visiosoft/streams-platform/resources/stubs/entity/presenter.stub")
+            base_path("vendor/anomaly/streams-platform/resources/stubs/entity/presenter.stub")
         );
 
         $filesystem->makeDirectory(dirname($path), 0755, true, true);

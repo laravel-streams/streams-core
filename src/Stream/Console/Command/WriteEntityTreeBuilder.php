@@ -67,7 +67,7 @@ class WriteEntityTreeBuilder
         $path = $this->addon->getPath("src/{$entity}/Tree/{$entity}TreeBuilder.php");
 
         $template = $filesystem->get(
-            base_path('vendor/visiosoft/streams-platform/resources/stubs/entity/tree/builder.stub')
+            base_path('vendor/anomaly/streams-platform/resources/stubs/entity/tree/builder.stub')
         );
 
         $filesystem->makeDirectory(dirname($path), 0755, true, true);

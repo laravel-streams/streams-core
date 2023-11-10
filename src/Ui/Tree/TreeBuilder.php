@@ -88,10 +88,10 @@ class TreeBuilder
     {
         $this->fire('ready', ['builder' => $this]);
 
-        $this->dispatchNow(new BuildTree($this));
+        dispatch_sync(new BuildTree($this));
 
         if (app('request')->isMethod('post')) {
-            $this->dispatchNow(new PostTree($this));
+            dispatch_sync(new PostTree($this));
         }
 
         return $this;
@@ -118,9 +118,9 @@ class TreeBuilder
     public function post()
     {
         if (!app('request')->isMethod('post')) {
-            $this->dispatchNow(new LoadTree($this));
-            $this->dispatchNow(new AddAssets($this));
-            $this->dispatchNow(new MakeTree($this));
+            dispatch_sync(new LoadTree($this));
+            dispatch_sync(new AddAssets($this));
+            dispatch_sync(new MakeTree($this));
         }
 
         return $this;
@@ -134,9 +134,9 @@ class TreeBuilder
     public function response()
     {
         if ($this->tree->getResponse() === null) {
-            $this->dispatchNow(new LoadTree($this));
-            $this->dispatchNow(new AddAssets($this));
-            $this->dispatchNow(new MakeTree($this));
+            dispatch_sync(new LoadTree($this));
+            dispatch_sync(new AddAssets($this));
+            dispatch_sync(new MakeTree($this));
         }
 
         return $this;
@@ -152,7 +152,7 @@ class TreeBuilder
         $this->make();
 
         if ($this->tree->getResponse() === null) {
-            $this->dispatchNow(new SetTreeResponse($this));
+            dispatch_sync(new SetTreeResponse($this));
         }
 
         return $this->tree->getResponse();

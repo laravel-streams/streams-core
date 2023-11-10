@@ -71,14 +71,10 @@ class FieldTypeQuery
             $query->{$this->where()}(
                 function (Builder $query) use ($translations, $filter, $column) {
 
-                    /**
-                     *  closed this block because it breaks 'multiple field type'.
-                     */
-
-//                    $query->where(
-//                        "{$translations}.locale",
-//                        config('app.locale')
-//                    );
+                    $query->where(
+                        "{$translations}.locale",
+                        config('app.locale')
+                    );
 
                     if (method_exists($this->fieldType, 'getRelation')) {
                         $query->where(

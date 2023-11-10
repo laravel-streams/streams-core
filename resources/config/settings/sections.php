@@ -50,7 +50,6 @@ return [
                     'mail_port',
                     'mail_username',
                     'mail_password',
-                    'mail_encrypt',
                 ],
             ],
             'cache'        => [

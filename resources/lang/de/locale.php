@@ -52,9 +52,6 @@ return [
     'cn' => [
         'name' => 'Chinesisch'
     ],
-    'tr' => [
-        'name' => 'Türkisch'
-    ],
     'tw' => [
         'name' => 'Twi'
     ],

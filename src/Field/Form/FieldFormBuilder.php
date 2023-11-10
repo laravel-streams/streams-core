@@ -77,7 +77,7 @@ class FieldFormBuilder extends FormBuilder
      */
     public function onSaved()
     {
-        $this->dispatchNow(new AutoAssignField($this));
+        dispatch_sync(new AutoAssignField($this));
     }
 
     /**

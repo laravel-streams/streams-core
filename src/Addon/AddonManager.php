@@ -2,14 +2,12 @@
 
 namespace Anomaly\Streams\Platform\Addon;
 
-use Dotenv\Dotenv;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Contracts\Container\Container;
 use Anomaly\Streams\Platform\Addon\Module\ModuleModel;
 use Anomaly\Streams\Platform\Addon\Extension\ExtensionModel;
 use Anomaly\Streams\Platform\Addon\Event\AddonsHaveRegistered;
-use Symfony\Component\Console\Input\ArgvInput;
 
 /**
  * Class AddonManager
@@ -157,7 +155,7 @@ class AddonManager
 
             $this->loader->classLoader()->addPsr4(
                 'Anomaly\\StreamsPlatformTests\\',
-                base_path('vendor/visiosoft/streams-platform/tests')
+                base_path('vendor/anomaly/streams-platform/tests')
             );
 
             $this->loader->register();
@@ -202,10 +200,7 @@ class AddonManager
         }
 
         // Sort all addons.
-        /**
-         * Commented because of the sort problem of modules
-         */
-        // $this->addons = $this->addons->sort();
+        $this->addons = $this->addons->sort();
 
         /*
          * Disperse addons to their
@@ -226,22 +221,7 @@ class AddonManager
      */
     protected function getEnabledAddonNamespaces()
     {
-        /*
-         * The INSTALLED variable in the .env file for the site module has been made dynamic.
-         * Owner : Vedat Akdoğan
-         */
-
-        $app = (new ArgvInput())->getParameterOption('--app', env('APPLICATION_REFERENCE', 'default'));
-
-        $is_installed = env('INSTALLED');
-
-        if (env('APPLICATION_REFERENCE', 'default') != $app) {
-
-            $app_config = \Dotenv\Dotenv::parse(file_get_contents(base_path('resources/' . $app . '/.env')));
-            $is_installed = filter_var($app_config['INSTALLED'], FILTER_VALIDATE_BOOLEAN);
-        }
-
-        if (!$is_installed || (Request::segment(1) !== 'admin' && env('INSTALLED') === 'admin')) {
+        if (!env('INSTALLED') || (Request::segment(1) !== 'admin' && env('INSTALLED') === 'admin')) {
             return [];
         }
 
@@ -286,22 +266,7 @@ class AddonManager
      */
     protected function getInstalledAddonNamespaces()
     {
-        /*
-         * The INSTALLED variable in the .env file for the site module has been made dynamic.
-         * Owner : Vedat Akdoğan
-         */
-
-        $app = (new ArgvInput())->getParameterOption('--app', env('APPLICATION_REFERENCE', 'default'));
-
-        $is_installed = env('INSTALLED');
-
-        if (env('APPLICATION_REFERENCE', 'default') != $app) {
-
-            $app_config = \Dotenv\Dotenv::parse(file_get_contents(base_path('resources/' . $app . '/.env')));
-            $is_installed = filter_var($app_config['INSTALLED'], FILTER_VALIDATE_BOOLEAN);
-        }
-
-        if (!$is_installed || (Request::segment(1) !== 'admin' && env('INSTALLED') === 'admin')) {
+        if (!env('INSTALLED') || (Request::segment(1) !== 'admin' && env('INSTALLED') === 'admin')) {
             return [];
         }
 

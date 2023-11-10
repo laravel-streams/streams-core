@@ -25,7 +25,7 @@ class FormRules
         $entry  = $builder->getFormEntry();
         $stream = $builder->getFormStream();
 
-        $locale = config('app.locale', config('streams::locales.default'));
+        $locale = config('streams::locales.default');
 
         /* @var FieldType $field */
         foreach ($builder->getEnabledFormFields() as $field) {
