@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Image;
 
+use Illuminate\Filesystem\FilesystemManager;
 use Mobile_Detect;
 use League\Flysystem\File;
 use Illuminate\Support\Str;
@@ -939,15 +940,15 @@ class Image
             
             $location = $this->image->location();
 
-            $manager = app(MountManager::class);
+            $manager = app(FilesystemManager::class);
 
-            $filesystem = $manager->getFilesystem($this->image->getDiskSlug());
-
-            if ($filesystem->getAdapter() instanceof AwsS3Adapter) {
+            $adapter = $manager->disk($this->image->getDiskSlug());
+            
+            if ($adapter instanceof AwsS3Adapter) {
                 $location = str_replace(' ', '%20', $location);
             }
 
-            return $this->manager->make($manager->url($location));
+            return $this->manager->make($adapter->url($location));
         }
 
         if (is_string($this->image) && str_is('*://*', $this->image)) {

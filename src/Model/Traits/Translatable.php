@@ -136,16 +136,6 @@ trait Translatable
     }
 
     /**
-     * Check Transaction Is Valid
-     **/
-    public function checkTranslation($translation)
-    {
-        if ($translation || (!empty($translation->name) || !empty($translation->title))) {
-            return true;
-        }
-    }
-
-    /**
      * Get related translations.
      *
      * @return EloquentCollection
@@ -177,8 +167,8 @@ trait Translatable
     /**
      * Get a translation.
      *
-     * @param null $locale
-     * @param bool|null $withFallback
+     * @param  null $locale
+     * @param  bool|null $withFallback
      * @return EloquentModel|null
      */
     public function getTranslation($locale = null, $withFallback = true)
@@ -192,9 +182,7 @@ trait Translatable
          * it exists then just use that locale.
          */
         if ($translation = $this->getTranslationByLocaleKey($locale)) {
-            if ($this->checkTranslation($translation)) {
-                return $translation;
-            }
+            return $translation;
         }
 
         /**
@@ -205,9 +193,7 @@ trait Translatable
         if ($withFallback
             && $translation = $this->getTranslationByLocaleKey($this->getDefaultLocale())
         ) {
-            if ($this->checkTranslation($translation)) {
-                return $translation;
-            }
+            return $translation;
         }
 
         /**
@@ -219,22 +205,7 @@ trait Translatable
             && $this->getTranslationByLocaleKey($this->getFallbackLocale())
             && $translation = $this->getTranslationByLocaleKey($this->getFallbackLocale())
         ) {
-            if ($this->checkTranslation($translation)) {
-                return $translation;
-            }
-        }
-
-        /**
-         * If we still don't have a translation then
-         * try looking up first translation any exist.
-         */
-
-        if ($withFallback) {
-            foreach ($this->getTranslations() as $translation) {
-                if ($this->checkTranslation($translation)) {
-                    return $translation;
-                }
-            }
+            return $translation;
         }
 
         return null;
@@ -453,9 +424,9 @@ trait Translatable
     /**
      * Return if the entry is trashed or not.
      *
-     * @return bool
      * @todo is this really used/needed?
      *
+     * @return bool
      */
     public function trashed()
     {
