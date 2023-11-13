@@ -2,6 +2,7 @@
 
 namespace Anomaly\Streams\Platform\Addon;
 
+use Anomaly\Streams\Platform\Addon\Command\GetNamespaceWithComposer;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Contracts\Container\Container;
@@ -80,22 +81,23 @@ class AddonManager
      * @param AddonCollection $addons
      */
     public function __construct(
-        AddonPaths $paths,
-        AddonLoader $loader,
-        ModuleModel $modules,
-        Container $container,
-        ExtensionModel $extensions,
+        AddonPaths      $paths,
+        AddonLoader     $loader,
+        ModuleModel     $modules,
+        Container       $container,
+        ExtensionModel  $extensions,
         AddonIntegrator $integrator,
         AddonCollection $addons
-    ) {
-        $this->paths      = $paths;
-        $this->addons     = $addons;
-        $this->loader     = $loader;
-        $this->modules    = $modules;
-        $this->container  = $container;
+    )
+    {
+        $this->paths = $paths;
+        $this->addons = $addons;
+        $this->loader = $loader;
+        $this->modules = $modules;
+        $this->container = $container;
         $this->integrator = $integrator;
         $this->extensions = $extensions;
-        $this->loader     = $loader;
+        $this->loader = $loader;
     }
 
     /**
@@ -105,7 +107,7 @@ class AddonManager
      */
     public function register($reload = false)
     {
-        $enabled   = $this->getEnabledAddonNamespaces();
+        $enabled = $this->getEnabledAddonNamespaces();
         $installed = $this->getInstalledAddonNamespaces();
 
         $this->container->bind(
@@ -320,6 +322,28 @@ class AddonManager
         $slug   = strtolower(substr(basename($path), 0, strpos(basename($path), '-')));
         $type   = strtolower(substr(basename($path), strpos(basename($path), '-') + 1));
 
-        return "{$vendor}.{$type}.{$slug}";
+        $namespace = "{$vendor}.{$type}.{$slug}";
+
+        list($vendor, $type, $slug) = explode('.', $namespace);
+
+        $class = studly_case($vendor) . '\\' . studly_case($slug) . studly_case($type) . '\\' . studly_case(
+                $slug
+            ) . studly_case($type);
+
+        if (!class_exists($class)) {
+            $composer_namespace = dispatch_sync(new GetNamespaceWithComposer($path));
+
+            list($vendor, $type, $slug) = explode('.', $composer_namespace);
+
+            $class = studly_case($vendor) . '\\' . studly_case($slug) . studly_case($type) . '\\' . studly_case(
+                    $slug
+                ) . studly_case($type);
+
+            if (class_exists($class)) {
+                return $composer_namespace;
+            }
+        }
+
+        return $namespace;
     }
 }

@@ -1,5 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Addon;
 
+use Anomaly\Streams\Platform\Addon\Command\GetNamespaceWithComposer;
 use Anomaly\Streams\Platform\Addon\Event\AddonWasRegistered;
 use Anomaly\Streams\Platform\Addon\Extension\Extension;
 use Anomaly\Streams\Platform\Addon\Module\Module;
@@ -76,18 +77,19 @@ class AddonIntegrator
      * @internal param Image $image
      */
     public function __construct(
-        Factory $views,
-        Container $container,
-        AddonProvider $provider,
-        Application $application,
-        Configurator $configurator,
+        Factory         $views,
+        Container       $container,
+        AddonProvider   $provider,
+        Application     $application,
+        Configurator    $configurator,
         AddonCollection $collection
-    ) {
-        $this->views        = $views;
-        $this->provider     = $provider;
-        $this->container    = $container;
-        $this->collection   = $collection;
-        $this->application  = $application;
+    )
+    {
+        $this->views = $views;
+        $this->provider = $provider;
+        $this->container = $container;
+        $this->collection = $collection;
+        $this->application = $application;
         $this->configurator = $configurator;
     }
 
@@ -112,10 +114,22 @@ class AddonIntegrator
                 $slug
             ) . studly_case($type);
 
-        /* @var Addon|Module|Extension|Twig_ExtensionInterface $addon */
         if (!class_exists($class)) {
-            return null;
+
+            $namespace = dispatch_sync(new GetNamespaceWithComposer($path));
+
+            list($vendor, $type, $slug) = explode('.', $namespace);
+
+            $class = studly_case($vendor) . '\\' . studly_case($slug) . studly_case($type) . '\\' . studly_case(
+                    $slug
+                ) . studly_case($type);
+
+            if (!class_exists($class)) {
+                return null;
+            }
         }
+
+
 
         $addon = app($class)
             ->setPath($path)
