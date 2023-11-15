@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Robbo\Presenter\Presenter;
 use Collective\Html\HtmlBuilder;
 use Intervention\Image\Constraint;
-use Illuminate\Filesystem\FilesystemManager;
+use League\Flysystem\MountManager;
 use Intervention\Image\ImageManager;
 use Illuminate\Filesystem\Filesystem;
 use Anomaly\FilesModule\File\FilePresenter;
@@ -250,33 +250,32 @@ class Image
      * @param ImageMacros $macros
      */
     public function __construct(
-        UrlGenerator  $url,
-        HtmlBuilder   $html,
-        Filesystem    $files,
+        UrlGenerator $url,
+        HtmlBuilder $html,
+        Filesystem $files,
         Mobile_Detect $agent,
-        ImageManager  $manager,
-        Request       $request,
-        Application   $application,
-        ImagePaths    $paths,
-        ImageMacros   $macros
-    )
-    {
-        $this->url = $url;
-        $this->html = $html;
-        $this->files = $files;
-        $this->agent = $agent;
-        $this->paths = $paths;
-        $this->macros = $macros;
-        $this->manager = $manager;
-        $this->request = $request;
+        ImageManager $manager,
+        Request $request,
+        Application $application,
+        ImagePaths $paths,
+        ImageMacros $macros
+    ) {
+        $this->url         = $url;
+        $this->html        = $html;
+        $this->files       = $files;
+        $this->agent       = $agent;
+        $this->paths       = $paths;
+        $this->macros      = $macros;
+        $this->manager     = $manager;
+        $this->request     = $request;
         $this->application = $application;
     }
 
     /**
      * Make a new image instance.
      *
-     * @param mixed $image
-     * @param null $output
+     * @param  mixed $image
+     * @param  null $output
      * @return $this
      */
     public function make($image, $output = null)
@@ -289,7 +288,7 @@ class Image
             $this->setOutput($output);
         }
 
-        $clone = clone($this);
+        $clone = clone ($this);
 
         $clone->setAlterations([]);
         $clone->setSources([]);
@@ -352,8 +351,8 @@ class Image
     /**
      * Return the URL to an image.
      *
-     * @param array $parameters
-     * @param null $secure
+     * @param  array $parameters
+     * @param  null $secure
      * @return string
      */
     public function url(array $parameters = [], $secure = null)
@@ -364,8 +363,8 @@ class Image
     /**
      * Return the image tag to an image.
      *
-     * @param null $alt
-     * @param array $attributes
+     * @param  null $alt
+     * @param  array $attributes
      * @return string
      */
     public function image($alt = null, array $attributes = [])
@@ -401,8 +400,8 @@ class Image
      * Return the image tag to a
      * data encoded inline image.
      *
-     * @param null $alt
-     * @param array $attributes
+     * @param  null $alt
+     * @param  array $attributes
      * @return string
      */
     public function inline($alt = null, array $attributes = [])
@@ -415,8 +414,8 @@ class Image
     /**
      * Return the image tag to an image.
      *
-     * @param null $alt
-     * @param array $attributes
+     * @param  null $alt
+     * @param  array $attributes
      * @return string
      */
     public function img($alt = null, array $attributes = [])
@@ -472,8 +471,8 @@ class Image
     /**
      * Encode the image.
      *
-     * @param null $format
-     * @param int $quality
+     * @param  null $format
+     * @param  int $quality
      * @return $this
      */
     public function encode($format = null, $quality = null)
@@ -563,7 +562,7 @@ class Image
     /**
      * Set the width attribute.
      *
-     * @param null $width
+     * @param  null $width
      * @return Image
      */
     public function width($width = null)
@@ -574,7 +573,7 @@ class Image
     /**
      * Set the height attribute.
      *
-     * @param null $height
+     * @param  null $height
      * @return Image
      */
     public function height($height = null)
@@ -590,7 +589,7 @@ class Image
      */
     public function setQuality($quality)
     {
-        $this->quality = (int)$quality;
+        $this->quality = (int) $quality;
 
         return $this;
     }
@@ -642,8 +641,8 @@ class Image
         }
 
         if (is_string($this->image) && str_is('*://*', $this->image) && filemtime($path) < app(
-                'League\Flysystem\MountManager'
-            )->getTimestamp($this->image)) {
+            'League\Flysystem\MountManager'
+        )->getTimestamp($this->image)) {
             return true;
         }
 
@@ -778,8 +777,8 @@ class Image
     /**
      * Set the sources/alterations.
      *
-     * @param array $sources
-     * @param bool $merge
+     * @param  array $sources
+     * @param  bool $merge
      * @return $this
      */
     public function sources(array $sources, $merge = true)
@@ -814,8 +813,8 @@ class Image
     /**
      * Alter the image based on the user agents.
      *
-     * @param array $agents
-     * @param bool $exit
+     * @param  array $agents
+     * @param  bool $exit
      * @return $this
      */
     public function agents(array $agents, $exit = false)
@@ -1100,7 +1099,7 @@ class Image
     /**
      * Set the alterations.
      *
-     * @param array $alterations
+     * @param  array $alterations
      * @return $this
      */
     public function setAlterations(array $alterations)
@@ -1148,7 +1147,7 @@ class Image
     /**
      * Set the attributes.
      *
-     * @param array $attributes
+     * @param  array $attributes
      * @return $this
      */
     public function setAttributes(array $attributes)
@@ -1185,7 +1184,7 @@ class Image
     /**
      * Set the srcsets.
      *
-     * @param array $srcsets
+     * @param  array $srcsets
      * @return $this
      */
     public function setSrcsets(array $srcsets)
@@ -1208,7 +1207,7 @@ class Image
     /**
      * Set the sources.
      *
-     * @param array $sources
+     * @param  array $sources
      * @return $this
      */
     public function setSources(array $sources)
@@ -1377,7 +1376,7 @@ class Image
      */
     public function __toString()
     {
-        return (string)$this->output();
+        return (string) $this->output();
     }
 
     /**
