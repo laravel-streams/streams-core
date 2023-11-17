@@ -2,10 +2,10 @@
 
 namespace Anomaly\Streams\Platform\Asset;
 
+use Illuminate\Filesystem\FilesystemManager;
 use Illuminate\Support\Str;
 use Collective\Html\HtmlBuilder;
 use tubalmartin\CssMin\Minifier;
-use League\Flysystem\MountManager;
 use Illuminate\Filesystem\Filesystem;
 use Anomaly\Streams\Platform\Support\Template;
 use Anomaly\Streams\Platform\Application\Application;
@@ -83,9 +83,9 @@ class Asset
     protected $themes;
 
     /**
-     * The mount manager.
+     * The filesystem manager.
      *
-     * @var MountManager
+     * @var FilesystemManager
      */
     protected $manager;
 
@@ -116,7 +116,7 @@ class Asset
      *
      * @param Application $application
      * @param ThemeCollection $themes
-     * @param MountManager $manager
+     * @param FilesystemManager $manager
      * @param AssetFilters $filters
      * @param AssetParser $parser
      * @param Template $template
