@@ -936,18 +936,18 @@ class Image
     protected function makeImage()
     {
         if ($this->image instanceof FileInterface) {
-            
+
             $location = $this->image->location();
 
-            $manager = app(MountManager::class);
+            $manager = app(FilesystemManager::class);
 
-            $filesystem = $manager->getFilesystem($this->image->getDiskSlug());
+            $adapter = $manager->disk($this->image->getDiskSlug());
 
-            if ($filesystem->getAdapter() instanceof AwsS3Adapter) {
+            if ($adapter instanceof AwsS3Adapter) {
                 $location = str_replace(' ', '%20', $location);
             }
 
-            return $this->manager->make($manager->url($location));
+            return $this->manager->make($adapter->url($location));
         }
 
         if (is_string($this->image) && str_is('*://*', $this->image)) {
