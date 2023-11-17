@@ -25,7 +25,7 @@ class GenerateEntryModelClassmap
 
         foreach ($files->directories(base_path('storage/streams')) as $directory) {
             if (is_dir($models = $directory . '/models')) {
-
+              
                 foreach ($files->directories($models) as $path)
                 {
                     $generator->scanPaths($path);
