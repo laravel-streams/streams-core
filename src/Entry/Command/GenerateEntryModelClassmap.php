@@ -1,6 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Entry\Command;
 
-use Composer\Autoload\ClassMapGenerator;
+use Composer\ClassMapGenerator\ClassMapGenerator;
 use Illuminate\Filesystem\Filesystem;
 
 /**
@@ -21,9 +21,19 @@ class GenerateEntryModelClassmap
      */
     public function handle(Filesystem $files)
     {
+        $generator = new ClassMapGenerator;
+
         foreach ($files->directories(base_path('storage/streams')) as $directory) {
             if (is_dir($models = $directory . '/models')) {
-                ClassMapGenerator::dump($files->directories($models), $models . '/classmap.php');
+              
+                foreach ($files->directories($models) as $path)
+                {
+                    $generator->scanPaths($path);
+                }
+
+                $classMap = $generator->getClassMap();
+
+                file_put_contents($models . '/classmap.php', sprintf('<?php return %s;', var_export($classMap->getMap(), true)));
             }
         }
     }
