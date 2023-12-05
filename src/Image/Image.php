@@ -3,6 +3,7 @@
 namespace Anomaly\Streams\Platform\Image;
 
 use Illuminate\Filesystem\FilesystemManager;
+use League\Flysystem\FileAttributes;
 use Mobile_Detect;
 use League\Flysystem\File;
 use Illuminate\Support\Str;
@@ -10,7 +11,6 @@ use Illuminate\Http\Request;
 use Robbo\Presenter\Presenter;
 use Collective\Html\HtmlBuilder;
 use Intervention\Image\Constraint;
-use League\Flysystem\MountManager;
 use Intervention\Image\ImageManager;
 use Illuminate\Filesystem\Filesystem;
 use Anomaly\FilesModule\File\FilePresenter;
@@ -641,10 +641,15 @@ class Image
             return true;
         }
 
-        if (is_string($this->image) && str_is('*://*', $this->image) && filemtime($path) < app(
-            'League\Flysystem\MountManager'
-        )->getTimestamp($this->image)) {
-            return true;
+        if (is_string($this->image) && str_is('*://*', $this->image))
+        {
+            list($disk, $path) = explode('://', $path, 2);
+
+            if (filemtime($path) < app(
+                    'filesystem'
+                )->disk($disk)->getTimestamp($path)) {
+                return true;
+            }
         }
 
         if ($this->image instanceof File && filemtime($path) < $this->image->getTimestamp()) {
@@ -937,25 +942,32 @@ class Image
     protected function makeImage()
     {
         if ($this->image instanceof FileInterface) {
-            
-            $location = $this->image->location();
+
+            $path = $this->image->path();
 
             $manager = app(FilesystemManager::class);
 
             $adapter = $manager->disk($this->image->getDiskSlug());
-            
+
             if ($adapter instanceof AwsS3Adapter) {
-                $location = str_replace(' ', '%20', $location);
+                $path = str_replace(' ', '%20', $path);
             }
 
-            return $this->manager->make($adapter->url($location));
+            return $this->manager->make($adapter->url($path));
         }
 
         if (is_string($this->image) && str_is('*://*', $this->image)) {
-            return $this->manager->make(app(MountManager::class)->url($this->image));
+
+            list($disk, $path) = explode('://', $this->image->path(), 2);
+
+            $manager = app(FilesystemManager::class);
+
+            $adapter = $manager->disk($disk);
+
+            return $this->manager->make($adapter->url($path));
         }
 
-        if ($this->image instanceof File) {
+        if ($this->image instanceof FileAttributes) {
             return $this->manager->make($this->image->read());
         }
 
@@ -978,11 +990,16 @@ class Image
     protected function dumpImage()
     {
         if ($this->image instanceof FileInterface) {
-            return app('League\Flysystem\MountManager')->read($this->image->location());
+            return app('filesystem')->disk($this->image->getDiskSlug())->read($this->image->path());
         }
 
-        if (is_string($this->image) && str_is('*://*', $this->image) && !starts_with($this->image, ['http', '//'])) {
-            return app('League\Flysystem\MountManager')->read($this->image);
+        if (is_string($this->image) && str_is('*://*', $this->image))
+        {
+            list($disk, $path) = explode('://', $this->image, 2);
+
+            if (!starts_with($this->image, ['http', '//'])) {
+                return app('filesystem')->disk($disk)->read($path);
+            }
         }
 
         if (is_string($this->image) && (file_exists($this->image) || starts_with($this->image, ['http', '//']))) {
