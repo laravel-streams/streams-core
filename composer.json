@@ -27,7 +27,8 @@
         "jenssegers/agent": "^2.6.0",
         "ezyang/htmlpurifier": "~4.0",
         "tubalmartin/cssmin": "~4.0",
-        "scssphp/scssphp": "^1.11"
+        "scssphp/scssphp": "^1.11",
+        "laravelcollective/html": "^6.4"
     },
     "autoload": {
         "psr-4": {
