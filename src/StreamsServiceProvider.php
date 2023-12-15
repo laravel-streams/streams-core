@@ -301,14 +301,6 @@ class StreamsServiceProvider extends ServiceProvider
                 $events->dispatch(new Ready());
             }
         );
-
-        /**
-         * Fire this last cause it causes some
-         * issues with configuration and sessions.
-         */
-        if (config('app.debug') && config('debugbar.enabled')) {
-            $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
-        }
     }
 
     /**
@@ -354,7 +346,6 @@ class StreamsServiceProvider extends ServiceProvider
          * Register all third party packages first.
          */
         $this->app->register(\Laravel\Scout\ScoutServiceProvider::class);
-        $this->app->register(\Barryvdh\HttpCache\ServiceProvider::class);
         $this->app->register(\Collective\Html\HtmlServiceProvider::class);
         $this->app->register(\Intervention\Image\ImageServiceProvider::class);
 
