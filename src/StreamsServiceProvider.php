@@ -7,7 +7,6 @@ use Illuminate\Routing\Redirector;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\ServiceProvider;
-use Asm89\Twig\CacheExtension\Extension;
 use Anomaly\Streams\Platform\Event\Ready;
 use Anomaly\Streams\Platform\Event\Booted;
 use Illuminate\Contracts\Cache\Repository;
@@ -21,12 +20,9 @@ use Anomaly\Streams\Platform\Stream\StreamModel;
 use Anomaly\Streams\Platform\Entry\EntryObserver;
 use Anomaly\Streams\Platform\Field\FieldObserver;
 use Anomaly\Streams\Platform\Model\EloquentModel;
-use Anomaly\Streams\Platform\View\Cache\CacheKey;
 use Anomaly\Streams\Platform\Routing\UrlGenerator;
 use Anomaly\Streams\Platform\Stream\StreamObserver;
 use Anomaly\Streams\Platform\Model\EloquentObserver;
-use Anomaly\Streams\Platform\View\Cache\CacheAdapter;
-use Anomaly\Streams\Platform\View\Cache\CacheStrategy;
 use Anomaly\Streams\Platform\View\ViewServiceProvider;
 use Anomaly\Streams\Platform\Assignment\AssignmentModel;
 use Anomaly\Streams\Platform\Assignment\AssignmentObserver;
@@ -265,15 +261,6 @@ class StreamsServiceProvider extends ServiceProvider
                                 $twig->addExtension($this->app->make($plugin));
                             }
                         }
-
-                        $twig->addExtension(
-                            new Extension(
-                                new CacheStrategy(
-                                    new CacheAdapter($this->app->make(Repository::class)),
-                                    new CacheKey()
-                                )
-                            )
-                        );
                     }
                 );
 
