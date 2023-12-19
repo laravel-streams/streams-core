@@ -8,7 +8,7 @@
             </button>
 
             {% for message in message_pull('success') %}
-                {{ trans(message)|markdown }}
+                {{ trans(message) }}
             {% endfor %}
         </div>
     {% endif %}
@@ -21,7 +21,7 @@
             </button>
 
             {% for message in message_pull('info') %}
-                {{ trans(message)|markdown }}
+                {{ trans(message) }}
             {% endfor %}
         </div>
     {% endif %}
@@ -35,7 +35,7 @@
             </button>
 
             {% for message in message_pull('warning') %}
-                {{ trans(message)|markdown }}
+                {{ trans(message) }}
             {% endfor %}
         </div>
     {% endif %}
@@ -49,7 +49,7 @@
             </button>
 
             {% for message in message_pull('error') %}
-                {{ trans(message)|markdown }}
+                {{ trans(message) }}
             {% endfor %}
         </div>
     {% endif %}

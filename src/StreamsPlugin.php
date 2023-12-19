@@ -15,7 +15,6 @@ use Anomaly\Streams\Platform\Support\Currency;
 use Anomaly\Streams\Platform\Support\Decorator;
 use Anomaly\Streams\Platform\Support\Length;
 use Anomaly\Streams\Platform\Support\Locale;
-use Anomaly\Streams\Platform\Support\Markdown;
 use Anomaly\Streams\Platform\Support\Str;
 use Anomaly\Streams\Platform\Support\Template;
 use Anomaly\Streams\Platform\Support\Value;
@@ -715,13 +714,6 @@ class StreamsPlugin extends Plugin
                         func_get_args()
                     );
                 }
-            ),
-            new \Twig_SimpleFilter(
-                'markdown',
-                function ($content) {
-                    return (new Markdown())->parse($content);
-                },
-                ['is_safe' => ['html']]
             ),
             new \Twig_SimpleFilter(
                 'str_*',
