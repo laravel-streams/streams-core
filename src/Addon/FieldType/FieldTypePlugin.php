@@ -1,6 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Addon\FieldType;
 
 use Anomaly\Streams\Platform\Addon\Plugin\Plugin;
+use Twig\TwigFunction;
 
 /**
  * Class FieldTypePlugin
@@ -37,7 +38,7 @@ class FieldTypePlugin extends Plugin
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('field_group', [$this->functions, 'fieldGroup']),
+            new TwigFunction('field_group', [$this->functions, 'fieldGroup']),
         ];
     }
 }

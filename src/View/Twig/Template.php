@@ -15,7 +15,7 @@ use Twig_Template;
 /**
  * Default base class for compiled templates.
  */
-abstract class Template extends Twig_Template
+abstract class Template extends \Twig\Template
 {
 
     /**

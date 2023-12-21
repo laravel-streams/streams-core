@@ -35,6 +35,8 @@ use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Jenssegers\Agent\Agent;
 use Symfony\Component\Yaml\Yaml;
+use Twig\TwigFilter;
+use Twig\TwigFunction;
 
 /**
  * Class StreamsPlugin
@@ -54,7 +56,7 @@ class StreamsPlugin extends Plugin
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'stream',
                 function ($namespace, $slug = null) {
                     return (new Decorator())->decorate(
@@ -62,7 +64,7 @@ class StreamsPlugin extends Plugin
                     );
                 }
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'streams',
                 function ($namespace) {
                     return (new Decorator())->decorate(
@@ -70,7 +72,7 @@ class StreamsPlugin extends Plugin
                     );
                 }
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'entry',
                 function ($namespace, $stream = null) {
                     return (new Decorator())->decorate(
@@ -78,7 +80,7 @@ class StreamsPlugin extends Plugin
                     );
                 }
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'entries',
                 function ($namespace, $stream = null) {
                     return (new Decorator())->decorate(
@@ -86,7 +88,7 @@ class StreamsPlugin extends Plugin
                     );
                 }
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'query',
                 function ($model = null) {
                     return (new Decorator())->decorate(
@@ -94,7 +96,7 @@ class StreamsPlugin extends Plugin
                     );
                 }
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'img',
                 function ($image) {
                     return dispatch_sync(new MakeImageInstance($image, 'img'));
@@ -103,7 +105,7 @@ class StreamsPlugin extends Plugin
                     'is_safe' => ['html'],
                 ]
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'table',
                 function () {
                     $arguments = func_get_args();
@@ -125,7 +127,7 @@ class StreamsPlugin extends Plugin
                     'is_safe' => ['html'],
                 ]
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'form',
                 function () {
                     $arguments = func_get_args();
@@ -148,7 +150,7 @@ class StreamsPlugin extends Plugin
                     'is_safe' => ['html'],
                 ]
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'form_*',
                 function ($name) {
                     return call_user_func_array([app('form'), camel_case($name)], array_slice(func_get_args(), 1));
@@ -157,7 +159,7 @@ class StreamsPlugin extends Plugin
                     'is_safe' => ['html'],
                 ]
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'html_*',
                 function ($name) {
                     return call_user_func_array([app('html'), camel_case($name)], array_slice(func_get_args(), 1));
@@ -166,13 +168,13 @@ class StreamsPlugin extends Plugin
                     'is_safe' => ['html'],
                 ]
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'array_*',
                 function ($name) {
                     return call_user_func_array([app(Arr::class), camel_case($name)], array_slice(func_get_args(), 1));
                 }
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'icon',
                 function ($type, $class = null) {
                     return (new Decorator())->decorate(dispatch_sync(new GetIcon($type, $class)));
@@ -181,7 +183,7 @@ class StreamsPlugin extends Plugin
                     'is_safe' => ['html'],
                 ]
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'view',
                 function ($view, array $data = []) {
                     return dispatch_sync(new GetView($view, $data))->render();
@@ -190,7 +192,7 @@ class StreamsPlugin extends Plugin
                     'is_safe' => ['html'],
                 ]
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'template',
                 function ($key = null, $default = null) {
 
@@ -204,7 +206,7 @@ class StreamsPlugin extends Plugin
                     return $template->get($key, $default);
                 }
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'buttons',
                 function ($buttons) {
                     return dispatch_sync(new GetButtons($buttons))->render();
@@ -213,7 +215,7 @@ class StreamsPlugin extends Plugin
                     'is_safe' => ['html'],
                 ]
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'constants',
                 function () {
                     return dispatch_sync(new GetConstants())->render();
@@ -222,73 +224,73 @@ class StreamsPlugin extends Plugin
                     'is_safe' => ['html'],
                 ]
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'env',
                 function ($key, $default = null) {
                     return env($key, $default);
                 }
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'length',
                 function ($length, $unit = null) {
                     return new Length($length, $unit);
                 }
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'carbon',
                 function ($time = null, $timezone = null) {
                     return new Carbon($time, $timezone);
                 }
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'decorate',
                 function ($value) {
                     return (new Decorator())->decorate($value);
                 }
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'request_time',
                 function ($decimal = 2) {
                     return dispatch_sync(new GetElapsedTime($decimal));
                 }
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'memory_usage',
                 function ($precision = 1) {
                     return dispatch_sync(new GetMemoryUsage($precision));
                 }
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'layout',
                 function ($layout, $default = 'default') {
                     return dispatch_sync(new GetLayoutName($layout, $default));
                 }
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'request',
                 function () {
                     return request(func_get_args() ?: null);
                 }
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'request_*',
                 function ($name) {
                     return call_user_func_array([request(), camel_case($name)], array_slice(func_get_args(), 1));
                 }
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'trans',
                 function ($key, array $parameters = [], $locale = null) {
                     return dispatch_sync(new GetTranslatedString($key, $parameters, $locale));
                 }
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'locale',
                 function ($locale = null) {
                     return (new Locale($locale));
                 }
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'str_*',
                 function ($name) {
                     return call_user_func_array(
@@ -297,7 +299,7 @@ class StreamsPlugin extends Plugin
                     );
                 }
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'url_*',
                 function ($name) {
                     return call_user_func_array(
@@ -306,7 +308,7 @@ class StreamsPlugin extends Plugin
                     );
                 }
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'route_*',
                 function ($name) {
                     return call_user_func_array(
@@ -315,7 +317,7 @@ class StreamsPlugin extends Plugin
                     );
                 }
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'asset_*',
                 function ($name) {
                     return call_user_func_array(
@@ -324,7 +326,7 @@ class StreamsPlugin extends Plugin
                     );
                 }, ['is_safe' => ['html']]
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'currency_*',
                 function ($name) {
                     return call_user_func_array(
@@ -333,7 +335,7 @@ class StreamsPlugin extends Plugin
                     );
                 }
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'value',
                 function () {
                     return call_user_func_array(
@@ -342,7 +344,7 @@ class StreamsPlugin extends Plugin
                     );
                 }
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'yaml',
                 function ($input) {
 
@@ -353,13 +355,13 @@ class StreamsPlugin extends Plugin
                     return app(Yaml::class)->parse($input);
                 }
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'addon',
                 function ($identifier) {
                     return (new Decorator())->decorate(app(AddonCollection::class)->get($identifier));
                 }
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'addons',
                 function ($type = null) {
 
@@ -372,19 +374,19 @@ class StreamsPlugin extends Plugin
                     return (new Decorator())->decorate($addons);
                 }
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'breadcrumb',
                 function () {
                     return app(BreadcrumbCollection::class);
                 }, ['is_safe' => ['html']]
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'favicons',
                 function ($source) {
                     return view('streams::partials.favicons', compact('source'));
                 }, ['is_safe' => ['html']]
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'gravatar',
                 function ($email, array $parameters = []) {
                     return app(Image::class)->make(
@@ -395,13 +397,13 @@ class StreamsPlugin extends Plugin
                     );
                 }, ['is_safe' => ['html']]
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'cookie',
                 function ($key, $default = null) {
                     return Arr::get($_COOKIE, $key, $default);
                 }
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'csrf_*',
                 function ($name) {
 
@@ -417,7 +419,7 @@ class StreamsPlugin extends Plugin
                     );
                 }
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'input_get',
                 function () {
                     return call_user_func_array(
@@ -426,7 +428,7 @@ class StreamsPlugin extends Plugin
                     );
                 }
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'asset',
                 function () {
                     return call_user_func_array(
@@ -435,7 +437,7 @@ class StreamsPlugin extends Plugin
                     );
                 }, ['is_safe' => ['html']]
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'action',
                 function () {
                     return call_user_func_array(
@@ -444,7 +446,7 @@ class StreamsPlugin extends Plugin
                     );
                 }, ['is_safe' => ['html']]
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'url',
                 function () {
 
@@ -458,7 +460,7 @@ class StreamsPlugin extends Plugin
                     );
                 }, ['is_safe' => ['html']]
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'route',
                 function () {
                     return call_user_func_array(
@@ -467,7 +469,7 @@ class StreamsPlugin extends Plugin
                     );
                 }, ['is_safe' => ['html']]
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'route_has',
                 function () {
                     return call_user_func_array(
@@ -476,7 +478,7 @@ class StreamsPlugin extends Plugin
                     );
                 }, ['is_safe' => ['html']]
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'secure_url',
                 function () {
                     return call_user_func_array(
@@ -485,7 +487,7 @@ class StreamsPlugin extends Plugin
                     );
                 }, ['is_safe' => ['html']]
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'secure_asset',
                 function () {
                     return call_user_func_array(
@@ -494,7 +496,7 @@ class StreamsPlugin extends Plugin
                     );
                 }, ['is_safe' => ['html']]
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'config',
                 function () {
                     return call_user_func_array(
@@ -503,7 +505,7 @@ class StreamsPlugin extends Plugin
                     );
                 }
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'config_*',
                 function ($name) {
 
@@ -517,7 +519,7 @@ class StreamsPlugin extends Plugin
                     );
                 }
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'cache',
                 function () {
                     return call_user_func_array(
@@ -526,7 +528,7 @@ class StreamsPlugin extends Plugin
                     );
                 }
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'cache_*',
                 function ($name) {
 
@@ -540,7 +542,7 @@ class StreamsPlugin extends Plugin
                     );
                 }
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'auth_*',
                 function ($name) {
 
@@ -554,7 +556,7 @@ class StreamsPlugin extends Plugin
                     );
                 }
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'trans_*',
                 function ($name) {
 
@@ -572,7 +574,7 @@ class StreamsPlugin extends Plugin
                     );
                 }
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'message_*',
                 function ($name) {
 
@@ -590,7 +592,7 @@ class StreamsPlugin extends Plugin
                     );
                 }
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'session',
                 function () {
                     return call_user_func_array(
@@ -599,7 +601,7 @@ class StreamsPlugin extends Plugin
                     );
                 }
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'parse',
                 function () {
                     return call_user_func_array(
@@ -608,7 +610,7 @@ class StreamsPlugin extends Plugin
                     );
                 }
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'session_*',
                 function ($name) {
 
@@ -622,7 +624,7 @@ class StreamsPlugin extends Plugin
                     );
                 }
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'agent_*',
                 function ($name) {
 
@@ -650,7 +652,7 @@ class StreamsPlugin extends Plugin
                     );
                 }
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'app',
                 function () {
                     return call_user_func_array(
@@ -670,7 +672,7 @@ class StreamsPlugin extends Plugin
     public function getFilters()
     {
         return [
-            new \Twig_SimpleFilter(
+            new TwigFilter(
                 'camel_case',
                 function () {
                     return call_user_func_array(
@@ -679,7 +681,7 @@ class StreamsPlugin extends Plugin
                     );
                 }
             ),
-            new \Twig_SimpleFilter(
+            new TwigFilter(
                 'snake_case',
                 function () {
                     return call_user_func_array(
@@ -688,7 +690,7 @@ class StreamsPlugin extends Plugin
                     );
                 }
             ),
-            new \Twig_SimpleFilter(
+            new TwigFilter(
                 'studly_case',
                 function () {
                     return call_user_func_array(
@@ -697,7 +699,7 @@ class StreamsPlugin extends Plugin
                     );
                 }
             ),
-            new \Twig_SimpleFilter(
+            new TwigFilter(
                 'humanize',
                 function () {
                     return call_user_func_array(
@@ -706,7 +708,7 @@ class StreamsPlugin extends Plugin
                     );
                 }
             ),
-            new \Twig_SimpleFilter(
+            new TwigFilter(
                 'parse',
                 function () {
                     return call_user_func_array(
@@ -715,7 +717,7 @@ class StreamsPlugin extends Plugin
                     );
                 }
             ),
-            new \Twig_SimpleFilter(
+            new TwigFilter(
                 'str_*',
                 function ($name) {
                     return call_user_func_array(
