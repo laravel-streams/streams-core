@@ -51,8 +51,8 @@ class Migrator extends \Illuminate\Database\Migrations\Migrator
      * This is a carbon copy of the Laravel method
      * except in the "!isset($files[$migration])" part.
      *
-     * @param  array|string $paths
-     * @param  bool         $pretend
+     * @param array|string $paths
+     * @param bool $pretend
      * @return array
      */
     public function reset($paths = [], $pretend = false)
@@ -102,8 +102,8 @@ class Migrator extends \Illuminate\Database\Migrations\Migrator
     /**
      * Rollback the last migration operation.
      *
-     * @param  array|string $paths
-     * @param  array        $options
+     * @param array|string $paths
+     * @param array $options
      * @return array
      */
     public function rollback($paths = [], array $options = [])
@@ -116,19 +116,17 @@ class Migrator extends \Illuminate\Database\Migrations\Migrator
     /**
      * Run "up" a migration instance.
      *
-     * @param  string $file
-     * @param  int    $batch
-     * @param  bool   $pretend
+     * @param string $file
+     * @param int $batch
+     * @param bool $pretend
      * @return void
      */
     protected function runUp($file, $batch, $pretend)
     {
-        /**
-         * Run our migrations first.
-         *
-         * @var Migration $migration
-         */
-        $migration = $this->resolve($file);
+        // First we will resolve a "real" instance of the migration class from this
+        // migration file name. Once we have the instances we can run the actual
+        // command such as "up" or "down", or we can just simulate the action.
+        $migration = $this->resolvePath($file);
 
         /**
          * Set the addon if there is
@@ -150,19 +148,17 @@ class Migrator extends \Illuminate\Database\Migrations\Migrator
     /**
      * Run "down" a migration instance.
      *
-     * @param  string $file
-     * @param  object $migration
-     * @param  bool   $pretend
+     * @param string $file
+     * @param object $migration
+     * @param bool $pretend
      * @return void
      */
     protected function runDown($file, $migration, $pretend)
     {
-        /**
-         * Run our migrations first.
-         *
-         * @var Migration $migration
-         */
-        $migration = $this->resolve($file);
+        // First we will get the file name of the migration so we can resolve out an
+        // instance of the migration. Once we get an instance we can either run a
+        // pretend execution of the migration or we can run the real migration.
+        $migration = $this->resolvePath($file);
 
         /**
          * Set the addon if there is
@@ -182,6 +178,31 @@ class Migrator extends \Illuminate\Database\Migrations\Migrator
     }
 
     /**
+     * Resolve a migration instance from a migration path.
+     *
+     * @param  string  $path
+     * @return object
+     */
+    protected function resolvePath(string $path)
+    {
+        $class = (new MigrationName($path))->className();
+
+        if (class_exists($class) && realpath($path) == (new \ReflectionClass($class))->getFileName()) {
+            return new $class;
+        }
+
+        $migration = static::$requiredPathCache[$path] ??= $this->files->getRequire($path);
+
+        if (is_object($migration)) {
+            return method_exists($migration, '__construct')
+                ? $this->files->getRequire($path)
+                : clone $migration;
+        }
+
+        return new $class;
+    }
+
+    /**
      * Resolve a migration instance from a file.
      *
      * @param  string $file
@@ -194,17 +215,6 @@ class Migrator extends \Illuminate\Database\Migrations\Migrator
         $migration->migration = (new MigrationName($file))->migration();
 
         return $migration;
-    }
-
-    /**
-     * Resolve a migration instance from a migration path.
-     *
-     * @param  string  $path
-     * @return object
-     */
-    protected function resolvePath(string $path)
-    {
-        return $this->resolve($path);
     }
 
     /**
