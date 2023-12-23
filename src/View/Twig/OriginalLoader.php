@@ -9,11 +9,13 @@
  * file that was distributed with this source code.
  */
 
-use Twig\Error\LoaderError;
-use Twig\Loader\LoaderInterface;
-use InvalidArgumentException;
+// namespace TwigBridge\Twig;
+
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\View\ViewFinderInterface;
+use InvalidArgumentException;
+use Twig\Error\LoaderError;
+use Twig\Loader\LoaderInterface;
 use Twig\Source;
 
 /**
@@ -114,7 +116,7 @@ class OriginalLoader implements LoaderInterface
     /**
      * {@inheritdoc}
      */
-    public function getSourceContext($name): Source
+    public function getSourceContext(String $name): Source
     {
         $path = $this->findTemplate($name);
 
@@ -124,7 +126,7 @@ class OriginalLoader implements LoaderInterface
     /**
      * {@inheritdoc}
      */
-    public function getCacheKey($name): string
+    public function getCacheKey(string $name): string
     {
         return $this->findTemplate($name);
     }
@@ -132,7 +134,7 @@ class OriginalLoader implements LoaderInterface
     /**
      * {@inheritdoc}
      */
-    public function isFresh($name, $time): bool
+    public function isFresh(string $name, int $time): bool
     {
         return $this->files->lastModified($this->findTemplate($name)) <= $time;
     }
