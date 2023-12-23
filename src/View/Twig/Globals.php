@@ -1,5 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\View\Twig;
 
+use Twig\Environment;
+use Twig\Extension\GlobalsInterface;
+
 /**
  * This file is part of the TwigBridge package.
  *
@@ -9,13 +12,13 @@
  * file that was distributed with this source code.
  */
 
-if (version_compare(\Twig_Environment::VERSION, '1.23.0') === -1) {
+if (version_compare(Environment::VERSION, '1.23.0') === -1) {
     interface Globals
     {
 
     }
 } else {
-    interface Globals extends \Twig_Extension_GlobalsInterface
+    interface Globals extends GlobalsInterface
     {
 
     }

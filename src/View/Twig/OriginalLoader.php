@@ -9,16 +9,17 @@
  * file that was distributed with this source code.
  */
 
-use Twig_LoaderInterface;
-use Twig_Error_Loader;
+use Twig\Error\LoaderError;
+use Twig\Loader\LoaderInterface;
 use InvalidArgumentException;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\View\ViewFinderInterface;
+use Twig\Source;
 
 /**
  * Basic loader using absolute paths.
  */
-class OriginalLoader implements Twig_LoaderInterface
+class OriginalLoader implements LoaderInterface
 {
     /**
      * @var \Illuminate\Filesystem\Filesystem
@@ -57,7 +58,7 @@ class OriginalLoader implements Twig_LoaderInterface
      *
      * @param string $name Template file name or path.
      *
-     * @throws \Twig_Error_Loader
+     * @throws LoaderError
      * @return string Path to template
      */
     public function findTemplate($name)
@@ -75,7 +76,7 @@ class OriginalLoader implements Twig_LoaderInterface
         try {
             $this->cache[$name] = $this->finder->find($name);
         } catch (InvalidArgumentException $ex) {
-            throw new Twig_Error_Loader($ex->getMessage());
+            throw new LoaderError($ex->getMessage());
         }
 
         return $this->cache[$name];
@@ -103,7 +104,7 @@ class OriginalLoader implements Twig_LoaderInterface
     {
         try {
             $this->findTemplate($name);
-        } catch (Twig_Error_Loader $exception) {
+        } catch (LoaderError $exception) {
             return false;
         }
 
@@ -113,17 +114,17 @@ class OriginalLoader implements Twig_LoaderInterface
     /**
      * {@inheritdoc}
      */
-    public function getSourceContext($name)
+    public function getSourceContext($name): Source
     {
         $path = $this->findTemplate($name);
 
-        return new \Twig_Source($this->files->get($path), $name, $path);
+        return new Source($this->files->get($path), $name, $path);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getCacheKey($name)
+    public function getCacheKey($name): string
     {
         return $this->findTemplate($name);
     }
@@ -131,7 +132,7 @@ class OriginalLoader implements Twig_LoaderInterface
     /**
      * {@inheritdoc}
      */
-    public function isFresh($name, $time)
+    public function isFresh($name, $time): bool
     {
         return $this->files->lastModified($this->findTemplate($name)) <= $time;
     }

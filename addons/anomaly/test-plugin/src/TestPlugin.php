@@ -1,8 +1,8 @@
 <?php namespace Anomaly\TestPlugin;
 
 use Anomaly\Streams\Platform\Addon\Plugin\Plugin;
-use Twig_Environment;
-use Twig_NodeVisitorInterface;
+use Twig\Environment;
+use Twig\NodeVisitor\NodeVisitorInterface;
 
 class TestPlugin extends Plugin
 {
@@ -12,9 +12,9 @@ class TestPlugin extends Plugin
      *
      * This is where you can load some file that contains filter functions for instance.
      *
-     * @param Twig_Environment $environment The current Twig_Environment instance
+     * @param Environment $environment The current Twig_Environment instance
      */
-    public function initRuntime(Twig_Environment $environment)
+    public function initRuntime(Environment $environment)
     {
     }
 
@@ -31,7 +31,7 @@ class TestPlugin extends Plugin
     /**
      * Returns the node visitor instances to add to the existing list.
      *
-     * @return Twig_NodeVisitorInterface[] An array of Twig_NodeVisitorInterface instances
+     * @return NodeVisitorInterface[] An array of Twig_NodeVisitorInterface instances
      */
     public function getNodeVisitors()
     {
