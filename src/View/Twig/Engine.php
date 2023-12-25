@@ -14,6 +14,11 @@ use Twig\Error\Error;
 use Twig\Error\LoaderError;
 use ErrorException;
 
+
+use Twig\Loader\LoaderInterface;
+//use TwigBridge\Twig\Loader;
+use Anomaly\Streams\Platform\View\Twig\OriginalLoader;
+
 /**
  * View engine for Twig files.
  */
@@ -29,18 +34,18 @@ class Engine extends CompilerEngine
     /**
      * Used to find the file that has failed.
      *
-     * @var Loader
+     * @var \TwigBridge\Twig\Loader
      */
     protected $loader = [];
 
     /**
      * Create a new Twig view engine instance.
      *
-     * @param Compiler        $compiler
-     * @param Loader            $loader
+     * @param \TwigBridge\Engine\Compiler        $compiler
+     * @param \TwigBridge\Twig\Loader            $loader
      * @param array                              $globalData
      */
-    public function __construct(Compiler $compiler, Loader $loader, array $globalData = [])
+    public function __construct(Compiler $compiler, OriginalLoader $loader, array $globalData = [])
     {
         parent::__construct($compiler);
 
@@ -116,7 +121,10 @@ class Engine extends CompilerEngine
         } elseif ($templateFile) {
             // Attempt to locate full path to file
             try {
-                $file = $this->loader->findTemplate($templateFile);
+                if ($this->loader instanceof Loader) {
+                    //Outside of unit test, we should be able to load the file
+                    $file = $this->loader->findTemplate($templateFile);
+                }
             } catch (LoaderError $exception) {
                 // Unable to load template
             }

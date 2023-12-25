@@ -5,8 +5,8 @@
 
         {# Render normal buttons as an anchor #}
         <{{ button.tag ?: 'a' }} class="btn btn-{{ button.size }} btn-{{ button.type }} {{ button.disabled ? 'disabled' }} {{ button.class }}" {{ button.disabled ? 'disabled' }} {{ html_attributes(button.attributes) }}>
-            {{ button.icon ? icon(button.icon)|raw }}
-            {{ trans(button.text)|raw }}
+        {{ button.icon ? icon(button.icon)|raw }}
+        {{ trans(button.text)|raw }}
         </{{ button.tag ?: 'a' }}>
 
     {% endif %}
@@ -35,7 +35,7 @@
 
             {# Render the actual dropdown links #}
             <ul class="dropdown-menu dropdown-menu-{{ button.position }}">
-                {% for link in button.dropdown if button.enabled or button.enabled == null %}
+                {% for link in button.dropdown %}
                     {% if link.text %}
                         <li>
 
