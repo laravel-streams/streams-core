@@ -26,8 +26,7 @@ class ArtisanServiceProvider extends \Illuminate\Foundation\Providers\ArtisanSer
     protected $streamsCommands = [
 
         // Cache Commands
-        \Anomaly\Streams\Platform\Http\Console\Warm::class,
-
+        // \Anomaly\Streams\Platform\Http\Console\Warm::class,
         // Asset Commands
         \Anomaly\Streams\Platform\Asset\Console\Clear::class,
 
