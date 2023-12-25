@@ -1,7 +1,6 @@
 <?php namespace Anomaly\Streams\Platform\Entry;
 
 use Anomaly\Streams\Platform\Entry\Command\DeleteEntryTranslations;
-use Anomaly\Streams\Platform\Entry\Command\PurgeHttpCache;
 use Anomaly\Streams\Platform\Entry\Command\SetMetaInformation;
 use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Entry\Event\EntryWasCreated;
@@ -57,7 +56,7 @@ class EntryObserver extends Observer
      */
     public function updating(EntryInterface $entry)
     {
-        dispatch_sync(new PurgeHttpCache($entry));
+
     }
 
     /**
@@ -68,9 +67,7 @@ class EntryObserver extends Observer
     public function updated(EntryInterface $entry)
     {
         $entry->flushCache();
-
-        dispatch_sync(new PurgeHttpCache($entry));
-
+        
         $entry->fireFieldTypeEvents('entry_updated');
 
         $this->events->dispatch(new EntryWasUpdated($entry));

@@ -5,12 +5,10 @@ use Anomaly\Streams\Platform\Event\Response;
 use Anomaly\Streams\Platform\Http\Middleware\ApplicationReady;
 use Anomaly\Streams\Platform\Http\Middleware\CheckLocale;
 use Anomaly\Streams\Platform\Http\Middleware\ForceSsl;
-use Anomaly\Streams\Platform\Http\Middleware\HttpCache;
 use Anomaly\Streams\Platform\Http\Middleware\MiddlewareCollection;
 use Anomaly\Streams\Platform\Http\Middleware\PoweredBy;
 use Anomaly\Streams\Platform\Http\Middleware\PrefixDomain;
 use Anomaly\Streams\Platform\Http\Middleware\SetLocale;
-use Anomaly\Streams\Platform\Http\Middleware\VerifyCsrfToken;
 use Anomaly\Streams\Platform\Message\MessageBag;
 use Anomaly\Streams\Platform\Routing\UrlGenerator;
 use Anomaly\Streams\Platform\Traits\FiresCallbacks;
@@ -135,11 +133,10 @@ class BaseController extends Controller
         $this->route = $this->request->route();
 
         event(new Response($this));
+        
+        // $this->middleware(PoweredBy::class);
 
-        $this->middleware(PoweredBy::class);
-
-        $this->middleware(VerifyCsrfToken::class);
-
+        // $this->middleware(VerifyCsrfToken::class);
         $this->middleware(ForceSsl::class);
         $this->middleware(PrefixDomain::class);
 
@@ -150,8 +147,7 @@ class BaseController extends Controller
         foreach (app(MiddlewareCollection::class) as $middleware) {
             $this->middleware($middleware);
         }
-
-        $this->middleware(HttpCache::class);
+        // $this->middleware(HttpCache::class);
     }
 
     /**
