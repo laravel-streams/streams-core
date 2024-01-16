@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Config;
 
 class StreamCache
 {
+    protected Stream $stream;
     protected Repository $store;
     protected Repository $collections;
 

@@ -2,6 +2,7 @@
 
 namespace Streams\Core\Entry;
 
+use Serializable;
 use Carbon\Carbon;
 use JsonSerializable;
 use Illuminate\Support\Arr;
@@ -20,6 +21,7 @@ use Streams\Core\Entry\Contract\EntryInterface;
 class Entry implements
     JsonSerializable,
     EntryInterface,
+    Serializable,
     Arrayable,
     Jsonable
 {
@@ -53,7 +55,7 @@ class Entry implements
 
     public function getIdAttribute()
     {
-        $name = $this->stream()->config('meta.key_name', 'id');
+        $name = $this->stream()->config('key_name', 'id');
 
         $value = $this->__prototype['attributes'][$name] ?? $this->getPrototypeAttributeDefault($name);
 
@@ -121,6 +123,16 @@ class Entry implements
     public function jsonSerialize()
     {
         return $this->toArray();
+    }
+
+    public function serialize()
+    {
+        return serialize($this->toArray());
+    }
+
+    public function unserialize($data)
+    {
+        $this->constructFluency(unserialize($data));
     }
 
     public function __toString()

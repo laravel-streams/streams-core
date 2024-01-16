@@ -12,6 +12,7 @@ use Streams\Core\Entry\Contract\EntryInterface;
 
 class FileAdapter extends AbstractAdapter
 {
+    protected $original = [];
     protected $data = [];
     protected $query;
 
