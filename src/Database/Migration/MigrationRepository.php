@@ -49,4 +49,15 @@ class MigrationRepository extends DatabaseMigrationRepository
 
         return $this;
     }
+
+    /**
+     * Remove a migration from the log.
+     *
+     * @param  object  $migration
+     * @return void
+     */
+    public function delete($migration)
+    {
+        $this->table()->where('migration','LIKE', '%'.$migration->getAddon()->getNamespace().'%')->delete();
+    }
 }
