@@ -49,14 +49,14 @@ class EloquentQueryBuilder extends Builder
     /**
      * Execute the query as a "select" statement.
      *
-     * @param  array $columns
+     * @param array $columns
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
     public function get($columns = ['*'])
     {
         $key = $this->getCacheKey();
 
-        $ttl        = $this->model->ttl();
+        $ttl = $this->model->ttl();
         $collection = $this->model->getCacheCollectionKey();
 
         $enabled = config('streams::database.cache', false);
@@ -190,8 +190,8 @@ class EloquentQueryBuilder extends Builder
         $name = $this->model->getConnectionName();
 
         return $this->model->getCacheCollectionKey() . ':' . md5(
-            $name . $this->toSql() . serialize($this->getBindings())
-        );
+                $name . $this->toSql() . serialize($this->getBindings())
+            );
     }
 
     /**
@@ -234,7 +234,7 @@ class EloquentQueryBuilder extends Builder
     /**
      * Get fresh models / disable cache
      *
-     * @param  boolean $fresh
+     * @param boolean $fresh
      * @return object
      */
     public function fresh($fresh = true)
@@ -249,7 +249,7 @@ class EloquentQueryBuilder extends Builder
     /**
      * Update a record in the database.
      *
-     * @param  array $values
+     * @param array $values
      * @return int
      */
     public function update(array $values)
@@ -340,9 +340,9 @@ class EloquentQueryBuilder extends Builder
                 $model->getTranslationsTableName() . '.entry_id'
             );
         }
-
-        $this->query->addSelect(
-            [$model->getTableName() . '.*'] +
+        if (!count($this->query->getColumns())) {
+            $this->query->addSelect(
+                [$model->getTableName() . '.*'] +
                 array_map(
                     function ($column) use ($model) {
                         return $model->getTranslationTableName() . '.' . $column;
@@ -360,7 +360,8 @@ class EloquentQueryBuilder extends Builder
                         ]
                     )
                 )
-        );
+            );
+        }
 
         /**
          * removed to prevent data repeatation( getTranslationsTableName() )
@@ -374,8 +375,8 @@ class EloquentQueryBuilder extends Builder
         $this->query->where(
             function (\Illuminate\Database\Query\Builder $query) use ($model, $locale) {
                 $query->where($model->getTranslationsTableName() . '.locale', $locale ?: config('app.locale'));//active language
-                $query->orWhere($model->getTranslationsTableName() . '.locale',setting_value('streams::default_locale'));//or default setting language
-                $query->orWhere($model->getTranslationsTableName() . '.locale','en');//or default module language
+                $query->orWhere($model->getTranslationsTableName() . '.locale', setting_value('streams::default_locale'));//or default setting language
+                $query->orWhere($model->getTranslationsTableName() . '.locale', 'en');//or default module language
             }
         );
 
