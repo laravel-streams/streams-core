@@ -416,7 +416,7 @@ class EloquentQueryBuilder extends Builder
             }
 
             if ($translatable) {
-                $this->translate(null);
+                $this->translate();
             }
         }
 
