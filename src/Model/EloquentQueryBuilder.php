@@ -380,8 +380,9 @@ class EloquentQueryBuilder extends Builder
      */
     public function select($columns = ['*'])
     {
-        if (is_array($columns)) {
-            $model = $this->getModel();
+        $model = $this->getModel();
+
+        if (is_array($columns) && $model->getStream()->isTranslatable()) {
 
             $translatableColumns = array_diff(
                 $this->getConnection()->getSchemaBuilder()->getColumnListing($model->getTranslationTableName()),
@@ -395,6 +396,7 @@ class EloquentQueryBuilder extends Builder
                     'sort_order',
                 ]
             );
+
 
             $translatable = false;
             foreach ($columns as $column) {
