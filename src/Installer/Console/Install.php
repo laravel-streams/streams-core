@@ -15,7 +15,6 @@ use Anomaly\Streams\Platform\Installer\Console\Command\SetAdminData;
 use Anomaly\Streams\Platform\Installer\Console\Command\SetOtherData;
 use Anomaly\Streams\Platform\Installer\Console\Command\RunInstallers;
 use Anomaly\Streams\Platform\Application\Command\WriteEnvironmentFile;
-use Anomaly\Streams\Platform\Installer\Console\Command\ConfirmLicense;
 use Anomaly\Streams\Platform\Installer\Console\Command\SetStreamsData;
 use Anomaly\Streams\Platform\Application\Command\InitializeApplication;
 use Anomaly\Streams\Platform\Application\Command\ReloadEnvironmentFile;
@@ -46,7 +45,6 @@ class Install extends Command
 
         if (!$this->option('ready')) {
 
-            dispatch_sync(new ConfirmLicense($this));
             dispatch_sync(new SetStreamsData($data));
             dispatch_sync(new SetDatabaseData($data, $this));
             dispatch_sync(new SetApplicationData($data, $this));
