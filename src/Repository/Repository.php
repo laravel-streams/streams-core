@@ -8,6 +8,7 @@ use Illuminate\Support\Collection;
 use Streams\Core\Criteria\Criteria;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Traits\Macroable;
+use Streams\Core\Criteria\Adapter\CollectionAdapter;
 use Streams\Core\Support\Traits\HasMemory;
 use Streams\Core\Criteria\Adapter\FileAdapter;
 use Streams\Core\Criteria\Adapter\SelfAdapter;
@@ -146,6 +147,11 @@ class Repository implements RepositoryInterface
 
             $adapter = $this->stream->config('source.type', $default);
 
+            if (class_exists($adapter)) {
+                dd($adapter);
+                return new $criteria($this->stream, new $adapter($this->stream));
+            }
+
             $adapter = Str::camel("new_{$adapter}_adapter");
 
             $adapter = $this->$adapter();
@@ -189,5 +195,10 @@ class Repository implements RepositoryInterface
     public function newEloquentAdapter(): EloquentAdapter
     {
         return new EloquentAdapter($this->stream);
+    }
+
+    public function newCollectionAdapter(): CollectionAdapter
+    {
+        return new CollectionAdapter($this->stream);
     }
 }

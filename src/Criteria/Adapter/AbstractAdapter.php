@@ -18,7 +18,6 @@ use Streams\Core\Criteria\Contract\AdapterInterface;
  */
 abstract class AbstractAdapter implements AdapterInterface
 {
-
     use Macroable;
     use HasMemory;
 
@@ -115,7 +114,13 @@ abstract class AbstractAdapter implements AdapterInterface
 
         $keyName = $this->stream->config('key_name', 'id');
 
-        $data = array_merge([$keyName => $entry->getId()], $data);
+        if (method_exists($entry, 'getId')) {
+            $id = $entry->getId();
+        } else {
+            $id = $data[$keyName];
+        }
+
+        $data = array_merge([$keyName => $id], $data);
         
         $prototype = $this->stream->config('abstract', Entry::class);
 
