@@ -380,6 +380,8 @@ class EloquentQueryBuilder extends Builder
      */
     public function select($columns = ['*'])
     {
+        $columns = is_array($columns) ? $columns : func_get_args();
+
         $model = $this->getModel();
 
         if (is_array($columns) && $model->getStream()->isTranslatable()) {
