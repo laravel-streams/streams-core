@@ -51,6 +51,11 @@ class EloquentAdapter extends AbstractAdapter
             $method = $method . 'In';
 
             $this->query = $this->query->{$method}($field, $value);
+        } elseif (strtoupper($operator) == 'NOT IN') {
+            
+            $method = $method . 'NotIn';
+
+            $this->query = $this->query->{$method}($field, $value);
         } else {
             $this->query = $this->query->{$method}($field, $operator, $value);
         }
