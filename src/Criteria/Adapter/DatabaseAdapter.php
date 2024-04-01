@@ -59,6 +59,17 @@ class DatabaseAdapter extends AbstractAdapter
             return $this;
         }
 
+        if (strtoupper($operator) == 'NOT IN') {
+
+            if (!$nested) {
+                $this->query->whereNotIn($field, $value);
+            } else {
+                $this->query->orWhereNotIn($field, $value);
+            }
+
+            return $this;
+        }
+
         $method = Str::studly($nested ? $nested . '_where' : 'where');
 
         $this->query = $this->query->{$method}($field, $operator, $value);
