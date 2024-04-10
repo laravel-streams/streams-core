@@ -11,7 +11,7 @@ use Streams\Core\Entry\Contract\EntryInterface;
 
 class CollectionAdapter extends AbstractAdapter
 {
-    protected Collection $data;
+    public Collection $data;
 
     protected Stream $stream;
 
@@ -22,9 +22,9 @@ class CollectionAdapter extends AbstractAdapter
         $this->loadData();
     }
 
-    protected function loadData()
+    protected function loadData(Collection $collection = null)
     {
-        $this->data = new Collection();
+        $this->data = $collection ?: new Collection();
     }
 
     public function orderBy($field, $direction = 'asc'): static
