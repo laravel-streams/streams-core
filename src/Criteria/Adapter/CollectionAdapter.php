@@ -4,7 +4,6 @@ namespace Streams\Core\Criteria\Adapter;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use Streams\Core\Entry\Entry;
 use Streams\Core\Stream\Stream;
 use Illuminate\Support\Collection;
 use Streams\Core\Entry\Contract\EntryInterface;

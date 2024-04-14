@@ -8,7 +8,6 @@ use Illuminate\Support\Collection;
 use Streams\Core\Criteria\Criteria;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Traits\Macroable;
-use Streams\Core\Criteria\Adapter\CollectionAdapter;
 use Streams\Core\Support\Traits\HasMemory;
 use Streams\Core\Criteria\Adapter\FileAdapter;
 use Streams\Core\Criteria\Adapter\SelfAdapter;
@@ -17,6 +16,7 @@ use Streams\Core\Support\Traits\FiresCallbacks;
 use Streams\Core\Criteria\Adapter\DatabaseAdapter;
 use Streams\Core\Criteria\Adapter\EloquentAdapter;
 use Streams\Core\Criteria\Adapter\FilebaseAdapter;
+use Streams\Core\Criteria\Adapter\CollectionAdapter;
 use Streams\Core\Criteria\Adapter\FilesystemAdapter;
 use Streams\Core\Repository\Contract\RepositoryInterface;
 
