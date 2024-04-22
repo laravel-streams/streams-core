@@ -29,7 +29,7 @@ class DatetimeFieldType extends Field
         return $this->toCarbon($value);
     }
 
-    public function cast($value): \Datetime
+    public function cast($value): \Datetime | null
     {
         return $this->toCarbon($value);
     }
@@ -72,8 +72,12 @@ class DatetimeFieldType extends Field
         };
     }
 
-    protected function toCarbon($value): Carbon
+    protected function toCarbon($value): Carbon | null
     {
+        if (!$value) {
+            return null;
+        }
+        
         if ($value instanceof Carbon) {
             return Date::instance($value);
         }

@@ -35,7 +35,7 @@ class StreamsServiceProvider extends ServiceProvider
         'Images' => \Streams\Core\Support\Facades\Images::class,
         'Streams' => \Streams\Core\Support\Facades\Streams::class,
         'Includes' => \Streams\Core\Support\Facades\Includes::class,
-        'Messages' => \Streams\Core\Support\Facades\Messages::class,
+        // 'Messages' => \Streams\Core\Support\Facades\Messages::class,
         'Overrides' => \Streams\Core\Support\Facades\Overrides::class,
         'Applications' => \Streams\Core\Support\Facades\Applications::class,
     ];
@@ -46,7 +46,7 @@ class StreamsServiceProvider extends ServiceProvider
         'images' => \Streams\Core\Image\ImageManager::class,
         'includes' => \Streams\Core\View\ViewIncludes::class,
         'streams' => \Streams\Core\Stream\StreamManager::class,
-        'messages' => \Streams\Core\Message\MessageManager::class,
+        // 'messages' => \Streams\Core\Message\MessageManager::class,
         'applications' => \Streams\Core\Application\ApplicationManager::class,
 
         'hydrator'   => \Streams\Core\Support\Hydrator::class,

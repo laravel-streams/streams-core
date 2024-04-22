@@ -24,9 +24,9 @@ class DateFieldType extends DatetimeFieldType
         return $this->cast($value);
     }
 
-    public function cast($value): \Datetime
+    public function cast($value): \Datetime | null
     {
-        return $this->toCarbon($value)->startOfDay();
+        return $this->toCarbon($value)?->startOfDay();
     }
 
     public function modify($value)
@@ -62,8 +62,12 @@ class DateFieldType extends DatetimeFieldType
         };
     }
 
-    protected function toCarbon($value): Carbon
+    protected function toCarbon($value): Carbon | null
     {
+        if (!$value) {
+            return null;
+        }
+
         if ($value instanceof Carbon) {
             return $value;
         }
