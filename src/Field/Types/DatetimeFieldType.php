@@ -38,7 +38,7 @@ class DatetimeFieldType extends Field
     {
         $format = $this->config('format', 'Y-m-d H:i:s');
 
-        return $this->toCarbon($value)->format($format);
+        return $this->toCarbon($value)?->format($format);
     }
 
     public function restore($value): \Datetime

@@ -33,7 +33,7 @@ class DateFieldType extends DatetimeFieldType
     {
         $format = $this->config('format', 'Y-m-d');
 
-        return $this->toCarbon($value)->format($format);
+        return $this->toCarbon($value)?->format($format);
     }
 
     public function getSchemaName()
