@@ -3,10 +3,12 @@
 namespace Streams\Core\Support\Traits;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
+use Streams\Core\Stream\Stream;
+use Illuminate\Validation\Validator;
 use Streams\Core\Field\FieldDecorator;
 use Illuminate\Support\Traits\ForwardsCalls;
-use Illuminate\Validation\Validator;
-use Streams\Core\Stream\Stream;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Streams\Core\Support\Facades\Streams as StreamsFacade;
 
 /**
@@ -22,6 +24,8 @@ trait Streams
     use Prototype {
         Prototype::__call as private callPrototype;
     }
+
+    protected array $relationships = [];
 
     public function __construct(array $attributes = [])
     {
@@ -172,7 +176,16 @@ trait Streams
 
     public function __get($key)
     {
-        return $this->getAttribute($key);
+        if (in_array($key, $this->relationships)) {
+
+            $related = $this->{Str::camel($key)}();
+
+            if ($related instanceof Relation) {
+                $related = $related->getResults();
+            }
+
+            return $related;
+        }
     }
 
     public function __call($method, $parameters)
