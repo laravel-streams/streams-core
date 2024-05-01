@@ -177,7 +177,7 @@ trait Streams
     public function __get($key)
     {
         if (in_array($key, $this->relationships)) {
-
+ 
             $related = $this->{Str::camel($key)}();
 
             if ($related instanceof Relation) {
@@ -186,6 +186,8 @@ trait Streams
 
             return $related;
         }
+
+        return $this->getAttribute($key);
     }
 
     public function __call($method, $parameters)
