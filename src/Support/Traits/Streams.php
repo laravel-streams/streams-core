@@ -25,8 +25,6 @@ trait Streams
         Prototype::__call as private callPrototype;
     }
 
-    protected array $relationships = [];
-
     public function __construct(array $attributes = [])
     {
 
@@ -176,7 +174,7 @@ trait Streams
 
     public function __get($key)
     {
-        if (in_array($key, $this->relationships)) {
+        if (isset($this->relationships) && in_array($key, $this->relationships)) {
  
             $related = $this->{Str::camel($key)}();
 
