@@ -76,7 +76,7 @@ class AssetManager
     {
         $asset = $this->resolve($asset);
 
-        if (!filter_var($asset, FILTER_VALIDATE_URL)) {
+        if (!filter_var($asset, FILTER_VALIDATE_URL) && !Str::startsWith($asset, base_path())) {
             $asset = public_path(ltrim($asset, '/\\'));
         }
 
