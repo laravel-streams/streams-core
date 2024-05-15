@@ -10,6 +10,7 @@ class NumberFieldType extends Field
 {
     public $rules = [
         'numeric',
+        'nullable',
     ];
 
     public function cast($value): float|int

@@ -10,6 +10,7 @@ class DecimalFieldType extends Field
 {
     public $rules = [
         'numeric',
+        'nullable',
     ];
 
     public function modify($value)
