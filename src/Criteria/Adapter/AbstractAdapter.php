@@ -137,7 +137,7 @@ abstract class AbstractAdapter implements AdapterInterface
                 continue;
             }
 
-            $value = $field->restore($value);
+            $value = is_null($value) ? $value : $field->restore($value);
         }
 
         $entry = $entry->setRawPrototypeAttributes($data);
