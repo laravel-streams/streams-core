@@ -45,12 +45,25 @@ class NavigationBuilder
      */
     public function build(ControlPanelBuilder $builder)
     {
+
         $controlPanel = $builder->getControlPanel();
 
         $this->input->read($builder);
-
         foreach ($builder->getNavigation() as $link) {
-            $controlPanel->addNavigationLink($this->factory->make($link));
+            if (!empty($link['sections'])) {
+                foreach ($link['sections'] as $key => $section) {
+                    $tmpLink = $link;
+                    if (isset($section['href'])) {
+                        $tmpLink['attributes']['href'] = $section['href'];
+                    } else {
+                        $tmpLink['attributes']['href'] .= "/" . $key;
+                    }
+                    $tmpLink['title'] = $tmpLink['slug'] . "::section." . $key . ".title";
+                    $controlPanel->addNavigationLink($this->factory->make($tmpLink));
+                }
+            }else{
+                $controlPanel->addNavigationLink($this->factory->make($link));
+            }
         }
     }
 }
