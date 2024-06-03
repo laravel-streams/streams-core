@@ -40,6 +40,7 @@ class NavigationHandler
                         'icon'       => $module->getIcon(),
                         'title'      => $module->getTitle(),
                         'slug'       => $module->getNamespace(),
+                        'sections' => $module->getSections(),
                         'href'       => 'admin/' . $module->getSlug(),
                     ];
                 },
