@@ -29,12 +29,12 @@ class NavigationBuilder
     /**
      * Create a new NavigationBuilder instance.
      *
-     * @param NavigationInput   $input
+     * @param NavigationInput $input
      * @param NavigationFactory $factory
      */
     public function __construct(NavigationInput $input, NavigationFactory $factory)
     {
-        $this->input   = $input;
+        $this->input = $input;
         $this->factory = $factory;
     }
 
@@ -52,16 +52,19 @@ class NavigationBuilder
         foreach ($builder->getNavigation() as $link) {
             if (!empty($link['sections'])) {
                 foreach ($link['sections'] as $key => $section) {
-                    $tmpLink = $link;
+                    $sectionLink = $link;
                     if (isset($section['href'])) {
-                        $tmpLink['attributes']['href'] = $section['href'];
+                        $sectionLink['attributes']['href'] = $section['href'];
                     } else {
-                        $tmpLink['attributes']['href'] .= "/" . $key;
+                        $sectionLink['attributes']['href'] .= "/" . $key;
                     }
-                    $tmpLink['title'] = $tmpLink['slug'] . "::section." . $key . ".title";
-                    $controlPanel->addNavigationLink($this->factory->make($tmpLink));
+                    $sectionLink['title'] = $sectionLink['slug'] . "::section." . $key . ".title";
+                    if (empty($sectionLink['title'])) {
+
+                    }
+                    $controlPanel->addNavigationLink($this->factory->make($sectionLink));
                 }
-            }else{
+            } else {
                 $controlPanel->addNavigationLink($this->factory->make($link));
             }
         }
