@@ -52,7 +52,7 @@ class ArrayFieldType extends Field
             $value = $this->cast($value);
         }
 
-        foreach ($value as &$item) {
+        foreach ($value ?? [] as &$item) {
 
             if (is_object($item) && $item instanceof EntryInterface) {
                 $item = [
