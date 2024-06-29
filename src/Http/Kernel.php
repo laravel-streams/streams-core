@@ -26,7 +26,7 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
         \Illuminate\View\Middleware\ShareErrorsFromSession::class,
         \Illuminate\Cookie\Middleware\EncryptCookies::class,
         \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
-        \Anomaly\Streams\Platform\Http\Middleware\ProxySession::class,
+        // \Anomaly\Streams\Platform\Http\Middleware\ProxySession::class,
         /**
          * This needs work yet. Currently the CacheRequests
          * cause circular issues OR drop sessions if not
@@ -57,8 +57,6 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
      */
     protected $middlewareGroups = [
         'web' => [
-            //\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class,
-            \Anomaly\Streams\Platform\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
         'api' => [
@@ -104,7 +102,7 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
      * @param array $middleware
      */
     public function addMiddlewareGroup($group, $middleware = []) {
-        
+
         $this->middlewareGroups[$group] = $middleware;
 
         $this->syncMiddlewareToRouter();
