@@ -7,22 +7,20 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- */
-
+ */ 
 
 use Illuminate\Contracts\Container\Container;
-use Illuminate\View\ViewFinderInterface;
 use InvalidArgumentException;
-use Twig_Environment;
-use Twig_Error;
-use Twig_LoaderInterface;
+use Twig\Environment;
+use Twig\Error\Error;
+use Twig\Loader\LoaderInterface;
+use Twig\Source;
 
 /**
  * Bridge functions between Laravel & Twig
  */
-class Bridge extends Twig_Environment
+class Bridge extends Environment
 {
-
     /**
      * @var string TwigBridge version
      */
@@ -36,7 +34,7 @@ class Bridge extends Twig_Environment
     /**
      * {@inheritdoc}
      */
-    public function __construct(Twig_LoaderInterface $loader, $options = [], Container $app = null)
+    public function __construct(LoaderInterface $loader, $options = [], Container $app = null)
     {
         // Twig 2.0 doesn't support `true` anymore
         if (isset($options['autoescape']) && $options['autoescape'] === true) {
@@ -70,15 +68,6 @@ class Bridge extends Twig_Environment
         $this->app = $app;
     }
 
-    public function loadTemplate($name, $index = null)
-    {
-        $template = parent::loadTemplate($name, $index);
-
-        $template->setName($this->normalizeName($name));
-
-        return $template;
-    }
-
     /**
      * Lint (check) the syntax of a file on the view paths.
      *
@@ -88,65 +77,20 @@ class Bridge extends Twig_Environment
      */
     public function lint($file)
     {
-        $template = $this->app['twig.loader.viewfinder']->getSource($file);
+        /** @var Source $template */
+        $template = $this->app['twig.loader.viewfinder']->getSourceContext($file);
 
-        if (!$template) {
+        $code = trim($template->getCode());
+        if (empty($code)) {
             throw new InvalidArgumentException('Unable to find file: ' . $file);
         }
 
         try {
             $this->parse($this->tokenize($template, $file));
-        } catch (Twig_Error $e) {
+        } catch (Error $e) {
             return false;
         }
 
         return true;
-    }
-
-    /**
-     * Merges a context with the shared variables, same as mergeGlobals()
-     *
-     * @param array $context An array representing the context
-     *
-     * @return array The context merged with the globals
-     */
-    public function mergeShared(array $context)
-    {
-        // we don't use array_merge as the context being generally
-        // bigger than globals, this code is faster.
-        foreach ($this->app['view']->getShared() as $key => $value) {
-            if (!array_key_exists($key, $context)) {
-                $context[$key] = $value;
-            }
-        }
-
-        return $context;
-    }
-
-    /**
-     * Normalize a view name.
-     *
-     * @param  string $name
-     *
-     * @return string
-     */
-    protected function normalizeName($name)
-    {
-        $extension = '.' . $this->app['twig.extension'];
-        $length    = strlen($extension);
-
-        if (substr($name, -$length, $length) === $extension) {
-            $name = substr($name, 0, -$length);
-        }
-
-        // Normalize namespace and delimiters
-        $delimiter = ViewFinderInterface::HINT_PATH_DELIMITER;
-        if (strpos($name, $delimiter) === false) {
-            return str_replace('/', '.', $name);
-        }
-
-        list($namespace, $name) = explode($delimiter, $name);
-
-        return $namespace . $delimiter . str_replace('/', '.', $name);
     }
 }

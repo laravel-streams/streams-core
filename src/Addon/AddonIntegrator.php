@@ -10,7 +10,6 @@ use Anomaly\Streams\Platform\View\Event\RegisteringTwigPlugins;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\View\Factory;
-use Twig_ExtensionInterface;
 
 /**
  * Class AddonIntegrator
@@ -100,7 +99,7 @@ class AddonIntegrator
      * @param         $namespace
      * @param boolean $enabled
      * @param boolean $installed
-     * @return Addon|Extension|Module|Twig_ExtensionInterface
+     * @return Addon|Extension|Module
      */
     public function register($path, $namespace, $enabled, $installed)
     {

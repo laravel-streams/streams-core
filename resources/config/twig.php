@@ -43,11 +43,7 @@ return [
             // The charset used by the templates.
             // default: utf-8
             'charset' => 'utf-8',
-
-            // The base template class to use for generated templates.
-            // default: TwigBridge\Twig\Template
-            'base_template_class' => '\Anomaly\Streams\Platform\View\Twig\Template',
-
+            
             // An absolute path where to store the compiled templates, or false to disable caching. If null
             // then the cache file path is used.
             // default: cache file storage path

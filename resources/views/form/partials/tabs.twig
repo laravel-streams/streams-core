@@ -1,14 +1,12 @@
 <ul class="nav nav-sections {{ stacked ? 'nav-stacked' }}">
-    {% spaceless %}
-        {% for slug, tab in tabs %}
-            <li class="nav-item {{ loop.first ? ' active' }}">
-                <a href="#tab-{{ form.options.prefix }}{{ tab.slug ?: slug }}" data-toggle="tab" class="nav-link">
-                    {{ tab.icon ? icon(tab.icon) }}
-                    {{ trans(tab.title) }}
-                </a>
-            </li>
-        {% endfor %}
-    {% endspaceless %}
+    {% for slug, tab in tabs %}
+        <li class="nav-item {{ loop.first ? ' active' }}">
+            <a href="#tab-{{ form.options.prefix }}{{ tab.slug ?: slug }}" data-toggle="tab" class="nav-link">
+                {{ tab.icon ? icon(tab.icon) }}
+                {{ trans(tab.title) }}
+            </a>
+        </li>
+    {% endfor %}
 </ul>
 
 <div class="card-block card-body">
