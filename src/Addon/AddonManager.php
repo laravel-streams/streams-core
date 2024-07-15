@@ -333,6 +333,10 @@ class AddonManager
         if (!class_exists($class)) {
             $composer_namespace = dispatch_sync(new GetNamespaceWithComposer($path));
 
+            if(empty($composer_namespace)) {
+                die($path. ' ' . $composer_namespace . ' not found');
+            }
+            
             list($vendor, $type, $slug) = explode('.', $composer_namespace);
 
             $class = studly_case($vendor) . '\\' . studly_case($slug) . studly_case($type) . '\\' . studly_case(
