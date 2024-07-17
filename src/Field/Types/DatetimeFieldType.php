@@ -22,10 +22,6 @@ class DatetimeFieldType extends Field
 
     public function default($value)
     {
-        if ($value === null) {
-            return null;
-        }
-
         return $this->toCarbon($value);
     }
 

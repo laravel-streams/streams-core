@@ -43,6 +43,11 @@ class RelationshipFieldType extends Field
         );
     }
 
+    public function default($value)
+    {
+        return $this->toCarbon($value);
+    }
+
     public function generator()
     {
         return function () {
