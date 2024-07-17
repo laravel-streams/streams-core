@@ -2,6 +2,7 @@
 
 namespace Streams\Core\Field\Types;
 
+use Illuminate\Support\Facades\Auth;
 use Streams\Core\Field\Field;
 use Streams\Core\Support\Facades\Streams;
 
@@ -45,7 +46,11 @@ class RelationshipFieldType extends Field
 
     public function default($value)
     {
-        return $this->toCarbon($value);
+        if ($value == 'auth_id') {
+            return Auth::id();
+        }
+
+        return $value;
     }
 
     public function generator()
