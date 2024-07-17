@@ -47,7 +47,7 @@ trait Streams
         if (is_object($this->stream)) {
             return $this->stream;
         }
-        
+
         return StreamsFacade::make($this->stream);
     }
 
@@ -72,11 +72,14 @@ trait Streams
 
         foreach ($stream->fields as $field) {
 
-            if (array_key_exists($field->handle, $attributes)) {
+            if (array_key_exists($field->handle, $attributes) && !is_null($attributes[$field->handle])) {
                 $attributes[$field->handle] = $field->modify($attributes[$field->handle]);
             }
 
-            if (!array_key_exists($field->handle, $attributes) && $default = $field->config('default')) {
+            if (
+                !array_key_exists($field->handle, $attributes)
+                && !is_null($default = $field->config('default'))
+            ) {
                 $attributes[$field->handle] = $field->default($default);
             }
         }
@@ -175,7 +178,7 @@ trait Streams
     public function __get($key)
     {
         if (isset($this->relationships) && in_array($key, $this->relationships)) {
- 
+
             $related = $this->{Str::camel($key)}();
 
             if ($related instanceof Relation) {

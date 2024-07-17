@@ -47,7 +47,7 @@ class RelationshipFieldType extends Field
     public function default($value)
     {
         if ($value == 'auth_id') {
-            return Auth::id();
+            return Auth::check() ? Auth::id() : null;
         }
 
         return $value;
