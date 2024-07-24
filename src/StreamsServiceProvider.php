@@ -355,6 +355,17 @@ class StreamsServiceProvider extends ServiceProvider
     
         Blade::directive('endassets', function ($expression) {
             return "<?php app('view')->assetsFinish(ob_get_clean()); ?>";
-        });    
+        });
+
+
+        Blade::directive('markdown', function () {
+            return "<?php echo (new \League\CommonMark\GithubFlavoredMarkdownConverter([
+                // Configuration
+            ]))->convert('";
+        });
+        
+        Blade::directive('endmarkdown', function () {
+            return "'); ?>";
+        });
     }
 }
