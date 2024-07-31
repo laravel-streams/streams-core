@@ -233,7 +233,11 @@ class FileAdapter extends AbstractAdapter
 
             $handle = fopen($file, 'w');
 
-            fputcsv($handle, $this->stream->fields->keys()->all());
+            if (!$fieldNames = $this->stream->fields->keys()->all()) {
+                 $fieldNames = array_keys(reset($this->data));
+            }
+
+            fputcsv($handle, $fieldNames);
 
             array_map(function ($item) use ($handle) {
 
