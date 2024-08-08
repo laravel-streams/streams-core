@@ -105,13 +105,13 @@ class StreamBuilder extends Workflow
         $type = Config::get('streams.core.default_source', 'filebase');
         $default = Config::get('streams.core.sources.types.' . $type);
 
-        if (!array_key_exists('source', $attributes)) {
-            $attributes['source'] = $default;
-        }
+        // if (!array_key_exists('source', $attributes)) {
+        //     $attributes['source'] = $default;
+        // }
 
-        if (!isset($attributes['source']['type'])) {
-            $attributes['source']['type'] = $type;
-        }
+        // if (!isset($attributes['source']['type'])) {
+        //     $attributes['source']['type'] = $type;
+        // }
 
         /**
          * If only one route is defined
