@@ -403,10 +403,14 @@ class Criteria
             return $this;
         }
 
-        throw new \BadMethodCallException(sprintf(
-            'Method %s::%s does not exist.',
-            static::class,
-            $method
-        ));
+        $this->parameters[$method][] = $arguments;
+
+        // throw new \BadMethodCallException(sprintf(
+        //     'Method %s::%s does not exist.',
+        //     static::class,
+        //     $method
+        // ));
+
+        return $this;
     }
 }

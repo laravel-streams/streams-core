@@ -18,12 +18,17 @@ class DatabaseAdapter extends AbstractAdapter
     {
         $this->stream = $stream;
 
-        if (!$connection = $stream->config('source.connection')) {
+        $this->initializeQuery();
+    }
+
+    protected function initializeQuery(): void
+    {
+        if (!$connection = $this->stream->config('source.connection')) {
             $connection = Config::get('database.default');
         }
 
         $this->query = DB::connection($connection)
-            ->table($stream->config('source.table', $stream->id));
+            ->table($this->stream->config('source.table', $this->stream->id));
     }
 
     public function orderBy($field, $direction = 'asc'): static
@@ -88,7 +93,11 @@ class DatabaseAdapter extends AbstractAdapter
     {
         $this->callParameterMethods($parameters);
 
-        return $this->query->count();
+        $count = $this->query->count();
+
+        $this->initializeQuery();
+
+        return $count;
     }
 
     public function save($entry): bool
@@ -135,5 +144,12 @@ class DatabaseAdapter extends AbstractAdapter
     protected function make($entry): EntryInterface
     {
         return $this->newInstance((array) $entry);
+    }
+
+    public function __call($method, $arguments = [])
+    {
+        $this->query = $this->query->$method(...$arguments);
+        
+        return $this;
     }
 }
