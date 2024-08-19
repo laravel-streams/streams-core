@@ -72,6 +72,18 @@ class EloquentAdapter extends AbstractAdapter
         return $this;
     }
 
+    public function whereJsonContains(
+        $column,
+        $value,
+        $boolean = 'and',
+        $not = false
+    ): static {
+        
+        $this->query->whereJsonContains($column, $value, $boolean, $not);
+
+        return $this;
+    }
+
     public function groupBy(...$groups): static
     {
         $this->query = $this->query->groupBy(...$groups);

@@ -26,6 +26,17 @@ class DatabaseAdapter extends AbstractAdapter
             ->table($stream->config('source.table', $stream->id));
     }
 
+    public function whereJsonContains(
+        $column,
+        $value,
+        $boolean = 'and',
+        $not = false
+    ): static {
+        $this->query->whereJsonContains($column, $value, $boolean, $not);
+
+        return $this;
+    }
+
     public function orderBy($field, $direction = 'asc'): static
     {
         $this->query = $this->query->orderBy($field, $direction);

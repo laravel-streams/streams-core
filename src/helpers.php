@@ -1,6 +1,10 @@
 <?php
 
+use Streams\Core\Stream\Stream;
+use Streams\Core\Criteria\Criteria;
 use Illuminate\Support\Facades\Request;
+use Streams\Core\Repository\Repository;
+use Streams\Core\Support\Facades\Streams;
 
 if (!function_exists('response_time')) {
 
@@ -33,20 +37,26 @@ if (!function_exists('memory_usage')) {
     }
 }
 
-if (!function_exists('html_attributes')) {
+if (!function_exists('stream')) {
 
-    function html_attributes(array $attributes = []): string
+    function stream(string $stream): Stream
     {
-        $html = [];
+        return Streams::make($stream);
+    }
+}
 
-        foreach ((array) $attributes as $key => $value) {
-            //$element = $this->attributeElement($key, $value);
+if (!function_exists('entries')) {
 
-            if (! is_null($element)) {
-                $html[] = $element;
-            }
-        }
+    function entries(string $stream): Criteria
+    {
+        return Streams::entries($stream);
+    }
+}
 
-        return count($html) > 0 ? ' ' . implode(' ', $html) : '';
+if (!function_exists('repository')) {
+
+    function repository(string $stream): Repository
+    {
+        return Streams::repository($stream);
     }
 }
