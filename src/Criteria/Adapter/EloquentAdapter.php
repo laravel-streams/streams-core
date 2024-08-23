@@ -47,12 +47,12 @@ class EloquentAdapter extends AbstractAdapter
         $method = Str::studly($nested ? $nested . '_where' : 'where');
 
         if (strtoupper($operator) == 'IN') {
-            
+
             $method = $method . 'In';
 
             $this->query = $this->query->{$method}($field, $value);
         } elseif (strtoupper($operator) == 'NOT IN') {
-            
+
             $method = $method . 'NotIn';
 
             $this->query = $this->query->{$method}($field, $value);
@@ -72,14 +72,16 @@ class EloquentAdapter extends AbstractAdapter
         return $this;
     }
 
-    public function whereJsonContains(
-        $column,
-        $value,
-        $boolean = 'and',
-        $not = false
-    ): static {
-        
+    public function whereJsonContains($column, $value, $boolean = 'and', $not = false): static
+    {
         $this->query->whereJsonContains($column, $value, $boolean, $not);
+
+        return $this;
+    }
+
+    public function whereFullText($columns, $value, array $options = [], $boolean = 'and'): static
+    {
+        $this->query->whereFullText($columns, $value, $options, $boolean);
 
         return $this;
     }
@@ -127,7 +129,7 @@ class EloquentAdapter extends AbstractAdapter
     public function delete(array $parameters = []): bool
     {
         $this->callParameterMethods($parameters);
-        
+
         return $this->query->delete();
     }
 
