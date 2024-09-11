@@ -106,7 +106,9 @@ class Criteria
      */
     public function where(string $field, string $operator = null, $value = null, string $nested = null)
     {
-        $this->parameters['where'][] = [$field, $operator, $value, $nested];
+        $hash = md5(serialize([$field, $operator, $value, $nested]));
+        
+        $this->parameters['where'][$hash] = [$field, $operator, $value, $nested];
 
         return $this;
     }
@@ -396,20 +398,7 @@ class Criteria
             return $this->callMacroable($method, $arguments);
         }
 
-        if (method_exists($this->adapter, $method)) {
-
-            $this->parameters[$method][] = $arguments;
-
-            return $this;
-        }
-
-        $this->parameters[$method][] = $arguments;
-
-        // throw new \BadMethodCallException(sprintf(
-        //     'Method %s::%s does not exist.',
-        //     static::class,
-        //     $method
-        // ));
+        $this->parameters[$method][md5(serialize($arguments))] = $arguments;
 
         return $this;
     }

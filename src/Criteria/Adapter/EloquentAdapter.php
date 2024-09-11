@@ -9,7 +9,6 @@ use Streams\Core\Entry\Contract\EntryInterface;
 
 class EloquentAdapter extends AbstractAdapter
 {
-
     protected $query;
 
     public function __construct(Stream $stream)
@@ -75,6 +74,13 @@ class EloquentAdapter extends AbstractAdapter
     public function whereJsonContains($column, $value, $boolean = 'and', $not = false): static
     {
         $this->query->whereJsonContains($column, $value, $boolean, $not);
+
+        return $this;
+    }
+    
+    public function whereJsonLength($column, $operator, $value = null, $boolean = 'and')
+    {
+        $this->query->whereJsonLength($column, $operator, $value, $boolean);
 
         return $this;
     }
