@@ -81,7 +81,7 @@ class Criteria
         return $this;
     }
 
-    public function orderBy(string $field, $direction = 'asc')
+    public function orderBy($field, $direction = 'asc')
     {
         $this->parameters['order_by'][] = [$field, $direction];
 
