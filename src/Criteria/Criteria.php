@@ -12,6 +12,7 @@ use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Streams\Core\Entry\Contract\EntryInterface;
 use Streams\Core\Criteria\Contract\AdapterInterface;
+use Illuminate\Pagination\Paginator as SimplePaginator;
 
 /**
  * Criteria serve as the abstraction layer
@@ -270,8 +271,9 @@ class Criteria
         $perPage = Arr::get($parameters, 'per_page');
         $pageName = Arr::get($parameters, 'page_name', 'page');
         $limitName = Arr::get($parameters, 'limit_name', 'limit');
+        $simple = Arr::get($parameters, 'simple', false);
 
-        if (!$total) {
+        if (!$simple && !$total) {
             $total = $this->count();
         }
 
@@ -287,16 +289,32 @@ class Criteria
 
         $entries = $this->limit($perPage, $offset)->get();
 
-        $paginator = new LengthAwarePaginator(
-            $entries,
-            $total,
-            $perPage,
-            $page,
-            [
-                'path' => $path,
-                'pageName' => $pageName,
-            ]
-        );
+        if ($simple) {
+
+            $paginator = new SimplePaginator(
+                $entries,
+                $perPage,
+                $page,
+                [
+                    'path' => $path,
+                    'pageName' => $pageName,
+                ]
+            );
+
+            $paginator->hasMorePagesWhen($entries->isNotEmpty());
+        } else {
+
+            $paginator = new LengthAwarePaginator(
+                $entries,
+                $total,
+                $perPage,
+                $page,
+                [
+                    'path' => $path,
+                    'pageName' => $pageName,
+                ]
+            );
+        }
 
         $paginator->appends(Request::all());
 
