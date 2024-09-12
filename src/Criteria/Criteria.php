@@ -94,31 +94,19 @@ class Criteria
         return $this;
     }
 
-    /**
-     * Constrain the query by a typical 
-     * field, operator, value argument.
-     *
-     * @param string $field
-     * @param string|null $operator
-     * @param mixed $value
-     * @param string|null $nested
-     * @return $this
-     */
-    public function where(string $field, string $operator = null, $value = null, string $nested = null)
-    {
+    public function where(
+        string $field,
+        string $operator = null,
+        $value = null,
+        string $nested = null
+    ) {
         $hash = md5(serialize([$field, $operator, $value, $nested]));
-        
+
         $this->parameters['where'][$hash] = [$field, $operator, $value, $nested];
 
         return $this;
     }
 
-    /**
-     * @param string $field
-     * @param string|null $operator
-     * @param mixed $value
-     * @return $this
-     */
     public function orWhere(string $field, string $operator = null, $value = null)
     {
         $this->where($field, $operator, $value, 'or');
@@ -126,11 +114,6 @@ class Criteria
         return $this;
     }
 
-    /**
-     * Get results of the query.
-     *
-     * @return \Illuminate\Support\Collection
-     */
     public function get(): Collection
     {
         $enabled = $this->stream->config('cache.enabled', false);
@@ -143,27 +126,28 @@ class Criteria
 
         if ($cache) {
 
-            $fingerprint = $this->stream->handle . '.query__' . md5(json_encode($this->parameters));
+            $fingerprint = $this->stream->handle . '.query__' . md5(serialize($this->parameters));
 
             $seconds = $cache[0];
             $key = Arr::get($cache, 1);
 
             return $this->stream->cache()->remember($key ?: $fingerprint, $seconds, function () {
-                return $this->eagerLoadRelations($this->adapter->get($this->parameters));
+                
+                $results = $this->eagerLoadRelations($this->adapter->get($this->parameters));
+
+                $this->parameters = [];
+
+                return $results;
             });
         }
 
-        return $this->eagerLoadRelations($this->adapter->get($this->parameters));
+        $results = $this->eagerLoadRelations($this->adapter->get($this->parameters));
+
+        $this->parameters = [];
+
+        return $results;
     }
 
-    /**
-     * Chunk through large query result sets.
-     *
-     * @param int $count
-     * @param callable $callback
-     *
-     * @return bool
-     */
     public function chunk(int $count, callable $callback): bool
     {
         $page = 1;
@@ -195,11 +179,6 @@ class Criteria
         return true;
     }
 
-    /**
-     * Count the criteria results.
-     * 
-     * @return int
-     */
     public function count()
     {
         $enabled = $this->stream->config('cache.enabled', false);
@@ -212,22 +191,20 @@ class Criteria
 
         if ($cache) {
 
-            $fingerprint = $this->stream->id . '.query.count__' . md5(json_encode($this->parameters));
+            $fingerprint = $this->stream->id . '.query.count__' . md5(serialize($this->parameters));
 
             return $this->stream->cache()->remember(Arr::get($cache, 1) ?: $fingerprint, $cache[0], function () {
                 return $this->adapter->count(array_diff_key($this->parameters, array_flip(['cache'])));
             });
         }
 
-        return $this->adapter->count($this->parameters);
+        $count =  $this->adapter->count($this->parameters);
+
+        $this->parameters = [];
+
+        return $count;
     }
 
-    /**
-     * Create a new entry.
-     *
-     * @param array $attributes
-     * @return EntryInterface
-     */
     public function create(array $attributes = [])
     {
         $this->stream->cache()->flush();
@@ -369,12 +346,6 @@ class Criteria
         return $entries;
     }
 
-    /**
-     * Return an entry instance.
-     *
-     * @param array $attributes
-     * @return EntryInterface
-     */
     public function newInstance(array $attributes = [])
     {
         return $this->adapter->newInstance($attributes);
