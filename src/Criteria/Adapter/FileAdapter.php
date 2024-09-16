@@ -143,7 +143,7 @@ class FileAdapter extends AbstractAdapter
         if (!file_exists($file)) {
             $file = base_path($file);
         }
-
+        
         $format = $format ?: pathinfo($file, PATHINFO_EXTENSION);
 
         if (!file_exists($file)) {

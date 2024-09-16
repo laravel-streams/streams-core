@@ -148,7 +148,6 @@ class Repository implements RepositoryInterface
             $adapter = $this->stream->config('source.type', $default);
 
             if (class_exists($adapter)) {
-                dd($adapter);
                 return new $criteria($this->stream, new $adapter($this->stream));
             }
 
