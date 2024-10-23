@@ -174,8 +174,8 @@ class AssetManager
         foreach ($attributes as $attribute => $value) {
 
             // Add or replace the attribute value.
-            if (preg_match('/<svg[^>]*\b' . $attribute . '=".*?"/', $output)) {
-                $output = preg_replace("/{$attribute}=\".*?\"/", "{$attribute}=\"{$value}\"", $output);
+            if (preg_match('/<svg[^>]*\s' . preg_quote($attribute, '/') . '=".*?"/', $output)) {
+                $output = preg_replace("/\s" . preg_quote($attribute, '/') . "=\".*?\"/", " {$attribute}=\"{$value}\"", $output);
             } else {
                 $output = str_replace('<svg', "<svg {$attribute}=\"{$value}\"", $output);
             }
