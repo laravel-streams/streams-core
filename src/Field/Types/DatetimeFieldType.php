@@ -34,8 +34,9 @@ class DatetimeFieldType extends Field
     public function modify($value)
     {
         $format = $this->config('format', 'Y-m-d H:i:s');
+        $timezone = $this->config('timezone', config('app.timezone'));
 
-        return $this->toDateTime($value)?->setTimezone('UTC')->format($format);
+        return $this->toDateTime($value, $timezone)?->setTimezone('UTC')->format($format);
     }
 
     public function restore($value): \DateTime

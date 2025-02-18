@@ -8,12 +8,13 @@ use Illuminate\View\Factory;
 use Streams\Core\Support\Parser;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\URL;
+use Streams\Core\View\ViewTemplate;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\View;
 use Streams\Core\Support\Integrator;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\AliasLoader;
-use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Translation\Translator;
 use Illuminate\Support\Facades\Request;
@@ -23,9 +24,7 @@ use Streams\Core\Support\Facades\Assets;
 use Streams\Core\Support\Facades\Images;
 use Streams\Core\Application\Application;
 use Streams\Core\Support\Facades\Streams;
-use Streams\Core\Support\Facades\Overrides;
 use Streams\Core\Support\Facades\Applications;
-use Streams\Core\View\ViewTemplate;
 
 class StreamsServiceProvider extends ServiceProvider
 {
