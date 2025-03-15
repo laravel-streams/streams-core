@@ -2,12 +2,10 @@
 
 namespace Streams\Core\Criteria\Adapter;
 
-use Filebase\Query;
 use Filebase\Database;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Streams\Core\Stream\Stream;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 
 class FilebaseAdapter extends AbstractAdapter
@@ -106,7 +104,7 @@ class FilebaseAdapter extends AbstractAdapter
          * Remove these protected
          * and automated attributes.
          */
-        Arr::pull($attributes, 'id');
+        // Arr::pull($attributes, 'id');
         Arr::pull($attributes, 'stream');
         Arr::pull($attributes, 'created_at');
         Arr::pull($attributes, 'updated_at');
