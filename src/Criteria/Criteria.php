@@ -73,6 +73,20 @@ class Criteria
         return $result ?: $this->create($attributes);
     }
 
+    public function updateOrCreate(array $attributes)
+    {
+        $result = $this->first();
+
+        if ($result) {
+
+            $result->fill($attributes);
+
+            $this->save($result);
+        }
+
+        return $result ?: $this->create($attributes);
+    }
+
     public function cache(int $seconds = null, string $key = null)
     {
         $seconds = $seconds ?: $this->stream->config('cache.ttl', 60 * 60);
