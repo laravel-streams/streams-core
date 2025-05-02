@@ -11,7 +11,7 @@ class ViewIncludes extends Collection
     public function include(
         string $slot,
         string $name,
-        ?string $include
+        ?string $include = null
     ): ViewIncludes {
 
         $this->slot($slot)->put($name, $include ?: $name);
