@@ -60,3 +60,21 @@ if (!function_exists('repository')) {
         return Streams::repository($stream);
     }
 }
+
+if (!function_exists('html_attributes')) {
+
+    function html_attributes(array $attributes): string
+    {
+        if (empty($attributes)) {
+            return '';
+        }
+
+        return ' ' . implode(' ', array_map(
+            function ($key, $value) {
+                return $key . '="' . e($value) . '"';
+            },
+            array_keys($attributes),
+            $attributes
+        ));
+    }
+}

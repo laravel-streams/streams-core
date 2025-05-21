@@ -17,10 +17,9 @@
         "tmarois/filebase": "^1.0",
         "laravel/scout": "^10|^11",
         "intervention/image": "^2.7",
-        "laravel/framework": "^10|^11",
+        "laravel/framework": "^10|^11|^12",
         "goldspecdigital/oooas": "^2.10",
         "nicmart/string-template": "^0.1",
-        "laravelcollective/html": "^6.3",
         "spatie/laravel-html": "^3.3",
         "ezyang/htmlpurifier": "^4.16"
     },

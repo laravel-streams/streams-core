@@ -4,7 +4,6 @@ namespace Streams\Core\Asset;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use Collective\Html\HtmlBuilder;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Filesystem\Filesystem;
 
@@ -15,7 +14,6 @@ class AssetManager
 
     protected array $resolved = [];
 
-    protected HtmlBuilder $html;
 
     protected Filesystem $files;
 
@@ -27,9 +25,7 @@ class AssetManager
         AssetRegistry $registry,
         Filesystem $files,
         AssetPaths $paths,
-        HtmlBuilder $html
     ) {
-        $this->html     = $html;
         $this->files    = $files;
         $this->paths    = $paths;
         $this->registry = $registry;
@@ -134,7 +130,7 @@ class AssetManager
             $attributes['src'] = $this->resolve($asset);
         }
 
-        return '<script' . $this->html->attributes($attributes) . '>' . $content . '</script>';
+        return '<script' . html_attributes($attributes) . '>' . $content . '</script>';
     }
 
     public function style(string $asset = null, array $attributes = [], $content = null): string
@@ -144,14 +140,14 @@ class AssetManager
         $attributes = $attributes + $defaults;
 
         if ($content) {
-            return '<style' . $this->html->attributes($attributes) . '>' . $content . '</style>';
+            return '<style' . html_attributes($attributes) . '>' . $content . '</style>';
         }
 
         if (!$content) {
             $attributes['href'] = $this->resolve($asset);
         }
 
-        return '<link' . $this->html->attributes($attributes) . '/>';
+        return '<link' . html_attributes($attributes) . '/>';
     }
 
     public function img(string $src = null, array $attributes = []): string
@@ -164,7 +160,7 @@ class AssetManager
             $attributes['src'] = $this->resolve($src);
         }
 
-        return '<img' . $this->html->attributes($attributes) . '/>';
+        return '<img' . html_attributes($attributes) . '/>';
     }
 
     public function svg(string $asset = null, array $attributes = [], $content = null): string
