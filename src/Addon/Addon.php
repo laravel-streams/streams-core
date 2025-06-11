@@ -33,6 +33,15 @@ class Addon implements Arrayable, Jsonable
         return false;
     }
 
+    public function composer(string $key = null)
+    {
+        if (is_null($key)) {
+            return $this->composer;
+        }
+
+        return Arr::get($this->composer, $key);
+    }
+
     public function toArray(): array
     {
         return Hydrator::dehydrate($this, [
