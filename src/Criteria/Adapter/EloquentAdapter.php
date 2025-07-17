@@ -130,9 +130,29 @@ class EloquentAdapter extends AbstractAdapter
 
     public function save(array $attributes): array
     {
-        $model = $this->stream->config('source.model');
+        $modelClass = $this->stream->config('source.model');
+        $keyName = $this->stream->config('key_name', 'id');
+        
+        /**
+         * If a key is provided then
+         * check if a record exists.
+         */
+        if (isset($attributes[$keyName])) {
+            
+            $existingModel = (new $modelClass)->newQuery()->find($attributes[$keyName]);
+            
+            if ($existingModel) {
 
-        $model = new $model($attributes);
+                // Update existing record
+                $existingModel->fill($attributes);
+                $existingModel->save();
+
+                return $existingModel->getAttributes();
+            }
+        }
+        
+        // Create new record if no existing record found
+        $model = new $modelClass($attributes);
 
         $model->save();
 
