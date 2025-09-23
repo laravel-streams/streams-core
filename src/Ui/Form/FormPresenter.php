@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\Ui\Form;
 
 use Anomaly\Streams\Platform\Support\Presenter;
-use Collective\Html\FormBuilder as Html;
+use Anomaly\Streams\Platform\Html\FormBuilder as Html;
 use Illuminate\View\Factory;
 use Illuminate\View\View;
 

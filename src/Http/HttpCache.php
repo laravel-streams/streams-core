@@ -50,7 +50,7 @@ class HttpCache extends \Symfony\Component\HttpKernel\HttpCache\HttpCache implem
      * @param Request $request
      * @param Response $response
      */
-    public function terminate(Request $request, Response $response)
+    public function terminate(Request $request, Response $response) : void
     {
         $this->getKernel()->terminate($request, $response);
     }

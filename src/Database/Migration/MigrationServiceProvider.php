@@ -34,9 +34,9 @@ class MigrationServiceProvider extends \Illuminate\Database\MigrationServiceProv
      */
     protected function registerRepository()
     {
-        $this->app->singleton(
+        $this->app->extend(
             'migration.repository',
-            function ($app) {
+            function ($service, $app) {
                 $table = $app['config']['database.migrations'];
 
                 return new MigrationRepository($app['db'], $table);
@@ -54,14 +54,11 @@ class MigrationServiceProvider extends \Illuminate\Database\MigrationServiceProv
         // The migrator is responsible for actually running and rollback the migration
         // files in the application. We'll pass in our database connection resolver
         // so the migrator can resolve any of these connections when it needs to.
-        $this->app->singleton(
-            'migrator',
-            function ($app) {
-                $repository = $app['migration.repository'];
+        $this->app->extend('migrator', function ($service, $app) { //using extend to override the parent binding as the order is mucked up in
+            $repository = $app['migration.repository'];
 
-                return new Migrator($repository, $app['db'], $app['files']);
-            }
-        );
+            return new Migrator($repository, $app['db'], $app['files']);
+        });
     }
 
     /**

@@ -9,7 +9,7 @@ use League\Flysystem\File;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Robbo\Presenter\Presenter;
-use Collective\Html\HtmlBuilder;
+use Anomaly\Streams\Platform\Html\HtmlBuilder;
 use Intervention\Image\Constraint;
 use Intervention\Image\ImageManager;
 use Illuminate\Filesystem\Filesystem;

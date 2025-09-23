@@ -101,20 +101,21 @@ class FieldModel extends EloquentModel implements FieldInterface
      *
      * @var FieldTypeBuilder
      */
-    protected static $builder;
+    protected static $fieldTypeBuilder;
 
     /**
      * Boot the model.
      */
     protected static function boot()
     {
-        self::$builder = app(FieldTypeBuilder::class);
+        self::$fieldTypeBuilder = app(FieldTypeBuilder::class);
 
         parent::boot();
     }
 
     /**
      * Get the ID.
+     *
      *
      * @return mixed
      */
@@ -216,7 +217,7 @@ class FieldModel extends EloquentModel implements FieldInterface
             return $this->cache['type'] = null;
         }
 
-        return $this->cache['type'] = self::$builder->build(compact('type', 'field', 'label', 'config'));
+        return $this->cache['type'] = self::$fieldTypeBuilder->build(compact('type', 'field', 'label', 'config'));
     }
 
     /**

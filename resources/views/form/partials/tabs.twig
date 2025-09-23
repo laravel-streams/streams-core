@@ -1,5 +1,5 @@
 <ul class="nav nav-sections {{ stacked ? 'nav-stacked' }}">
-    {% spaceless %}
+    {% apply spaceless %}
         {% for slug, tab in tabs %}
             <li class="nav-item {{ loop.first ? ' active' }}">
                 <a href="#tab-{{ form.options.prefix }}{{ tab.slug ?: slug }}" data-toggle="tab" class="nav-link">
@@ -8,7 +8,7 @@
                 </a>
             </li>
         {% endfor %}
-    {% endspaceless %}
+    {% endapply %}
 </ul>
 
 <div class="card-block card-body">

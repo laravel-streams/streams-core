@@ -44,10 +44,6 @@ return [
             // default: utf-8
             'charset' => 'utf-8',
 
-            // The base template class to use for generated templates.
-            // default: TwigBridge\Twig\Template
-            'base_template_class' => '\Anomaly\Streams\Platform\View\Twig\Template',
-
             // An absolute path where to store the compiled templates, or false to disable caching. If null
             // then the cache file path is used.
             // default: cache file storage path
@@ -75,6 +71,19 @@ return [
 
         /*
         |--------------------------------------------------------------------------
+        | Safe Classes
+        |--------------------------------------------------------------------------
+        |
+        | When set, the output of the `__string` method of the following classes will not be escaped.
+        | default: Laravel's Htmlable, which the HtmlString class implements.
+        |
+        */
+        'safe_classes' => [
+            \Illuminate\Contracts\Support\Htmlable::class => ['html'],
+        ],
+
+        /*
+        |--------------------------------------------------------------------------
         | Global variables
         |--------------------------------------------------------------------------
         |
@@ -94,12 +103,27 @@ return [
         |
         | Enabled extensions.
         |
-        | `Twig_Extension_Debug` is enabled automatically if twig.debug is TRUE.
+        | `Twig\Extension\DebugExtension` is enabled automatically if twig.debug is TRUE.
         |
         */
         'enabled' => [
+            // 'TwigBridge\Extension\Laravel\Event',
+            // 'TwigBridge\Extension\Loader\Facades',
+            // 'TwigBridge\Extension\Loader\Filters',
+            // 'TwigBridge\Extension\Loader\Functions',
+            // 'TwigBridge\Extension\Loader\Globals',
 
+            // 'TwigBridge\Extension\Laravel\Auth',
+            // 'TwigBridge\Extension\Laravel\Config',
+            // 'TwigBridge\Extension\Laravel\Dump',
+            // 'TwigBridge\Extension\Laravel\Input',
+            // 'TwigBridge\Extension\Laravel\Session',
+            // 'TwigBridge\Extension\Laravel\Str',
+            // 'TwigBridge\Extension\Laravel\Translator',
+            // 'TwigBridge\Extension\Laravel\Url',
+            // 'TwigBridge\Extension\Laravel\Model',
             // 'TwigBridge\Extension\Laravel\Gate',
+            // 'TwigBridge\Extension\Laravel\Vite',
 
             // 'TwigBridge\Extension\Laravel\Form',
             // 'TwigBridge\Extension\Laravel\Html',
@@ -143,7 +167,7 @@ return [
         | Available functions. Access like `{{ secure_url(...) }}`.
         |
         | Each function can take an optional array of options. These options are
-        | passed directly to `Twig_SimpleFunction`.
+        | passed directly to `Twig\TwigFunction`.
         |
         | So for example, to mark a function as safe you can do the following:
         |
@@ -178,7 +202,7 @@ return [
         | Available filters. Access like `{{ variable|filter }}`.
         |
         | Each filter can take an optional array of options. These options are
-        | passed directly to `Twig_SimpleFilter`.
+        | passed directly to `Twig\TwigFilter`.
         |
         | So for example, to mark a filter as safe you can do the following:
         |

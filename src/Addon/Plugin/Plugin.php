@@ -1,9 +1,8 @@
 <?php namespace Anomaly\Streams\Platform\Addon\Plugin;
 
 use Anomaly\Streams\Platform\Addon\Addon;
-use Twig_Environment;
-use Twig_ExtensionInterface;
-use Twig_NodeVisitorInterface;
+use Twig\Extension\ExtensionInterface;
+use Twig\NodeVisitor\NodeVisitorInterface;
 
 /**
  * Class Plugin
@@ -12,7 +11,7 @@ use Twig_NodeVisitorInterface;
  * @author  PyroCMS, Inc. <support@pyrocms.com>
  * @author  Ryan Thompson <ryan@pyrocms.com>
  */
-class Plugin extends Addon implements Twig_ExtensionInterface
+class Plugin extends Addon implements ExtensionInterface
 {
 
     /**
@@ -23,17 +22,6 @@ class Plugin extends Addon implements Twig_ExtensionInterface
     public function getName()
     {
         return isset($this->slug) ? parent::getName() : get_class($this);
-    }
-
-    /**
-     * Initializes the runtime environment.
-     *
-     * This is where you can load some file that contains filter functions for instance.
-     *
-     * @param Twig_Environment $environment The current Twig_Environment instance
-     */
-    public function initRuntime(Twig_Environment $environment)
-    {
     }
 
     /**
@@ -49,7 +37,7 @@ class Plugin extends Addon implements Twig_ExtensionInterface
     /**
      * Returns the node visitor instances to add to the existing list.
      *
-     * @return Twig_NodeVisitorInterface[] An array of Twig_NodeVisitorInterface instances
+     * @return NodeVisitorInterface[] An array of Twig_NodeVisitorInterface instances
      */
     public function getNodeVisitors()
     {
@@ -93,7 +81,7 @@ class Plugin extends Addon implements Twig_ExtensionInterface
      */
     public function getOperators()
     {
-        return [];
+        return [[], []];
     }
 
     /**

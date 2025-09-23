@@ -122,13 +122,9 @@ class FieldTypeSchema
      */
     public function addIndex(Blueprint $table, AssignmentInterface $assignment)
     {
-        $connection = $this->schema->getConnection();
-        $manager    = $connection->getDoctrineSchemaManager();
-        $doctrine   = $manager->listTableDetails($connection->getTablePrefix() . $table->getTable());
-
         $unique = md5($assignment->getId());
 
-        if ($assignment->isUnique() && !$assignment->isTranslatable() && !$doctrine->hasIndex($unique)) {
+        if ($assignment->isUnique() && !$assignment->isTranslatable() && !$this->schema->hasIndex($table->getTable(), $unique)) {
             $table->unique($this->fieldType->getColumnName(), $unique);
         }
     }
@@ -181,23 +177,19 @@ class FieldTypeSchema
      */
     public function updateIndex(Blueprint $table, AssignmentInterface $assignment)
     {
-        $connection = $this->schema->getConnection();
-        $manager    = $connection->getDoctrineSchemaManager();
-        $doctrine   = $manager->listTableDetails($connection->getTablePrefix() . $table->getTable());
-
         $unique = md5($assignment->getId());
 
-        if ($assignment->isUnique() && !$assignment->isTranslatable() && !$doctrine->hasIndex($unique)) {
+        if ($assignment->isUnique() && !$assignment->isTranslatable() && !$this->schema->hasIndex($table->getTable(), $unique)) {
             $table->unique($this->fieldType->getColumnName(), $unique);
         }
 
-        if (!$assignment->isUnique() && !$assignment->isTranslatable() && $doctrine->hasIndex($unique)) {
+        if (!$assignment->isUnique() && !$assignment->isTranslatable() && $this->schema->hasIndex($table->getTable(), $unique)) {
             $table->dropIndex($unique);
         }
 
         $unique = md5('unique_' . $table->getTable() . '_' . $this->fieldType->getColumnName());
 
-        if (!$assignment->isUnique() && !$assignment->isTranslatable() && $doctrine->hasIndex($unique)) {
+        if (!$assignment->isUnique() && !$assignment->isTranslatable() && $this->schema->hasIndex($table->getTable(), $unique)) {
             $table->dropIndex($unique);
         }
     }
@@ -281,19 +273,15 @@ class FieldTypeSchema
      */
     public function dropIndex(Blueprint $table, AssignmentInterface $assignment)
     {
-        $connection = $this->schema->getConnection();
-        $manager    = $connection->getDoctrineSchemaManager();
-        $doctrine   = $manager->listTableDetails($connection->getTablePrefix() . $table->getTable());
-
         $unique = md5($assignment->getId());
 
-        if ($doctrine->hasIndex($unique)) {
+        if ($this->schema->hasIndex($table->getTable(), $unique)) {
             $table->dropIndex($unique);
         }
 
         $unique = md5('unique_' . $table->getTable() . '_' . $this->fieldType->getColumnName());
 
-        if ($doctrine->hasIndex($unique)) {
+        if ($this->schema->hasIndex($table->getTable(), $unique)) {
             $table->dropIndex($unique);
         }
     }

@@ -5,8 +5,14 @@ use Anomaly\Streams\Platform\View\Twig\Compiler;
 use Anomaly\Streams\Platform\View\Twig\Engine;
 use Anomaly\Streams\Platform\View\Twig\Loader;
 use InvalidArgumentException;
-use Twig_Loader_Array;
-use Twig_Loader_Chain;
+use Twig\Environment;
+use Twig\Extension\DebugExtension;
+use Twig\Extension\ExtensionInterface;
+use Twig\Lexer;
+use Twig\Loader\ArrayLoader;
+use Twig\Loader\ChainLoader;
+use Twig\Runtime\EscaperRuntime;
+use Twig\RuntimeLoader\ContainerRuntimeLoader;
 
 /**
  * Class ViewServiceProvider
@@ -84,26 +90,17 @@ class ViewServiceProvider extends \Illuminate\View\ViewServiceProvider
      */
     protected function registerCommands()
     {
-        $this->app->bindIf(
-            'command.twig',
-            function () {
-                return new Command\TwigBridge;
-            }
-        );
+        $this->app->bindIf('command.twig', function () {
+            return new Command\TwigBridge;
+        });
 
-        $this->app->bindIf(
-            'command.twig.clean',
-            function () {
-                return new Command\Clean;
-            }
-        );
+        $this->app->bindIf('command.twig.clean', function () {
+            return new Command\Clean;
+        });
 
-        $this->app->bindIf(
-            'command.twig.lint',
-            function () {
-                return new Command\Lint;
-            }
-        );
+        $this->app->bindIf('command.twig.lint', function () {
+            return new Command\Lint;
+        });
 
         $this->commands(
             'command.twig',
@@ -119,49 +116,40 @@ class ViewServiceProvider extends \Illuminate\View\ViewServiceProvider
      */
     protected function registerOptions()
     {
-        $this->app->bindIf(
-            'twig.extension',
-            function () {
-                return $this->app['config']->get('twig.twig.extension');
+        $this->app->bindIf('twig.extension', function () {
+            return $this->app['config']->get('twig.twig.extension');
+        });
+
+        $this->app->bindIf('twig.options', function () {
+            $options = $this->app['config']->get('twig.twig.environment', []);
+
+            // Check whether we have the cache path set
+            if (! isset($options['cache']) || is_null($options['cache'])) {
+                // No cache path set for Twig, lets set to the Laravel views storage folder
+                $options['cache'] = storage_path('framework/views/twig');
             }
-        );
 
-        $this->app->bindIf(
-            'twig.options',
-            function () {
-                $options = $this->app['config']->get('twig.twig.environment', []);
-                // Check whether we have the cache path set
-                if (!isset($options['cache']) || is_null($options['cache'])) {
-                    // No cache path set for Twig, lets set to the Laravel views storage folder
-                    $options['cache'] = storage_path('framework/views/twig');
-                }
+            return $options;
+        });
 
-                return $options;
+        $this->app->bindIf('twig.extensions', function () {
+            $load = $this->app['config']->get('twig.extensions.enabled', []);
+
+            // Is debug enabled?
+            // If so enable debug extension
+            $options = $this->app['twig.options'];
+            $isDebug = (bool) (isset($options['debug'])) ? $options['debug'] : false;
+
+            if ($isDebug) {
+                array_unshift($load, DebugExtension::class);
             }
-        );
 
-        $this->app->bindIf(
-            'twig.extensions',
-            function () {
-                $load = $this->app['config']->get('twig.extensions.enabled', []);
-                // Is debug enabled?
-                // If so enable debug extension
-                $options = $this->app['twig.options'];
-                $isDebug = (bool)(isset($options['debug'])) ? $options['debug'] : false;
-                if ($isDebug) {
-                    array_unshift($load, 'Twig_Extension_Debug');
-                }
+            return $load;
+        });
 
-                return $load;
-            }
-        );
-
-        $this->app->bindIf(
-            'twig.lexer',
-            function () {
-                return null;
-            }
-        );
+        $this->app->bindIf('twig.lexer', function () {
+            return null;
+        });
     }
 
     /**
@@ -172,19 +160,13 @@ class ViewServiceProvider extends \Illuminate\View\ViewServiceProvider
     protected function registerLoaders()
     {
         // The array used in the ArrayLoader
-        $this->app->bindIf(
-            'twig.templates',
-            function () {
-                return [];
-            }
-        );
+        $this->app->bindIf('twig.templates', function () {
+            return [];
+        });
 
-        $this->app->bindIf(
-            'twig.loader.array',
-            function ($app) {
-                return new Twig_Loader_Array($app['twig.templates']);
-            }
-        );
+        $this->app->bindIf('twig.loader.array', function ($app) {
+            return new ArrayLoader($app['twig.templates']);
+        });
 
         $this->app->bindIf(
             'twig.loader.viewfinder',
@@ -203,12 +185,10 @@ class ViewServiceProvider extends \Illuminate\View\ViewServiceProvider
         $this->app->bindIf(
             'twig.loader',
             function () {
-                return new Twig_Loader_Chain(
-                    [
-                        $this->app['twig.loader.array'],
-                        $this->app['twig.loader.viewfinder'],
-                    ]
-                );
+                return new ChainLoader([
+                    $this->app['twig.loader.array'],
+                    $this->app['twig.loader.viewfinder'],
+                ]);
             },
             true
         );
@@ -232,6 +212,13 @@ class ViewServiceProvider extends \Illuminate\View\ViewServiceProvider
                     $this->app
                 );
 
+                foreach ($this->app['config']->get('twig.twig.safe_classes', []) as $safeClass => $strategy) {
+                    $twig->getRuntime(EscaperRuntime::class)->addSafeClass($safeClass, $strategy);
+                }
+
+                // Register container-based runtime extension loader
+                $twig->addRuntimeLoader(new ContainerRuntimeLoader($this->app));
+
                 // Instantiate and add extensions
                 foreach ($extensions as $extension) {
                     // Get an instance of the extension
@@ -246,13 +233,13 @@ class ViewServiceProvider extends \Illuminate\View\ViewServiceProvider
                         }
                     } elseif (is_callable($extension)) {
                         $extension = $extension($this->app, $twig);
-                    } elseif (!is_a($extension, 'Twig_Extension')) {
+                    } elseif (!is_a($extension, ExtensionInterface::class)) {
                         throw new InvalidArgumentException('Incorrect extension type');
                     }
                     $twig->addExtension($extension);
                 }
                 // Set lexer
-                if (is_a($lexer, 'Twig_LexerInterface')) {
+                if (is_a($lexer, Lexer::class)) {
                     $twig->setLexer($lexer);
                 }
 
@@ -260,8 +247,10 @@ class ViewServiceProvider extends \Illuminate\View\ViewServiceProvider
             },
             true
         );
-        $this->app->alias('twig', 'Twig_Environment');
+
+        $this->app->alias('twig', Environment::class);
         $this->app->alias('twig', Bridge::class);
+
         $this->app->bindIf(
             'twig.compiler',
             function () {
@@ -287,7 +276,7 @@ class ViewServiceProvider extends \Illuminate\View\ViewServiceProvider
      */
     protected function registerAliases()
     {
-        if (!$this->isRunningOnPhp7() and !class_exists('TwigBridge\Extension\Laravel\String')) {
+        if (! $this->isRunningOnPhp7() and ! class_exists('TwigBridge\Extension\Laravel\String')) {
             class_alias('TwigBridge\Extension\Laravel\Str', 'TwigBridge\Extension\Laravel\String');
         }
     }

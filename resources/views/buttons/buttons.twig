@@ -35,31 +35,33 @@
 
             {# Render the actual dropdown links #}
             <ul class="dropdown-menu dropdown-menu-{{ button.position }}">
-                {% for link in button.dropdown if button.enabled or button.enabled == null %}
-                    {% if link.text %}
-                        <li>
+                {% for link in button.dropdown %}
+                    {% if button.enabled or button.enabled == null %}
+                        {% if link.text %}
+                            <li>
 
-                            {# Render normal buttons as an anchor #}
-                            {% if not link.attributes.name %}
-                                <a class="dropdown-item" {{ html_attributes(link.attributes) }}>
-                                    {{ link.icon ? icon(link.icon)|raw }}
-                                    {{ trans(link.text)|raw }}
-                                </a>
-                            {% endif %}
+                                {# Render normal buttons as an anchor #}
+                                {% if not link.attributes.name %}
+                                    <a class="dropdown-item" {{ html_attributes(link.attributes) }}>
+                                        {{ link.icon ? icon(link.icon)|raw }}
+                                        {{ trans(link.text)|raw }}
+                                    </a>
+                                {% endif %}
 
-                            {# Render normal buttons as a button #}
-                            {% if link.attributes.name %}
-                                <button class="dropdown-item" {{ html_attributes(link.attributes) }}>
-                                    {{ link.icon ? icon(link.icon)|raw }}
-                                    {{ trans(link.text)|raw }}
-                                </button>
-                            {% endif %}
+                                {# Render normal buttons as a button #}
+                                {% if link.attributes.name %}
+                                    <button class="dropdown-item" {{ html_attributes(link.attributes) }}>
+                                        {{ link.icon ? icon(link.icon)|raw }}
+                                        {{ trans(link.text)|raw }}
+                                    </button>
+                                {% endif %}
 
-                        </li>
-                    {% else %}
-                        <li class="dropdown-divider">
-                            <hr>
-                        </li>
+                            </li>
+                        {% else %}
+                            <li class="dropdown-divider">
+                                <hr>
+                            </li>
+                        {% endif %}
                     {% endif %}
                 {% endfor %}
             </ul>

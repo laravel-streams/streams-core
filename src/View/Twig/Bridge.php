@@ -11,16 +11,17 @@
 
 
 use Illuminate\Contracts\Container\Container;
-use Illuminate\View\ViewFinderInterface;
 use InvalidArgumentException;
-use Twig_Environment;
-use Twig_Error;
-use Twig_LoaderInterface;
+use Twig\Environment;
+use Twig\Error\Error;
+use Twig\Loader\LoaderInterface;
+use Twig\Source;
+use Twig\Template;
 
 /**
  * Bridge functions between Laravel & Twig
  */
-class Bridge extends Twig_Environment
+class Bridge extends Environment
 {
 
     /**
@@ -36,7 +37,7 @@ class Bridge extends Twig_Environment
     /**
      * {@inheritdoc}
      */
-    public function __construct(Twig_LoaderInterface $loader, $options = [], Container $app = null)
+    public function __construct(LoaderInterface $loader, $options = [], ?Container $app = null)
     {
         // Twig 2.0 doesn't support `true` anymore
         if (isset($options['autoescape']) && $options['autoescape'] === true) {
@@ -70,11 +71,11 @@ class Bridge extends Twig_Environment
         $this->app = $app;
     }
 
-    public function loadTemplate($name, $index = null)
+    public function loadTemplate(string $cls, string $name, ?int $index = null): Template
     {
-        $template = parent::loadTemplate($name, $index);
+        $template = parent::loadTemplate($cls, $name, $index);
 
-        $template->setName($this->normalizeName($name));
+        //$template->setName($this->normalizeName($name));
 
         return $template;
     }
@@ -88,15 +89,17 @@ class Bridge extends Twig_Environment
      */
     public function lint($file)
     {
-        $template = $this->app['twig.loader.viewfinder']->getSource($file);
+        /** @var Source $template */
+        $template = $this->app['twig.loader.viewfinder']->getSourceContext($file);
 
-        if (!$template) {
+        $code = trim($template->getCode());
+        if (empty($code)) {
             throw new InvalidArgumentException('Unable to find file: ' . $file);
         }
 
         try {
             $this->parse($this->tokenize($template, $file));
-        } catch (Twig_Error $e) {
+        } catch (Error $e) {
             return false;
         }
 

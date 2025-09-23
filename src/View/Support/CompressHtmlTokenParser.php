@@ -1,7 +1,7 @@
 <?php namespace Anomaly\Streams\Platform\View\Support;
 
-use Twig_Token;
-use Twig_TokenParser;
+use Twig\Token;
+use Twig\TokenParser\IncludeTokenParser;
 
 /**
  * Class CompressHtmlTokenParser
@@ -15,26 +15,26 @@ use Twig_TokenParser;
  * @author Ryan Thompson <ryan@pyrocms.com>
  * @author PyroCMS, Inc. <support@pyrocms.com>
  */
-class CompressHtmlTokenParser extends Twig_TokenParser
+class CompressHtmlTokenParser extends IncludeTokenParser
 {
 
     /**
      * Parse the token.
      *
-     * @param Twig_Token $token
+     * @param Token $token
      * @return CompressHtmlNode
      */
-    public function parse(Twig_Token $token)
+    public function parse(Token $token) : CompressHtmlNode
     {
         $line_number = $token->getLine();
 
         $stream = $this->parser->getStream();
 
-        $stream->expect(Twig_Token::BLOCK_END_TYPE);
+        $stream->expect(Token::BLOCK_END_TYPE);
 
         $body = $this->parser->subparse([$this, 'decideHtmlCompressEnd'], true);
 
-        $stream->expect(Twig_Token::BLOCK_END_TYPE);
+        $stream->expect(Token::BLOCK_END_TYPE);
 
         $nodes = ['content' => $body];
 
@@ -46,7 +46,7 @@ class CompressHtmlTokenParser extends Twig_TokenParser
      *
      * @return string
      */
-    public function getTag()
+    public function getTag() : string
     {
         return 'htmlcompress';
     }
@@ -54,10 +54,10 @@ class CompressHtmlTokenParser extends Twig_TokenParser
     /**
      * Get the closing tag decision.
      *
-     * @param Twig_Token $token
+     * @param Token $token
      * @return bool
      */
-    public function decideHtmlCompressEnd(Twig_Token $token)
+    public function decideHtmlCompressEnd(Token $token)
     {
         return $token->test('endhtmlcompress');
     }
