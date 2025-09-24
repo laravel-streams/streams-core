@@ -114,8 +114,8 @@ class FileAdapter extends AbstractAdapter
     {
         $keyName = $this->stream->config('key_name', 'id');
 
-        $this->get($parameters)->each(function ($entry) use ($keyName) {
-            unset($this->data[$entry->{$keyName}]);
+        collect($this->get($parameters))->each(function (array $entry) use ($keyName) {
+            unset($this->data[$entry[$keyName]]);
         });
 
         $this->writeData();
