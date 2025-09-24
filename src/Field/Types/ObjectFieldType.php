@@ -19,6 +19,11 @@ class ObjectFieldType extends Field
 
     public function modify($value): array
     {
+        if (is_string($value)) {
+            $value = json_decode($value, true);
+            $value['@json'] = true;
+        }
+
         if (is_object($value) && $value instanceof EntryInterface) {
             $value = [
                 '@stream' => $value->stream()->id,

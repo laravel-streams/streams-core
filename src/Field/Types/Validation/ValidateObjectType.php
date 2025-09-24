@@ -18,6 +18,10 @@ class ValidateObjectType implements InvokableRule
             return;
         }
 
+        if (is_string($value)) {
+            $value = json_decode($value);
+        }
+
         if (!is_object($value)) {
             $fail('The :attribute must be an object.');
         }
