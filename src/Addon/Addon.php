@@ -33,7 +33,7 @@ class Addon implements Arrayable, Jsonable
         return false;
     }
 
-    public function composer(string $key = null)
+    public function composer(?string $key = null)
     {
         if (is_null($key)) {
             return $this->composer;
