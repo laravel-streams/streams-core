@@ -13,8 +13,38 @@ class AddonManager
 {
     use HasMemory;
 
-    public function __construct(protected Collection $collection)
+    public function __construct(protected Collection $collection) {}
+
+    /**
+     * Load all addons in a directory.
+     *
+     * @param string $directory
+     * @return array<Addon>
+     */
+    public function loadDirectory(string $directory): array
     {
+        $directory = rtrim($directory, '/\\');
+
+        $addons = [];
+        
+        if (!is_dir($directory)) {
+            return $addons;
+        }
+        
+        foreach (scandir($directory) as $entry) {
+        
+            if ($entry === '.' || $entry === '..') {
+                continue;
+            }
+        
+            $path = $directory . DIRECTORY_SEPARATOR . $entry;
+        
+            if (is_dir($path) && file_exists($path . '/composer.json')) {
+                $addons[] = $this->load($path);
+            }
+        }
+        
+        return $addons;
     }
 
     public function load(string $path): Addon
@@ -23,11 +53,15 @@ class AddonManager
 
         $composer = json_decode(file_get_contents($path . '/composer.json'), true);
 
-        $addon = [
-            'name' => $composer['name'],
-            'path' => $path,
-            'composer' => $composer,
-        ];
+        try {
+            $addon = [
+                'name' => $composer['name'],
+                'path' => $path,
+                'composer' => $composer,
+            ];
+        } catch (\Exception $e) {
+            throw new \Exception("Invalid addon at [{$path}].");
+        }
 
         return $this->register($addon);
     }
