@@ -52,4 +52,6 @@ interface EntryInterface
     public function save(array $options = []);
 
     public function decorate(string $field): FieldDecorator;
+
+    public function toArray();
 }
