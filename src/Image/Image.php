@@ -34,11 +34,11 @@ abstract class Image
 
     abstract public function save(InterventionImage $intervention): void;
 
-    public function img(string $alt = null, array $attributes = []): string
+    public function img(?string $alt = null, array $attributes = []): string
     {
-        $attributes = array_merge((array)$this->getPrototypeAttribute('attributes') ?: [], $attributes);
+        $attributes = array_merge((array) $this->getPrototypeAttribute('attributes') ?: [], $attributes);
 
-        if (!isset($attributes['src'])) {
+        if (! isset($attributes['src'])) {
             $attributes['src'] = $this->url();
         }
 
@@ -46,11 +46,11 @@ abstract class Image
             $attributes['alt'] = $alt;
         }
 
-        if (!isset($attributes['alt']) && Config::get('streams.core.auto_alt', true)) {
+        if (! isset($attributes['alt']) && Config::get('streams.core.auto_alt', true)) {
             $attributes['alt'] = $this->altTag();
         }
 
-        return '<img' . Arr::htmlAttributes($attributes) . '>';
+        return '<img'.Arr::htmlAttributes($attributes).'>';
     }
 
     public function picture(array $sources = []): string
@@ -74,7 +74,7 @@ abstract class Image
 
         $sources = implode("\n", $sources);
 
-        $sources .= "\n" . $this->img();
+        $sources .= "\n".$this->img();
 
         return "<picture>\n{$sources}\n</picture>";
     }
@@ -87,7 +87,7 @@ abstract class Image
             $attributes
         );
 
-        return '<source' . Arr::htmlAttributes($attributes) . '>';
+        return '<source'.Arr::htmlAttributes($attributes).'>';
     }
 
     public function links(array $sources = []): string
@@ -112,13 +112,13 @@ abstract class Image
 
     protected function link(): string
     {
-        if (!isset($attributes['href'])) {
+        if (! isset($attributes['href'])) {
             $attributes['href'] = $this->url();
         }
 
-        $attributes['type'] = 'image/' . $this->extension();
+        $attributes['type'] = 'image/'.$this->extension();
 
-        return '<link' . Arr::htmlAttributes($attributes) . '>';
+        return '<link'.Arr::htmlAttributes($attributes).'>';
     }
 
     public function base64(): string
@@ -129,7 +129,7 @@ abstract class Image
             $extension = 'svg+xml';
         }
 
-        return 'data:image/' . $extension . ';base64,' . base64_encode($this->data());
+        return 'data:image/'.$extension.';base64,'.base64_encode($this->data());
     }
 
     public function inline($alt = null, array $attributes = []): string
@@ -148,14 +148,14 @@ abstract class Image
             $parameters['v'] = is_bool($this->version) ? $this->lastModified() : $this->version;
         }
 
-        $parameters = array_filter($parameters) ? '?' . http_build_query($parameters) : null;
+        $parameters = array_filter($parameters) ? '?'.http_build_query($parameters) : null;
 
-        return URL::asset($this->outputImage()->assetUrl($secure) . $parameters, $secure);
+        return URL::asset($this->outputImage()->assetUrl($secure).$parameters, $secure);
     }
 
     public function css(): string
     {
-        return 'url(' . $this->url() . ')';
+        return 'url('.$this->url().')';
     }
 
     public function extension(): string
@@ -178,7 +178,7 @@ abstract class Image
             $intrinsic = Arr::pull($source, 'intrinsic');
 
             if ($intrinsic && is_numeric($intrinsic)) {
-                $intrinsic = $intrinsic . 'w';
+                $intrinsic = $intrinsic.'w';
             }
 
             foreach ($source as $method => $arguments) {
@@ -298,7 +298,7 @@ abstract class Image
 
         return ucwords(
             Str::humanize(
-                basename($name, '.' . pathinfo($name, PATHINFO_EXTENSION)),
+                basename($name, '.'.pathinfo($name, PATHINFO_EXTENSION)),
                 '^a-zA-Z0-9'
             )
         );
@@ -310,7 +310,7 @@ abstract class Image
             return false;
         }
 
-        if (!$output->exists()) {
+        if (! $output->exists()) {
             return true;
         }
 
@@ -364,13 +364,13 @@ abstract class Image
             return $this->filename;
         }
 
-        if (!$this->alterations && !$this->quality) {
+        if (! $this->alterations && ! $this->quality) {
             return $this->getPrototypeAttribute('original');
         }
 
         return md5($this->getPrototypeAttribute('original')
-            . json_encode([$this->alterations, $this->quality]))
-            . '.' . $this->extension();
+            .json_encode([$this->alterations, $this->quality]))
+            .'.'.$this->extension();
     }
 
     public function __call(string $method, array $parameters = [])

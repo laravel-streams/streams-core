@@ -5,7 +5,6 @@ namespace Streams\Core\Field\Types;
 use Streams\Core\Field\Field;
 use Streams\Core\Field\Schema\EmailSchema;
 use Streams\Core\Field\Decorator\EmailDecorator;
-use Streams\Core\Field\Generator\EmailGenerator;
 
 class EmailFieldType extends Field
 {
@@ -17,7 +16,7 @@ class EmailFieldType extends Field
 
         return (string) $value;
     }
-    
+
     public function modify($value)
     {
         return $this->cast($value);

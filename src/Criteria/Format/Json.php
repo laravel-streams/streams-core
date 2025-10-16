@@ -7,10 +7,9 @@ use Filebase\Format\FormatInterface;
 
 class Json implements FormatInterface
 {
-
     /**
      * Get the format's file extension.
-     * 
+     *
      * @return string
      */
     public static function getFileExtension()
@@ -20,9 +19,9 @@ class Json implements FormatInterface
 
     /**
      * Encode the data for storage.
-     * 
-     * @param array $data
-     * @param bool $pretty
+     *
+     * @param  array  $data
+     * @param  bool  $pretty
      * @return string
      */
     public static function encode($data, $pretty)
@@ -41,8 +40,7 @@ class Json implements FormatInterface
 
     /**
      * Decode the data from storage.
-     * 
-     * @param $data
+     *
      * @return mixed
      */
     public static function decode($data)

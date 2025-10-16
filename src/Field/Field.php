@@ -19,20 +19,17 @@ use Streams\Core\Support\Traits\FiresCallbacks;
 use Streams\Core\Validation\StreamsPresenceVerifier;
 
 /**
- * @property  string $handle
+ * @property string $handle
  * @property string $type
  * @property string $name
  * @property string $description
  */
-class Field implements
-    JsonSerializable,
-    Arrayable,
-    Jsonable
+class Field implements Arrayable, Jsonable, JsonSerializable
 {
-    use HasMemory;
-    use Prototype;
-    use Macroable;
     use FiresCallbacks;
+    use HasMemory;
+    use Macroable;
+    use Prototype;
 
     public $stream;
 
@@ -102,7 +99,7 @@ class Field implements
 
     public function config(string $key, $default = null)
     {
-        return Arr::get($this->getPrototypeAttribute("config"), $key, $default);
+        return Arr::get($this->getPrototypeAttribute('config'), $key, $default);
     }
 
     public function default($value)
@@ -154,16 +151,16 @@ class Field implements
                 $parts = explode(':', $rule);
                 $parameters = array_filter(explode(',', Arr::get($parts, 1)));
 
-                if (!$parameters) {
+                if (! $parameters) {
                     $parameters[] = $this->stream->id;
                 }
 
-                if (!$fresh && $key = Arr::get($data, $keyName)) {
+                if (! $fresh && $key = Arr::get($data, $keyName)) {
                     $parameters[] = $key;
                     $parameters[] = $keyName;
                 }
 
-                $rule = 'unique:' . implode(',', $parameters);
+                $rule = 'unique:'.implode(',', $parameters);
             }
 
             if (strpos($rule, '\\')) {
@@ -233,13 +230,13 @@ class Field implements
     public function getRule($rule)
     {
         return Arr::first($this->rules(), function ($target) use ($rule) {
-            return strpos($target, $rule . ':') !== false || strpos($target, $rule) !== false;
+            return strpos($target, $rule.':') !== false || strpos($target, $rule) !== false;
         });
     }
 
     public function ruleParameters($rule): array
     {
-        if (!$rule = $this->getRule($rule)) {
+        if (! $rule = $this->getRule($rule)) {
             return [];
         }
 
@@ -258,8 +255,6 @@ class Field implements
         return $this->hasRule('required');
     }
 
-
-
     public function toArray(): array
     {
         return Hydrator::dehydrate($this, [
@@ -268,8 +263,6 @@ class Field implements
             '__observers',
         ]);
     }
-
-
 
     public function jsonSerialize(): array
     {
@@ -281,14 +274,10 @@ class Field implements
         return json_encode($this->toArray(), $options);
     }
 
-
-
     public function __toString(): string
     {
         return $this->toJson();
     }
-
-
 
     public function onInitializing($callbackData): void
     {

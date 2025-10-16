@@ -9,15 +9,14 @@ use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
 
 class ObjectSchema extends FieldSchema
 {
-
     public function type(): Schema
     {
         $schema = Schema::object($this->field->handle);
 
         if ($items = $this->field->config('properties')) {
-            
+
             $items = Streams::build([
-                'fields' => $items
+                'fields' => $items,
             ]);
 
             $schema = $schema->properties(...$items->schema()->properties());

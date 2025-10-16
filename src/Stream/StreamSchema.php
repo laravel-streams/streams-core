@@ -3,7 +3,6 @@
 namespace Streams\Core\Stream;
 
 use Streams\Core\Field\Field;
-use Streams\Core\Stream\Stream;
 use Streams\Core\Support\Traits\FiresCallbacks;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Tag;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
@@ -57,7 +56,7 @@ class StreamSchema
 
     public function properties(): array
     {
-        return $this->stream->fields->map(function (Field  $field) {
+        return $this->stream->fields->map(function (Field $field) {
             return $field->schema()->property();
         })->all();
     }

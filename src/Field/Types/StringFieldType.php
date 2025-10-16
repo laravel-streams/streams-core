@@ -22,7 +22,7 @@ class StringFieldType extends Field
     public function default($value)
     {
         if ($value == 'random') {
-            
+
             $length = $this->ruleParameter('min', 40);
 
             return Str::random($length);
@@ -82,20 +82,20 @@ class StringFieldType extends Field
 
             'username' => 'userName',
             'password' => 'password',
-            
+
             'url' => 'url',
             'slug' => 'slug',
-            
+
             'ipv4' => 'ipv4',
             'ipv6' => 'ipv6',
             'ip_address' => 'ipv4',
-            
+
             'mac_address' => 'macAddress',
-            
+
             'file' => 'file',
-            
+
             'file_extension' => 'fileExtension',
-            
+
             'mime_type' => 'mimeType',
             'mime' => 'mimeType',
         ];
@@ -104,9 +104,9 @@ class StringFieldType extends Field
             return function () use ($formatter) {
                 return fake()->{$formatter}();
             };
-        };
+        }
 
-        if (!$min && $max && $max < 50) {
+        if (! $min && $max && $max < 50) {
             return function () use ($max) {
                 return Str::truncate(fake()->sentence(), $max);
             };

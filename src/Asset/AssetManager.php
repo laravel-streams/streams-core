@@ -9,11 +9,9 @@ use Illuminate\Filesystem\Filesystem;
 
 class AssetManager
 {
-
     protected array $collections = [];
 
     protected array $resolved = [];
-
 
     protected Filesystem $files;
 
@@ -26,21 +24,21 @@ class AssetManager
         Filesystem $files,
         AssetPaths $paths,
     ) {
-        $this->files    = $files;
-        $this->paths    = $paths;
+        $this->files = $files;
+        $this->paths = $paths;
         $this->registry = $registry;
     }
 
     public function collection(string $name): AssetCollection
     {
-        if (!$collection = Arr::get($this->collections, $name)) {
-            $this->collections[$name] = $collection = new AssetCollection();
+        if (! $collection = Arr::get($this->collections, $name)) {
+            $this->collections[$name] = $collection = new AssetCollection;
         }
 
         return $collection;
     }
 
-    public function add(string $collection, array|string $assets = null): void
+    public function add(string $collection, array|string|null $assets = null): void
     {
         $collection = $this->collection($collection);
 
@@ -72,7 +70,7 @@ class AssetManager
     {
         $asset = $this->resolve($asset);
 
-        if (!filter_var($asset, FILTER_VALIDATE_URL) && !Str::startsWith($asset, base_path())) {
+        if (! filter_var($asset, FILTER_VALIDATE_URL) && ! Str::startsWith($asset, base_path())) {
             $asset = public_path(ltrim($asset, '/\\'));
         }
 
@@ -91,7 +89,7 @@ class AssetManager
     {
         $asset = $this->resolve($asset);
 
-        if (!Str::startsWith($asset, [base_path(), 'http://', 'https://'])) {
+        if (! Str::startsWith($asset, [base_path(), 'http://', 'https://'])) {
             $asset = base_path(ltrim($asset, '/\\'));
         }
 
@@ -101,7 +99,7 @@ class AssetManager
     public function url(
         string $asset,
         array $parameters = [],
-        bool $secure = null
+        ?bool $secure = null
     ): string {
         return URL::to(str_replace([
             public_path(),
@@ -121,57 +119,57 @@ class AssetManager
     }
 
     public function script(
-        string $asset = null,
+        ?string $asset = null,
         array $attributes = [],
-        string $content = null
+        ?string $content = null
     ): string {
 
-        if (!$content) {
+        if (! $content) {
             $attributes['src'] = $this->resolve($asset);
         }
 
-        return '<script' . html_attributes($attributes) . '>' . $content . '</script>';
+        return '<script'.html_attributes($attributes).'>'.$content.'</script>';
     }
 
-    public function style(string $asset = null, array $attributes = [], $content = null): string
+    public function style(?string $asset = null, array $attributes = [], $content = null): string
     {
         $defaults = ['media' => 'all', 'type' => 'text/css', 'rel' => 'stylesheet'];
 
         $attributes = $attributes + $defaults;
 
         if ($content) {
-            return '<style' . html_attributes($attributes) . '>' . $content . '</style>';
+            return '<style'.html_attributes($attributes).'>'.$content.'</style>';
         }
 
-        if (!$content) {
+        if (! $content) {
             $attributes['href'] = $this->resolve($asset);
         }
 
-        return '<link' . html_attributes($attributes) . '/>';
+        return '<link'.html_attributes($attributes).'/>';
     }
 
-    public function img(string $src = null, array $attributes = []): string
+    public function img(?string $src = null, array $attributes = []): string
     {
         $defaults = [];
 
         $attributes = $attributes + $defaults;
 
-        if (!isset($attributes['src'])) {
+        if (! isset($attributes['src'])) {
             $attributes['src'] = $this->resolve($src);
         }
 
-        return '<img' . html_attributes($attributes) . '/>';
+        return '<img'.html_attributes($attributes).'/>';
     }
 
-    public function svg(string $asset = null, array $attributes = [], $content = null): string
+    public function svg(?string $asset = null, array $attributes = [], $content = null): string
     {
         $output = $content ?: $this->inline($asset);
 
         foreach ($attributes as $attribute => $value) {
 
             // Add or replace the attribute value.
-            if (preg_match('/<svg[^>]*\s' . preg_quote($attribute, '/') . '=".*?"/', $output)) {
-                $output = preg_replace("/\s" . preg_quote($attribute, '/') . "=\".*?\"/", " {$attribute}=\"{$value}\"", $output);
+            if (preg_match('/<svg[^>]*\s'.preg_quote($attribute, '/').'=".*?"/', $output)) {
+                $output = preg_replace("/\s".preg_quote($attribute, '/').'=".*?"/', " {$attribute}=\"{$value}\"", $output);
             } else {
                 $output = str_replace('<svg', "<svg {$attribute}=\"{$value}\"", $output);
             }
@@ -181,7 +179,6 @@ class AssetManager
     }
 
     /**
-     * @param string $asset
      * @return string|null
      */
     public function resolve(string $asset)
@@ -216,8 +213,8 @@ class AssetManager
     {
         $real = $this->paths->real($asset);
 
-        if (!Str::startsWith($real, [base_path(), 'http://', 'https://'])) {
-            $real = '/' . ltrim($real, '/');
+        if (! Str::startsWith($real, [base_path(), 'http://', 'https://'])) {
+            $real = '/'.ltrim($real, '/');
         }
 
         return $real;

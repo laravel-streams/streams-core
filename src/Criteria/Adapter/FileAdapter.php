@@ -5,7 +5,6 @@ namespace Streams\Core\Criteria\Adapter;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Streams\Core\Stream\Stream;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Config;
 use Streams\Core\Entry\Contract\EntryInterface;
@@ -13,7 +12,9 @@ use Streams\Core\Entry\Contract\EntryInterface;
 class FileAdapter extends AbstractAdapter
 {
     protected $original = [];
+
     protected $data = [];
+
     protected $query;
 
     public function __construct(Stream $stream)
@@ -39,14 +40,14 @@ class FileAdapter extends AbstractAdapter
 
     public function where($field, $operator = null, $value = null, $nested = null): static
     {
-        if (!$value) {
+        if (! $value) {
             $value = $operator;
             $operator = '=';
         }
 
         $operator = strtoupper($operator);
 
-        $method = $nested ? Str::camel($nested . '_where') : 'where';
+        $method = $nested ? Str::camel($nested.'_where') : 'where';
 
         if ($operator == 'LIKE') {
             $this->query = $this->query->filter(function ($entry) use ($field, $value) {
@@ -138,15 +139,15 @@ class FileAdapter extends AbstractAdapter
     protected function readData()
     {
         $format = $this->stream->config('source.format');
-        $file = $this->stream->config('source.file', Config::get('streams.core.data_path') . '/' . $this->stream->handle . '.' . ($format ?: 'json'));
+        $file = $this->stream->config('source.file', Config::get('streams.core.data_path').'/'.$this->stream->handle.'.'.($format ?: 'json'));
 
-        if (!file_exists($file)) {
+        if (! file_exists($file)) {
             $file = base_path($file);
         }
-        
+
         $format = $format ?: pathinfo($file, PATHINFO_EXTENSION);
 
-        if (!file_exists($file)) {
+        if (! file_exists($file)) {
 
             $this->data = $this->original = [];
 
@@ -180,13 +181,14 @@ class FileAdapter extends AbstractAdapter
                 if ($i == 0) {
                     $fields = $row;
                     $i++;
+
                     continue;
                 }
 
                 $row = array_combine($fields, $row);
 
                 foreach ($row as $key => $value) {
-                    if (!is_numeric($value) && $json = json_decode($value)) {
+                    if (! is_numeric($value) && $json = json_decode($value)) {
                         $row[$key] = $json;
                     }
                 }
@@ -206,7 +208,7 @@ class FileAdapter extends AbstractAdapter
     {
         $format = $this->stream->config('source.format', 'json');
 
-        $file = base_path(trim($this->stream->config('source.file', Config::get('streams.core.data_path') . '/' . $this->stream->handle . '.' . ($format ?: 'json')), '/\\'));
+        $file = base_path(trim($this->stream->config('source.file', Config::get('streams.core.data_path').'/'.$this->stream->handle.'.'.($format ?: 'json')), '/\\'));
 
         $keyName = $this->stream->config(' ', 'id');
 
@@ -215,13 +217,13 @@ class FileAdapter extends AbstractAdapter
         array_walk($this->data, function ($item, $key) use (&$data, $keyName) {
 
             $key = Arr::get($item, $keyName) ?: $key;
-            
+
             $data[(string) $key] = $item;
         });
 
         $this->data = $data;
-        
-        if (!file_exists($file)) {
+
+        if (! file_exists($file)) {
             File::ensureDirectoryExists(dirname($file), 0755, true);
         }
 
@@ -233,8 +235,8 @@ class FileAdapter extends AbstractAdapter
 
             $handle = fopen($file, 'w');
 
-            if (!$fieldNames = $this->stream->fields->keys()->all()) {
-                 $fieldNames = array_keys(reset($this->data));
+            if (! $fieldNames = $this->stream->fields->keys()->all()) {
+                $fieldNames = array_keys(reset($this->data));
             }
 
             fputcsv($handle, $fieldNames);

@@ -9,7 +9,9 @@ use Illuminate\Support\Facades\Config;
 class StreamCache
 {
     protected Stream $stream;
+
     protected Repository $store;
+
     protected Repository $collections;
 
     public function __construct(Stream $stream)
@@ -25,70 +27,62 @@ class StreamCache
     /**
      * Return a cached value.
      *
-     * @param string $key
+     * @param  string  $key
      * @param mixed
-     * 
      * @return mixed
      */
     public function get($key, $default = null)
     {
-        return $this->store->get('streams.' . $this->stream->handle . '.' . $key, $default);
+        return $this->store->get('streams.'.$this->stream->handle.'.'.$key, $default);
     }
 
     /**
      * Return if a cached item exists.
      *
-     * @param string $key
-     *
-     * @return bool
+     * @param  string  $key
      */
     public function has($key): bool
     {
-        return $this->store->has('streams.' . $this->stream->handle . '.' . $key);
+        return $this->store->has('streams.'.$this->stream->handle.'.'.$key);
     }
 
     /**
      * Adjust the value of an integer item.
      *
-     * @param string $key
-     * @param int $amount
-     *
-     * @return int
+     * @param  string  $key
+     * @param  int  $amount
      */
     public function increment($key, $amount = 1): int
     {
         $this->indexKey($key);
 
-        return $this->store->increment('streams.' . $this->stream->handle . '.' . $key, $amount);
+        return $this->store->increment('streams.'.$this->stream->handle.'.'.$key, $amount);
     }
 
     /**
      * Adjust the value of an integer item.
      *
-     * @param string $key
-     * @param int $amount
-     *
-     * @return int
+     * @param  string  $key
+     * @param  int  $amount
      */
     public function decrement($key, $amount = 1): int
     {
         $this->indexKey($key);
 
-        return $this->store->decrement('streams.' . $this->stream->handle . '.' . $key, $amount);
+        return $this->store->decrement('streams.'.$this->stream->handle.'.'.$key, $amount);
     }
 
     /**
      * Store a value in the cache store.
      *
-     * @param string $key
-     * @param integer $seconds
-     * @param mixed $value
-     * 
+     * @param  string  $key
+     * @param  int  $seconds
+     * @param  mixed  $value
      * @return mixed
      */
     public function remember($key, $seconds, $value)
     {
-        $key = 'streams.' . $this->stream->handle . '.' . $key;
+        $key = 'streams.'.$this->stream->handle.'.'.$key;
 
         $this->indexKey($key);
 
@@ -98,14 +92,13 @@ class StreamCache
     /**
      * Store a value in the cache store forever.
      *
-     * @param string $key
-     * @param mixed $value
-     * 
+     * @param  string  $key
+     * @param  mixed  $value
      * @return mixed
      */
     public function rememberForever($key, $value)
     {
-        $key = 'streams.' . $this->stream->handle . '.' . $key;
+        $key = 'streams.'.$this->stream->handle.'.'.$key;
 
         $this->indexKey($key);
 
@@ -115,15 +108,13 @@ class StreamCache
     /**
      * Put a value in to cache store.
      *
-     * @param string $key
-     * @param integer $seconds
-     * @param mixed $value
-     * 
-     * @return bool
+     * @param  string  $key
+     * @param  int  $seconds
+     * @param  mixed  $value
      */
     public function put($key, $value, $seconds = null): bool
     {
-        $key = 'streams.' . $this->stream->handle . '.' . $key;
+        $key = 'streams.'.$this->stream->handle.'.'.$key;
 
         $this->indexKey($key);
 
@@ -134,17 +125,15 @@ class StreamCache
      * Add a value in to cache
      * store if it doesn't exist.
      *
-     * @param string $key
-     * @param integer $seconds
-     * @param mixed $value
-     * 
-     * @return bool
+     * @param  string  $key
+     * @param  int  $seconds
+     * @param  mixed  $value
      */
     public function add($key, $value, $seconds): bool
     {
-        $key = 'streams.' . $this->stream->handle . '.' . $key;
+        $key = 'streams.'.$this->stream->handle.'.'.$key;
 
-        if (!$this->has($key)) {
+        if (! $this->has($key)) {
             $this->indexKey($key);
         }
 
@@ -154,16 +143,14 @@ class StreamCache
     /**
      * Store a value in cache forever.
      *
-     * @param string $key
-     * @param mixed $value
-     * 
-     * @return bool
+     * @param  string  $key
+     * @param  mixed  $value
      */
     public function forever($key, $value): bool
     {
-        $key = 'streams.' . $this->stream->handle . '.' . $key;
+        $key = 'streams.'.$this->stream->handle.'.'.$key;
 
-        if (!$this->has($key)) {
+        if (! $this->has($key)) {
             $this->indexKey($key);
         }
 
@@ -173,13 +160,12 @@ class StreamCache
     /**
      * Pull a value out of the cache store.
      *
-     * @param string $key
-     * 
+     * @param  string  $key
      * @return mixed
      */
     public function pull($key)
     {
-        $key = 'streams.' . $this->stream->handle . '.' . $key;
+        $key = 'streams.'.$this->stream->handle.'.'.$key;
 
         $this->forgetKey($key);
 
@@ -189,25 +175,24 @@ class StreamCache
     /**
      * Forget a cached item.
      *
-     * @param string $key
-     * 
+     * @param  string  $key
      * @return bool
      */
     public function forget($key)
     {
         $this->forgetKey($key);
 
-        return $this->store->forget('streams.' . $this->stream->handle . '.' . $key);
+        return $this->store->forget('streams.'.$this->stream->handle.'.'.$key);
     }
 
     /**
      * Flush all cached items.
-     * 
+     *
      * @return bool
      */
     public function flush()
     {
-        $collectionKey = 'streams.' . $this->stream->handle . '_cache_collection';
+        $collectionKey = 'streams.'.$this->stream->handle.'_cache_collection';
 
         $collection = $this->collections->get($collectionKey) ?: [];
 
@@ -221,11 +206,11 @@ class StreamCache
     /**
      * Index a cache key.
      *
-     * @param string $key
+     * @param  string  $key
      */
     public function indexKey($key)
     {
-        $collectionKey = 'streams.' . $this->stream->handle . '_cache_collection';
+        $collectionKey = 'streams.'.$this->stream->handle.'_cache_collection';
 
         $collection = $this->collections->get($collectionKey, []);
 
@@ -241,11 +226,11 @@ class StreamCache
     /**
      * Forget a cache key.
      *
-     * @param string $key
+     * @param  string  $key
      */
     public function forgetKey($key)
     {
-        $collectionKey = 'streams.' . $this->stream->handle . '_cache_collection';
+        $collectionKey = 'streams.'.$this->stream->handle.'_cache_collection';
 
         $collection = $this->collections->get($collectionKey, []);
 

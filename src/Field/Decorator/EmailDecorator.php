@@ -15,16 +15,16 @@ class EmailDecorator extends StringDecorator
 
         $email = $default ?: $this->value;
 
-        if (!$title) {
+        if (! $title) {
             $title = $email;
         }
 
         return HtmlFacade::mailto($email, $title, $attributes, $escape);
     }
 
-    public function obfuscate(): string|null
+    public function obfuscate(): ?string
     {
-        if (!$this->value) {
+        if (! $this->value) {
             return null;
         }
 

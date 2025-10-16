@@ -51,7 +51,7 @@ class ObjectFieldType extends Field
         if (is_object($value)) {
             return $value;
         }
-        
+
         if (is_string($value)) {
             $value = json_decode($value, true);
         }

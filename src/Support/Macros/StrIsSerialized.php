@@ -26,27 +26,27 @@ class StrIsSerialized
 
                 $lastc = substr($target, -1);
 
-                if (';' !== $lastc && '}' !== $lastc) {
+                if ($lastc !== ';' && $lastc !== '}') {
                     return false;
                 }
             }
 
-            if (!$strict) {
+            if (! $strict) {
 
                 $semicolon = strpos($target, ';');
                 $brace = strpos($target, '}');
 
                 // Either ; or } must exist.
-                if (false === $semicolon && false === $brace) {
+                if ($semicolon === false && $brace === false) {
                     return false;
                 }
 
                 // But neither must be in the first 3 characters.
-                if (false !== $semicolon && $semicolon < 3) {
+                if ($semicolon !== false && $semicolon < 3) {
                     return false;
                 }
 
-                if (false !== $brace && $brace < 4) {
+                if ($brace !== false && $brace < 4) {
                     return false;
                 }
             }
@@ -56,21 +56,22 @@ class StrIsSerialized
             switch ($token) {
                 case 's':
                     if ($strict) {
-                        if ('"' !== substr($target, -2, 1)) {
+                        if (substr($target, -2, 1) !== '"') {
                             return false;
                         }
-                    } elseif (false === strpos($target, '"')) {
+                    } elseif (strpos($target, '"') === false) {
                         return false;
                     }
                     // or else fall through
                 case 'a':
                 case 'O':
-                    return (bool)preg_match("/^{$token}:[0-9]+:/s", $target);
+                    return (bool) preg_match("/^{$token}:[0-9]+:/s", $target);
                 case 'b':
                 case 'i':
                 case 'd':
                     $end = $strict ? '$' : '';
-                    return (bool)preg_match("/^{$token}:[0-9.E-]+;$end/", $target);
+
+                    return (bool) preg_match("/^{$token}:[0-9.E-]+;$end/", $target);
             }
 
             return false;

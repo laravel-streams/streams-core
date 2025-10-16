@@ -8,10 +8,9 @@ use Symfony\Component\Yaml\Yaml as Parser;
 
 class Yaml implements FormatInterface
 {
-
     /**
      * Get the format's file extension.
-     * 
+     *
      * @return string
      */
     public static function getFileExtension()
@@ -21,9 +20,9 @@ class Yaml implements FormatInterface
 
     /**
      * Encode the data for storage.
-     * 
-     * @param array $data
-     * @param bool $pretty
+     *
+     * @param  array  $data
+     * @param  bool  $pretty
      * @return string
      */
     public static function encode($data, $pretty)
@@ -42,8 +41,7 @@ class Yaml implements FormatInterface
 
     /**
      * Decode the data from storage.
-     * 
-     * @param $data
+     *
      * @return mixed
      */
     public static function decode($data)

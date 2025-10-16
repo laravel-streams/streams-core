@@ -9,10 +9,10 @@ class SelectDecorator extends FieldDecorator
 {
     public function text()
     {
-        if (!$this->value) {
+        if (! $this->value) {
             return null;
         }
-        
+
         return Arr::get($this->field->options(), $this->value) ?: $this->value;
     }
 

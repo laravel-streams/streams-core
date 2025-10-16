@@ -20,7 +20,7 @@ class ArraySchema extends FieldSchema
         ) {
 
             $stream = Streams::build([
-                'fields' => $items
+                'fields' => $items,
             ]);
 
             $schema = $schema->items(AnyOf::create()

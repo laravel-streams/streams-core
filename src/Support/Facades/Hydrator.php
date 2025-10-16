@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Facade;
  * Class Hydrator
  *
  * @link   http://pyrocms.com/
+ *
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  *
@@ -16,7 +17,6 @@ use Illuminate\Support\Facades\Facade;
  */
 class Hydrator extends Facade
 {
-
     /**
      * Get the registered name of the component.
      *

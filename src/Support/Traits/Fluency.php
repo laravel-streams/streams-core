@@ -8,24 +8,22 @@ use Streams\Core\Field\FieldDecorator;
 
 /**
  * Trait Fluency
- * 
+ *
  * By default you can load Property classes
  * by passing an array of attributes:
- * 
- *      $object = new Class(array $attributes)
- * 
- * Attributes support a basic public property API
- * 
- *      echo $object->attribute; // attribute value
- * 
- * Attributes can be expanded:
- * 
- *      echo $object->expand('attribute'); // A new Value instance
  *
+ *      $object = new Class(array $attributes)
+ *
+ * Attributes support a basic public property API
+ *
+ *      echo $object->attribute; // attribute value
+ *
+ * Attributes can be expanded:
+ *
+ *      echo $object->expand('attribute'); // A new Value instance
  */
 trait Fluency
 {
-
     use Prototype;
 
     public function fill(array $attributes)
@@ -35,9 +33,9 @@ trait Fluency
 
     public function decorate(string $key): FieldDecorator
     {
-        //return $this->decoratePrototypeAttribute($key);
+        // return $this->decoratePrototypeAttribute($key);
 
-        $name = Str::camel('decorate_' . $key . '_attribute');
+        $name = Str::camel('decorate_'.$key.'_attribute');
 
         $value = $this->getPrototypeAttribute($key);
 

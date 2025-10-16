@@ -8,9 +8,7 @@ use Illuminate\Support\Facades\App;
 
 class StrParse
 {
-    public function __construct(protected Engine $parser)
-    {
-    }
+    public function __construct(protected Engine $parser) {}
 
     public function __invoke()
     {
@@ -18,7 +16,7 @@ class StrParse
 
         return function ($target, array $data = []) use ($parser): string {
 
-            if (!strpos($target, '}')) {
+            if (! strpos($target, '}')) {
                 return $target;
             }
 
@@ -28,7 +26,7 @@ class StrParse
                 [
                     'app' => [
                         'locale' => App::getLocale(),
-                    ]
+                    ],
                 ]
             ));
         };

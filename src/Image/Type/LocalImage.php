@@ -33,7 +33,7 @@ class LocalImage extends Image
     {
         $output = $this->attributes;
 
-        $output['source'] = ltrim(str_replace(base_path(), '', public_path('app/' . dirname($this->source) . '/' . $this->filename())), '/\\');
+        $output['source'] = ltrim(str_replace(base_path(), '', public_path('app/'.dirname($this->source).'/'.$this->filename())), '/\\');
 
         return new self($output);
     }
@@ -45,7 +45,7 @@ class LocalImage extends Image
 
     public function save(InterventionImage $intervention): void
     {
-        if (!File::isDirectory($directory = dirname($path = base_path($this->source)))) {
+        if (! File::isDirectory($directory = dirname($path = base_path($this->source)))) {
             File::makeDirectory($directory, 0755, true);
         }
 

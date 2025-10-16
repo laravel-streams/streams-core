@@ -7,11 +7,12 @@ use Illuminate\Support\Arr;
 class SelfAdapter extends FileAdapter
 {
     protected $data = [];
+
     protected $query = [];
 
     protected function readData()
     {
-        $default = 'streams/' . $this->stream->handle . '.json';
+        $default = 'streams/'.$this->stream->handle.'.json';
 
         $file = base_path(trim($this->stream->config('source.file', $default), '/\\'));
 
@@ -20,7 +21,7 @@ class SelfAdapter extends FileAdapter
         $data = Arr::get(json_decode(file_get_contents($file), true), 'data', []);
 
         array_walk($data, function ($item, $key) use ($keyName) {
-            
+
             $key = Arr::get($item, $keyName, $key);
 
             $this->data[$key] = [$keyName => $key] + $item;
@@ -29,7 +30,7 @@ class SelfAdapter extends FileAdapter
 
     protected function writeData()
     {
-        $source = $this->stream->config('source.file', 'streams/' . $this->stream->handle . '.json');
+        $source = $this->stream->config('source.file', 'streams/'.$this->stream->handle.'.json');
 
         $file = base_path(trim($source, '/\\'));
 

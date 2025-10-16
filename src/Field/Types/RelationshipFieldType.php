@@ -2,8 +2,8 @@
 
 namespace Streams\Core\Field\Types;
 
-use Illuminate\Support\Facades\Auth;
 use Streams\Core\Field\Field;
+use Illuminate\Support\Facades\Auth;
 use Streams\Core\Support\Facades\Streams;
 
 class RelationshipFieldType extends Field
@@ -37,7 +37,7 @@ class RelationshipFieldType extends Field
         $stream = $this->config('related');
 
         return $this->once(
-            $this->handle . '.related.' . $stream,
+            $this->handle.'.related.'.$stream,
             function () use ($stream) {
                 return Streams::make($stream);
             }
@@ -67,7 +67,7 @@ class RelationshipFieldType extends Field
                 return null;
             }
 
-            if (!$entry = $entries->random()) {
+            if (! $entry = $entries->random()) {
                 return null;
             }
 

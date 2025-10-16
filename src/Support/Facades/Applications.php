@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Facade;
  * Class Applications
  *
  * @link   http://pyrocms.com/
+ *
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  *
@@ -17,7 +18,6 @@ use Illuminate\Support\Facades\Facade;
  */
 class Applications extends Facade
 {
-
     /**
      * Get the registered name of the component.
      *

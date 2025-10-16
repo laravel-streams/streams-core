@@ -8,10 +8,9 @@ use Filebase\Format\FormatInterface;
 
 class Html implements FormatInterface
 {
-
     /**
      * Get the format's file extension.
-     * 
+     *
      * @return string
      */
     public static function getFileExtension()
@@ -21,9 +20,9 @@ class Html implements FormatInterface
 
     /**
      * Encode the data for storage.
-     * 
-     * @param array $data
-     * @param bool $pretty
+     *
+     * @param  array  $data
+     * @param  bool  $pretty
      * @return string
      */
     public static function encode($data, $pretty)
@@ -46,28 +45,27 @@ class Html implements FormatInterface
 
     /**
      * Decode the data from storage.
-     * 
-     * @param $data
+     *
      * @return mixed
      */
     public static function decode($data)
     {
         $pattern = '/^[\s\r\n]?---[\s\r\n]?$/sm';
 
-        $parts = preg_split($pattern, PHP_EOL . ltrim($data));
+        $parts = preg_split($pattern, PHP_EOL.ltrim($data));
 
         if (count($parts) < 3) {
             return ['data' => ['body' => $data]];
         }
 
-        if (!$matter = json_decode(trim($parts[1]), true)) {
+        if (! $matter = json_decode(trim($parts[1]), true)) {
             $matter = Yaml::parse(trim($parts[1]));
         }
 
-        $body = implode(PHP_EOL . '---' . PHP_EOL, array_slice($parts, 2));
+        $body = implode(PHP_EOL.'---'.PHP_EOL, array_slice($parts, 2));
 
         return [
-            'data' => array_merge(Arr::get($matter, 'data', $matter), ['body' => $body])
+            'data' => array_merge(Arr::get($matter, 'data', $matter), ['body' => $body]),
         ];
     }
 }

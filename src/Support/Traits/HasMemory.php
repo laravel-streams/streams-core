@@ -8,12 +8,11 @@ namespace Streams\Core\Support\Traits;
  */
 trait HasMemory
 {
-
     protected static array $memory = [];
 
     public static function remember(string $key, callable $callable)
     {
-        return self::once(self::class . $key, $callable);
+        return self::once(self::class.$key, $callable);
     }
 
     public static function once(string $key, callable $callable)
@@ -29,8 +28,8 @@ trait HasMemory
     {
         $prefix = self::class;
 
-        if (array_key_exists($prefix . $key, self::$memory)) {
-            unset(self::$memory[$prefix . $key]);
+        if (array_key_exists($prefix.$key, self::$memory)) {
+            unset(self::$memory[$prefix.$key]);
         }
 
         if (array_key_exists($key, self::$memory)) {

@@ -4,9 +4,9 @@ namespace Streams\Core\Field\Decorator;
 
 use Illuminate\Support\Str;
 use Collective\Html\HtmlFacade;
+use Symfony\Component\Yaml\Yaml;
 use Illuminate\Support\Facades\View;
 use Streams\Core\Field\FieldDecorator;
-use Symfony\Component\Yaml\Yaml;
 
 class StringDecorator extends FieldDecorator
 {
@@ -14,7 +14,7 @@ class StringDecorator extends FieldDecorator
     {
         return Yaml::parse($this->value, $flags);
     }
-    
+
     public function markdown(): string
     {
         return Str::markdown($this->value);
@@ -24,7 +24,7 @@ class StringDecorator extends FieldDecorator
     {
         return Str::parse($this->value, $data);
     }
-    
+
     public function render(array $data = []): string
     {
         return View::parse($this->value, $data)->render();
@@ -45,27 +45,27 @@ class StringDecorator extends FieldDecorator
         return unserialize($this->value, $options);
     }
 
-    public function tel($text = null, array $attributes = []): string|null
+    public function tel($text = null, array $attributes = []): ?string
     {
-        if (!$this->value) {
+        if (! $this->value) {
             return null;
         }
 
         return HtmlFacade::link(
-            'tel:' . preg_replace('/[^\+\d]/', '', $this->value),
+            'tel:'.preg_replace('/[^\+\d]/', '', $this->value),
             $text ?: $this->value,
             $attributes
         );
     }
 
-    public function sms($text = null, array $attributes = []): string|null
+    public function sms($text = null, array $attributes = []): ?string
     {
-        if (!$this->value) {
+        if (! $this->value) {
             return null;
         }
 
         return HtmlFacade::link(
-            'sms:' . preg_replace('/[^\+\d]/', '', $this->value),
+            'sms:'.preg_replace('/[^\+\d]/', '', $this->value),
             $text ?: $this->value,
             $attributes
         );

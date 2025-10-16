@@ -24,10 +24,10 @@ class DatetimeFieldType extends Field
         return $this->toDateTime($value);
     }
 
-    public function cast($value): \DateTime | null
+    public function cast($value): ?\DateTime
     {
         $timezone = $this->config('timezone', config('app.timezone'));
-        
+
         return $this->toDateTime($value, $timezone);
     }
 
@@ -72,13 +72,13 @@ class DatetimeFieldType extends Field
         };
     }
 
-    protected function toDateTime($value, string $timezone = null): \DateTime | null
+    protected function toDateTime($value, ?string $timezone = null): ?\DateTime
     {
         if ($value instanceof \DateTime) {
             return $value;
         }
 
-        if (!$value) {
+        if (! $value) {
             return null;
         }
 

@@ -4,13 +4,11 @@ namespace Streams\Core\Application;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
-use Streams\Core\Application\Application;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Support\Traits\HasMemory;
 
 class ApplicationManager
 {
-
     use HasMemory;
 
     protected Collection $collection;

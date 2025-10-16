@@ -14,13 +14,12 @@ use Streams\Core\Support\Facades\Streams as StreamsFacade;
 /**
  * This class provides EntryInterface
  * support for eloquent models.
- * 
+ *
  * @property static $unguarded;
  */
 trait Streams
 {
     use ForwardsCalls;
-
     use Prototype {
         Prototype::__call as private callPrototype;
     }
@@ -28,9 +27,9 @@ trait Streams
     public function __construct(array $attributes = [])
     {
 
-        //$this->loadPrototypeProperties($attributes);
+        // $this->loadPrototypeProperties($attributes);
 
-        //$this->syncPrototypePropertyAttributes();
+        // $this->syncPrototypePropertyAttributes();
         $this->syncOriginalPrototypeAttributes($attributes);
 
         $this->syncOriginal();
@@ -42,7 +41,7 @@ trait Streams
         $this->attributes = $this->getPrototypeAttributes();
     }
 
-    function stream(): Stream
+    public function stream(): Stream
     {
         if (is_object($this->stream)) {
             return $this->stream;
@@ -62,7 +61,6 @@ trait Streams
 
         parent::fill($this->getPrototypeAttributes());
 
-        return;
     }
 
     public function save(array $options = []): bool
@@ -72,13 +70,13 @@ trait Streams
 
         foreach ($stream->fields as $field) {
 
-            if (array_key_exists($field->handle, $attributes) && !is_null($attributes[$field->handle])) {
+            if (array_key_exists($field->handle, $attributes) && ! is_null($attributes[$field->handle])) {
                 $attributes[$field->handle] = $field->modify($attributes[$field->handle]);
             }
 
             if (
-                !array_key_exists($field->handle, $attributes)
-                && !is_null($default = $field->config('default'))
+                ! array_key_exists($field->handle, $attributes)
+                && ! is_null($default = $field->config('default'))
             ) {
                 $attributes[$field->handle] = $field->default($default);
             }

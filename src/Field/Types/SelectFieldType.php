@@ -15,7 +15,7 @@ class SelectFieldType extends Field
 
     public function options(): array
     {
-        return $this->once($this->handle . '.options', function () {
+        return $this->once($this->handle.'.options', function () {
 
             $options = $this->config('options', []);
 
@@ -30,7 +30,7 @@ class SelectFieldType extends Field
     public function rules(): array
     {
         return array_merge([
-            'in:' . implode(',', array_keys($this->options()))
+            'in:'.implode(',', array_keys($this->options())),
         ], parent::rules());
     }
 
@@ -40,7 +40,7 @@ class SelectFieldType extends Field
             return array_rand($this->options());
         };
     }
-    
+
     public function getSchemaName()
     {
         return SelectSchema::class;

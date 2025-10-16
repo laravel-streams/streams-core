@@ -11,7 +11,7 @@ class StorageImage extends Image
 {
     public function __construct(array $attributes)
     {
-        list($disk, $path) = explode('://', $attributes['source']);
+        [$disk, $path] = explode('://', $attributes['source']);
 
         $attributes['disk'] = $disk;
         $attributes['path'] = $path;
@@ -52,7 +52,7 @@ class StorageImage extends Image
     protected function output(): Image
     {
         return new static([
-            'source' => 'public://' . dirname($this->path) . '/' . $this->filename(),
+            'source' => 'public://'.dirname($this->path).'/'.$this->filename(),
         ]);
     }
 

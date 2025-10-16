@@ -6,7 +6,6 @@ use Illuminate\Support\Collection;
 
 class FieldCollection extends Collection
 {
-
     public function __get($key): ?Field
     {
         return $this->get($key);

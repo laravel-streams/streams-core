@@ -6,13 +6,10 @@ use Illuminate\Support\Facades\Request;
 use Streams\Core\Repository\Repository;
 use Streams\Core\Support\Facades\Streams;
 
-if (!function_exists('response_time')) {
+if (! function_exists('response_time')) {
 
     /**
      * Get the response time in seconds.
-     *
-     * @param int $precision
-     * @return float
      */
     function response_time(int $precision = 2): float
     {
@@ -20,24 +17,21 @@ if (!function_exists('response_time')) {
     }
 }
 
-if (!function_exists('memory_usage')) {
+if (! function_exists('memory_usage')) {
 
     /**
      * Get the memory usage.
-     *
-     * @param int $precision
-     * @return string
      */
     function memory_usage(int $precision = 2): string
     {
         $size = memory_get_usage(true);
         $unit = ['b', 'kb', 'mb', 'gb', 'tb', 'pb'];
 
-        return round($size / pow(1024, ($i = floor(log($size, 1024)))), $precision) . ' ' . $unit[$i];
+        return round($size / pow(1024, ($i = floor(log($size, 1024)))), $precision).' '.$unit[$i];
     }
 }
 
-if (!function_exists('stream')) {
+if (! function_exists('stream')) {
 
     function stream(string $stream): Stream
     {
@@ -45,7 +39,7 @@ if (!function_exists('stream')) {
     }
 }
 
-if (!function_exists('entries')) {
+if (! function_exists('entries')) {
 
     function entries(string $stream): Criteria
     {
@@ -53,7 +47,7 @@ if (!function_exists('entries')) {
     }
 }
 
-if (!function_exists('repository')) {
+if (! function_exists('repository')) {
 
     function repository(string $stream): Repository
     {
@@ -61,7 +55,7 @@ if (!function_exists('repository')) {
     }
 }
 
-if (!function_exists('html_attributes')) {
+if (! function_exists('html_attributes')) {
 
     function html_attributes(array $attributes): string
     {
@@ -69,9 +63,9 @@ if (!function_exists('html_attributes')) {
             return '';
         }
 
-        return ' ' . implode(' ', array_map(
+        return ' '.implode(' ', array_map(
             function ($key, $value) {
-                return $key . '="' . e($value) . '"';
+                return $key.'="'.e($value).'"';
             },
             array_keys($attributes),
             $attributes

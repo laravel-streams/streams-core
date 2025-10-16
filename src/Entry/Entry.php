@@ -18,22 +18,15 @@ use Streams\Core\Support\Traits\HasMemory;
 use Illuminate\Contracts\Support\Arrayable;
 use Streams\Core\Entry\Contract\EntryInterface;
 
-class Entry implements
-    JsonSerializable,
-    EntryInterface,
-    Serializable,
-    Arrayable,
-    Jsonable
+class Entry implements Arrayable, EntryInterface, Jsonable, JsonSerializable, Serializable
 {
-    use Macroable {
-        Macroable::__call as private callMacroable;
-    }
-
     use Fluency {
         Fluency::__construct as private constructFluency;
     }
-
     use HasMemory;
+    use Macroable {
+        Macroable::__call as private callMacroable;
+    }
     use Searchable;
 
     public ?Stream $stream;
@@ -69,7 +62,7 @@ class Entry implements
             // @todo this should be configured
             $datetime = $this->__updated_at;
 
-            if (!$datetime instanceof \Datetime) {
+            if (! $datetime instanceof \Datetime) {
                 $datetime = new Carbon($datetime);
             }
 

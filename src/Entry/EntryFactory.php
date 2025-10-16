@@ -12,18 +12,15 @@ use Streams\Core\Support\Traits\FiresCallbacks;
 
 class EntryFactory
 {
-    use HasMemory;
     use FiresCallbacks;
-
+    use HasMemory;
     use Macroable {
         Macroable::__call as private callMacroable;
     }
 
     protected $attributes = [];
 
-    public function __construct(public Stream $stream)
-    {
-    }
+    public function __construct(public Stream $stream) {}
 
     public function create(array $attributes = []): EntryInterface
     {
@@ -32,7 +29,7 @@ class EntryFactory
         $this->fire('creating', compact('attributes'));
 
         $this->stream->fields->each(function ($field) use (&$attributes) {
-            if (!$attributes->has($field->handle) && !$field->config('default')) {
+            if (! $attributes->has($field->handle) && ! $field->config('default')) {
                 $attributes[$field->handle] = $field->generate();
             }
         });

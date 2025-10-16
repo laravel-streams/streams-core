@@ -19,7 +19,7 @@ class UrlFieldType extends Field
             return fake()->url();
         };
     }
-    
+
     public function getSchemaName()
     {
         return UrlSchema::class;

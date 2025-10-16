@@ -3,21 +3,20 @@
 namespace Streams\Core\Support;
 
 use ReflectionProperty;
-use Illuminate\Support\Str;
 use ReflectionUnionType;
+use Illuminate\Support\Str;
 use Streams\Core\Support\Traits\Prototype;
 
 /**
  * This utility makes it easy to extract all
  * accessible property values from a given object.
- * 
- * Property names are snake cased.
- * 
- * 
- * $data = Hydrator::dehydrate($object);
- * 
- * $value = $data['property_name'];
  *
+ * Property names are snake cased.
+ *
+ *
+ * $data = Hydrator::dehydrate($object);
+ *
+ * $value = $data['property_name'];
  */
 class Hydrator
 {
@@ -33,7 +32,7 @@ class Hydrator
             $reflection->getProperties(\ReflectionProperty::IS_PROTECTED),
             array_filter(
                 $reflection->getProperties(\ReflectionProperty::IS_PUBLIC),
-                fn (\ReflectionProperty $property) => !$property->isStatic()
+                fn (\ReflectionProperty $property) => ! $property->isStatic()
             ),
         );
 
@@ -43,11 +42,11 @@ class Hydrator
             }, $properties),
             array_map(function (ReflectionProperty $property) use ($object) {
 
-                if (method_exists($object, $method = 'get' . ucfirst($property->getName()))) {
+                if (method_exists($object, $method = 'get'.ucfirst($property->getName()))) {
                     return $method;
                 }
 
-                if (method_exists($object, $method = 'is' . ucfirst($property->getName()))) {
+                if (method_exists($object, $method = 'is'.ucfirst($property->getName()))) {
                     return $method;
                 }
 
@@ -63,7 +62,7 @@ class Hydrator
                 array_map(function (ReflectionProperty $property) {
 
                     if ($property->getType() instanceof ReflectionUnionType) {
-                        return null; // @todo Skip for now. 
+                        return null; // @todo Skip for now.
                     }
 
                     return ($type = $property->getType()) ? $type->getName() : null;
@@ -105,7 +104,7 @@ class Hydrator
              * If the property is typed but not
              * initialized then skip it entirely.
              */
-            if (isset($typed[$key]) && !isset($object->{$attribute})) {
+            if (isset($typed[$key]) && ! isset($object->{$attribute})) {
 
                 $attribute = null;
 

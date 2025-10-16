@@ -24,7 +24,7 @@ class DateFieldType extends DatetimeFieldType
         return $this->cast($value);
     }
 
-    public function cast($value): \DateTime | null
+    public function cast($value): ?\DateTime
     {
         return $this->toDateTime($value, 'UTC')?->startOfDay();
     }
@@ -62,13 +62,13 @@ class DateFieldType extends DatetimeFieldType
         };
     }
 
-    protected function toDateTime($value, string $timezone = null): \DateTime | null
+    protected function toDateTime($value, ?string $timezone = null): ?\DateTime
     {
         if ($value instanceof \DateTime) {
             return $value;
         }
 
-        if (!$value) {
+        if (! $value) {
             return null;
         }
 

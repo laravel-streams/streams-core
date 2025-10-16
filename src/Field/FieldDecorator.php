@@ -2,14 +2,13 @@
 
 namespace Streams\Core\Field;
 
-use Streams\Core\Field\Field;
 use Illuminate\Support\Traits\Macroable;
 use Illuminate\Support\Traits\ForwardsCalls;
 
 class FieldDecorator
 {
-    use Macroable;
     use ForwardsCalls;
+    use Macroable;
 
     public $value;
 

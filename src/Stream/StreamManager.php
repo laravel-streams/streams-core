@@ -4,7 +4,6 @@ namespace Streams\Core\Stream;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use Streams\Core\Stream\Stream;
 use Symfony\Component\Yaml\Yaml;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
@@ -22,9 +21,9 @@ use Illuminate\Contracts\Container\BindingResolutionException;
 
 class StreamManager
 {
+    use FiresCallbacks;
     use HasMemory;
     use Macroable;
-    use FiresCallbacks;
 
     protected Collection $collection;
 
@@ -50,7 +49,7 @@ class StreamManager
     {
         $stream = $this->build($stream);
 
-        App::instance('streams.instances.' . $stream->id, $stream);
+        App::instance('streams.instances.'.$stream->id, $stream);
 
         $this->collection->put($stream->id, $stream);
 
@@ -61,13 +60,13 @@ class StreamManager
 
     public function exists(string $id): bool
     {
-        return App::has('streams.instances.' . $id);
+        return App::has('streams.instances.'.$id);
     }
 
     public function make(string $id): Stream
     {
         try {
-            return App::make('streams.instances.' . $id);
+            return App::make('streams.instances.'.$id);
         } catch (BindingResolutionException $e) {
             throw new \Exception("Stream [{$id}] is not registered.");
         }
@@ -79,7 +78,7 @@ class StreamManager
 
         $target::resetMemory();
 
-        App::instance('streams.instances.' . $target->id, $target);
+        App::instance('streams.instances.'.$target->id, $target);
 
         $this->collection->put($target->id, $target);
 
@@ -120,13 +119,14 @@ class StreamManager
 
         /**
          * @deprecated version 2.0-dev
+         *
          * @todo remove this thing and update docs.
          */
         if ($handle = Arr::pull($stream, 'handle')) {
             $stream['id'] = $handle;
         }
 
-        if (!isset($stream['id'])) {
+        if (! isset($stream['id'])) {
             $stream['id'] = basename($file, '.json');
         }
 
@@ -161,7 +161,7 @@ class StreamManager
 
             $streams->put($id, $stream = new Stream($stream));
 
-            file_put_contents(base_path('streams/' . $id . '.json'), $stream->toJson());
+            file_put_contents(base_path('streams/'.$id.'.json'), $stream->toJson());
         }
     }
 
@@ -195,7 +195,7 @@ class StreamManager
 
     public function filesystem(string $disk): StreamFilesystem
     {
-        if (!$id = Config::get("filesystems.disks.{$disk}.stream")) {
+        if (! $id = Config::get("filesystems.disks.{$disk}.stream")) {
             throw new \Exception("Disk [$disk] does not have a configured \"stream\".");
         }
 
@@ -211,7 +211,7 @@ class StreamManager
 
     public function route(Stream $stream): void
     {
-        if (!App::routesAreCached()) {
+        if (! App::routesAreCached()) {
 
             foreach ($stream->routes ?: [] as $key => $route) {
 
@@ -226,17 +226,18 @@ class StreamManager
                 /**
                  * Automatically bind if not bound.
                  */
-                if (!isset($route['stream'])) {
+                if (! isset($route['stream'])) {
                     $route['stream'] = $stream->id;
                 }
 
                 /**
                  * Automatically name if not named.
                  */
-                $route['as'] = Arr::get($route, 'as', $stream->id . '.' . $key);
+                $route['as'] = Arr::get($route, 'as', $stream->id.'.'.$key);
 
                 /**
                  * Automatically group if not grouped.
+                 *
                  * @todo configure default
                  */
                 $route['middleware'] = Arr::get($route, 'middleware', 'web');
@@ -279,7 +280,7 @@ class StreamManager
 
             $route['entry'] = $entry->{$stream->config('key_name', 'id')};
 
-            $route['as'] = $route['as'] . '.' . $route['entry'];
+            $route['as'] = $route['as'].'.'.$route['entry'];
 
             Route::streams(
                 Str::parse(Arr::get($route, 'uri'), $array),

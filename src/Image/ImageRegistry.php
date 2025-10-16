@@ -8,12 +8,12 @@ use Illuminate\Support\Arr;
  * Class ImageRegistry
  *
  * @link       http://pyrocms.com/
+ *
  * @author     PyroCMS, Inc. <support@pyrocms.com>
  * @author     Ryan Thompson <ryan@pyrocms.com>
  */
 class ImageRegistry
 {
-
     /**
      * Predefined paths.
      *
@@ -24,8 +24,8 @@ class ImageRegistry
     /**
      * Register an image.
      *
-     * @param string $name
-     * @param string $image
+     * @param  string  $name
+     * @param  string  $image
      */
     public function register($name, $image)
     {
@@ -36,8 +36,8 @@ class ImageRegistry
     /**
      * Resolve an image.
      *
-     * @param string $name
-     * @param string|null $default
+     * @param  string  $name
+     * @param  string|null  $default
      * @return array
      */
     public function resolve($name, $default = null)

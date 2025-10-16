@@ -6,7 +6,6 @@ use Streams\Core\Field\FieldDecorator;
 
 class BooleanDecorator extends FieldDecorator
 {
-
     /**
      * Return whether the value is true.
      *
@@ -30,7 +29,6 @@ class BooleanDecorator extends FieldDecorator
     /**
      * Return if the value is true / false.
      *
-     * @param $test
      * @return bool
      */
     public function is($test)
@@ -41,8 +39,8 @@ class BooleanDecorator extends FieldDecorator
     /**
      * Return the text value.
      *
-     * @param  null $on
-     * @param  null $off
+     * @param  null  $on
+     * @param  null  $off
      * @return string
      */
     public function text($on = null, $off = null)
@@ -51,7 +49,7 @@ class BooleanDecorator extends FieldDecorator
             return $on;
         }
 
-        if ($off && !$this->value) {
+        if ($off && ! $this->value) {
             return $off;
         }
 

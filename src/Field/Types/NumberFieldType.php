@@ -3,8 +3,8 @@
 namespace Streams\Core\Field\Types;
 
 use Streams\Core\Field\Field;
-use Streams\Core\Field\Decorator\NumberDecorator;
 use Streams\Core\Field\Schema\NumberSchema;
+use Streams\Core\Field\Decorator\NumberDecorator;
 
 class NumberFieldType extends Field
 {
@@ -58,6 +58,7 @@ class NumberFieldType extends Field
                 ]);
             };
         }
+
         return function () {
             return fake()->randomElement([
                 fake()->randomNumber(),

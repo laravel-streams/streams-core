@@ -13,13 +13,13 @@ class MultiselectFieldType extends Field
     public function rules(): array
     {
         return array_merge([
-            'in:' . implode(',', array_keys($this->options()))
+            'in:'.implode(',', array_keys($this->options())),
         ], parent::rules());
     }
 
     public function options()
     {
-        return $this->once($this->handle . '.options', function () {
+        return $this->once($this->handle.'.options', function () {
 
             $options = $this->config('options', []);
 

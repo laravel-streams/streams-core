@@ -26,13 +26,11 @@ use Streams\Core\Repository\Contract\RepositoryInterface;
  */
 class Repository implements RepositoryInterface
 {
-    use Macroable;
-    use HasMemory;
     use FiresCallbacks;
+    use HasMemory;
+    use Macroable;
 
-    public function __construct(protected Stream $stream)
-    {
-    }
+    public function __construct(protected Stream $stream) {}
 
     public function all(): Collection
     {
@@ -58,7 +56,7 @@ class Repository implements RepositoryInterface
             ->get();
     }
 
-    public function findBy(string $field, $value): EntryInterface|null
+    public function findBy(string $field, $value): ?EntryInterface
     {
         return $this
             ->newCriteria()
@@ -134,7 +132,7 @@ class Repository implements RepositoryInterface
             $adapter = new $adapter($this->stream);
         }
 
-        if (!$adapter) {
+        if (! $adapter) {
 
             $adapter = $this->stream->config('source.type', $default);
 

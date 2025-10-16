@@ -8,9 +8,7 @@ use Illuminate\Contracts\Validation\InvokableRule;
 
 class ValidateObjectType implements InvokableRule
 {
-    public function __construct(protected Field $field)
-    {
-    }
+    public function __construct(protected Field $field) {}
 
     public function __invoke($attribute, $value, $fail)
     {
@@ -22,11 +20,11 @@ class ValidateObjectType implements InvokableRule
             $value = json_decode($value);
         }
 
-        if (!is_object($value)) {
+        if (! is_object($value)) {
             $fail('The :attribute must be an object.');
         }
 
-        if (!$types = $this->field->config('allowed')) {
+        if (! $types = $this->field->config('allowed')) {
             return;
         }
 

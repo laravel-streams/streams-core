@@ -2,18 +2,17 @@
 
 namespace Streams\Core\Support;
 
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Traits\Macroable;
 use Streams\Core\Support\Traits\FiresCallbacks;
 
 class Workflow
 {
-
-    use Macroable;
     use FiresCallbacks;
+    use Macroable;
 
     public array $steps = [];
+
     public array $payload = [];
 
     protected ?\Closure $callback = null;
@@ -29,11 +28,11 @@ class Workflow
 
         foreach ($this->steps as $name => $step) {
 
-            $this->triggerCallback('before_' . $name, $this->payload);
+            $this->triggerCallback('before_'.$name, $this->payload);
 
             $this->do($step, $this->payload);
 
-            $this->triggerCallback('after_' . $name, $this->payload);
+            $this->triggerCallback('after_'.$name, $this->payload);
         }
     }
 
@@ -46,7 +45,7 @@ class Workflow
         return $this;
     }
 
-    public function addStep(string $name, $step, int $position = null)
+    public function addStep(string $name, $step, ?int $position = null)
     {
         if ($position === null) {
             $position = count($this->steps);
