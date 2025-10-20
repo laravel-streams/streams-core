@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\View;
 
 class ViewIncludes extends Collection
 {
-
     public function include(
         string $slot,
         string $name,
@@ -21,8 +20,8 @@ class ViewIncludes extends Collection
 
     public function slot(string $slot): Collection
     {
-        if (!$this->has($slot)) {
-            $this->put($slot, new Collection());
+        if (! $this->has($slot)) {
+            $this->put($slot, new Collection);
         }
 
         return $this->get($slot);
@@ -30,7 +29,7 @@ class ViewIncludes extends Collection
 
     public function render($slot, array $payload = [])
     {
-        return $this->get($slot, new Collection())
+        return $this->get($slot, new Collection)
             ->map(function ($include) use ($payload) {
                 return View::make($include, $payload)->render();
             })->implode('');

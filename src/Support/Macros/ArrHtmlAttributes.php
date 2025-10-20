@@ -18,15 +18,15 @@ class ArrHtmlAttributes
                 }
 
                 if (is_array($value) && $key === 'class') {
-                    
-                    $value = 'class="' . implode(' ', $value) . '"';
+
+                    $value = 'class="'.implode(' ', $value).'"';
 
                     continue;
                 }
 
-                if (!is_numeric($key) && !is_null($value)) {
-                    
-                    $value = $key . '="' . e($value, false) . '"';
+                if (! is_numeric($key) && ! is_null($value)) {
+
+                    $value = $key.'="'.e($value, false).'"';
 
                     continue;
                 }
@@ -34,7 +34,7 @@ class ArrHtmlAttributes
 
             $attributes = array_filter($attributes);
 
-            return count($attributes) > 0 ? ' ' . implode(' ', $attributes) : '';
+            return count($attributes) > 0 ? ' '.implode(' ', $attributes) : '';
         };
     }
 }

@@ -28,7 +28,6 @@ use Streams\Core\Support\Facades\Applications;
 
 class StreamsServiceProvider extends ServiceProvider
 {
-
     public array $aliases = [
         'Assets' => \Streams\Core\Support\Facades\Assets::class,
         'Images' => \Streams\Core\Support\Facades\Images::class,
@@ -48,8 +47,8 @@ class StreamsServiceProvider extends ServiceProvider
         // 'messages' => \Streams\Core\Message\MessageManager::class,
         'applications' => \Streams\Core\Application\ApplicationManager::class,
 
-        'hydrator'   => \Streams\Core\Support\Hydrator::class,
-        'decorator'  => \Streams\Core\Support\Decorator::class,
+        'hydrator' => \Streams\Core\Support\Hydrator::class,
+        'decorator' => \Streams\Core\Support\Decorator::class,
 
         'overrides' => \Streams\Core\View\ViewOverrides::class,
     ];
@@ -70,8 +69,7 @@ class StreamsServiceProvider extends ServiceProvider
         $this->extendApp();
 
         $this->publishes([
-            dirname(__DIR__) . '/resources/public'
-            => public_path('vendor/streams/core'),
+            dirname(__DIR__).'/resources/public' => public_path('vendor/streams/core'),
         ], ['public']);
     }
 
@@ -123,12 +121,12 @@ class StreamsServiceProvider extends ServiceProvider
     // @todo move to a deferred application service provider
     protected function registerApplications(): void
     {
-        $directory  = dirname(__DIR__) . '/resources/streams/';
+        $directory = dirname(__DIR__).'/resources/streams/';
 
         $id = Config::get('streams.core.applications_id');
 
-        if (!Streams::exists($id)) {
-            Streams::load($directory . $id . '.json');
+        if (! Streams::exists($id)) {
+            Streams::load($directory.$id.'.json');
         }
 
         $url = Request::fullUrl();
@@ -139,22 +137,22 @@ class StreamsServiceProvider extends ServiceProvider
          * according to it's match.
          */
         $active = $applications->first(function ($application) use ($url) {
-            return $application->match && collect((array)$application->match)->filter(function ($match) use ($url) {
+            return $application->match && collect((array) $application->match)->filter(function ($match) use ($url) {
                 return Str::is($match, $url);
             })->isNotEmpty();
         });
 
-        if (!$active) {
+        if (! $active) {
             $active = $applications->first(function ($application) {
-                return !$application->match;
+                return ! $application->match;
             });
         }
 
-        if (!$active) {
+        if (! $active) {
 
             $active = new Application([
                 'stream' => Streams::make($id),
-                'id'    => 'default',
+                'id' => 'default',
                 'match' => '*',
             ]);
         }
@@ -170,11 +168,11 @@ class StreamsServiceProvider extends ServiceProvider
         $active = Applications::active();
 
         Integrator::integrate(array_filter([
-            'locale'     => $active->locale,
-            'config'     => $active->config,
-            'aliases'    => $active->aliases,
-            'streams'    => $active->streams,
-            'bindings'   => $active->bindings,
+            'locale' => $active->locale,
+            'config' => $active->config,
+            'aliases' => $active->aliases,
+            'streams' => $active->streams,
+            'bindings' => $active->bindings,
             'singletons' => $active->singletons,
         ]));
     }
@@ -182,7 +180,7 @@ class StreamsServiceProvider extends ServiceProvider
     protected function registerFieldTypes(): void
     {
         foreach (Config::get('streams.core.field_types', []) as $type => $class) {
-            $this->app->bind('streams.core.field_type.' . $type, $class);
+            $this->app->bind('streams.core.field_type.'.$type, $class);
         }
     }
 
@@ -193,16 +191,16 @@ class StreamsServiceProvider extends ServiceProvider
 
     protected function registerConfig(): void
     {
-        $this->mergeConfigFrom(__DIR__ . '/../resources/config/core.php', 'streams.core');
+        $this->mergeConfigFrom(__DIR__.'/../resources/config/core.php', 'streams.core');
 
         $this->publishes([
-            __DIR__ . '/../resources/config/core.php' => config_path('streams/core.php'),
+            __DIR__.'/../resources/config/core.php' => config_path('streams/core.php'),
         ], 'config');
     }
 
     protected function registerStreams(): void
     {
-        $directory  = dirname(__DIR__) . '/resources/streams/';
+        $directory = dirname(__DIR__).'/resources/streams/';
 
         $this->publishes([
             $directory => base_path('streams/'),
@@ -210,8 +208,8 @@ class StreamsServiceProvider extends ServiceProvider
 
         $id = Config::get('streams.core.streams_id');
 
-        if (!Streams::exists($id)) {
-            Streams::load($directory . $id . '.json');
+        if (! Streams::exists($id)) {
+            Streams::load($directory.$id.'.json');
         }
 
         $streams = Streams::repository($id)->all();
@@ -245,8 +243,8 @@ class StreamsServiceProvider extends ServiceProvider
         ksort($addons);
 
         $addons = array_map(function ($addon) use ($directory) {
-            if (file_exists($directory . '/' . $addon['name'] . '/composer.json')) {
-                $addon = Addons::load($directory . '/' . $addon['name']);
+            if (file_exists($directory.'/'.$addon['name'].'/composer.json')) {
+                $addon = Addons::load($directory.'/'.$addon['name']);
             }
         }, $addons);
     }
@@ -256,7 +254,7 @@ class StreamsServiceProvider extends ServiceProvider
         Assets::addPath('public', public_path());
         Assets::addPath('core', dirname(__DIR__));
         Assets::addPath('resources', resource_path());
-        Assets::addPath('storage', storage_path('streams/' . Applications::active()->id));
+        Assets::addPath('storage', storage_path('streams/'.Applications::active()->id));
 
         Assets::register('core::js/core.js');
     }
@@ -266,20 +264,20 @@ class StreamsServiceProvider extends ServiceProvider
         Images::addPath('public', public_path());
         Images::addPath('resources', resource_path());
         // @todo core or streams
-        Images::addPath('streams', dirname(__DIR__) . '/resources');
+        Images::addPath('streams', dirname(__DIR__).'/resources');
     }
 
     protected function addViewNamespaces(): void
     {
         // @todo core or streams
-        View::addNamespace('core', dirname(__DIR__) . '/resources/views');
-        View::addNamespace('storage', storage_path('streams/' . Applications::active()->id));
+        View::addNamespace('core', dirname(__DIR__).'/resources/views');
+        View::addNamespace('storage', storage_path('streams/'.Applications::active()->id));
     }
 
     protected function loadTranslations(): void
     {
         // @todo core or streams
-        Lang::addNamespace('streams', dirname(__DIR__) . '/resources/lang');
+        Lang::addNamespace('streams', dirname(__DIR__).'/resources/lang');
     }
 
     protected function registerMacros(): void
@@ -311,7 +309,7 @@ class StreamsServiceProvider extends ServiceProvider
     {
         $composer = $this->app['composer.json'];
 
-        $path = (string)base_path(Arr::get($composer, 'config.vendor-dir', 'vendor'));
+        $path = (string) base_path(Arr::get($composer, 'config.vendor-dir', 'vendor'));
 
         $this->app['vendor.path'] = $path;
     }
@@ -327,8 +325,8 @@ class StreamsServiceProvider extends ServiceProvider
         Factory::macro('assetsFinish', function ($content) use (&$persisted) {
 
             $collection = array_shift($persisted);
-            
-            $path = ViewTemplate::path($content) . '.blade.php';
+
+            $path = ViewTemplate::path($content).'.blade.php';
 
             if ($name = array_shift($persisted)) {
                 Assets::register($name, $path);
@@ -337,22 +335,20 @@ class StreamsServiceProvider extends ServiceProvider
             Assets::add($collection, $name ?: $path);
         });
 
-
         Blade::directive('assets', function ($expression) {
             return "<?php app('view')->assetsStart('".$expression."'); ob_start(); ?>";
         });
-    
+
         Blade::directive('endassets', function ($expression) {
             return "<?php app('view')->assetsFinish(ob_get_clean()); ?>";
         });
-
 
         Blade::directive('markdown', function () {
             return "<?php echo (new \League\CommonMark\GithubFlavoredMarkdownConverter([
                 // Configuration
             ]))->convert('";
         });
-        
+
         Blade::directive('endmarkdown', function () {
             return "'); ?>";
         });

@@ -18,10 +18,10 @@ class FilebaseAdapter extends AbstractAdapter
 
         $format = $stream->config('source.format', 'json');
 
-        $format = Config::get('streams.core.sources.filebase.formats.' . $format);
+        $format = Config::get('streams.core.sources.filebase.formats.'.$format);
 
-        $path = ltrim($stream->config('source.path', Config::get('streams.core.data_path') . '/' . $stream->id), '/\\');
-        
+        $path = ltrim($stream->config('source.path', Config::get('streams.core.data_path').'/'.$stream->id), '/\\');
+
         try {
             $this->query = new Database([
                 'pretty' => true,
@@ -32,7 +32,7 @@ class FilebaseAdapter extends AbstractAdapter
                 'cache_expires' => $stream->config('ttl', 1800),
             ]);
         } catch (\Exception $e) {
-            dd($stream->id . ' - ' . $e->getMessage());
+            dd($stream->id.' - '.$e->getMessage());
         }
     }
 
@@ -71,7 +71,7 @@ class FilebaseAdapter extends AbstractAdapter
             $field = '__id';
         }
 
-        $method = $nested ? Str::studly($nested . '_where') : 'where';
+        $method = $nested ? Str::studly($nested.'_where') : 'where';
 
         if (is_string($value) && $operator == 'LIKE') {
             $value = str_replace('%', '', str_replace('/', '\/', $value)); // Filebase doesn't use "%"

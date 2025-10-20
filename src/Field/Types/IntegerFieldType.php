@@ -47,7 +47,6 @@ class IntegerFieldType extends Field
         $min = $this->ruleParameter('min');
         $max = $this->ruleParameter('max');
 
-
         if ($min || $max) {
             return function () use ($min, $max) {
                 return $this->cast(fake()->numberBetween($min, $max));

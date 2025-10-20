@@ -37,16 +37,16 @@ class EloquentAdapter extends AbstractAdapter
             $operator = '=';
         }
 
-        $method = Str::studly($nested ? $nested . '_where' : 'where');
+        $method = Str::studly($nested ? $nested.'_where' : 'where');
 
         if (strtoupper($operator) == 'IN') {
 
-            $method = $method . 'In';
+            $method = $method.'In';
 
             $this->query = $this->query->{$method}($field, $value);
         } elseif (strtoupper($operator) == 'NOT IN') {
 
-            $method = $method . 'NotIn';
+            $method = $method.'NotIn';
 
             $this->query = $this->query->{$method}($field, $value);
         } else {
@@ -132,15 +132,15 @@ class EloquentAdapter extends AbstractAdapter
     {
         $modelClass = $this->stream->config('source.model');
         $keyName = $this->stream->config('key_name', 'id');
-        
+
         /**
          * If a key is provided then
          * check if a record exists.
          */
         if (isset($attributes[$keyName])) {
-            
+
             $existingModel = (new $modelClass)->newQuery()->find($attributes[$keyName]);
-            
+
             if ($existingModel) {
 
                 // Update existing record
@@ -150,7 +150,7 @@ class EloquentAdapter extends AbstractAdapter
                 return $existingModel->getAttributes();
             }
         }
-        
+
         // Create new record if no existing record found
         $model = new $modelClass($attributes);
 

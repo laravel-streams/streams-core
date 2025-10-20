@@ -2,14 +2,10 @@
 
 namespace Streams\Core\Criteria\Adapter;
 
-use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use Streams\Core\Entry\Entry;
 use Streams\Core\Stream\Stream;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Traits\Macroable;
 use Streams\Core\Support\Traits\HasMemory;
-use Streams\Core\Entry\Contract\EntryInterface;
 use Streams\Core\Criteria\Contract\AdapterInterface;
 
 /**
@@ -18,8 +14,8 @@ use Streams\Core\Criteria\Contract\AdapterInterface;
  */
 abstract class AbstractAdapter implements AdapterInterface
 {
-    use Macroable;
     use HasMemory;
+    use Macroable;
 
     protected $query;
 

@@ -23,9 +23,7 @@ use Illuminate\Pagination\Paginator as SimplePaginator;
  */
 class Criteria
 {
-
     use HasMemory;
-
     use Macroable {
         Macroable::__call as private callMacroable;
     }
@@ -59,7 +57,7 @@ class Criteria
 
     public function first()
     {
-        if (!isset($this->parameters['limit'])) {
+        if (! isset($this->parameters['limit'])) {
             $this->limit(1);
         }
 
@@ -87,7 +85,7 @@ class Criteria
         return $result ?: $this->create($attributes);
     }
 
-    public function cache(int $seconds = null, string $key = null)
+    public function cache(?int $seconds = null, ?string $key = null)
     {
         $seconds = $seconds ?: $this->stream->config('cache.ttl', 60 * 60);
 
@@ -119,9 +117,9 @@ class Criteria
 
     public function where(
         string $field,
-        string $operator = null,
+        ?string $operator = null,
         $value = null,
-        string $nested = null
+        ?string $nested = null
     ) {
         $hash = md5(serialize([$field, $operator, $value, $nested]));
 
@@ -130,7 +128,7 @@ class Criteria
         return $this;
     }
 
-    public function orWhere(string $field, string $operator = null, $value = null)
+    public function orWhere(string $field, ?string $operator = null, $value = null)
     {
         $this->where($field, $operator, $value, 'or');
 
@@ -141,7 +139,7 @@ class Criteria
     {
         $enabled = $this->stream->config('cache.enabled', false);
 
-        if ($enabled && !isset($this->parameters['cache'])) {
+        if ($enabled && ! isset($this->parameters['cache'])) {
             $this->cache();
         }
 
@@ -149,13 +147,13 @@ class Criteria
 
         if ($cache) {
 
-            $fingerprint = $this->stream->handle . '.query__' . md5(serialize($this->parameters));
+            $fingerprint = $this->stream->handle.'.query__'.md5(serialize($this->parameters));
 
             $seconds = $cache[0];
             $key = Arr::get($cache, 1);
 
             return $this->collect($this->stream->cache()->remember($key ?: $fingerprint, $seconds, function () {
-                
+
                 $results = $this->eagerLoadRelations($this->collect($this->adapter->get($this->parameters)));
 
                 $this->parameters = [];
@@ -167,9 +165,9 @@ class Criteria
         $results = $this->eagerLoadRelations(
             $this->collect($this->adapter->get($this->parameters))
         );
-        
+
         $this->parameters = [];
-        
+
         return $results;
     }
 
@@ -186,8 +184,8 @@ class Criteria
         array_map(function ($entry) use ($collection) {
             $entry = $this->make($entry);
             // @todo this is where all entries get stream info.
-            // Maybe we do like __stream to prevent collision 
-            //$entry->stream = $this->stream;
+            // Maybe we do like __stream to prevent collision
+            // $entry->stream = $this->stream;
             $collection->push($entry);
         }, $entries);
 
@@ -197,7 +195,7 @@ class Criteria
     /**
      * Return an entry interface from adapter results.
      *
-     * @param mixed $result
+     * @param  mixed  $result
      * @return array
      */
     protected function make($result): EntryInterface
@@ -217,10 +215,10 @@ class Criteria
         }
 
         $data = Arr::undot($data);
-        
+
         $keyName = $this->stream->config('key_name', 'id');
 
-        if ($id = $data[$keyName] ?? null)  {
+        if ($id = $data[$keyName] ?? null) {
             $data = array_merge([$keyName => $id], $data);
         }
 
@@ -262,7 +260,7 @@ class Criteria
     {
         $enabled = $this->stream->config('cache.enabled', false);
 
-        if ($enabled && !isset($this->parameters['cache'])) {
+        if ($enabled && ! isset($this->parameters['cache'])) {
             $this->cache();
         }
 
@@ -270,14 +268,14 @@ class Criteria
 
         if ($cache) {
 
-            $fingerprint = $this->stream->id . '.query.count__' . md5(serialize($this->parameters));
+            $fingerprint = $this->stream->id.'.query.count__'.md5(serialize($this->parameters));
 
             return $this->stream->cache()->remember(Arr::get($cache, 1) ?: $fingerprint, $cache[0], function () {
                 return $this->adapter->count(array_diff_key($this->parameters, array_flip(['cache'])));
             });
         }
 
-        $count =  $this->adapter->count($this->parameters);
+        $count = $this->adapter->count($this->parameters);
 
         // $this->parameters = [];
 
@@ -318,13 +316,13 @@ class Criteria
          */
         foreach ($this->stream->fields as $field) {
 
-            if (array_key_exists($field->handle, $attributes) && !is_null($attributes[$field->handle])) {
+            if (array_key_exists($field->handle, $attributes) && ! is_null($attributes[$field->handle])) {
                 $attributes[$field->handle] = $field->modify($attributes[$field->handle]);
             }
 
             if (
-                !array_key_exists($field->handle, $attributes)
-                && !is_null($default = $field->config('default'))
+                ! array_key_exists($field->handle, $attributes)
+                && ! is_null($default = $field->config('default'))
             ) {
                 $attributes[$field->handle] = $field->default($default);
             }
@@ -378,22 +376,22 @@ class Criteria
         $limitName = Arr::get($parameters, 'limit_name', 'limit');
         $simple = Arr::get($parameters, 'simple', false);
 
-        if (!$simple && !$total) {
+        if (! $simple && ! $total) {
             $total = $this->count();
         }
 
-        if (!$page) {
+        if (! $page) {
             $page = (int) Request::get($pageName, 1);
         }
 
-        if (!$perPage) {
+        if (! $perPage) {
             $perPage = (int) Request::get($limitName, $perPage) ?: 25;
         }
 
         $offset = $page * $perPage - $perPage;
-        
+
         $entries = $this->limit($perPage, $offset)->get();
-        
+
         if ($simple) {
 
             $paginator = new SimplePaginator(
@@ -476,10 +474,10 @@ class Criteria
         $prototype = new $abstract([
             'stream' => $this->stream,
         ]);
-        
+
         foreach ($attributes as $key => &$value) {
-            
-            if (!$field = $this->stream->fields->get($key)) {
+
+            if (! $field = $this->stream->fields->get($key)) {
                 continue;
             }
 
@@ -489,9 +487,9 @@ class Criteria
         // $prototype->setPrototypeProperties(
         //     Arr::keyBy($this->stream->getOriginalPrototypeAttributes()['fields'], 'handle')
         // );
-        
+
         $this->fillDefaults($attributes);
-        
+
         // $prototype->setRawPrototypeAttributes($attributes);
         $prototype->setAttributes($attributes);
 
@@ -514,7 +512,7 @@ class Criteria
     {
         foreach ($this->stream->fields as $field) {
 
-            if (!$default = $field->config('default')) {
+            if (! $default = $field->config('default')) {
                 continue;
             }
 

@@ -19,10 +19,10 @@ class ColorDecorator extends FieldDecorator
     {
         $levels = $this->levels();
 
-        $hex = "#";
-        $hex .= str_pad(dechex($levels['red']), 2, "0", STR_PAD_LEFT);
-        $hex .= str_pad(dechex($levels['green']), 2, "0", STR_PAD_LEFT);
-        $hex .= str_pad(dechex($levels['blue']), 2, "0", STR_PAD_LEFT);
+        $hex = '#';
+        $hex .= str_pad(dechex($levels['red']), 2, '0', STR_PAD_LEFT);
+        $hex .= str_pad(dechex($levels['green']), 2, '0', STR_PAD_LEFT);
+        $hex .= str_pad(dechex($levels['blue']), 2, '0', STR_PAD_LEFT);
 
         return $hex;
     }
@@ -36,14 +36,14 @@ class ColorDecorator extends FieldDecorator
     {
         $levels = $this->levels();
 
-        return 'rgb(' . $levels['red'] . ', ' . $levels['green'] . ', ' . $levels['blue'] . ')';
+        return 'rgb('.$levels['red'].', '.$levels['green'].', '.$levels['blue'].')';
     }
 
     public function rgba()
     {
         $levels = $this->levels();
 
-        return 'rgba(' . $levels['red'] . ', ' . $levels['green'] . ', ' . $levels['blue'] . ', ' . $levels['alpha'] . ')';
+        return 'rgba('.$levels['red'].', '.$levels['green'].', '.$levels['blue'].', '.$levels['alpha'].')';
     }
 
     public function red()
@@ -72,7 +72,7 @@ class ColorDecorator extends FieldDecorator
             return $this->levels;
         }
 
-        if (!$this->value) {
+        if (! $this->value) {
             return $this->levels = ['red' => 0, 'green' => 0, 'blue' => 0, 'alpha' => 0];
         }
 
@@ -93,16 +93,16 @@ class ColorDecorator extends FieldDecorator
 
     protected function levelsFromHex($hex)
     {
-        $hex = str_replace("#", "", $hex);
+        $hex = str_replace('#', '', $hex);
 
         if (strlen($hex) == 3) {
-            $red   = hexdec($hex[0] . $hex[0]);
-            $green = hexdec($hex[1] . $hex[1]);
-            $blue  = hexdec($hex[2] . $hex[2]);
+            $red = hexdec($hex[0].$hex[0]);
+            $green = hexdec($hex[1].$hex[1]);
+            $blue = hexdec($hex[2].$hex[2]);
         } else {
-            $red   = hexdec($hex[0] . $hex[1]);
-            $green = hexdec($hex[2] . $hex[3]);
-            $blue  = hexdec($hex[4] . $hex[5]);
+            $red = hexdec($hex[0].$hex[1]);
+            $green = hexdec($hex[2].$hex[3]);
+            $blue = hexdec($hex[4].$hex[5]);
         }
 
         $alpha = 1;
@@ -114,9 +114,9 @@ class ColorDecorator extends FieldDecorator
     {
         $levels = explode(',', str_replace([' ', 'rgb(', 'rgba(', ')'], '', $rgb));
 
-        $red   = (int) $levels[0];
+        $red = (int) $levels[0];
         $green = (int) $levels[1];
-        $blue  = (int) $levels[2];
+        $blue = (int) $levels[2];
         $alpha = 1;
 
         return compact('red', 'green', 'blue', 'alpha');
@@ -126,9 +126,9 @@ class ColorDecorator extends FieldDecorator
     {
         $levels = explode(',', str_replace([' ', 'rgba(', ')'], '', $rgba));
 
-        $red   = (int) $levels[0];
+        $red = (int) $levels[0];
         $green = (int) $levels[1];
-        $blue  = (int) $levels[2];
+        $blue = (int) $levels[2];
         $alpha = floatval($levels[3]);
 
         if ($alpha == round($alpha)) {

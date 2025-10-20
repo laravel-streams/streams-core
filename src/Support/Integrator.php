@@ -9,18 +9,16 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\Facades\Config;
 use Streams\Core\Support\Facades\Assets;
 use Streams\Core\Support\Facades\Streams;
-use Illuminate\Console\Scheduling\Schedule;
 use Streams\Core\Support\Facades\Includes;
+use Illuminate\Console\Scheduling\Schedule;
 use Streams\Core\Support\Facades\Overrides;
 use Streams\Core\Support\Traits\FiresCallbacks;
 
 class Integrator
 {
-
     use FiresCallbacks;
 
     public static function integrate(array $details): void
@@ -89,7 +87,7 @@ class Integrator
     {
         foreach ($policies as $key => $policy) {
 
-            if (!class_exists($key)) {
+            if (! class_exists($key)) {
 
                 Gate::define($key, $policy);
 
@@ -149,7 +147,7 @@ class Integrator
                  * If the frequency is not a CRON
                  * expression then it's a method.
                  */
-                if (!Str::is('* * * *', $frequency)) {
+                if (! Str::is('* * * *', $frequency)) {
 
                     // Unpack {method}:{arg1},{arg2},...
                     $parts = explode(':', $frequency);
@@ -162,14 +160,14 @@ class Integrator
 
                     // Use the method to create the command.
                     $command = call_user_func_array([
-                        $schedule->command($command), $method
+                        $schedule->command($command), $method,
                     ], $arguments);
                 }
 
                 /**
                  * Loop over any options and chain them
                  * onto the command we just built.
-                 * 
+                 *
                  * Option keys are snake-cased to form
                  * the methods used to configure the command.
                  */
@@ -181,12 +179,12 @@ class Integrator
                      * and just run it with no arguments.
                      */
                     if (is_string($arguments)) {
-                        $option    = $arguments;
+                        $option = $arguments;
                         $arguments = [];
                     }
 
                     $command = call_user_func_array([
-                        $command, Str::camel($option)
+                        $command, Str::camel($option),
                     ], (array) $arguments);
                 }
             }

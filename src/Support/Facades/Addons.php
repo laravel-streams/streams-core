@@ -17,7 +17,6 @@ use Illuminate\Support\Facades\Facade;
  */
 class Addons extends Facade
 {
-
     /**
      * Get the registered name of the component.
      *

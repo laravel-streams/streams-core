@@ -53,7 +53,7 @@ class TimeFieldType extends DatetimeFieldType
     {
         return TimeSchema::class;
     }
-    
+
     public function getDecoratorName()
     {
         return DatetimeDecorator::class;

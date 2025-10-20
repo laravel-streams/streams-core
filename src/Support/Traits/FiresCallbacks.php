@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\App;
  */
 trait FiresCallbacks
 {
-
     protected array $__callbacks = [];
 
     public static array $__listeners = [];
@@ -21,8 +20,7 @@ trait FiresCallbacks
     /**
      * Register observers with the instance.
      *
-     * @param object|array|string  $classes
-     * @return void
+     * @param  object|array|string  $classes
      */
     public static function observeCallbacks($classes): void
     {
@@ -35,13 +33,12 @@ trait FiresCallbacks
     /**
      * Register a new callback.
      *
-     * @param string $name
-     * @param \Closure|string|object $callback
+     * @param  \Closure|string|object  $callback
      * @return $this
      */
     public function addCallback(string $name, $callback)
     {
-        if (!isset($this->__callbacks[$name])) {
+        if (! isset($this->__callbacks[$name])) {
             $this->__callbacks[$name] = [];
         }
 
@@ -53,15 +50,14 @@ trait FiresCallbacks
     /**
      * Register a new global listener.
      *
-     * @param string $name
-     * @param \Closure|string|object $callback
+     * @param  \Closure|string|object  $callback
      * @return $this
      */
     public static function addCallbackListener(string $name, $callback)
     {
-        $name = static::class . '::' . $name;
+        $name = static::class.'::'.$name;
 
-        if (!isset(static::$__listeners[$name])) {
+        if (! isset(static::$__listeners[$name])) {
             static::$__listeners[$name] = [];
         }
 
@@ -71,8 +67,6 @@ trait FiresCallbacks
     /**
      * Fire a set of closures by trigger.
      *
-     * @param string $name
-     * @param  array $parameters
      * @return $this
      */
     public function fire(string $name, array $parameters = [])
@@ -81,10 +75,10 @@ trait FiresCallbacks
         /*
          * First, check if the method
          * exists and call it if it does.
-         * 
+         *
          * This puts priority on the class.
          */
-        $method = Str::camel('on_' . str_replace(['.'], '_', $name));
+        $method = Str::camel('on_'.str_replace(['.'], '_', $name));
 
         if (method_exists($this, $method)) {
             App::call([$this, $method], $parameters);
@@ -93,12 +87,12 @@ trait FiresCallbacks
         /*
          * Next, run through all of
          * the global callbacks.
-         * 
+         *
          * Priority moves to global callbacks.
          */
         $listeners = (array) Arr::get(
             self::$__listeners,
-            static::class . '::' . $name
+            static::class.'::'.$name
         );
 
         foreach ($listeners as $callback) {
@@ -108,7 +102,7 @@ trait FiresCallbacks
         /*
          * Next, run through all of
          * the registered callbacks.
-         * 
+         *
          * Priority moves to this instance.
          */
         $callbacks = (array) Arr::get(
@@ -127,7 +121,7 @@ trait FiresCallbacks
         if (isset(self::$__observers[static::class])) {
             foreach (self::$__observers[static::class] as $observer) {
                 if (method_exists($observer, $method = Str::camel($name))) {
-                    App::call($observer . '@' . $method, $parameters);
+                    App::call($observer.'@'.$method, $parameters);
                 }
             }
         }
@@ -137,9 +131,6 @@ trait FiresCallbacks
 
     /**
      * Return whether the callback exists.
-     *
-     * @param string $name
-     * @return bool
      */
     public function hasCallback(string $name): bool
     {
@@ -148,12 +139,9 @@ trait FiresCallbacks
 
     /**
      * Return whether a callback listener exists.
-     *
-     * @param string $name
-     * @return bool
      */
     public static function hasCallbackListener(string $name): bool
     {
-        return isset(self::$__listeners[static::class . '::' . $name]);
+        return isset(self::$__listeners[static::class.'::'.$name]);
     }
 }

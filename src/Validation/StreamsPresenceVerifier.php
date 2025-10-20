@@ -7,7 +7,6 @@ use Illuminate\Validation\DatabasePresenceVerifier;
 
 class StreamsPresenceVerifier extends DatabasePresenceVerifier
 {
-
     /**
      * Get a query builder for the given table.
      *

@@ -18,7 +18,7 @@ class ArrayDecorator extends FieldDecorator
         $attributes = array_merge($this->value, $extra);
 
         array_walk($attributes, function (&$value, $key) {
-            $value = $key . '="' . $value . '"';
+            $value = $key.'="'.$value.'"';
         });
 
         return implode(' ', $attributes);

@@ -5,10 +5,8 @@ namespace Streams\Core\Criteria\Adapter;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Streams\Core\Stream\Stream;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
-use Streams\Core\Entry\Contract\EntryInterface;
 
 class DatabaseAdapter extends AbstractAdapter
 {
@@ -23,7 +21,7 @@ class DatabaseAdapter extends AbstractAdapter
 
     protected function initializeQuery(): void
     {
-        if (!$connection = $this->stream->config('source.connection')) {
+        if (! $connection = $this->stream->config('source.connection')) {
             $connection = Config::get('database.default');
         }
 
@@ -66,7 +64,7 @@ class DatabaseAdapter extends AbstractAdapter
         // @todo needs work.
         if (strtoupper($operator) == 'IN') {
 
-            if (!$nested) {
+            if (! $nested) {
                 $this->query->whereIn($field, $value);
             } else {
                 $this->query->orWhereIn($field, $value);
@@ -77,7 +75,7 @@ class DatabaseAdapter extends AbstractAdapter
 
         if (strtoupper($operator) == 'NOT IN') {
 
-            if (!$nested) {
+            if (! $nested) {
                 $this->query->whereNotIn($field, $value);
             } else {
                 $this->query->orWhereNotIn($field, $value);
@@ -86,7 +84,7 @@ class DatabaseAdapter extends AbstractAdapter
             return $this;
         }
 
-        $method = Str::studly($nested ? $nested . '_where' : 'where');
+        $method = Str::studly($nested ? $nested.'_where' : 'where');
 
         $this->query = $this->query->{$method}($field, $operator, $value);
 
@@ -120,14 +118,14 @@ class DatabaseAdapter extends AbstractAdapter
         if ($id) {
             $this->query->where($keyName, $id);
         }
-        
+
         if ($id && $this->query->exists()) {
-            
+
             $this->query->update($attributes);
 
             return $attributes;
         } elseif ($keyName === false) {
-            
+
             $this->query->insert($attributes);
 
             return $attributes;
@@ -155,7 +153,7 @@ class DatabaseAdapter extends AbstractAdapter
     public function __call($method, $arguments = [])
     {
         $this->query = $this->query->$method(...$arguments);
-        
+
         return $this;
     }
 }

@@ -8,10 +8,12 @@ use Illuminate\Support\Facades\Facade;
  * Class Messages
  *
  * @link   http://pyrocms.com/
+ *
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  *
  * @property Illuminate\Session\Store $session
+ *
  * @method static \Streams\Core\Message\MessageManager add($type, $message)
  * @method static \Streams\Core\Message\MessageManager merge(string $key, array $message)
  * @method static \Streams\Core\Message\MessageManager get()
@@ -26,7 +28,6 @@ use Illuminate\Support\Facades\Facade;
  */
 class Messages extends Facade
 {
-
     /**
      * Get the registered name of the component.
      *

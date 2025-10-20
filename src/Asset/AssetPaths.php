@@ -7,7 +7,6 @@ use Illuminate\Support\Str;
 
 class AssetPaths
 {
-
     /**
      * Predefined paths.
      *
@@ -28,7 +27,6 @@ class AssetPaths
     /**
      * Set the paths.
      *
-     * @param  array $paths
      * @return $this
      */
     public function setPaths(array $paths)
@@ -41,8 +39,6 @@ class AssetPaths
     /**
      * Add an asset path hint.
      *
-     * @param $namespace
-     * @param $path
      * @return $this
      */
     public function addPath($namespace, $path)
@@ -55,7 +51,6 @@ class AssetPaths
     /**
      * Get a single path.
      *
-     * @param $namespace
      * @return string|null
      */
     public function getPath($namespace)
@@ -67,24 +62,24 @@ class AssetPaths
      * Return the real public
      * path for a given asset.
      *
-     * @param $asset
      * @return string
+     *
      * @throws \Exception
      */
     public function real($asset)
     {
         if (Str::contains($asset, '::')) {
 
-            list($namespace, $asset) = explode('::', $asset);
+            [$namespace, $asset] = explode('::', $asset);
 
-            if (!isset($this->paths[$namespace])) {
+            if (! isset($this->paths[$namespace])) {
                 throw new \Exception("Path hint [{$namespace}::{$asset}] does not exist!");
             }
 
-            $asset = $this->paths[$namespace] . '/' . $asset;
+            $asset = $this->paths[$namespace].'/'.$asset;
 
-            if (!filter_var($asset, FILTER_VALIDATE_URL)) {
-                $asset = '/' . $asset;
+            if (! filter_var($asset, FILTER_VALIDATE_URL)) {
+                $asset = '/'.$asset;
             }
         }
 

@@ -19,7 +19,8 @@ interface EntryInterface
     /**
      * Return the entry attribute.
      *
-     * @param string $key
+     * @param  string  $key
+     *
      * @var array
      */
     public function getAttribute($key);
@@ -27,11 +28,12 @@ interface EntryInterface
     /**
      * Return if the entry has a given attribute.
      *
-     * @param string $key
+     * @param  string  $key
+     *
      * @var bool
      */
     public function hasAttribute($key);
-    
+
     /**
      * Return the last modified date if possible.
      *
@@ -41,8 +43,6 @@ interface EntryInterface
 
     /**
      * Set the entry attributes.
-     *
-     * @param array $attributes
      */
     public function setAttributes(array $attributes);
 
@@ -52,4 +52,6 @@ interface EntryInterface
     public function save(array $options = []);
 
     public function decorate(string $field): FieldDecorator;
+
+    public function toArray();
 }

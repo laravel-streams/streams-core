@@ -20,7 +20,7 @@ class StreamFilesystem implements Filesystem
         $this->storage = Storage::disk($disk);
     }
 
-    public function index(string $path = null): void
+    public function index(?string $path = null): void
     {
         foreach ($this->storage->allDirectories($path) as $directory) {
             $this->indexDirectory($directory);
@@ -36,7 +36,7 @@ class StreamFilesystem implements Filesystem
         return $this->storage->exists($path);
     }
 
-    public function get($path): string|null
+    public function get($path): ?string
     {
         return $this->storage->get($path);
     }
@@ -203,7 +203,7 @@ class StreamFilesystem implements Filesystem
             ->where('path', $directory)
             ->first();
 
-        if (!$entry) {
+        if (! $entry) {
             $this->stream
                 ->entries()
                 ->create([
@@ -234,7 +234,7 @@ class StreamFilesystem implements Filesystem
             ->where('path', $file)
             ->first();
 
-        if (!$entry) {
+        if (! $entry) {
             $this->stream
                 ->entries()
                 ->create([

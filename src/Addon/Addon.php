@@ -17,10 +17,10 @@ use Streams\Core\Support\Traits\FiresCallbacks;
  */
 class Addon implements Arrayable, Jsonable
 {
-    use Prototype;
+    use FiresCallbacks;
     use HasMemory;
     use Macroable;
-    use FiresCallbacks;
+    use Prototype;
 
     public function provides(string $service): bool
     {

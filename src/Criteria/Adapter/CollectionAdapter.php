@@ -6,7 +6,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Streams\Core\Stream\Stream;
 use Illuminate\Support\Collection;
-use Streams\Core\Entry\Contract\EntryInterface;
 
 class CollectionAdapter extends AbstractAdapter
 {
@@ -21,9 +20,9 @@ class CollectionAdapter extends AbstractAdapter
         $this->loadData();
     }
 
-    protected function loadData(Collection $collection = null)
+    protected function loadData(?Collection $collection = null)
     {
-        $this->data = $collection ?: new Collection();
+        $this->data = $collection ?: new Collection;
     }
 
     public function orderBy($field, $direction = 'asc'): static
@@ -49,7 +48,7 @@ class CollectionAdapter extends AbstractAdapter
 
         $operator = strtoupper($operator);
 
-        $method = $nested ? Str::camel($nested . '_where') : 'where';
+        $method = $nested ? Str::camel($nested.'_where') : 'where';
 
         if ($operator == 'LIKE') {
             $this->data = $this->data->filter(function ($entry) use ($field, $value) {
@@ -103,7 +102,7 @@ class CollectionAdapter extends AbstractAdapter
         $fields = array_combine($fields, array_fill(0, count($fields), null));
 
         $this->data[$key] = array_merge($fields, $attributes);
-        
+
         return $attributes;
     }
 

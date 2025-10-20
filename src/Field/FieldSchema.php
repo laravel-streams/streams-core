@@ -2,8 +2,6 @@
 
 namespace Streams\Core\Field;
 
-use Illuminate\Support\Arr;
-use Streams\Core\Field\Field;
 use Illuminate\Support\Collection;
 use Streams\Core\Support\Workflow;
 use Illuminate\Support\Traits\Macroable;
@@ -17,12 +15,10 @@ use GoldSpecDigital\ObjectOrientedOAS\Objects\ExternalDocs;
  */
 class FieldSchema
 {
-    use Macroable;
     use FiresCallbacks;
+    use Macroable;
 
-    public function __construct(protected Field $field)
-    {
-    }
+    public function __construct(protected Field $field) {}
 
     public function type(): Schema
     {
@@ -107,7 +103,7 @@ class FieldSchema
     {
         $schema = $data->get('schema');
 
-        if (!is_null($default = $this->field->config('default'))) {
+        if (! is_null($default = $this->field->config('default'))) {
             $schema = $schema->default($this->field->default($default));
         }
 

@@ -6,9 +6,7 @@ use Illuminate\Session\Store;
 
 class MessageManager
 {
-    public function __construct(protected Store $session)
-    {
-    }
+    public function __construct(protected Store $session) {}
 
     public function add(string $type, string|array $message): static
     {

@@ -2,17 +2,14 @@
 
 namespace Streams\Core\Criteria\Contract;
 
-use Illuminate\Support\Collection;
-
 interface AdapterInterface
 {
-
     /**
      * Add criteria for sorting entries.
      *
-     * @param string $field
-     * @param string|null $direction
-     * @param string|null $value
+     * @param  string  $field
+     * @param  string|null  $direction
+     * @param  string|null  $value
      * @return $this
      */
     public function orderBy($field, $direction = 'asc');
@@ -20,8 +17,8 @@ interface AdapterInterface
     /**
      * Limit the entries returned.
      *
-     * @param int $limit
-     * @param int|null $offset
+     * @param  int  $limit
+     * @param  int|null  $offset
      * @return $this
      */
     public function limit($limit, $offset = 0);
@@ -29,9 +26,9 @@ interface AdapterInterface
     /**
      * Add criteria for returning entries.
      *
-     * @param string $field
-     * @param string|null $operator
-     * @param string|null $value
+     * @param  string  $field
+     * @param  string|null  $operator
+     * @param  string|null  $value
      * @return $this
      */
     public function where($field, $operator = null, $value = null, $nested = null);
@@ -39,24 +36,21 @@ interface AdapterInterface
     /**
      * Add nested criteria for returning entries.
      *
-     * @param string $field
-     * @param string|null $operator
-     * @param string|null $value
+     * @param  string  $field
+     * @param  string|null  $operator
+     * @param  string|null  $value
      * @return $this
      */
     public function orWhere($field, $operator = null, $value = null);
 
     /**
      * Get the criteria results.
-     * 
-     * @param array $parameters
-     * @return array
      */
     public function get(array $parameters = []): array;
 
     /**
      * Count the criteria results.
-     * 
+     *
      * @return int
      */
     public function count();
@@ -64,7 +58,6 @@ interface AdapterInterface
     /**
      * Save attributes to the database.
      *
-     * @param  array $attributes
      * @return array of saved attributes
      */
     public function save(array $attributes): array;
@@ -72,7 +65,6 @@ interface AdapterInterface
     /**
      * Delete an entry.
      *
-     * @param array $parameters
      * @return bool
      */
     public function delete(array $parameters = []);

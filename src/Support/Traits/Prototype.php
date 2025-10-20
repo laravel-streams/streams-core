@@ -11,26 +11,25 @@ use Illuminate\Support\Traits\Macroable;
 
 /**
  * Trait Prototype
- * 
+ *
  * By default you can load Property classes
  * by passing an array of attributes:
- * 
+ *
  *      $object = new Class(array $attributes)
- * 
+ *
  * Attributes support a basic public property API
- * 
+ *
  *      echo $object->attribute; // attribute value
  *      $object->attribute = $value;
- * 
+ *
  * Attributes can be expanded:
- * 
+ *
  *      echo $object->decoratePrototypeAttribute('attribute'); // A new Value instance
  */
 trait Prototype
 {
-
-    use Macroable;
     use FiresCallbacks;
+    use Macroable;
 
     protected \ReflectionClass $__reflection;
 
@@ -83,18 +82,18 @@ trait Prototype
 
         // Remove static properties.
         $properties = array_filter($public, function ($property) use ($static) {
-            return !in_array($property->getName(), $static);
+            return ! in_array($property->getName(), $static);
         });
 
         foreach ($properties as $property) {
 
             $attribute = Arr::get((array) $property->getAttributes(Field::class), 0);
 
-            if (!$attribute && $parent = $reflection->getParentClass()) {
+            if (! $attribute && $parent = $reflection->getParentClass()) {
                 $attribute = $this->resolvePrototypePropertyAttributes($parent, $property->getName());
             }
 
-            if (!$attribute) {
+            if (! $attribute) {
 
                 $type = $this->guessProtocolPropertyType($property->getName());
 
@@ -107,7 +106,7 @@ trait Prototype
 
             $attributes = Arr::get($attribute->getArguments(), 0, []);
 
-            if (!isset($attributes['type']) && $type = $property->getType()) {
+            if (! isset($attributes['type']) && $type = $property->getType()) {
                 $attributes['type'] = $type->getName();
             }
 
@@ -117,7 +116,7 @@ trait Prototype
 
     protected function resolvePrototypePropertyAttributes(\ReflectionClass $reflection, $key)
     {
-        if (!$reflection->hasProperty($key)) {
+        if (! $reflection->hasProperty($key)) {
             return null;
         }
 
@@ -187,7 +186,7 @@ trait Prototype
 
     public function setPrototypeAttribute(string $key, $value)
     {
-        $method = Str::camel('set_' . $key . '_attribute');
+        $method = Str::camel('set_'.$key.'_attribute');
 
         if ($this->hasPrototypeOverrideMethod($method)) {
 
@@ -218,7 +217,7 @@ trait Prototype
 
     public function getPrototypeAttribute(string $key, $default = null)
     {
-        $method = Str::camel('get_' . $key . '_attribute');
+        $method = Str::camel('get_'.$key.'_attribute');
 
         if ($this->hasPrototypeOverrideMethod($method)) {
             return $this->{$method}();
@@ -257,7 +256,7 @@ trait Prototype
 
     public function decoratePrototypeAttribute(string $key)
     {
-        $method = Str::camel('decorate_' . $key . '_attribute');
+        $method = Str::camel('decorate_'.$key.'_attribute');
 
         $value = $this->getPrototypeAttribute($key);
 
@@ -266,7 +265,7 @@ trait Prototype
         }
 
         $type = $this->newProtocolPropertyFieldType($key);
-        
+
         $type->entry = $this;
 
         return $type->decorate($value);
@@ -274,7 +273,7 @@ trait Prototype
 
     public function getPrototypeAttributeDefault(string $key, $default = null)
     {
-        return Arr::get($this->__prototype['properties'], $key . '.default', $default);
+        return Arr::get($this->__prototype['properties'], $key.'.default', $default);
     }
 
     protected function guessProtocolPropertyType($key): string
@@ -297,8 +296,8 @@ trait Prototype
     /**
      * Restore a value from attributes.
      *
-     * @param string $key
-     * @param mixed $value
+     * @param  string  $key
+     * @param  mixed  $value
      */
     protected function restorePrototypeAttributeValue($key, $value)
     {
@@ -318,8 +317,8 @@ trait Prototype
     /**
      * Modify a value for attributes.
      *
-     * @param string $key
-     * @param mixed $value
+     * @param  string  $key
+     * @param  mixed  $value
      */
     protected function castPrototypeAttributeValue($key, $value)
     {
@@ -338,7 +337,7 @@ trait Prototype
 
     protected function newProtocolPropertyFieldType(string $key): Field
     {
-        if (!$type = Arr::get($this->__prototype['properties'], $key . '.type')) {
+        if (! $type = Arr::get($this->__prototype['properties'], $key.'.type')) {
             $type = $this->guessProtocolPropertyType($key);
         }
 
@@ -348,7 +347,7 @@ trait Prototype
             $attributes['stream'] = $this->stream;
         }
 
-        return App::make('streams.core.field_type.' . $type, compact('attributes'));
+        return App::make('streams.core.field_type.'.$type, compact('attributes'));
     }
 
     protected function hasPrototypePropertyType(string $key): bool
@@ -358,7 +357,7 @@ trait Prototype
 
     protected function getPrototypePropertyType(string $key): ?string
     {
-        return Arr::get($this->__prototype['properties'], $key . '.type');
+        return Arr::get($this->__prototype['properties'], $key.'.type');
     }
 
     public function loadPrototypeProperties(array $properties)

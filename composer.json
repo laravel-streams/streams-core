@@ -27,7 +27,8 @@
         "streams/testing": "^1.0",
         "mockery/mockery": "^1.4",
         "phpunit/phpunit": "^9.5",
-        "fakerphp/faker": "^1.9"
+        "fakerphp/faker": "^1.9",
+        "laravel/pint": "^1.25"
     },
     "autoload": {
         "psr-4": {

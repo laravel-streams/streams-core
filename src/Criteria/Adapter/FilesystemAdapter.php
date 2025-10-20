@@ -5,7 +5,6 @@ namespace Streams\Core\Criteria\Adapter;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Streams\Core\Stream\Stream;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Contracts\Filesystem\Filesystem;
 
@@ -47,7 +46,7 @@ class FilesystemAdapter extends AbstractAdapter
 
         $operator = strtoupper($operator);
 
-        $method = $nested ? Str::studly($nested . '_where') : 'where';
+        $method = $nested ? Str::studly($nested.'_where') : 'where';
 
         if ($operator == 'LIKE') {
             $this->query = $this->query->filter(function ($entry) use ($field, $value) {

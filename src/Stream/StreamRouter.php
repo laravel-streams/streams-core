@@ -8,7 +8,7 @@ use Illuminate\Routing\Route as RouteInstance;
 
 class StreamRouter
 {
-    static public function route(string $uri, string|array $route): RouteInstance
+    public static function route(string $uri, string|array $route): RouteInstance
     {
 
         /**
@@ -29,7 +29,7 @@ class StreamRouter
         /**
          * Assume the route is a view otherwise.
          */
-        if (is_string($route) && !strpos($route, '@')) {
+        if (is_string($route) && ! strpos($route, '@')) {
             $route = [
                 'view' => $route,
                 'uses' => '\Streams\Core\Http\Controller\EntryController',
@@ -40,7 +40,7 @@ class StreamRouter
          * Ensure something is
          * handling the request.
          */
-        if (!isset($route['uses'])) {
+        if (! isset($route['uses'])) {
             $route['uses'] = '\Streams\Core\Http\Controller\EntryController';
         }
 
@@ -48,9 +48,9 @@ class StreamRouter
          * Pull out route options. What's left
          * is passed in as route action data.
          */
-        $csrf        = Arr::pull($route, 'csrf');
-        $verb        = Arr::pull($route, 'verb', 'any');
-        $middleware  = Arr::pull($route, 'middleware', []);
+        $csrf = Arr::pull($route, 'csrf');
+        $verb = Arr::pull($route, 'verb', 'any');
+        $middleware = Arr::pull($route, 'middleware', []);
         $constraints = Arr::pull($route, 'constraints', []);
 
         /**
@@ -63,7 +63,7 @@ class StreamRouter
          * treat it as a resource.
          */
         $route = Route::{$verb}($uri, $route); // includes Single action controllers
-        
+
         /**
          * Call constraints if
          * any are provided.

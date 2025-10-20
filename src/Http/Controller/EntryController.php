@@ -15,11 +15,10 @@ use Streams\Core\Support\Traits\FiresCallbacks;
 
 class EntryController extends Controller
 {
-
     use FiresCallbacks;
 
     public function __invoke()
-    { 
+    {
         $data = collect();
 
         $data->put('route', Request::route());
@@ -61,7 +60,7 @@ class EntryController extends Controller
 
     protected function resolveEntry(Collection $data): void
     {
-        if (!$stream = $data->get('stream')) {
+        if (! $stream = $data->get('stream')) {
             return;
         }
 
@@ -70,7 +69,7 @@ class EntryController extends Controller
         }
 
         $action = $data->get('action', []);
-        
+
         if ($entry = Arr::get($action, 'entry')) {
 
             $data->put('entry', $stream->repository()->find($entry));
@@ -94,7 +93,7 @@ class EntryController extends Controller
             return;
         }
 
-        //------------
+        // ------------
 
         $criteria = [];
 
@@ -104,7 +103,7 @@ class EntryController extends Controller
             }
         }
 
-        if (!$criteria) {
+        if (! $criteria) {
             return;
         }
 
@@ -149,7 +148,7 @@ class EntryController extends Controller
         $stream = $data->get('stream');
         $entry = $data->get('entry');
 
-        if (!$stream) {
+        if (! $stream) {
             return;
         }
 
@@ -163,14 +162,13 @@ class EntryController extends Controller
             return;
         }
 
-        if (!$entry && View::exists($plural)) {
+        if (! $entry && View::exists($plural)) {
 
             $data->put('view', $plural);
 
             return;
         }
 
-        return;
     }
 
     protected function resolveRedirect(Collection $data): void
@@ -191,7 +189,7 @@ class EntryController extends Controller
         if ($data->has('response')) {
             return;
         }
-        
+
         if ($data->has('entry') && $data->get('entry') === null) {
             abort(404);
         }

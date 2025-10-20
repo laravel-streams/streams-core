@@ -6,7 +6,6 @@ use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
 
 class MultiselectSchema extends ArrSchema
 {
-
     public function type(): Schema
     {
         return Schema::array($this->field->handle)

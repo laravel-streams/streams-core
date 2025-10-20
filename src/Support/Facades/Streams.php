@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Facade;
  * Class Streams
  *
  * @link   http://pyrocms.com/
+ *
  * @author PyroCMS, Inc. <support@pyrocms.com>
  * @author Ryan Thompson <ryan@pyrocms.com>
  *
@@ -22,7 +23,6 @@ use Illuminate\Support\Facades\Facade;
  */
 class Streams extends Facade
 {
-
     /**
      * Get the registered name of the component.
      *

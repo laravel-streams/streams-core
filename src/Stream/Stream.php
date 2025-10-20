@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\App;
 use Streams\Core\Criteria\Criteria;
 use Illuminate\Validation\Validator;
 use Streams\Core\Entry\EntryFactory;
-use Streams\Core\Stream\StreamCache;
 use Streams\Core\Field\FieldCollection;
 use Streams\Core\Repository\Repository;
 use Illuminate\Support\Traits\Macroable;
@@ -25,17 +24,13 @@ use Illuminate\Support\Traits\ForwardsCalls;
 use Streams\Core\Support\Traits\FiresCallbacks;
 use Streams\Core\Validation\StreamsPresenceVerifier;
 
-class Stream implements
-    JsonSerializable,
-    Arrayable,
-    Jsonable
+class Stream implements Arrayable, Jsonable, JsonSerializable
 {
-
+    use FiresCallbacks;
     use Fluency;
+    use ForwardsCalls;
     use HasMemory;
     use Macroable;
-    use ForwardsCalls;
-    use FiresCallbacks;
 
     #[Field([
         'type' => 'object',
@@ -81,13 +76,13 @@ class Stream implements
             'callbackData' => $callbackData,
         ]);
 
-        (new StreamBuilder())
+        (new StreamBuilder)
             ->passThrough($this)
             ->process([
                 'callbackData' => collect([
                     'stream' => $this,
                     'attributes' => $attributes,
-                ])
+                ]),
             ]);
 
         $this->syncOriginalPrototypeAttributes($attributes);
@@ -121,36 +116,36 @@ class Stream implements
 
     public function filesystem(string $disk): StreamFilesystem
     {
-        return static::once($this->id . __METHOD__, fn () => $this->newFilesystem($disk));
+        return static::once($this->id.__METHOD__, fn () => $this->newFilesystem($disk));
     }
 
     protected function newFilesystem(string $disk): StreamFilesystem
     {
-        $filesystem  = $this->config('filesystem', StreamFilesystem::class);
+        $filesystem = $this->config('filesystem', StreamFilesystem::class);
 
         return new $filesystem($this, $disk);
     }
 
     public function schema(): StreamSchema
     {
-        return static::once($this->id . __METHOD__, fn () => $this->newSchema());
+        return static::once($this->id.__METHOD__, fn () => $this->newSchema());
     }
 
     protected function newSchema(): StreamSchema
     {
-        $schema  = $this->config('schema', StreamSchema::class);
+        $schema = $this->config('schema', StreamSchema::class);
 
         return new $schema($this);
     }
 
     public function repository(): Repository
     {
-        return static::once($this->id . __METHOD__, fn () => $this->newRepository());
+        return static::once($this->id.__METHOD__, fn () => $this->newRepository());
     }
 
     protected function newRepository(): Repository
     {
-        $repository  = $this->config('repository', Repository::class);
+        $repository = $this->config('repository', Repository::class);
 
         return new $repository($this);
     }
@@ -180,7 +175,7 @@ class Stream implements
                     $parts = explode(':', $rule);
                     $parameters = array_filter(explode(',', Arr::get($parts, 1)));
 
-                    if (!$parameters) {
+                    if (! $parameters) {
                         $parameters[] = $this->id;
                     }
 
@@ -193,7 +188,7 @@ class Stream implements
                         $parameters[] = $keyName;
                     }
 
-                    $rule = 'unique:' . implode(',', $parameters);
+                    $rule = 'unique:'.implode(',', $parameters);
                 }
 
                 if (strpos($rule, '\\')) {
@@ -227,7 +222,7 @@ class Stream implements
 
     public function cache(): StreamCache
     {
-        return static::once($this->id . __METHOD__, fn () => new StreamCache($this));
+        return static::once($this->id.__METHOD__, fn () => new StreamCache($this));
     }
 
     protected function callback($handler): \Closure

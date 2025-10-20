@@ -10,8 +10,7 @@ use Illuminate\Support\Facades\Request;
 
 class Parser
 {
-
-    static public function data()
+    public static function data()
     {
         $parsed = parse_url(Request::url());
 
@@ -28,7 +27,7 @@ class Parser
                 'uri' => Request::getRequestUri(),
                 'query' => Request::getQueryString(),
                 'parsed' => array_merge($parsed, [
-                    'domain' => explode('.', $parsed['host'])
+                    'domain' => explode('.', $parsed['host']),
                 ]),
             ],
             'url' => [
@@ -39,21 +38,21 @@ class Parser
             ],
             'user' => ($user = Auth::user()) ? (array) $user : null,
         ];
-        
+
         if ($route = Request::route()) {
 
             $data['route'] = [
-                'uri'                      => $route->uri(),
-                'parameters'               => $route->parameters(),
+                'uri' => $route->uri(),
+                'parameters' => $route->parameters(),
                 'parameters.to_urlencoded' => array_map(
                     function ($parameter) {
                         return urlencode($parameter);
                     },
                     array_filter($route->parameters())
                 ),
-                'parameter_names'          => $route->parameterNames(),
-                'compiled'                 => [
-                    'static_prefix'     => $route->getCompiled()->getStaticPrefix(),
+                'parameter_names' => $route->parameterNames(),
+                'compiled' => [
+                    'static_prefix' => $route->getCompiled()->getStaticPrefix(),
                     'parameters_suffix' => str_replace(
                         $route->getCompiled()->getStaticPrefix(),
                         '',
@@ -69,7 +68,7 @@ class Parser
         return $data;
     }
 
-    static public function addData($key, $data)
+    public static function addData($key, $data)
     {
         if (is_object($data)) {
             $data = Arr::make($data);

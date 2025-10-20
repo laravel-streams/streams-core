@@ -10,7 +10,7 @@ class UrlDecorator extends FieldDecorator
 {
     public function parse($key = null, $default = null)
     {
-        if (!$this->value) {
+        if (! $this->value) {
             return null;
         }
 
@@ -25,7 +25,7 @@ class UrlDecorator extends FieldDecorator
 
     public function query($key = null, $default = null)
     {
-        if (!$parsed = $this->parse()) {
+        if (! $parsed = $this->parse()) {
             return null;
         }
 
@@ -38,33 +38,33 @@ class UrlDecorator extends FieldDecorator
         return $query;
     }
 
-    public function link($title = null, $attributes = []): string|null
+    public function link($title = null, $attributes = []): ?string
     {
-        if (!$this->value) {
+        if (! $this->value) {
             return null;
         }
 
-        if (!$title) {
+        if (! $title) {
             $title = $this->value;
         }
 
         return HtmlFacade::link($this->value, $title, $attributes);
     }
 
-    public function to(string $path = null): string|null
+    public function to(?string $path = null): ?string
     {
-        if (!$this->value) {
+        if (! $this->value) {
             return null;
         }
 
         $parsed = $this->parse();
 
         $scheme = Arr::get($parsed, 'scheme');
-        $host   = Arr::get($parsed, 'host');
-        $port   = Arr::get($parsed, 'port');
+        $host = Arr::get($parsed, 'host');
+        $port = Arr::get($parsed, 'port');
 
-        $port = $port ? ':' . $port : null;
-        $path = $path ? '/' . $path : null;
+        $port = $port ? ':'.$port : null;
+        $path = $path ? '/'.$path : null;
 
         return "{$scheme}://{$host}{$port}{$path}";
     }

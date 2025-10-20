@@ -13,21 +13,54 @@ class AddonManager
 {
     use HasMemory;
 
-    public function __construct(protected Collection $collection)
+    public function __construct(protected Collection $collection) {}
+
+    /**
+     * Load all addons in a directory.
+     *
+     * @return array<Addon>
+     */
+    public function loadDirectory(string $directory): array
     {
+        $directory = rtrim($directory, '/\\');
+
+        $addons = [];
+
+        if (! is_dir($directory)) {
+            return $addons;
+        }
+
+        foreach (scandir($directory) as $entry) {
+
+            if ($entry === '.' || $entry === '..') {
+                continue;
+            }
+
+            $path = $directory.DIRECTORY_SEPARATOR.$entry;
+
+            if (is_dir($path) && file_exists($path.'/composer.json')) {
+                $addons[] = $this->load($path);
+            }
+        }
+
+        return $addons;
     }
 
     public function load(string $path): Addon
     {
         $path = rtrim($path, '/\\');
 
-        $composer = json_decode(file_get_contents($path . '/composer.json'), true);
+        $composer = json_decode(file_get_contents($path.'/composer.json'), true);
 
-        $addon = [
-            'name' => $composer['name'],
-            'path' => $path,
-            'composer' => $composer,
-        ];
+        try {
+            $addon = [
+                'name' => $composer['name'],
+                'path' => $path,
+                'composer' => $composer,
+            ];
+        } catch (\Exception $e) {
+            throw new \Exception("Invalid addon at [{$path}].");
+        }
 
         return $this->register($addon);
     }
@@ -36,7 +69,7 @@ class AddonManager
     {
         $addon = new Addon($addon);
 
-        App::instance('streams.addons.' . str_replace('/', '.', $addon->name), $addon);
+        App::instance('streams.addons.'.str_replace('/', '.', $addon->name), $addon);
 
         $this->collection->put($addon->name, $addon);
 
@@ -45,7 +78,7 @@ class AddonManager
 
     public function make(string $name): Addon
     {
-        return App::make('streams.addons.' . str_replace('/', '.', $name));
+        return App::make('streams.addons.'.str_replace('/', '.', $name));
     }
 
     public function collection(): Collection

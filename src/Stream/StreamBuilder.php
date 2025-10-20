@@ -13,9 +13,9 @@ use Streams\Core\Support\Facades\Streams;
 class StreamBuilder extends Workflow
 {
     public array $steps = [
-        'initializing' => self::class . '@initializing',
-        'initialized' => self::class . '@initialized',
-        'load' => self::class . '@load',
+        'initializing' => self::class.'@initializing',
+        'initialized' => self::class.'@initialized',
+        'load' => self::class.'@load',
     ];
 
     public function initializing(Collection $callbackData)
@@ -78,7 +78,7 @@ class StreamBuilder extends Workflow
          */
         $imports = array_filter(Arr::dot($attributes), function ($value) {
 
-            if (!is_string($value)) {
+            if (! is_string($value)) {
                 return false;
             }
 
@@ -103,7 +103,7 @@ class StreamBuilder extends Workflow
          * Defaults the source.
          */
         $type = Config::get('streams.core.default_source', 'filebase');
-        $default = Config::get('streams.core.sources.types.' . $type);
+        $default = Config::get('streams.core.sources.types.'.$type);
 
         // if (!array_key_exists('source', $attributes)) {
         //     $attributes['source'] = $default;
@@ -161,15 +161,15 @@ class StreamBuilder extends Workflow
                 $rules[] = 'unique';
             }
 
-            if (!array_key_exists('type', $attributes)) {
+            if (! array_key_exists('type', $attributes)) {
                 $attributes['type'] = 'string';
             }
 
-            if (!App::has('streams.core.field_type.' . $attributes['type'])) {
+            if (! App::has('streams.core.field_type.'.$attributes['type'])) {
                 throw new \Exception("Invalid field type [{$attributes['type']}] in stream [{$target->id}].");
             }
 
-            $field = App::make('streams.core.field_type.' . $attributes['type'], [
+            $field = App::make('streams.core.field_type.'.$attributes['type'], [
                 'attributes' => $attributes + ['stream' => $target],
             ]);
 

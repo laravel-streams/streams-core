@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Facade;
  */
 class Includes extends Facade
 {
-
     protected static function getFacadeAccessor(): string
     {
         return 'includes';

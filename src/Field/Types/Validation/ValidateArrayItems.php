@@ -8,19 +8,17 @@ use Illuminate\Contracts\Validation\InvokableRule;
 
 class ValidateArrayItems implements InvokableRule
 {
-    public function __construct(public Field $field)
-    {
-    }
+    public function __construct(public Field $field) {}
 
     public function __invoke($attribute, $value, $fail)
     {
         $value = $this->field->cast($value);
 
-        if (!is_array($value)) {
+        if (! is_array($value)) {
             return $fail('The :attribute has invalid items.');
         }
 
-        if (!$items = $this->field->config('items')) {
+        if (! $items = $this->field->config('items')) {
             return;
         }
 
@@ -42,15 +40,15 @@ class ValidateArrayItems implements InvokableRule
     {
         foreach ($items as $item) {
 
-            if (!isset($item['type'])) {
-                throw new \Exception("The [type] parameter is required when configuring item types.");
+            if (! isset($item['type'])) {
+                throw new \Exception('The [type] parameter is required when configuring item types.');
             }
 
-            if (!App::has('streams.core.field_type.' . $item['type'])) {
+            if (! App::has('streams.core.field_type.'.$item['type'])) {
                 throw new \Exception("Invalid field type [{$item['type']}] in items configuration [{$this->field->handle}].");
             }
 
-            $field = App::make('streams.core.field_type.' . $item['type']);
+            $field = App::make('streams.core.field_type.'.$item['type']);
 
             if ($field->validator($value)->passes()) {
                 return true;

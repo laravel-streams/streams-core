@@ -4,7 +4,6 @@ namespace Streams\Core\Image;
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
-use Streams\Core\Image\ImageRegistry;
 use Streams\Core\Image\Type\LocalImage;
 use Illuminate\Support\Traits\Macroable;
 use Streams\Core\Image\Type\RemoteImage;
@@ -13,23 +12,21 @@ use Streams\Core\Support\Traits\FiresCallbacks;
 
 class ImageManager
 {
-
-    use Macroable;
     use FiresCallbacks;
+    use Macroable;
 
     public function __construct(
         protected ImagePaths $paths,
         protected ImageRegistry $registry
-    ) {
-    }
+    ) {}
 
     public function make(string|array $source): Image
     {
-        
+
         $attributes = is_array($source) ? $source : compact('source');
 
         $attributes['original'] = basename($attributes['source']);
-        
+
         if (is_string($attributes['source'])) {
             $attributes['source'] = $this->resolve($attributes['source']);
         }
@@ -39,7 +36,7 @@ class ImageManager
          * use the path it resides in.
          */
         if (
-            !isset($attributes['type'])
+            ! isset($attributes['type'])
             && is_string($attributes['source'])
             && Str::startsWith($attributes['source'], ['http://', 'https://', '//'])
         ) {
@@ -51,7 +48,7 @@ class ImageManager
          * AND using the storage system.
          */
         if (
-            !isset($attributes['type'])
+            ! isset($attributes['type'])
             && is_string($attributes['source'])
             && Str::is('*://*', $attributes['source'])
         ) {
@@ -75,7 +72,7 @@ class ImageManager
          * not using the storage system.
          */
         if (
-            !isset($attributes['type'])
+            ! isset($attributes['type'])
             && is_string($attributes['source'])
             && File::exists(base_path($attributes['source']))
         ) {
@@ -88,7 +85,7 @@ class ImageManager
          */
         $this->fire('make', ['attributes' => $attributes = collect($attributes)]);
 
-        if (!$attributes->has('type')) {
+        if (! $attributes->has('type')) {
             throw new \Exception('Unable to determine image type.');
         }
 

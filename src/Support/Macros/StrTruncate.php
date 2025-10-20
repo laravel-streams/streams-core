@@ -12,11 +12,11 @@ class StrTruncate
                 return $value;
             }
 
-            $parts  = preg_split('/([\s\n\r]+)/', $value, 0, PREG_SPLIT_DELIM_CAPTURE);
-            $count  = count($parts);
+            $parts = preg_split('/([\s\n\r]+)/', $value, 0, PREG_SPLIT_DELIM_CAPTURE);
+            $count = count($parts);
             $length = 0;
 
-            for ($last = 0; $last < $count; ++$last) {
+            for ($last = 0; $last < $count; $last++) {
 
                 $length += strlen($parts[$last]);
 
@@ -25,7 +25,7 @@ class StrTruncate
                 }
             }
 
-            return trim(implode(array_slice($parts, 0, $last))) . $end;
+            return trim(implode(array_slice($parts, 0, $last))).$end;
         };
     }
 }

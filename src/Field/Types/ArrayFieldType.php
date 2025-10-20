@@ -48,7 +48,7 @@ class ArrayFieldType extends Field
 
     public function modify($value)
     {
-        if (!is_array($value)) {
+        if (! is_array($value)) {
             $value = $this->cast($value);
         }
 
@@ -85,20 +85,20 @@ class ArrayFieldType extends Field
 
         foreach ($value as $key => $item) {
 
-            if (!is_array($item) && $stream = $this->config('related')) {
-                
+            if (! is_array($item) && $stream = $this->config('related')) {
+
                 $value[$key] = Streams::repository($stream)->find($item);
-                
+
                 continue;
             }
-            
-            if (!is_array($item)) {
+
+            if (! is_array($item)) {
                 continue;
             }
 
             [$meta, $item] = $this->separateMeta($item);
 
-            if (!$meta && $stream = $this->config('stream')) {
+            if (! $meta && $stream = $this->config('stream')) {
 
                 // @todo gross
                 if (is_array($stream)) {
@@ -111,7 +111,7 @@ class ArrayFieldType extends Field
             }
 
             // @todo eager loading/array of IDs
-            if (!$meta && $stream = $this->config('related')) {
+            if (! $meta && $stream = $this->config('related')) {
 
                 $value[$key] = Streams::repository($stream)->find($item);
 
@@ -126,7 +126,7 @@ class ArrayFieldType extends Field
             }
 
             if (isset($meta['@abstract'])) {
-                
+
                 $value[$key] = $this->restoreInstance($meta, $item);
 
                 continue;
@@ -136,7 +136,7 @@ class ArrayFieldType extends Field
         if ($wrapper = $this->config('wrapper')) {
             $value = $this->wrapArray($value, $wrapper);
         }
-        
+
         return $value;
     }
 
@@ -160,7 +160,7 @@ class ArrayFieldType extends Field
                     fake()->randomNumber(),
                 ]);
             }
-    
+
             return $values;
         };
     }

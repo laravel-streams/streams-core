@@ -8,10 +8,9 @@ use Filebase\Format\FormatInterface;
 
 class Template implements FormatInterface
 {
-
     /**
      * Get the format's file extension.
-     * 
+     *
      * @return string
      */
     public static function getFileExtension()
@@ -21,9 +20,9 @@ class Template implements FormatInterface
 
     /**
      * Encode the data for storage.
-     * 
-     * @param array $data
-     * @param bool $pretty
+     *
+     * @param  array  $data
+     * @param  bool  $pretty
      * @return string
      */
     public static function encode($data, $pretty)
@@ -36,7 +35,7 @@ class Template implements FormatInterface
 
         Arr::pull($data, '__created_at');
         Arr::pull($data, '__updated_at');
-        
+
         $template = Arr::pull($data, 'template');
 
         $encoded = $data ? Yaml::dump($data) : null;
@@ -46,28 +45,27 @@ class Template implements FormatInterface
 
     /**
      * Decode the data from storage.
-     * 
-     * @param $data
+     *
      * @return mixed
      */
     public static function decode($data)
     {
         $pattern = '/^[\s\r\n]?---[\s\r\n]?$/sm';
 
-        $parts = preg_split($pattern, PHP_EOL . ltrim($data));
+        $parts = preg_split($pattern, PHP_EOL.ltrim($data));
 
         if (count($parts) < 3) {
             return ['data' => ['template' => $data]];
         }
 
-        if (!$matter = json_decode(trim($parts[1]), true)) {
+        if (! $matter = json_decode(trim($parts[1]), true)) {
             $matter = Yaml::parse(trim($parts[1]));
         }
 
-        $template = implode(PHP_EOL . '---' . PHP_EOL, array_slice($parts, 2));
+        $template = implode(PHP_EOL.'---'.PHP_EOL, array_slice($parts, 2));
 
         return [
-            'data' => array_merge(Arr::get($matter, 'data', $matter), ['template' => $template])
+            'data' => array_merge(Arr::get($matter, 'data', $matter), ['template' => $template]),
         ];
     }
 }

@@ -10,7 +10,7 @@ class NumberDecorator extends FieldDecorator
     {
         return $this->value % 2 == 0;
     }
-    
+
     public function isOdd(): bool
     {
         return $this->value % 2 != 0;

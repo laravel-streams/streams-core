@@ -18,7 +18,7 @@ class FileFieldType extends Field
             return $value;
         }
 
-        throw new \Exception("Could not determine file type.");
+        throw new \Exception('Could not determine file type.');
     }
 
     public function generator()
@@ -28,7 +28,7 @@ class FileFieldType extends Field
             $file = Str::uuid();
             $directory = 'tmp/';
             $extension = fake()->randomElement([
-                'md', 'html', 'json', 'pdf', 'doc'
+                'md', 'html', 'json', 'pdf', 'doc',
             ]);
 
             return "$directory/$file.$extension";

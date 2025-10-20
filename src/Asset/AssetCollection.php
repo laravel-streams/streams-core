@@ -10,7 +10,6 @@ use Streams\Core\Support\Facades\Assets;
  */
 class AssetCollection extends Collection
 {
-
     private array $loaded = [];
 
     public function add($asset): void

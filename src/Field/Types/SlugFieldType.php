@@ -20,6 +20,7 @@ class SlugFieldType extends Field
     {
         return Str::slug($value, $this->config('separator') ?: '-');
     }
+
     public function modify($value)
     {
         return $this->cast($value);

@@ -7,9 +7,7 @@ use Illuminate\Contracts\Validation\InvokableRule;
 
 class ValidateColorValue implements InvokableRule
 {
-    public function __construct(protected ColorFieldType $field)
-    {
-    }
+    public function __construct(protected ColorFieldType $field) {}
 
     public function __invoke($attribute, $value, $fail)
     {
