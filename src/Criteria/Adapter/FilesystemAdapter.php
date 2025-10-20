@@ -40,7 +40,7 @@ class FilesystemAdapter extends AbstractAdapter
 
     public function where($field, $operator = null, $value = null, $nested = null): static
     {
-        if (!$value) {
+        if (is_null($value)) {
             $value = $operator;
             $operator = '=';
         }
