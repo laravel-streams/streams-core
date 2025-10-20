@@ -152,11 +152,8 @@ class MigrationServiceProvider extends \Illuminate\Database\MigrationServiceProv
      */
     protected function registerCreator()
     {
-        $this->app->singleton(
-            'migration.creator',
-            function ($app) {
-                return new MigrationCreator($app['files'], $app->basePath('stubs'));
-            }
-        );
+        $this->app->extend('migration.creator', function ($service, $app) { //using extend to override the parent binding as the order is mucked up in
+            return new MigrationCreator($app['files'], $app->basePath('stubs'));
+        });
     }
 }
