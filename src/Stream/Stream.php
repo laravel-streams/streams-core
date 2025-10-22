@@ -155,10 +155,19 @@ class Stream implements Arrayable, Jsonable, JsonSerializable
         return new EntryFactory($this);
     }
 
-    public function rules(array $rules = [], $key = null): array
+    public function rules(array $extra = [], $key = null): array
     {
-        $rules = $this->fields->map(function (Field $field) {
-            return $field->rules();
+        $rules = $this->fields->map(function (Field $field) use ($extra) {
+            
+            $rules = $field->rules();
+
+            if (isset($extra[$field->handle])) {
+                $extraRules = Arr::make($extra[$field->handle]);
+                $rules = array_merge($rules, $extraRules);
+            }
+
+            return $rules;
+            
         })->all();
 
         $keyName = $this->config('key_name', 'id');
