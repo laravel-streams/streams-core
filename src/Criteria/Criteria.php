@@ -135,6 +135,17 @@ class Criteria
         return $this;
     }
 
+    public function when($value, callable $callback, ?callable $default = null)
+    {
+        if ($value) {
+            return $callback($this, $value) ?: $this;
+        } elseif ($default) {
+            return $default($this, $value) ?: $this;
+        }
+
+        return $this;
+    }
+
     public function get(): Collection
     {
         $enabled = $this->stream->config('cache.enabled', false);
@@ -147,7 +158,7 @@ class Criteria
 
         if ($cache) {
 
-            $fingerprint = $this->stream->handle.'.query__'.md5(serialize($this->parameters));
+            $fingerprint = $this->stream->handle . '.query__' . md5(serialize($this->parameters));
 
             $seconds = $cache[0];
             $key = Arr::get($cache, 1);
@@ -268,7 +279,7 @@ class Criteria
 
         if ($cache) {
 
-            $fingerprint = $this->stream->id.'.query.count__'.md5(serialize($this->parameters));
+            $fingerprint = $this->stream->id . '.query.count__' . md5(serialize($this->parameters));
 
             return $this->stream->cache()->remember(Arr::get($cache, 1) ?: $fingerprint, $cache[0], function () {
                 return $this->adapter->count(array_diff_key($this->parameters, array_flip(['cache'])));

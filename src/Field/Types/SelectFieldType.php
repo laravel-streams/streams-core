@@ -29,9 +29,9 @@ class SelectFieldType extends Field
 
     public function rules(): array
     {
-        return array_merge([
+        return array_unique(array_merge([
             'in:'.implode(',', array_keys($this->options())),
-        ], parent::rules());
+        ], parent::rules()));
     }
 
     public function generator()

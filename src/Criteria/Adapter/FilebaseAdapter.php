@@ -16,24 +16,25 @@ class FilebaseAdapter extends AbstractAdapter
     {
         $this->stream = $stream;
 
-        $format = $stream->config('source.format', 'json');
+        $this->query = $this->newQuery();
+    }
 
-        $format = Config::get('streams.core.sources.filebase.formats.'.$format);
+    public function newQuery()
+    {
+        $format = $this->stream->config('source.format', 'json');
 
-        $path = ltrim($stream->config('source.path', Config::get('streams.core.data_path').'/'.$stream->id), '/\\');
+        $format = Config::get('streams.core.sources.filebase.formats.' . $format);
 
-        try {
-            $this->query = new Database([
-                'pretty' => true,
-                'format' => $format,
-                'safe_filename' => true,
-                'dir' => base_path($path),
-                'cache' => $stream->config('cache', false),
-                'cache_expires' => $stream->config('ttl', 1800),
-            ]);
-        } catch (\Exception $e) {
-            dd($stream->id.' - '.$e->getMessage());
-        }
+        $path = ltrim($this->stream->config('source.path', Config::get('streams.core.data_path') . '/' . $this->stream->id), '/\\');
+
+        return new Database([
+            'pretty' => true,
+            'format' => $format,
+            'safe_filename' => true,
+            'dir' => base_path($path),
+            'cache' => $this->stream->config('cache', false),
+            'cache_expires' => $this->stream->config('ttl', 1800),
+        ]);
     }
 
     public function orderBy($field, $direction = 'asc'): static
@@ -56,7 +57,7 @@ class FilebaseAdapter extends AbstractAdapter
 
     public function where($field, $operator = null, $value = null, $nested = null): static
     {
-        if (! $value) {
+        if (is_null($value)) {
             $value = $operator;
             $operator = '=';
         }
@@ -71,7 +72,7 @@ class FilebaseAdapter extends AbstractAdapter
             $field = '__id';
         }
 
-        $method = $nested ? Str::studly($nested.'_where') : 'where';
+        $method = $nested ? Str::studly($nested . '_where') : 'where';
 
         if (is_string($value) && $operator == 'LIKE') {
             $value = str_replace('%', '', str_replace('/', '\/', $value)); // Filebase doesn't use "%"
@@ -109,9 +110,7 @@ class FilebaseAdapter extends AbstractAdapter
         Arr::pull($attributes, 'created_at');
         Arr::pull($attributes, 'updated_at');
 
-        $this->query
-            ->get($attributes[$keyName])
-            ->save($attributes);
+        $this->newQuery()->get($attributes[$keyName])->save($attributes);
 
         return $attributes;
     }
