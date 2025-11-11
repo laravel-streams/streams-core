@@ -239,14 +239,18 @@ class Criteria
     public function chunk(int $count, callable $callback): bool
     {
         $page = 1;
+        
+        // Save parameters that should persist across chunks
+        $savedParameters = $this->parameters;
 
         do {
+            // Restore parameters for each chunk iteration
+            $this->parameters = $savedParameters;
+            
             // We'll execute the query for the given page and get the results. If there are
             // no results we can just break and return from here. When there are results
             // we will call the callback with the current chunk of these results here.
             $results = $this->limit($count, ($page - 1) * $count)->get();
-
-            Arr::pull($this->parameters, 'limit');
 
             $countResults = $results->count();
 
@@ -541,8 +545,10 @@ class Criteria
             return $this->callMacroable($method, $arguments);
         }
 
-        $this->parameters[$method][md5(json_encode($arguments))] = $arguments;
+        // $this->parameters[$method][md5(json_encode($arguments))] = $arguments;
 
-        return $this;
+        // return $this;
+
+        throw new \BadMethodCallException("Method [{$method}] does not exist on the Criteria class.");
     }
 }
