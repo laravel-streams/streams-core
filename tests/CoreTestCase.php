@@ -9,7 +9,7 @@ abstract class CoreTestCase extends TestCase
     protected function getPackageProviders($app)
     {
         return [
-            \Collective\Html\HtmlServiceProvider::class,
+            \Spatie\Html\HtmlServiceProvider::class,
             \Streams\Core\StreamsServiceProvider::class,
         ];
     }
