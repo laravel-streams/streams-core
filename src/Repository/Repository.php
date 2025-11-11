@@ -128,7 +128,7 @@ class Repository implements RepositoryInterface
 
         $criteria = $this->stream->config('criteria') ?: Criteria::class;
 
-        if ($adapter = $this->stream->config('source.adapter')) {
+        if ($adapter = $this->stream->config('adapter')) {
             $adapter = new $adapter($this->stream);
         }
 

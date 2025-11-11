@@ -300,9 +300,7 @@ class CriteriaTest extends CoreTestCase
     {
         $stream = Streams::overload('films', [
             'config' => [
-                'source' => [
-                    'adapter' => CustomExamplesAdapter::class,
-                ],
+                'adapter' => CustomExamplesAdapter::class,
             ],
         ]);
 

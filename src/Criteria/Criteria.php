@@ -549,6 +549,13 @@ class Criteria
 
         // return $this;
 
+        if (method_exists($this->adapter, $method)) {
+            
+            $this->parameters[$method][md5(json_encode($arguments))] = $arguments;
+
+            return $this;
+        }
+
         throw new \BadMethodCallException("Method [{$method}] does not exist on the Criteria class.");
     }
 }
