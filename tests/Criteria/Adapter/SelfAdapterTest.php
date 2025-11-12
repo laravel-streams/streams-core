@@ -28,8 +28,8 @@ class SelfAdapterTest extends CriteriaTest
             'config' => [
                 'source' => [
                     'type' => 'self',
-                    'adapter' => CustomExamplesSelfAdapter::class,
                 ],
+                'adapter' => CustomExamplesSelfAdapter::class,
             ],
         ]);
 

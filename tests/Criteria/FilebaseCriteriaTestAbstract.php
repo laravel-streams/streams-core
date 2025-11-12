@@ -12,9 +12,7 @@ abstract class FilebaseCriteriaTestAbstract extends CriteriaTest
     {
         $stream = Streams::overload('films', [
             'config' => [
-                'source' => [
-                    'adapter' => CustomExamplesFilebaseAdapter::class,
-                ],
+                'adapter' => CustomExamplesFilebaseAdapter::class,
             ],
         ]);
 

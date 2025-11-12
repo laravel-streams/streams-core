@@ -2,6 +2,7 @@
 
 namespace Streams\Core\Field\Types;
 
+use Carbon\Carbon;
 use Streams\Core\Field\Field;
 use Illuminate\Support\Facades\Date;
 use Streams\Core\Field\Schema\DatetimeSchema;
@@ -75,7 +76,7 @@ class DatetimeFieldType extends Field
     protected function toDateTime($value, ?string $timezone = null): ?\DateTime
     {
         if ($value instanceof \DateTime) {
-            return $value;
+            return Carbon::instance($value);
         }
 
         if (! $value) {
@@ -85,9 +86,9 @@ class DatetimeFieldType extends Field
         $timezone = $timezone ?: $this->config('timezone', config('app.timezone'));
 
         if (is_numeric($value)) {
-            return Date::createFromTimestamp($value, $timezone);
+            return Carbon::createFromTimestamp($value, $timezone);
         }
 
-        return Date::parse($value, $timezone);
+        return Carbon::parse($value, $timezone);
     }
 }

@@ -2,8 +2,7 @@
 
 namespace Streams\Core\Field\Decorator;
 
-use Collective\Html\HtmlFacade;
-
+use Spatie\Html\Facades\Html;
 class EmailDecorator extends StringDecorator
 {
     public function mailto(
@@ -19,7 +18,7 @@ class EmailDecorator extends StringDecorator
             $title = $email;
         }
 
-        return HtmlFacade::mailto($email, $title, $attributes, $escape);
+        return Html::mailto($email, $title, $attributes, $escape);
     }
 
     public function obfuscate(): ?string
@@ -28,7 +27,7 @@ class EmailDecorator extends StringDecorator
             return null;
         }
 
-        return HtmlFacade::obfuscate($this->value);
+        return Html::obfuscate($this->value);
     }
 
     public function __toString()

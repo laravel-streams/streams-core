@@ -76,8 +76,8 @@ class EloquentAdapterTest extends CriteriaTest
             'config' => [
                 'source' => [
                     'type' => 'eloquent',
-                    'adapter' => CustomExamplesEloquentAdapter::class,
                 ],
+                'adapter' => CustomExamplesEloquentAdapter::class,
             ],
         ]);
 
