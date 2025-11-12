@@ -33,8 +33,6 @@ class StreamsServiceProvider extends ServiceProvider
         'Images' => \Streams\Core\Support\Facades\Images::class,
         'Streams' => \Streams\Core\Support\Facades\Streams::class,
         'Includes' => \Streams\Core\Support\Facades\Includes::class,
-        // 'Messages' => \Streams\Core\Support\Facades\Messages::class,
-        'Overrides' => \Streams\Core\Support\Facades\Overrides::class,
         'Applications' => \Streams\Core\Support\Facades\Applications::class,
     ];
 
@@ -48,9 +46,6 @@ class StreamsServiceProvider extends ServiceProvider
         'applications' => \Streams\Core\Application\ApplicationManager::class,
 
         'hydrator' => \Streams\Core\Support\Hydrator::class,
-        'decorator' => \Streams\Core\Support\Decorator::class,
-
-        'overrides' => \Streams\Core\View\ViewOverrides::class,
     ];
 
     public array $bindings = [];
@@ -290,8 +285,7 @@ class StreamsServiceProvider extends ServiceProvider
         Factory::macro('parse', $this->app[\Streams\Core\Support\Macros\FactoryParse::class]());
         Factory::macro('include', $this->app[\Streams\Core\Support\Macros\FactoryInclude::class]());
         Factory::macro('includes', $this->app[\Streams\Core\Support\Macros\FactoryIncludes::class]());
-        Factory::macro('override', $this->app[\Streams\Core\Support\Macros\FactoryOverride::class]());
-
+        
         Str::macro('parse', $this->app[\Streams\Core\Support\Macros\StrParse::class]());
         Str::macro('purify', $this->app[\Streams\Core\Support\Macros\StrPurify::class]());
         Str::macro('humanize', $this->app[\Streams\Core\Support\Macros\StrHumanize::class]());

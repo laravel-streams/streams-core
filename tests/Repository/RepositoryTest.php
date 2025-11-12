@@ -118,9 +118,7 @@ class RepositoryTest extends CoreTestCase
     {
         $stream = Streams::overload('films', [
             'config' => [
-                'source' => [
-                    'adapter' => CustomAdapter::class,
-                ],
+                'adapter' => CustomAdapter::class,
             ],
         ]);
 

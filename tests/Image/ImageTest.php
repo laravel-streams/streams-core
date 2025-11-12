@@ -6,7 +6,7 @@ use Streams\Core\Image\Image;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\File;
 use Streams\Core\Tests\CoreTestCase;
-use Collective\Html\HtmlServiceProvider;
+use Spatie\Html\HtmlServiceProvider;
 use Streams\Core\Support\Facades\Images;
 
 class ImageTest extends CoreTestCase

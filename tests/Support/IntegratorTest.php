@@ -164,15 +164,6 @@ class IntegratorTest extends CoreTestCase
         $this->assertTrue(Includes::slot('slot')->contains('welcome.blade.php'));
     }
 
-    public function test_it_registers_view_overrides()
-    {
-        Integrator::overrides([
-            'welcome.blade.php' => 'testing.blade.php',
-        ]);
-
-        $this->assertSame('testing.blade.php', Overrides::get('welcome.blade.php'));
-    }
-
     public function test_it_registers_streams()
     {
         Integrator::streams([

@@ -227,11 +227,4 @@ class Integrator
             }
         }
     }
-
-    public static function overrides(array $overrides): void
-    {
-        foreach ($overrides as $view => $override) {
-            Overrides::put($view, $override);
-        }
-    }
 }

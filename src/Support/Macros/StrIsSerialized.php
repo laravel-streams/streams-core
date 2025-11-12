@@ -65,6 +65,7 @@ class StrIsSerialized
                     // or else fall through
                 case 'a':
                 case 'O':
+                case 'C':
                     return (bool) preg_match("/^{$token}:[0-9]+:/s", $target);
                 case 'b':
                 case 'i':

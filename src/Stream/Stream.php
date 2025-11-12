@@ -152,7 +152,9 @@ class Stream implements Arrayable, Jsonable, JsonSerializable
 
     public function factory(): EntryFactory
     {
-        return new EntryFactory($this);
+        $factory = $this->config('factory', EntryFactory::class);
+        
+        return new $factory($this);
     }
 
     public function rules(array $extra = [], $key = null): array
