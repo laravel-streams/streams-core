@@ -58,12 +58,20 @@ class Markdown implements FormatInterface
             return ['data' => ['body' => $data]];
         }
 
-        $matter = Yaml::parse(trim($parts[1]));
+        $matter = Yaml::parse(trim($parts[1])) ?: [];
 
         $body = implode(PHP_EOL.'---'.PHP_EOL, array_slice($parts, 2));
 
+        // If matter has a 'data' key, use it; otherwise use matter directly
+        $parsedData = isset($matter['data']) ? $matter['data'] : $matter;
+        
+        // Ensure we're working with an array
+        if (!is_array($parsedData)) {
+            $parsedData = [];
+        }
+
         return [
-            'data' => array_merge(Arr::get($matter, 'data', $matter), ['body' => $body]),
+            'data' => array_merge($parsedData, ['body' => $body]),
         ];
     }
 }
