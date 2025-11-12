@@ -27,7 +27,21 @@ class EmailDecorator extends StringDecorator
             return null;
         }
 
-        return Html::obfuscate($this->value);
+        // Convert email to HTML entities to obfuscate it
+        $safe = '';
+        
+        foreach (str_split($this->value) as $char) {
+            if (ord($char) > 128) {
+                $safe .= '&#' . ord($char) . ';';
+            } else {
+                // Randomly use decimal or hex encoding for ASCII characters
+                $safe .= rand(1, 2) === 1 
+                    ? '&#' . ord($char) . ';' 
+                    : '&#x' . dechex(ord($char)) . ';';
+            }
+        }
+        
+        return $safe;
     }
 
     public function __toString()

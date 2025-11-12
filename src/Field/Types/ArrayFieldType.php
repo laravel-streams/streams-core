@@ -8,6 +8,7 @@ use Illuminate\Support\Collection;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Field\Schema\ArraySchema;
 use Streams\Core\Support\Facades\Hydrator;
+use Streams\Core\Support\Traits\Prototype;
 use Illuminate\Contracts\Support\Arrayable;
 use Streams\Core\Entry\Contract\EntryInterface;
 use Streams\Core\Field\Decorator\ArrayDecorator;

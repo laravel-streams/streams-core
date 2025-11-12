@@ -3,9 +3,9 @@
 namespace Streams\Core\Field\Decorator;
 
 use Illuminate\Support\Str;
-use Collective\Html\HtmlFacade;
 use Symfony\Component\Yaml\Yaml;
 use Illuminate\Support\Facades\View;
+use Spatie\Html\Facades\Html;
 use Streams\Core\Field\FieldDecorator;
 
 class StringDecorator extends FieldDecorator
@@ -51,11 +51,11 @@ class StringDecorator extends FieldDecorator
             return null;
         }
 
-        return HtmlFacade::link(
-            'tel:'.preg_replace('/[^\+\d]/', '', $this->value),
-            $text ?: $this->value,
-            $attributes
-        );
+        $telLink = 'tel:' . preg_replace('/[^\+\d]/', '', $this->value);
+        
+        return Html::a($telLink, $text ?: $this->value)
+            ->attributes($attributes)
+            ->toHtml();
     }
 
     public function sms($text = null, array $attributes = []): ?string
@@ -64,11 +64,11 @@ class StringDecorator extends FieldDecorator
             return null;
         }
 
-        return HtmlFacade::link(
-            'sms:'.preg_replace('/[^\+\d]/', '', $this->value),
-            $text ?: $this->value,
-            $attributes
-        );
+        $smsLink = 'sms:' . preg_replace('/[^\+\d]/', '', $this->value);
+        
+        return Html::a($smsLink, $text ?: $this->value)
+            ->attributes($attributes)
+            ->toHtml();
     }
 
     public function __call($method, $arguments)

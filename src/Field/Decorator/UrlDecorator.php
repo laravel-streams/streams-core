@@ -3,7 +3,7 @@
 namespace Streams\Core\Field\Decorator;
 
 use Illuminate\Support\Arr;
-use Collective\Html\HtmlFacade;
+use Spatie\Html\Facades\Html;
 use Streams\Core\Field\FieldDecorator;
 
 class UrlDecorator extends FieldDecorator
@@ -48,7 +48,7 @@ class UrlDecorator extends FieldDecorator
             $title = $this->value;
         }
 
-        return HtmlFacade::link($this->value, $title, $attributes);
+        return Html::a($this->value, $title, $attributes);
     }
 
     public function to(?string $path = null): ?string

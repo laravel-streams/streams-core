@@ -65,7 +65,7 @@ class DateFieldType extends DatetimeFieldType
     protected function toDateTime($value, ?string $timezone = null): ?\DateTime
     {
         if ($value instanceof \DateTime) {
-            return $value;
+            return Carbon::instance($value);
         }
 
         if (! $value) {

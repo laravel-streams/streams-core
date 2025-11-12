@@ -2,7 +2,6 @@
 
 namespace Streams\Core\Entry;
 
-use Serializable;
 use Carbon\Carbon;
 use JsonSerializable;
 use Illuminate\Support\Arr;
@@ -18,7 +17,7 @@ use Streams\Core\Support\Traits\HasMemory;
 use Illuminate\Contracts\Support\Arrayable;
 use Streams\Core\Entry\Contract\EntryInterface;
 
-class Entry implements Arrayable, EntryInterface, Jsonable, JsonSerializable, Serializable
+class Entry implements Arrayable, EntryInterface, Jsonable, JsonSerializable
 {
     use Fluency {
         Fluency::__construct as private constructFluency;
@@ -29,7 +28,7 @@ class Entry implements Arrayable, EntryInterface, Jsonable, JsonSerializable, Se
     }
     use Searchable;
 
-    public ?Stream $stream;
+    public ?Stream $stream = null;
 
     public function __construct(array $attributes = [])
     {
@@ -113,19 +112,19 @@ class Entry implements Arrayable, EntryInterface, Jsonable, JsonSerializable, Se
         return json_encode($this->toArray(), $options);
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         return $this->toArray();
     }
 
-    public function serialize()
+    public function __serialize(): array
     {
-        return serialize($this->toArray());
+        return $this->toArray();
     }
 
-    public function unserialize($data)
+    public function __unserialize(array $data): void
     {
-        $this->constructFluency(unserialize($data));
+        $this->constructFluency($data);
     }
 
     public function __toString()
