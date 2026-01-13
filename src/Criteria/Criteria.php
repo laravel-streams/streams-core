@@ -2,6 +2,7 @@
 
 namespace Streams\Core\Criteria;
 
+use App\Domains\Auth\Models\Identity;
 use Illuminate\Support\Arr;
 use Streams\Core\Entry\Entry;
 use Streams\Core\Stream\Stream;
@@ -506,7 +507,9 @@ class Criteria
         $this->fillDefaults($attributes);
 
         // $prototype->setRawPrototypeAttributes($attributes);
-        $prototype->setAttributes($attributes);
+        array_walk($attributes, function (&$value, $key) use ($prototype) {
+            $prototype->setAttribute($key, $value);
+        });
 
         return $prototype;
     }
