@@ -1,9 +1,11 @@
 <?php
 
+use Streams\Core\Image\Image;
 use Streams\Core\Stream\Stream;
 use Streams\Core\Criteria\Criteria;
 use Illuminate\Support\Facades\Request;
 use Streams\Core\Repository\Repository;
+use Streams\Core\Support\Facades\Images;
 use Streams\Core\Support\Facades\Streams;
 
 if (! function_exists('response_time')) {
@@ -70,5 +72,13 @@ if (! function_exists('html_attributes')) {
             array_keys($attributes),
             $attributes
         ));
+    }
+}
+
+if (! function_exists('image')) {
+
+    function image(string $source): Image
+    {
+        return Images::make($source);
     }
 }
