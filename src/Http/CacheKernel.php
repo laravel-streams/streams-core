@@ -45,7 +45,7 @@ class CacheKernel extends \Barryvdh\HttpCache\CacheKernel
     public static function wrap(
         Kernel $kernel,
         $storagePath = null,
-        SurrogateInterface $surrogate = null,
+        ?SurrogateInterface $surrogate = null,
         $options = []
     ) {
 
@@ -94,7 +94,7 @@ class CacheKernel extends \Barryvdh\HttpCache\CacheKernel
         }
 
         /**
-         * Disable if HTTP cache 
+         * Disable if HTTP cache
          * is intended to miss.
          */
         if (isset($_COOKIE['http_cache_proxy'])) {
