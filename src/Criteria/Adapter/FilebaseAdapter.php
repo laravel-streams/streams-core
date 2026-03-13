@@ -105,10 +105,7 @@ class FilebaseAdapter extends AbstractAdapter
          * Remove these protected
          * and automated attributes.
          */
-        // Arr::pull($attributes, 'id');
         Arr::pull($attributes, 'stream');
-        Arr::pull($attributes, 'created_at');
-        Arr::pull($attributes, 'updated_at');
 
         $this->newQuery()->get($attributes[$keyName])->save($attributes);
 
