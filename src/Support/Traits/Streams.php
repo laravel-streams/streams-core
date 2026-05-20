@@ -41,6 +41,18 @@ trait Streams
         $this->attributes = $this->getPrototypeAttributes();
     }
 
+    /**
+     * @todo: Suddenly needed this 
+     */
+    public function getIdAttribute()
+    {
+        $name = $this->stream()->config('key_name', 'id') ?? 'id';
+
+        $value = $this->__prototype['attributes'][$name] ?? $this->getPrototypeAttributeDefault($name);
+
+        return $value;
+    }
+
     public function stream(): Stream
     {
         if (is_object($this->stream)) {
