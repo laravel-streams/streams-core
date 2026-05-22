@@ -41,7 +41,8 @@ class MigrateCommand extends \Illuminate\Database\Console\Migrations\MigrateComm
                 {--step : Force the migrations to be run so they can be rolled back individually.}
                 {--addon= : The addon to migrate.}
                 {--streams : Flag all streams core/application for migration.}
-                {--all-addons : Flag all addons for migration.}';
+                {--all-addons : Flag all addons for migration.}
+                {--graceful : Return a successful exit code even if an error occurs.}';
 
     /**
      * Execute the console command.
@@ -80,6 +81,7 @@ class MigrateCommand extends \Illuminate\Database\Console\Migrations\MigrateComm
                 ['addon', null, InputOption::VALUE_OPTIONAL, 'The addon to migrate.'],
                 ['streams', null, InputOption::VALUE_NONE, 'Flag all streams core/application for migration.'],
                 ['all-addons', null, InputOption::VALUE_NONE, 'Flag all addons for migration.'],
+                ['graceful', null, InputOption::VALUE_NONE, 'Return a successful exit code even if an error occurs.'],
             ]
         );
     }
