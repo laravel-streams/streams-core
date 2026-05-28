@@ -136,6 +136,13 @@ class Criteria
         return $this;
     }
 
+    public function whereIn(string $field, array $values)
+    {
+        $this->where($field, 'IN', $values);
+
+        return $this;
+    }
+
     public function when($value, callable $callback, ?callable $default = null)
     {
         if ($value) {
