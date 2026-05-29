@@ -118,7 +118,7 @@ class Criteria
 
     public function where(
         string $field,
-        ?string $operator = null,
+        $operator = null,
         $value = null,
         ?string $nested = null
     ) {
