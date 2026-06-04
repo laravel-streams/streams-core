@@ -559,8 +559,10 @@ class Criteria
 
         // return $this;
 
-        if (method_exists($this->adapter, $method)) {
-            
+        if (
+            method_exists($this->adapter, $method)
+            || method_exists($this->adapter, '__call')
+        ) {
             $this->parameters[$method][md5(json_encode($arguments))] = $arguments;
 
             return $this;
