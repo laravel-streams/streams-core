@@ -3,11 +3,32 @@
 namespace Streams\Core\Field\Types;
 
 use Streams\Core\Field\Field;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Streams\Core\Support\Facades\Streams;
 
 class RelationshipFieldType extends Field
 {
+    /**
+     * The public relation name for this field (handle with a trailing
+     * `_id` stripped, or an explicit `config('relation')` override).
+     *
+     * Used for `with[]=` eager loading and the response/attribute key
+     * eager-loaded data is attached under. Read/presentation-only: writes
+     * still use the raw field handle, and assigning `$entry->{relationName}`
+     * directly does not sync back to the FK attribute.
+     */
+    public function relationName(): string
+    {
+        if ($relation = $this->config('relation')) {
+            return $relation;
+        }
+
+        return Str::endsWith($this->handle, '_id')
+            ? Str::beforeLast($this->handle, '_id')
+            : $this->handle;
+    }
+
     public function modify($value)
     {
         if (is_numeric($value)) {

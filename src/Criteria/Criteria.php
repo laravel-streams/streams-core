@@ -449,10 +449,12 @@ class Criteria
 
     public function with($relations = []): Criteria
     {
-        $relations = (array) $relations;
+        $relationships = $this->stream->fields->relationships();
 
-        foreach ($relations as $relation) {
-            $this->eagerLoad[$relation] = $relation;
+        foreach ((array) $relations as $relation) {
+            if ($field = $relationships->get($relation)) {
+                $this->eagerLoad[$relation] = $field->handle;
+            }
         }
 
         return $this;
@@ -460,20 +462,20 @@ class Criteria
 
     protected function eagerLoadRelations(Collection $entries): Collection
     {
-        foreach ($this->eagerLoad as $relation) {
-            $this->eagerLoadRelation($relation, $entries);
+        foreach ($this->eagerLoad as $relationName => $fieldHandle) {
+            $this->eagerLoadRelation($relationName, $fieldHandle, $entries);
         }
 
         return $entries;
     }
 
-    protected function eagerLoadRelation(string $relation, Collection $entries): Collection
+    protected function eagerLoadRelation(string $relationName, string $fieldHandle, Collection $entries): Collection
     {
-        $ids = $entries->map(function ($entry) use ($relation) {
-            return $entry->{$relation};
+        $ids = $entries->map(function ($entry) use ($fieldHandle) {
+            return $entry->{$fieldHandle};
         })->filter()->all();
 
-        $related = $this->stream->fields->get($relation)->related();
+        $related = $this->stream->fields->get($fieldHandle)->related();
 
         $keyName = $related->config('key_name', 'id');
 
@@ -481,9 +483,9 @@ class Criteria
             ->where($keyName, 'IN', $ids)
             ->get();
 
-        $entries->each(function ($entry) use ($relation, $keyName, $relatives) {
-            if ($relative = $relatives->where($keyName, $entry->{$relation})->first()) {
-                $entry->{$relation} = $relative;
+        $entries->each(function ($entry) use ($relationName, $fieldHandle, $keyName, $relatives) {
+            if ($relative = $relatives->where($keyName, $entry->{$fieldHandle})->first()) {
+                $entry->{$relationName} = $relative;
             }
         });
 

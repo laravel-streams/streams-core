@@ -15,4 +15,10 @@ class FieldCollection extends Collection
     {
         return $this->filter(fn ($field) => $field->hasRule('required') === $required);
     }
+
+    public function relationships(): static
+    {
+        return $this->filter(fn ($field) => $field->type === 'relationship')
+            ->keyBy(fn ($field) => $field->relationName());
+    }
 }
