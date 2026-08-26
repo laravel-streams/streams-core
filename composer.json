@@ -43,6 +43,11 @@
             "Streams\\Core\\Tests\\": "tests/"
         }
     },
+    "suggest": {
+        "elasticsearch/elasticsearch": "Required to use the Elasticsearch source adapter (source.type: elasticsearch).",
+        "elastic/client": "Required to resolve Elasticsearch connections via ClientBuilderInterface.",
+        "opensearch-project/opensearch-php": "Required to use the OpenSearch source adapter (source.type: opensearch)."
+    },
     "extra": {
         "branch-alias": {
             "dev-master": "2.x-dev"

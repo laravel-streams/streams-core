@@ -16,8 +16,10 @@ use Streams\Core\Support\Traits\FiresCallbacks;
 use Streams\Core\Criteria\Adapter\DatabaseAdapter;
 use Streams\Core\Criteria\Adapter\EloquentAdapter;
 use Streams\Core\Criteria\Adapter\FilebaseAdapter;
+use Streams\Core\Criteria\Adapter\OpenSearchAdapter;
 use Streams\Core\Criteria\Adapter\CollectionAdapter;
 use Streams\Core\Criteria\Adapter\FilesystemAdapter;
+use Streams\Core\Criteria\Adapter\ElasticsearchAdapter;
 use Streams\Core\Repository\Contract\RepositoryInterface;
 
 /**
@@ -188,5 +190,15 @@ class Repository implements RepositoryInterface
     public function newCollectionAdapter(): CollectionAdapter
     {
         return new CollectionAdapter($this->stream);
+    }
+
+    public function newElasticsearchAdapter(): ElasticsearchAdapter
+    {
+        return new ElasticsearchAdapter($this->stream);
+    }
+
+    public function newOpensearchAdapter(): OpenSearchAdapter
+    {
+        return new OpenSearchAdapter($this->stream);
     }
 }

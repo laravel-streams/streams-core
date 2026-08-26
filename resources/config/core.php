@@ -43,6 +43,21 @@ return [
     ],
 
     /**
+     * OpenSearch connection options for the OpenSearch source adapter.
+     */
+    'opensearch' => [
+        'default' => env('OPENSEARCH_CONNECTION', 'default'),
+        'connections' => [
+            'default' => [
+                'hosts' => [env('OPENSEARCH_HOST', 'https://localhost:9200')],
+                'username' => env('OPENSEARCH_USERNAME'),
+                'password' => env('OPENSEARCH_PASSWORD'),
+                'ssl_verification' => env('OPENSEARCH_SSL_VERIFICATION', true),
+            ],
+        ],
+    ],
+
+    /**
      * Configure the default field types.
      */
     'field_types' => [
