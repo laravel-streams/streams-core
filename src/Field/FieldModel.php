@@ -326,17 +326,6 @@ class FieldModel extends EloquentModel implements FieldInterface
     }
 
     /**
-     * Return the decoded rules attribute.
-     *
-     * @param  $rules
-     * @return mixed
-     */
-    public function getRulesAttribute($rules)
-    {
-        return (array)unserialize($rules, ['allowed_classes' => false]);
-    }
-
-    /**
      * Set the stream namespace.
      *
      * @param StreamInterface $stream
