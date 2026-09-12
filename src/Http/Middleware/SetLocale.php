@@ -79,9 +79,12 @@ class SetLocale
             return $next($request);
         }
 
-        if ($locale = $request->get('_locale')) {
-            if ($locale) {
-                $request->session()->put('_locale', $locale);
+        if ($request->has('_locale')) {
+
+            $locale = $request->get('_locale');
+
+            if ($this->enabled($locale)) {
+                $request->session()->put('_locale', strtolower($locale));
             } else {
                 $request->session()->remove('_locale');
             }
@@ -89,7 +92,16 @@ class SetLocale
             return $this->redirect->back();
         }
 
-        if ($locale = $request->session()->get('_locale')) {
+        $locale = $request->session()->get('_locale');
+
+        if ($locale && !$this->enabled($locale)) {
+
+            $request->session()->remove('_locale');
+
+            $locale = null;
+        }
+
+        if ($locale) {
 
             $this->application->setLocale($locale);
 
@@ -112,5 +124,16 @@ class SetLocale
         }
 
         return $next($request);
+    }
+
+    /**
+     * Return whether the locale is enabled.
+     *
+     * @param  mixed $locale
+     * @return bool
+     */
+    protected function enabled($locale)
+    {
+        return is_string($locale) && in_array(strtolower($locale), config('streams::locales.enabled'));
     }
 }
