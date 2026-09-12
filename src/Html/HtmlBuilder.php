@@ -267,7 +267,7 @@ class HtmlBuilder
             $title = $this->entities($title);
         }
 
-        $email = $this->obfuscate('mailto:') . $email;
+        $email = $this->entities($this->obfuscate('mailto:') . $email);
 
         return $this->toHtmlString('<a href="' . $email . '"' . $this->attributes($attributes) . '>' . $title . '</a>');
     }
@@ -482,9 +482,22 @@ class HtmlBuilder
     {
         $safe = '';
 
-        foreach (str_split($value) as $letter) {
-            if (ord($letter) > 128) {
-                return $letter;
+        // Converting UTF-8 to itself is not a no-op - it replaces any invalid byte
+        // sequence with the substitute character, so that splitting below cannot
+        // swallow the valid character that follows a malformed one.
+        $value = mb_convert_encoding($value, 'UTF-8', 'UTF-8');
+
+        foreach (mb_str_split($value, 1, 'UTF-8') as $letter) {
+            $code = mb_ord($letter, 'UTF-8');
+
+            if ($code === false) {
+                continue;
+            }
+
+            if ($code > 127) {
+                $safe .= '&#' . $code . ';';
+
+                continue;
             }
 
             // To properly obfuscate the value, we will randomly convert each letter to
@@ -492,11 +505,11 @@ class HtmlBuilder
             // the randomly obfuscated letters out of the string on the responses.
             switch (rand(1, 3)) {
                 case 1:
-                    $safe .= '&#' . ord($letter) . ';';
+                    $safe .= '&#' . $code . ';';
                     break;
 
                 case 2:
-                    $safe .= '&#x' . dechex(ord($letter)) . ';';
+                    $safe .= '&#x' . dechex($code) . ';';
                     break;
 
                 case 3:
