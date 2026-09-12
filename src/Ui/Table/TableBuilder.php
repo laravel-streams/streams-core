@@ -846,4 +846,15 @@ class TableBuilder
     {
         return array_get($_REQUEST, $this->getOption('prefix') . $key, $default);
     }
+
+    /**
+     * Return a requested limit within the allowed bounds.
+     *
+     * @param  mixed $limit
+     * @return int
+     */
+    public function limit($limit)
+    {
+        return max(1, min((int)$limit, (int)config('streams::system.max_per_page', 10000)));
+    }
 }

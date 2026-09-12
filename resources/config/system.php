@@ -51,6 +51,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Maximum Results Per Page
+    |--------------------------------------------------------------------------
+    |
+    | The largest number of results a request may ask
+    | for. This matches the "show all" option in the
+    | table footer. Limits set in code are not capped.
+    |
+    */
+
+    'max_per_page' => env('MAX_RESULTS_PER_PAGE', 10000),
+
+    /*
+    |--------------------------------------------------------------------------
     | Units of Measurement
     |--------------------------------------------------------------------------
     |

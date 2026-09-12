@@ -91,12 +91,13 @@ class TableRepository implements TableRepositoryInterface
          * not exist then start walking backwards until
          * we find a page that is has something to show us.
          */
-        $limit  = (int)app('request')->get(
-            $builder->getTableOption('prefix') . 'limit',
-            $builder->getTableOption('limit', config('streams::system.per_page', 15))
-        );
-        $page   = (int)app('request')->get($builder->getTableOption('prefix') . 'page', 1);
-        $offset = $limit * (($page ?: 1) - 1);
+        $requested = app('request')->get($builder->getTableOption('prefix') . 'limit');
+
+        $limit  = $requested === null
+            ? (int)$builder->getTableOption('limit', config('streams::system.per_page', 15))
+            : $builder->limit($requested);
+        $page   = max(1, (int)app('request')->get($builder->getTableOption('prefix') . 'page', 1));
+        $offset = $limit * ($page - 1);
 
         if ($total < $offset && $page > 1) {
             $url = str_replace(

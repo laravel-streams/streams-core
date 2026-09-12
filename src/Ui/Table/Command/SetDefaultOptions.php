@@ -95,7 +95,12 @@ class SetDefaultOptions
          * last so it actually has an effect.
          */
         if ($orderBy = $this->builder->getRequestValue('order_by')) {
-            $table->setOption('order_by', [$orderBy => $this->builder->getRequestValue('sort', 'asc')]);
+            if ($this->orderable($orderBy)) {
+                $table->setOption(
+                    'order_by',
+                    [$orderBy => $this->direction($this->builder->getRequestValue('sort', 'asc'))]
+                );
+            }
         }
 
         /*
@@ -106,7 +111,9 @@ class SetDefaultOptions
         if ($table->getOption('limit') === null) {
             $table->setOption(
                 'limit',
-                $this->builder->getRequestValue('limit', config('streams::system.per_page', 15))
+                ($limit = $this->builder->getRequestValue('limit')) === null
+                    ? config('streams::system.per_page', 15)
+                    : $this->builder->limit($limit)
             );
         }
 
@@ -122,5 +129,62 @@ class SetDefaultOptions
         ) {
             $table->setOption('permission', $module->getNamespace($stream->getSlug() . '.read'));
         }
+    }
+
+    /**
+     * Return whether the table may be ordered by the column.
+     *
+     * @param  mixed $column
+     * @return bool
+     */
+    protected function orderable($column)
+    {
+        if (!is_string($column)) {
+            return false;
+        }
+
+        /*
+         * A builder may declare a sort column the table does not
+         * have - joined or aliased - and the header guesser marks
+         * it sortable on that declaration alone, so honour it.
+         */
+        foreach ((array)$this->builder->getColumns() as $definition) {
+            if (is_array($definition) && array_get($definition, 'sort_column') === $column) {
+                return true;
+            }
+        }
+
+        if (!$model = $this->builder->getTableModel()) {
+            return false;
+        }
+
+        $columns = $model->getConnection()->getSchemaBuilder()->getColumnListing($model->getTable());
+
+        if (in_array($column, $columns)) {
+            return true;
+        }
+
+        /*
+         * A field type may order by a column named differently
+         * to its slug, so resolve that before giving up. Anything
+         * not on the table itself - a translatable field, say -
+         * cannot be ordered by and is left to the default.
+         */
+        if (($stream = $this->builder->getTableStream()) && $type = $stream->getFieldType($column)) {
+            return in_array($type->getColumnName(), $columns);
+        }
+
+        return false;
+    }
+
+    /**
+     * Return a sort direction.
+     *
+     * @param  mixed $direction
+     * @return string
+     */
+    protected function direction($direction)
+    {
+        return is_string($direction) && strtolower($direction) === 'desc' ? 'desc' : 'asc';
     }
 }
