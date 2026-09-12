@@ -135,7 +135,10 @@ class StreamModel extends EloquentModel implements StreamInterface, PresentableI
         if (array_key_exists('assignments', $data)) {
             foreach ($data['assignments'] as $assignment) {
                 if (isset($assignment['field'])) {
-                    $assignment['field']['config'] = unserialize($assignment['field']['config']);
+                    $assignment['field']['config'] = unserialize(
+                        $assignment['field']['config'],
+                        ['allowed_classes' => false]
+                    );
 
                     $fieldModel        = new FieldModel();
                     $fieldTranslations = new EloquentCollection();
@@ -701,7 +704,7 @@ class StreamModel extends EloquentModel implements StreamInterface, PresentableI
      */
     public function getConfigAttribute($config)
     {
-        return unserialize($config);
+        return unserialize($config, ['allowed_classes' => false]);
     }
 
     /**

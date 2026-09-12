@@ -302,7 +302,7 @@ class FieldModel extends EloquentModel implements FieldInterface
      */
     public function getConfigAttribute($config)
     {
-        return (array)unserialize($config);
+        return (array)unserialize($config, ['allowed_classes' => false]);
     }
 
     /**
@@ -333,7 +333,7 @@ class FieldModel extends EloquentModel implements FieldInterface
      */
     public function getRulesAttribute($rules)
     {
-        return (array)unserialize($rules);
+        return (array)unserialize($rules, ['allowed_classes' => false]);
     }
 
     /**

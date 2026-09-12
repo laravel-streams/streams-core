@@ -430,7 +430,7 @@ class AssignmentModel extends EloquentModel implements AssignmentInterface, Pres
     public function getConfigAttribute($config)
     {
         if (!is_array($config)) {
-            return (array)unserialize($config);
+            return (array)unserialize($config, ['allowed_classes' => false]);
         }
 
         return $config;
