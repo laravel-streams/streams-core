@@ -108,4 +108,15 @@ return [
     */
 
     'autoprefixer' => env('AUTOPREFIXER', base_path('bin')),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Sass Binary
+    |--------------------------------------------------------------------------
+    |
+    | The path to the Ruby sass binary, used by the Ruby sass/scss filters.
+    |
+    */
+
+    'sass_path' => env('SASS_PATH', '/usr/bin/sass'),
 ];

@@ -36,7 +36,7 @@ class PurgeHttpCache
      */
     public function handle()
     {
-        if (!env('INSTALLED') || PHP_SAPI == 'cli' || !config('streams::httpcache.enabled')) {
+        if (!config('streams::system.installed') || PHP_SAPI == 'cli' || !config('streams::httpcache.enabled')) {
             return;
         }
 

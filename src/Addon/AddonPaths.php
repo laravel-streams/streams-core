@@ -213,7 +213,7 @@ class AddonPaths
     {
         $path = base_path('vendor/anomaly/streams-platform/addons');
 
-        if (env('APP_ENV') !== 'testing') {
+        if (config('app.env') !== 'testing') {
             return false;
         }
 

@@ -98,7 +98,7 @@ class ExceptionHandler extends Handler
          * Always show exceptions
          * if not in debug mode.
          */
-        if (env('APP_DEBUG') === true) {
+        if (config('app.debug') === true) {
             return $this->convertExceptionToResponse($e);
         }
 

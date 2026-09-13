@@ -41,7 +41,7 @@ class CacheAdapter implements CacheProviderInterface
     {
         // @todo: Replace ENV usage with view.php configuration in streams.
         // Caching config will break this.
-        return $this->cache->get(env('TWIG_CACHE', true) ? $key : null, false);
+        return $this->cache->get(config('streams::system.twig_cache', true) ? $key : null, false);
     }
 
     /**
@@ -53,7 +53,7 @@ class CacheAdapter implements CacheProviderInterface
      */
     public function save($key, $value, $lifetime = 0)
     {
-        if (env('TWIG_CACHE', true)) {
+        if (config('streams::system.twig_cache', true)) {
             $this->cache->put($key, $value, $lifetime);
         }
     }

@@ -77,7 +77,7 @@ class EloquentQueryBuilder extends Builder
          * - If the console is making the request
          */
         if (
-            env('INSTALLED') &&
+            config('streams::system.installed') &&
             !IS_ADMIN &&
             $enabled &&
             PHP_SAPI != 'cli' &&
@@ -107,7 +107,7 @@ class EloquentQueryBuilder extends Builder
          * we are not installed or
          * if we're running CLI.
          */
-        if ($this->model->getTtl() === false || !env('INSTALLED') || PHP_SAPI == 'cli') {
+        if ($this->model->getTtl() === false || !config('streams::system.installed') || PHP_SAPI == 'cli') {
             return parent::get($columns);
         }
 
@@ -290,7 +290,7 @@ class EloquentQueryBuilder extends Builder
         if ($query->orders === null) {
             if ($model instanceof AssignmentModel) {
                 $query->orderBy('streams_assignments.sort_order', 'ASC');
-            } elseif ($model instanceof StreamModel && env('INSTALLED')) { // Ensure migrations are complete.
+            } elseif ($model instanceof StreamModel && config('streams::system.installed')) { // Ensure migrations are complete.
                 $query->orderBy('streams_streams.sort_order', 'ASC');
             } elseif ($model instanceof EntryInterface) {
                 if ($model->getStream()->isSortable()) {

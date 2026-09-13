@@ -147,7 +147,7 @@ class AddonManager
         /**
          * Autoload testing addons.
          */
-        if (env('APP_ENV') === 'testing' && $testing = $this->paths->testing()) {
+        if (config('app.env') === 'testing' && $testing = $this->paths->testing()) {
 
             foreach ($testing as $path) {
                 $this->loader->load($path);
@@ -221,7 +221,7 @@ class AddonManager
      */
     protected function getEnabledAddonNamespaces()
     {
-        if (!env('INSTALLED') || (Request::segment(1) !== 'admin' && env('INSTALLED') === 'admin')) {
+        if (!config('streams::system.installed') || (Request::segment(1) !== 'admin' && config('streams::system.installed') === 'admin')) {
             return [];
         }
 
@@ -247,7 +247,7 @@ class AddonManager
          * If we're testing then make the
          * test module enabled as well.
          */
-        if (env('APP_ENV') === 'testing') {
+        if (config('app.env') === 'testing') {
             $enabled = array_merge(
                 $enabled,
                 [
@@ -266,7 +266,7 @@ class AddonManager
      */
     protected function getInstalledAddonNamespaces()
     {
-        if (!env('INSTALLED') || (Request::segment(1) !== 'admin' && env('INSTALLED') === 'admin')) {
+        if (!config('streams::system.installed') || (Request::segment(1) !== 'admin' && config('streams::system.installed') === 'admin')) {
             return [];
         }
 
@@ -292,7 +292,7 @@ class AddonManager
          * If we're testing then make the
          * test module installed as well.
          */
-        if (env('APP_ENV') === 'testing') {
+        if (config('app.env') === 'testing') {
             $installed = array_merge(
                 $installed,
                 [

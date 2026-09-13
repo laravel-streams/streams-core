@@ -15,6 +15,63 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Installed
+    |--------------------------------------------------------------------------
+    |
+    | Whether the application has been installed. Use "admin" to restrict
+    | a partially installed application to the admin area.
+    |
+    */
+
+    'installed' => env('INSTALLED', false),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Application Reference
+    |--------------------------------------------------------------------------
+    |
+    | The reference of the application to initialize.
+    |
+    */
+
+    'reference' => env('APPLICATION_REFERENCE', 'default'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Default Reference
+    |--------------------------------------------------------------------------
+    |
+    | The reference to fall back to when none has been located.
+    |
+    */
+
+    'default_reference' => env('DEFAULT_REFERENCE', 'default'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Public Path
+    |--------------------------------------------------------------------------
+    |
+    | The public directory, relative to the project root, when it is not
+    | the standard "public" or "public_html".
+    |
+    */
+
+    'public_path' => env('PUBLIC_PATH'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Twig Cache
+    |--------------------------------------------------------------------------
+    |
+    | Cache compiled Twig templates.
+    |
+    */
+
+    'twig_cache' => env('TWIG_CACHE', true),
+
+    /*
+    |--------------------------------------------------------------------------
     | Primary Domain
     |--------------------------------------------------------------------------
     |

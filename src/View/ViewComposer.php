@@ -142,10 +142,10 @@ class ViewComposer
             $view->with($data);
         }
 
-        if (!$this->theme || !env('INSTALLED')) {
+        if (!$this->theme || !config('streams::system.installed')) {
 
             // ensure we re-view compose on every testing run.
-            if ((!self::$loaded && self::$loaded = true) || env('APP_ENV') === 'testing') {
+            if ((!self::$loaded && self::$loaded = true) || config('app.env') === 'testing') {
                 /* @deprecated since 1.6; this is no longer needed for every view. */
                 event(new ViewComposed($view));
             }
@@ -156,7 +156,7 @@ class ViewComposer
         $this->setPath($view);
 
         // ensure we re-view compose on every testing run.
-        if ((!self::$loaded && self::$loaded = true) || env('APP_ENV') === 'testing') {
+        if ((!self::$loaded && self::$loaded = true) || config('app.env') === 'testing') {
             /* @deprecated since 1.6; this is no longer needed for every view. */
             event(new ViewComposed($view));
         }
@@ -198,7 +198,7 @@ class ViewComposer
          *
          * @deprecated since 1.6; Use override collection.
          */
-        if (env('AUTOMATIC_ADDON_OVERRIDES', true) && $overload = $this->getOverloadPath($view)) {
+        if (config('streams::addons.overrides', true) && $overload = $this->getOverloadPath($view)) {
             $view->setPath($overload);
         }
     }

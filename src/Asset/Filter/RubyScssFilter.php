@@ -23,7 +23,7 @@ class RubyScssFilter extends ScssFilter
      */
     public function __construct()
     {
-        parent::__construct(env('SASS_PATH', '/usr/bin/sass'), null);
+        parent::__construct(config('streams::assets.sass_path', '/usr/bin/sass'), null);
     }
 
     /**

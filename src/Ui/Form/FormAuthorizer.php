@@ -45,7 +45,7 @@ class FormAuthorizer
             return;
         }
 
-        if (!env('INSTALLED')) {
+        if (!config('streams::system.installed')) {
             return;
         }
 

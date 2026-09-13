@@ -65,7 +65,7 @@ class InitializeApplication
          * then locate the application and
          * initialize.
          */
-        if (env('DB_CONNECTION', env('DB_DRIVER'))) {
+        if (config('database.default')) {
 
             try {
                 

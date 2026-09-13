@@ -88,4 +88,16 @@ return [
     */
 
     'autoload' => env('STREAMS_ADDONS_AUTOLOAD', true),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Automatic Overrides
+    |--------------------------------------------------------------------------
+    |
+    | Automatically override addon views and translations from the
+    | application and theme resource paths.
+    |
+    */
+
+    'overrides' => env('AUTOMATIC_ADDON_OVERRIDES', true),
 ];

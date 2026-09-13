@@ -236,7 +236,7 @@ class Loader extends OriginalLoader
          *
          * @deprecated since 1.6; Use override collection.
          */
-        if (!env('AUTOMATIC_ADDON_OVERRIDES', true)) {
+        if (!config('streams::addons.overrides', true)) {
             return null;
         }
 

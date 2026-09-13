@@ -101,7 +101,7 @@ class Loader extends FileLoader
         /**
          * @deprecated since 1.6; Use manual loading or publishing.
          */
-        if (env('AUTOMATIC_ADDON_OVERRIDES', true)) {
+        if (config('streams::addons.overrides', true)) {
             $lines = $this->loadAddonOverrides($lines, $locale, $group, $namespace);
         }
 
