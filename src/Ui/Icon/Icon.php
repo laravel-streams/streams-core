@@ -94,6 +94,6 @@ class Icon
      */
     public function output()
     {
-        return '<i class="' . $this->type . ' ' . $this->class . '"></i>';
+        return '<i class="' . e(trim($this->type . ' ' . $this->class)) . '"></i>';
     }
 }
