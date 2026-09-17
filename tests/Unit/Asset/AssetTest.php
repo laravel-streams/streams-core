@@ -3,25 +3,6 @@
 class AssetTest extends TestCase
 {
 
-    public function testCanDownload()
-    {
-        /* @var \Anomaly\Streams\Platform\Asset\Asset $asset */
-        $asset = app(\Anomaly\Streams\Platform\Asset\Asset::class);
-
-        $target = 'https://gist.githubusercontent.com/RyanThompson/f75b540ecbd3bc9b5ee8614ccd4dc080/raw/a224e8c477bf5c3c081cdeb02b3e0bbd430bd12b/test.css';
-
-        $path = $asset->download($target);
-
-        $this->assertEquals(
-            file_get_contents($target),
-            file_get_contents($asset->realPath($path))
-        );
-
-        $content = $asset->inline($path, ["min", "scss"]);
-
-        $this->assertEquals('.test{color:#fff}', $content);
-    }
-
     public function testInline()
     {
         /* @var \Anomaly\Streams\Platform\Asset\Asset $asset */

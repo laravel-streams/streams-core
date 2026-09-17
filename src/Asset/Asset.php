@@ -252,29 +252,6 @@ class Asset
     }
 
     /**
-     * Download a file and return it's path.
-     *
-     * @param $url
-     * @param  int $ttl
-     * @param  null $path
-     * @return null|string
-     */
-    public function download($url, $ttl = 3600, $path = null)
-    {
-        $path = $this->paths->downloadPath($url, $path);
-
-        if (!$this->files->isDirectory($directory = dirname($path = public_path(ltrim($path, '/\\'))))) {
-            $this->files->makeDirectory($directory, 0777, true);
-        }
-
-        if (!$this->files->exists($path) || filemtime($path) < (time() - $ttl)) {
-            $this->files->put($path, file_get_contents($url));
-        }
-
-        return 'public::' . ltrim(str_replace(public_path(), '', $path), '/\\');
-    }
-
-    /**
      * Return the contents of a collection.
      *
      * @param         $collection
