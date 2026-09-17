@@ -101,6 +101,13 @@ class Value
         $value = Arr::get($parameters, 'value');
 
         /*
+         * Values read from the entry below are
+         * data. Only the definition itself may
+         * be treated as a template.
+         */
+        $definition = is_string($value);
+
+        /*
          * If the value is a view path then return a view.
          */
         if ($view = Arr::get($parameters, 'view')) {
@@ -123,10 +130,12 @@ class Value
             /* @var EntryInterface $relation */
             if ($entry->assignmentIsRelationship($value) && $relation = $entry->{camel_case($value)}) {
                 if ($relation instanceof EloquentModel) {
-                    $value = $relation->getTitle();
+                    $value      = $relation->getTitle();
+                    $definition = false;
                 }
             } else {
-                $value = $entry->getFieldValue($value);
+                $value      = $entry->getFieldValue($value);
+                $definition = false;
             }
         }
 
@@ -141,8 +150,17 @@ class Value
          * If the value matches a dot notation
          * then parse it as a template.
          */
-        if (is_string($value) && preg_match("/^{$term}.([a-zA-Z\\_]+)/", $value, $match)) {
-            $value = (string) $this->template->render("{{ {$value}|raw }}", $payload);
+        if ($definition && is_string($value) && preg_match("/^{$term}.([a-zA-Z\\_]+)/", $value, $match)) {
+            $value      = (string) $this->template->render("{{ {$value}|raw }}", $payload);
+            $definition = false;
+        }
+
+        /*
+         * If the value looks like a render-able
+         * string then render it.
+         */
+        if ($definition && is_string($value) && Str::contains($value, ['{{', '{%'])) {
+            $value = (string) $this->template->render($value, $payload);
         }
 
         $payload[$term] = $entry;
@@ -190,14 +208,6 @@ class Value
          */
         if (is_string($value) && str_is('*.*.*::*', $value)) {
             $value = trans($value);
-        }
-
-        /*
-         * If the value looks like a render-able
-         * string then render it.
-         */
-        if (is_string($value) && Str::contains($value, ['{{', '{%'])) {
-            $value = (string) $this->template->render($value, [$term => $entry]);
         }
 
         if (is_string($value) && Arr::get($parameters, 'is_safe') !== true) {
