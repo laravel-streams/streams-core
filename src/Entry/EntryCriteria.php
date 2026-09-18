@@ -89,6 +89,11 @@ class EntryCriteria extends EloquentCriteria
     public function __call($name, $arguments)
     {
         if ($assignment = $this->stream->getAssignment(snake_case($name))) {
+
+            if (!$this->argumentsAreSafe($arguments)) {
+                return $this;
+            }
+
             $this->query->where($assignment->getColumnName(), $arguments ? array_shift($arguments) : null);
 
             return $this;

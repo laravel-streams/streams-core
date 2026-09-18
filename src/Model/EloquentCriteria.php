@@ -8,6 +8,7 @@ use Anomaly\Streams\Platform\Support\Decorator;
 use Anomaly\Streams\Platform\Support\Presenter;
 use Anomaly\Streams\Platform\Traits\Hookable;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Query\Expression;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 
 /**
@@ -24,33 +25,60 @@ class EloquentCriteria
     use DispatchesJobs;
 
     /**
-     * Additional available methods.
+     * The builder methods a criteria may forward.
+     *
+     * Anything absent is not passed through, which
+     * excludes every raw expression and every
+     * write. A criteria that needs one names
+     * it as a method of it's own instead.
      *
      * @var array
      */
-    protected $available = [
-        'whereBetween',
-        'whereNotBetween',
+    private $allowed = [
+
+        // Filtering
+        'where',
+        'orWhere',
         'whereIn',
         'whereNotIn',
         'whereNull',
         'whereNotNull',
+        'whereBetween',
+        'whereNotBetween',
         'whereDate',
         'whereMonth',
         'whereDay',
         'whereYear',
         'whereColumn',
-        'key',
-    ];
+        'whereHas',
+        'has',
+        'distinct',
 
-    /**
-     * Safe builder methods.
-     *
-     * @var array
-     */
-    private $disabled = [
-        'delete',
-        'update',
+        // Ordering and limiting
+        'orderBy',
+        'orderByDesc',
+        'latest',
+        'oldest',
+        'inRandomOrder',
+        'take',
+        'limit',
+        'skip',
+        'offset',
+
+        // Projection, eager loading and grouping
+        'select',
+        'with',
+        'withCount',
+        'groupBy',
+        'having',
+
+        // Reads reached through __call
+        'value',
+        'pluck',
+        'exists',
+        'chunk',
+        'each',
+        'key',
     ];
 
     /**
@@ -246,7 +274,33 @@ class EloquentCriteria
      */
     protected function methodIsSafe($name)
     {
-        return (!in_array($name, $this->disabled));
+        return in_array($name, $this->allowed);
+    }
+
+    /**
+     * Return whether the arguments may be forwarded.
+     *
+     * A closure is handed the query builder itself and
+     * an expression is raw SQL, so either one reaches
+     * past the allowed methods.
+     *
+     * @param  array $arguments
+     * @return bool
+     */
+    protected function argumentsAreSafe(array $arguments)
+    {
+        foreach ($arguments as $argument) {
+
+            if ($argument instanceof \Closure || $argument instanceof Expression) {
+                return false;
+            }
+
+            if (is_array($argument) && !$this->argumentsAreSafe($argument)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -295,6 +349,10 @@ class EloquentCriteria
 
         if ($this->hasHook($hook)) {
             return $this->call($hook, $arguments);
+        }
+
+        if (!$this->argumentsAreSafe($arguments)) {
+            return $this;
         }
 
         if ($this->methodExists($name) && $this->methodIsSafe($name)) {
