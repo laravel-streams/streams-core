@@ -50,6 +50,34 @@ class StreamsPlugin extends Plugin
 {
 
     /**
+     * Return whether any argument is a closure.
+     *
+     * The wildcard functions forward simple values to
+     * a helper; none of them are meant to be handed a
+     * closure, so one is refused as a backstop to the
+     * per-function allowed method lists.
+     *
+     * @param  array $arguments
+     * @return bool
+     */
+    protected static function hasClosureArgument(array $arguments)
+    {
+        foreach ($arguments as $argument) {
+
+            if ($argument instanceof \Closure) {
+                return true;
+            }
+
+            if (is_array($argument) && static::hasClosureArgument($argument)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
+    /**
      * Get the plugin functions.
      *
      * @return array
@@ -154,7 +182,27 @@ class StreamsPlugin extends Plugin
             new TwigFunction(
                 'form_*',
                 function ($name) {
-                    return call_user_func_array([app('form'), camel_case($name)], array_slice(func_get_args(), 1));
+
+                    if (!in_array(camel_case($name), [
+                        'open', 'close', 'model', 'label', 'token',
+                        'input', 'text', 'textarea', 'password', 'hidden',
+                        'email', 'url', 'tel', 'number', 'date',
+                        'datetime', 'datetimeLocal', 'month', 'week', 'time',
+                        'search', 'color', 'range', 'file', 'image',
+                        'checkbox', 'radio', 'select', 'selectRange', 'selectYear',
+                        'selectMonth', 'datalist', 'button', 'submit', 'reset',
+                        'old', 'oldInputIsEmpty', 'getIdAttribute', 'getValueAttribute', 'getSelectOption',
+                    ])) {
+                        throw new \Exception('Function [form_' . $name . '] does not exist.');
+                    }
+
+                    $arguments = array_slice(func_get_args(), 1);
+
+                    if (static::hasClosureArgument($arguments)) {
+                        throw new \Exception('Function [form_' . $name . '] does not accept a closure.');
+                    }
+
+                    return call_user_func_array([app('form'), camel_case($name)], $arguments);
                 },
                 [
                     'is_safe' => ['html'],
@@ -163,7 +211,24 @@ class StreamsPlugin extends Plugin
             new TwigFunction(
                 'html_*',
                 function ($name) {
-                    return call_user_func_array([app('html'), camel_case($name)], array_slice(func_get_args(), 1));
+
+                    if (!in_array(camel_case($name), [
+                        'attributes', 'entities', 'decode', 'tag', 'link',
+                        'linkRoute', 'linkAction', 'linkAsset', 'linkSecureAsset', 'secureLink',
+                        'image', 'script', 'style', 'meta', 'favicon',
+                        'ul', 'ol', 'dl', 'nbsp', 'obfuscate',
+                        'email', 'mailto',
+                    ])) {
+                        throw new \Exception('Function [html_' . $name . '] does not exist.');
+                    }
+
+                    $arguments = array_slice(func_get_args(), 1);
+
+                    if (static::hasClosureArgument($arguments)) {
+                        throw new \Exception('Function [html_' . $name . '] does not accept a closure.');
+                    }
+
+                    return call_user_func_array([app('html'), camel_case($name)], $arguments);
                 },
                 [
                     'is_safe' => ['html'],
@@ -172,7 +237,29 @@ class StreamsPlugin extends Plugin
             new TwigFunction(
                 'array_*',
                 function ($name) {
-                    return call_user_func_array([app(Arr::class), camel_case($name)], array_slice(func_get_args(), 1));
+
+                    if (!in_array(camel_case($name), [
+                        'accessible', 'add', 'array', 'arrayable', 'boolean', 'collapse',
+                        'crossJoin', 'divide', 'dot', 'every', 'except', 'exceptValues',
+                        'exists', 'first', 'flatten', 'float', 'forget', 'from',
+                        'get', 'has', 'hasAll', 'hasAny', 'integer', 'isAssoc',
+                        'isList', 'join', 'keyBy', 'last', 'map', 'mapSpread',
+                        'mapWithKeys', 'only', 'onlyValues', 'partition', 'pluck', 'prepend',
+                        'prependKeysWith', 'pull', 'push', 'query', 'random', 'reject',
+                        'select', 'set', 'shuffle', 'sole', 'some', 'sort',
+                        'sortDesc', 'sortRecursive', 'sortRecursiveDesc', 'string', 'take', 'toCssClasses',
+                        'toCssStyles', 'undot', 'where', 'whereNotNull', 'wrap',
+                    ])) {
+                        throw new \Exception('Function [array_' . $name . '] does not exist.');
+                    }
+
+                    $arguments = array_slice(func_get_args(), 1);
+
+                    if (static::hasClosureArgument($arguments)) {
+                        throw new \Exception('Function [array_' . $name . '] does not accept a closure.');
+                    }
+
+                    return call_user_func_array([app(Arr::class), camel_case($name)], $arguments);
                 }
             ),
             new TwigFunction(
@@ -276,7 +363,24 @@ class StreamsPlugin extends Plugin
             new TwigFunction(
                 'request_*',
                 function ($name) {
-                    return call_user_func_array([request(), camel_case($name)], array_slice(func_get_args(), 1));
+
+                    if (!in_array(camel_case($name), [
+                        'get', 'input', 'query', 'all', 'has',
+                        'segment', 'segments', 'path', 'is',
+                        'url', 'fullUrl', 'root', 'ip', 'host',
+                        'method', 'ajax', 'secure',
+                        'header', 'cookie',
+                    ])) {
+                        throw new \Exception('Function [request_' . $name . '] does not exist.');
+                    }
+
+                    $arguments = array_slice(func_get_args(), 1);
+
+                    if (static::hasClosureArgument($arguments)) {
+                        throw new \Exception('Function [request_' . $name . '] does not accept a closure.');
+                    }
+
+                    return call_user_func_array([request(), camel_case($name)], $arguments);
                 }
             ),
             new TwigFunction(
@@ -294,27 +398,86 @@ class StreamsPlugin extends Plugin
             new TwigFunction(
                 'str_*',
                 function ($name) {
+
+                    if (!in_array(camel_case($name), [
+                        'after', 'afterLast', 'apa', 'ascii', 'before', 'beforeLast',
+                        'between', 'betweenFirst', 'camel', 'charAt', 'chopEnd', 'chopStart',
+                        'contains', 'containsAll', 'convertCase', 'deduplicate', 'doesntContain', 'doesntEndWith',
+                        'doesntStartWith', 'endsWith', 'excerpt', 'finish', 'fromBase64', 'headline',
+                        'humanize', 'initials', 'is', 'isAscii', 'isJson', 'isMatch',
+                        'isUlid', 'isUrl', 'isUuid', 'kebab', 'lcfirst', 'length',
+                        'limit', 'linkify', 'lower', 'ltrim', 'mask', 'match',
+                        'numbers', 'padBoth', 'padLeft', 'padRight', 'pascal', 'password',
+                        'plural', 'pluralPascal', 'pluralStudly', 'position', 'random', 'remove',
+                        'repeat', 'replace', 'replaceArray', 'replaceEnd', 'replaceFirst', 'replaceLast',
+                        'replaceStart', 'reverse', 'rtrim', 'singular', 'slug', 'snake',
+                        'squish', 'start', 'startsWith', 'studly', 'substr', 'substrCount',
+                        'substrReplace', 'swap', 'take', 'title', 'toBase64', 'transliterate',
+                        'trim', 'truncate', 'ucfirst', 'ucsplit', 'ucwords', 'unwrap',
+                        'upper', 'wordCount', 'wordWrap', 'words', 'wrap',
+                    ])) {
+                        throw new \Exception('Function [str_' . $name . '] does not exist.');
+                    }
+
+                    $arguments = array_slice(func_get_args(), 1);
+
+                    if (static::hasClosureArgument($arguments)) {
+                        throw new \Exception('Function [str_' . $name . '] does not accept a closure.');
+                    }
+
                     return call_user_func_array(
                         [app(Str::class), camel_case($name)],
-                        array_slice(func_get_args(), 1)
+                        $arguments
                     );
                 }
             ),
             new TwigFunction(
                 'url_*',
                 function ($name) {
+
+                    if (!in_array(camel_case($name), [
+                        'to', 'route', 'toRoute', 'action', 'secure',
+                        'asset', 'secureAsset', 'assetFrom', 'signedRoute', 'temporarySignedRoute',
+                        'current', 'full', 'previous', 'previousPath', 'query',
+                        'isValidUrl', 'hasRoute', 'locale', 'formatRoot', 'formatScheme',
+                    ])) {
+                        throw new \Exception('Function [url_' . $name . '] does not exist.');
+                    }
+
+                    $arguments = array_slice(func_get_args(), 1);
+
+                    if (static::hasClosureArgument($arguments)) {
+                        throw new \Exception('Function [url_' . $name . '] does not accept a closure.');
+                    }
+
                     return call_user_func_array(
                         [url(), camel_case($name)],
-                        array_slice(func_get_args(), 1)
+                        $arguments
                     );
                 }
             ),
             new TwigFunction(
                 'route_*',
                 function ($name) {
+
+                    if (!in_array(camel_case($name), [
+                        'getName', 'getActionName', 'getActionMethod', 'getPrefix', 'getDomain',
+                        'uri', 'methods', 'middleware', 'parameter', 'parameters',
+                        'parameterNames', 'parametersWithoutNulls', 'hasParameter', 'hasParameters',
+                        'originalParameter', 'originalParameters', 'getOptionalParameterNames',
+                    ])) {
+                        throw new \Exception('Function [route_' . $name . '] does not exist.');
+                    }
+
+                    $arguments = array_slice(func_get_args(), 1);
+
+                    if (static::hasClosureArgument($arguments)) {
+                        throw new \Exception('Function [route_' . $name . '] does not accept a closure.');
+                    }
+
                     return call_user_func_array(
                         [request()->route(), camel_case($name)],
-                        array_slice(func_get_args(), 1)
+                        $arguments
                     );
                 }
             ),
@@ -330,9 +493,20 @@ class StreamsPlugin extends Plugin
             new TwigFunction(
                 'currency_*',
                 function ($name) {
+
+                    if (!in_array(camel_case($name), ['format', 'normalize', 'symbol'])) {
+                        throw new \Exception('Function [currency_' . $name . '] does not exist.');
+                    }
+
+                    $arguments = array_slice(func_get_args(), 1);
+
+                    if (static::hasClosureArgument($arguments)) {
+                        throw new \Exception('Function [currency_' . $name . '] does not accept a closure.');
+                    }
+
                     return call_user_func_array(
                         [app(Currency::class), camel_case($name)],
-                        array_slice(func_get_args(), 1)
+                        $arguments
                     );
                 }
             ),
@@ -653,15 +827,6 @@ class StreamsPlugin extends Plugin
                     );
                 }
             ),
-            new TwigFunction(
-                'app',
-                function () {
-                    return call_user_func_array(
-                        ['app'],
-                        func_get_args()
-                    );
-                }
-            ),
         ];
     }
 
@@ -728,9 +893,36 @@ class StreamsPlugin extends Plugin
             new TwigFilter(
                 'str_*',
                 function ($name) {
+
+                    if (!in_array(camel_case($name), [
+                        'after', 'afterLast', 'apa', 'ascii', 'before', 'beforeLast',
+                        'between', 'betweenFirst', 'camel', 'charAt', 'chopEnd', 'chopStart',
+                        'contains', 'containsAll', 'convertCase', 'deduplicate', 'doesntContain', 'doesntEndWith',
+                        'doesntStartWith', 'endsWith', 'excerpt', 'finish', 'fromBase64', 'headline',
+                        'humanize', 'initials', 'is', 'isAscii', 'isJson', 'isMatch',
+                        'isUlid', 'isUrl', 'isUuid', 'kebab', 'lcfirst', 'length',
+                        'limit', 'linkify', 'lower', 'ltrim', 'mask', 'match',
+                        'numbers', 'padBoth', 'padLeft', 'padRight', 'pascal', 'password',
+                        'plural', 'pluralPascal', 'pluralStudly', 'position', 'random', 'remove',
+                        'repeat', 'replace', 'replaceArray', 'replaceEnd', 'replaceFirst', 'replaceLast',
+                        'replaceStart', 'reverse', 'rtrim', 'singular', 'slug', 'snake',
+                        'squish', 'start', 'startsWith', 'studly', 'substr', 'substrCount',
+                        'substrReplace', 'swap', 'take', 'title', 'toBase64', 'transliterate',
+                        'trim', 'truncate', 'ucfirst', 'ucsplit', 'ucwords', 'unwrap',
+                        'upper', 'wordCount', 'wordWrap', 'words', 'wrap',
+                    ])) {
+                        throw new \Exception('Function [str_' . $name . '] does not exist.');
+                    }
+
+                    $arguments = array_slice(func_get_args(), 1);
+
+                    if (static::hasClosureArgument($arguments)) {
+                        throw new \Exception('Function [str_' . $name . '] does not accept a closure.');
+                    }
+
                     return call_user_func_array(
                         [app(Str::class), camel_case($name)],
-                        array_slice(func_get_args(), 1)
+                        $arguments
                     );
                 }
             ),
