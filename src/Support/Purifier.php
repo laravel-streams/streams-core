@@ -29,6 +29,37 @@ class Purifier extends \HTMLPurifier
     }
 
     /**
+     * The display configuration.
+     *
+     * @var \HTMLPurifier_Config
+     */
+    protected $display;
+
+    /**
+     * Return text for display with only
+     * the permitted HTML left in it.
+     *
+     * @param  mixed $html
+     * @return mixed
+     */
+    public function display($html)
+    {
+        if (!is_string($html) || $html === '') {
+            return $html;
+        }
+
+        if (!$this->display) {
+            $this->display = \HTMLPurifier_Config::createDefault();
+
+            $this->display->set('HTML.Allowed', config('streams::security.display.allowed'));
+            $this->display->set('Attr.AllowedFrameTargets', config('streams::security.display.targets'));
+            $this->display->set('Cache.SerializerPath', app_storage_path('support/purifier'));
+        }
+
+        return $this->purify($html, $this->display);
+    }
+
+    /**
      * Return purified HTML.
      *
      * @param string $html

@@ -7,6 +7,7 @@ use Anomaly\Streams\Platform\Entry\Contract\EntryInterface;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Support\Decorator;
 use Anomaly\Streams\Platform\Support\Presenter;
+use Anomaly\Streams\Platform\Support\Purifier;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Collection;
@@ -661,7 +662,7 @@ class FieldType extends Addon
      */
     public function getLabel()
     {
-        return $this->label;
+        return app(Purifier::class)->display($this->label);
     }
 
     /**
@@ -684,7 +685,7 @@ class FieldType extends Addon
      */
     public function getWarning()
     {
-        return $this->warning;
+        return app(Purifier::class)->display($this->warning);
     }
 
     /**
@@ -707,7 +708,7 @@ class FieldType extends Addon
      */
     public function getInstructions()
     {
-        return $this->instructions;
+        return app(Purifier::class)->display($this->instructions);
     }
 
     /**
