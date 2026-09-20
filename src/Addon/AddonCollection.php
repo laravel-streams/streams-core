@@ -320,7 +320,7 @@ class AddonCollection extends Collection
             return app("{$type}.collection");
         }
 
-        return call_user_func_array([$this, $method], $arguments);
+        return parent::__call($method, $arguments);
     }
 
     /**
@@ -337,6 +337,6 @@ class AddonCollection extends Collection
             return app("{$type}.collection");
         }
 
-        return $this->{$name};
+        return parent::__get($name);
     }
 }
