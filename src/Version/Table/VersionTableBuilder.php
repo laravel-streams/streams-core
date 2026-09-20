@@ -3,6 +3,7 @@
 namespace Anomaly\Streams\Platform\Version\Table;
 
 use Illuminate\Database\Eloquent\Builder;
+use Anomaly\Streams\Platform\Entry\EntryModel;
 use Anomaly\Streams\Platform\Model\EloquentModel;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Anomaly\Streams\Platform\Model\Traits\Versionable;
@@ -65,6 +66,56 @@ class VersionTableBuilder extends TableBuilder
         ],
         'breadcrumb' => 'streams::breadcrumb.revisions',
     ];
+
+    /**
+     * Fired when the builder is ready to build.
+     */
+    public function onReady()
+    {
+        $this->guessPermission();
+    }
+
+    /**
+     * Guess the permission required to read
+     * the versionable entry's history.
+     *
+     * The versionable stream is used rather than the table's,
+     * which belongs to the versions themselves. A permission
+     * the addon has not declared is granted rather than
+     * denied, so only a declared one is worth setting.
+     */
+    protected function guessPermission()
+    {
+        if ($this->getOption('permission') !== null) {
+            return;
+        }
+
+        if (!$type = $this->getType()) {
+            return;
+        }
+
+        $model = new $type;
+
+        if (!$model instanceof EntryModel || !$stream = $model->getStream()) {
+            return;
+        }
+
+        if (!$route = app('request')->route()) {
+            return;
+        }
+
+        if (!$namespace = array_get($route->getAction(), 'streams::addon')) {
+            return;
+        }
+
+        foreach ([$stream->getSlug(), $stream->getNamespace()] as $group) {
+            if (in_array('write', (array)config($namespace . '::permissions.' . $group))) {
+                $this->setOption('permission', $namespace . '::' . $group . '.write');
+
+                return;
+            }
+        }
+    }
 
     /**
      * Fired during the query for entries.
