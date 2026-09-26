@@ -280,7 +280,7 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
             // Not found. Onward!
         }
 
-        if (!class_exists($controller)) {
+        if (!class_exists($controller) || !method_exists($controller, $method)) {
             return;
         }
 
