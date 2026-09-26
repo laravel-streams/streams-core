@@ -3,6 +3,8 @@
 namespace Anomaly\Streams\Platform;
 
 use Anomaly\Streams\Platform\Html\HtmlServiceProvider;
+use Dotenv\Dotenv;
+use Illuminate\Support\Env;
 use Illuminate\Support\Str;
 use Illuminate\Routing\Redirector;
 use Illuminate\Pagination\Paginator;
@@ -319,14 +321,12 @@ class StreamsServiceProvider extends ServiceProvider
          * When config is cached by Laravel we
          * end up oddly not loading .env data.
          */
-        if (is_file(base_path('bootstrap/cache/config.php')) && is_file($file = base_path('.env'))) {
-            foreach (file($file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) as $line) {
-
-                // Check for # comments.
-                if (!starts_with($line, '#')) {
-                    putenv($line);
-                }
-            }
+        if ($this->app->configurationIsCached()) {
+            Dotenv::create(
+                Env::getRepository(),
+                $this->app->environmentPath(),
+                $this->app->environmentFile()
+            )->safeLoad();
         }
 
         /*
