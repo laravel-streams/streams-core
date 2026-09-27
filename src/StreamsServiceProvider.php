@@ -186,7 +186,7 @@ class StreamsServiceProvider extends ServiceProvider
      */
     public function boot(Dispatcher $events)
     {
-        if (Request::segment(1) !== 'admin' && env('INSTALLED') === 'admin') {
+        if (Request::segment(1) !== 'admin' && config('streams::system.installed', env('INSTALLED')) === 'admin') {
 
             dispatch_sync(new SetCoreConnection());
             dispatch_sync(new AutoloadEntryModels());
@@ -304,7 +304,7 @@ class StreamsServiceProvider extends ServiceProvider
             define('IS_ADMIN', null);
         }
 
-        if (Request::segment(1) !== 'admin' && env('INSTALLED') === 'admin') {
+        if (Request::segment(1) !== 'admin' && config('streams::system.installed', env('INSTALLED')) === 'admin') {
 
             /**
              * Fallback to database users.
@@ -389,7 +389,7 @@ class StreamsServiceProvider extends ServiceProvider
          * If we don't have an .env file we need to head
          * to the installer (unless that's where we're at).
          */
-        if (!env('INSTALLED') && $this->app->make('request')->segment(1) !== 'installer') {
+        if (!config('streams::system.installed', env('INSTALLED')) && $this->app->make('request')->segment(1) !== 'installer') {
             $this->app->make('router')->any(
                 '{url?}',
                 function (Redirector $redirector) {

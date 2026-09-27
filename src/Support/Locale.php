@@ -58,12 +58,9 @@ class Locale
     {
         $locale = $locale ?: $this->locale;
 
-        return env(
-            'LOCALE_' . strtoupper($locale),
-            config(
-                'streams::locales.' . $locale . '.locale',
-                $locale . '_' . strtoupper($locale)
-            )
+        return config(
+            'streams::locales.' . $locale . '.locale',
+            $locale . '_' . strtoupper($locale)
         );
     }
 

@@ -202,7 +202,7 @@ class Application
     public function isInstalled()
     {
         if (is_null($this->installed)) {
-            $this->installed = env('INSTALLED');
+            $this->installed = config('streams::system.installed', env('INSTALLED'));
         }
 
         return $this->installed;

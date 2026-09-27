@@ -313,12 +313,6 @@ class StreamsPlugin extends Plugin
                 ]
             ),
             new TwigFunction(
-                'env',
-                function ($key, $default = null) {
-                    return env($key, $default);
-                }
-            ),
-            new TwigFunction(
                 'length',
                 function ($length, $unit = null) {
                     return new Length($length, $unit);
