@@ -41,6 +41,14 @@ class StreamFilesystem implements Filesystem
         return $this->storage->get($path);
     }
 
+    /**
+     * Part of the Filesystem contract since Laravel 11.
+     */
+    public function path($path)
+    {
+        return $this->storage->path($path);
+    }
+
     public function readStream($path)
     {
         return $this->storage->readStream($path);
@@ -50,6 +58,30 @@ class StreamFilesystem implements Filesystem
     {
         if ($result = $this->storage->put($path, $contents, $options)) {
             $this->indexFile($path);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Part of the Filesystem contract since Laravel 11.
+     */
+    public function putFile($path, $file = null, $options = [])
+    {
+        if ($result = $this->storage->putFile($path, $file, $options)) {
+            $this->indexFile($result);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Part of the Filesystem contract since Laravel 11.
+     */
+    public function putFileAs($path, $file, $name = null, $options = [])
+    {
+        if ($result = $this->storage->putFileAs($path, $file, $name, $options)) {
+            $this->indexFile($result);
         }
 
         return $result;

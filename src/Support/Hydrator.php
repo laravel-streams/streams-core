@@ -20,6 +20,17 @@ use Streams\Core\Support\Traits\Prototype;
  */
 class Hydrator
 {
+    /**
+     * method_exists() is also true for protected and private methods,
+     * which then fail when called from here (Carbon 3 on Laravel 11+
+     * has a protected isLocalStrictModeEnabled()).
+     */
+    protected static function hasPublicMethod(object $object, string $method): bool
+    {
+        return method_exists($object, $method)
+            && (new \ReflectionMethod($object, $method))->isPublic();
+    }
+
     public function dehydrate($object, array $except = []): array
     {
         $attributes = [];
@@ -42,11 +53,11 @@ class Hydrator
             }, $properties),
             array_map(function (ReflectionProperty $property) use ($object) {
 
-                if (method_exists($object, $method = 'get'.ucfirst($property->getName()))) {
+                if (static::hasPublicMethod($object, $method = 'get'.ucfirst($property->getName()))) {
                     return $method;
                 }
 
-                if (method_exists($object, $method = 'is'.ucfirst($property->getName()))) {
+                if (static::hasPublicMethod($object, $method = 'is'.ucfirst($property->getName()))) {
                     return $method;
                 }
 
