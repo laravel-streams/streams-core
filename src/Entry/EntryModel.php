@@ -976,6 +976,17 @@ class EntryModel extends EloquentModel implements EntryInterface, PresentableInt
     }
 
     /**
+     * Return if the model should
+     * be searchable or not.
+     *
+     * @return bool
+     */
+    public function shouldBeSearchable()
+    {
+        return $this->isSearchable();
+    }
+
+    /**
      * Return a searchable array.
      *
      * @return array

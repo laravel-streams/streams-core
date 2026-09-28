@@ -77,6 +77,25 @@ class Index extends Command
             $model = $stream->getBoundEntryModelName();
 
             /**
+             * If the model is not enabled
+             * for search then clear it out.
+             */
+            if (!app($model)->isSearchable()) {
+
+                $this->warn($stream->getNamespace() . '.' . $stream->getSlug() . ' is not enabled for search.');
+
+                $console->call(
+                    'scout:flush',
+                    [
+                        'model' => $model,
+                    ],
+                    $this->getOutput()
+                );
+
+                continue;
+            }
+
+            /**
              * Optionally flush before indexing.
              */
             if ($this->option('flush')) {
