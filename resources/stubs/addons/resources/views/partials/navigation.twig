@@ -25,7 +25,7 @@
                     <li class="nav-item">
                         <a href="{{ url_route('anomaly.module.users::logout') }}" class="nav-link btn btn-rounded btn-danger">Logout</a>
                     </li>
-                {% else %}
+                {% elseif config('anomaly.module.users::config.public_login', true) %}
                     <li class="nav-item">
                         <a href="{{ url_route('anomaly.module.users::login') }}?redirect={{ request_url() }}" class="nav-link btn btn-rounded btn-primary">Login</a>
                     </li>
