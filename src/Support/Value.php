@@ -183,17 +183,20 @@ class Value
          * Parse the value with the entry.
          */
         if ($wrapper = Arr::get($parameters, 'wrapper')) {
-            $value = $this->parser->parse(
+            $value = $this->parser->parseData(
                 $wrapper,
                 ['value' => $value, $term => $entry]
             );
         }
 
         /*
-         * Parse the value with the value too.
+         * Parse the definition with the value too.
+         * Values resolved from the entry are data,
+         * not a template, so only the definition is
+         * parsed and the request is not in scope.
          */
-        if (is_string($value)) {
-            $value = $this->parser->parse(
+        if ($definition && is_string($value)) {
+            $value = $this->parser->parseData(
                 $value,
                 [
                     'value' => $value,

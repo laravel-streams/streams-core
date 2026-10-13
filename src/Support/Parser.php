@@ -54,7 +54,8 @@ class Parser
     }
 
     /**
-     * Parse data into the target recursively.
+     * Parse data into the target recursively,
+     * including the current request data.
      *
      * @param        $target
      * @param  array $data
@@ -62,15 +63,38 @@ class Parser
      */
     public function parse($target, array $data = [])
     {
-        $data = $this->prepareData($data);
+        return $this->render($target, $this->prepareData($data));
+    }
 
+    /**
+     * Parse data into the target recursively
+     * without the current request data.
+     *
+     * @param        $target
+     * @param  array $data
+     * @return mixed
+     */
+    public function parseData($target, array $data = [])
+    {
+        return $this->render($target, $this->toArray($data));
+    }
+
+    /**
+     * Render the target with the prepared data.
+     *
+     * @param        $target
+     * @param  array $data
+     * @return mixed
+     */
+    protected function render($target, array $data)
+    {
         /*
          * If the target is an array
          * then parse it recursively.
          */
         if (is_array($target)) {
             foreach ($target as $key => &$value) {
-                $value = $this->parse($value, $data);
+                $value = $this->render($value, $data);
             }
         }
 
