@@ -226,6 +226,8 @@ class Criteria
 
                 $results = $this->eagerLoadRelations($this->collect($this->adapter->get($this->parameters)));
 
+                $this->checkTimeout();
+
                 $this->parameters = [];
 
                 return $results;
@@ -351,7 +353,10 @@ class Criteria
             $fingerprint = $this->stream->id.'.query.count__'.md5(serialize($this->parameters));
 
             return $this->stream->cache()->remember(Arr::get($cache, 1) ?: $fingerprint, $cache[0], function () {
-                return $this->adapter->count(array_diff_key($this->parameters, array_flip(['cache'])));
+                $count = $this->adapter->count(array_diff_key($this->parameters, array_flip(['cache'])));
+                $this->checkTimeout();
+
+                return $count;
             });
         }
 

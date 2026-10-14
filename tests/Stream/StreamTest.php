@@ -40,6 +40,13 @@ class StreamTest extends CoreTestCase
         }
     }
 
+    public function test_creation_does_not_ignore_unique_rules_for_an_existing_id()
+    {
+        $this->expectException(\Illuminate\Validation\ValidationException::class);
+
+        Streams::make('films')->create(['episode_id' => 4, 'title' => 'A New Hope']);
+    }
+
     public function test_it_is_arrayable()
     {
         $this->assertIsArray(Streams::make('films')->toArray());

@@ -119,7 +119,9 @@ class Stream implements Arrayable, Jsonable, JsonSerializable
         $criteria = $this->entries();
         $entry = $criteria->newInstance($attributes);
 
-        $entry->validator()->validate();
+        $factory = App::make(Factory::class);
+        $factory->setPresenceVerifier(new StreamsPresenceVerifier(App::make('db')));
+        $factory->make($entry->getAttributes(), $this->rules())->validate();
 
         return $criteria->create($entry->getAttributes());
     }
