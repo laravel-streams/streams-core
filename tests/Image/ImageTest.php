@@ -5,8 +5,8 @@ namespace Streams\Core\Tests\Image;
 use Streams\Core\Image\Image;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\File;
-use Streams\Core\Tests\CoreTestCase;
 use Spatie\Html\HtmlServiceProvider;
+use Streams\Core\Tests\CoreTestCase;
 use Streams\Core\Support\Facades\Images;
 
 class ImageTest extends CoreTestCase
@@ -22,7 +22,7 @@ class ImageTest extends CoreTestCase
 
     protected function tearDown(): void
     {
-        File::deleteDirectory(public_path('app/public'));   
+        File::deleteDirectory(public_path('app/public'));
 
         parent::tearDown();
     }
@@ -34,24 +34,24 @@ class ImageTest extends CoreTestCase
         $url = url('app/public/vendor/testing/img/example.jpg');
 
         $this->assertEquals(
-            '<img src="' . $url . '" alt="Example">',
+            '<img src="'.$url.'" alt="Example">',
             $image->version(false)->img()
         );
 
         $this->assertEquals(
-            '<img src="' . $url . '" alt="Test">',
+            '<img src="'.$url.'" alt="Test">',
             $image->version(false)->img('Test')
         );
 
         $this->assertEquals(
-            '<img src="' . $url . '?v=test" alt="Example">',
+            '<img src="'.$url.'?v=test" alt="Example">',
             $image->version('test')->img()
         );
 
         $this->assertEquals(
-            '<img width="800px" src="' . $url . '" alt="Alternative">',
+            '<img width="800px" src="'.$url.'" alt="Alternative">',
             $image->version(false)->img('Alternative', [
-                'width' => '800px'
+                'width' => '800px',
             ])
         );
     }
@@ -70,19 +70,19 @@ class ImageTest extends CoreTestCase
             ->quality(90)
             ->url();
 
-        $this->assertEquals("<picture>
-<source media=\"(min-width: 600px)\" srcset=\"" . $small . "\">
-<source media=\"(min-width: 1600px)\" srcset=\"" . $medium . "\">
-<img src=\"" . $image->url() . "\" alt=\"Example\">
-</picture>", $image->picture([
+        $this->assertEquals('<picture>
+<source media="(min-width: 600px)" srcset="'.$small.'">
+<source media="(min-width: 1600px)" srcset="'.$medium.'">
+<img src="'.$image->url().'" alt="Example">
+</picture>', $image->picture([
             '(min-width: 600px)' => [
-                'resize'  => [400, 400],
-                'quality' => 60
+                'resize' => [400, 400],
+                'quality' => 60,
             ],
             '(min-width: 1600px)' => [
-                'resize'  => [800, 800],
-                'quality' => 90
-            ]
+                'resize' => [800, 800],
+                'quality' => 90,
+            ],
         ]));
     }
 
@@ -100,18 +100,99 @@ class ImageTest extends CoreTestCase
             ->quality(90)
             ->url();
 
-        $this->assertEquals("<img srcset=\"" . $small . " 400w, " . $medium . " 800w\" sizes=\"(min-width: 600px) 400px, (min-width: 1600px) 800px\" src=\"" . url('app/public/vendor/testing/img/example.jpg') . "\" alt=\"Example\">", $image->srcset([
+        $this->assertEquals('<img srcset="'.$small.' 400w, '.$medium.' 800w" sizes="(min-width: 600px) 400px, (min-width: 1600px) 800px" src="'.url('app/public/vendor/testing/img/example.jpg').'" alt="Example">', $image->srcset([
             '(min-width: 600px) 400px' => [
                 'intrinsic' => 400,
                 'resize' => [400, 400],
-                'quality' => 60
+                'quality' => 60,
             ],
             '(min-width: 1600px) 800px' => [
                 'intrinsic' => 800,
                 'resize' => [800, 800],
-                'quality' => 90
-            ]
+                'quality' => 90,
+            ],
         ])->img());
+    }
+
+    public function test_srcset_without_sources_uses_the_current_image()
+    {
+        $image = Images::make('public/vendor/testing/img/example.jpg')
+            ->resize(400, 400)
+            ->version(false);
+
+        $url = $image->url();
+
+        $this->assertSame($image, $image->srcset());
+        $this->assertSame($url, $image->attributes['srcset']);
+        $this->assertArrayNotHasKey('sizes', $image->attributes);
+        $this->assertStringContainsString('srcset="'.$url.'"', $image->img());
+    }
+
+    public function test_srcsets_appends_descriptors_without_a_sizes_attribute()
+    {
+        $small = Images::make('public/vendor/testing/img/example.jpg')
+            ->resize(400, 400)
+            ->quality(60)
+            ->version(false)
+            ->url();
+
+        $wide = Images::make('public/vendor/testing/img/example.jpg')
+            ->resize(800, 800)
+            ->quality(90)
+            ->version(false)
+            ->url();
+
+        $image = Images::make('public/vendor/testing/img/example.jpg')->version(false);
+
+        $this->assertSame($image, $image->srcsets([
+            '1x' => [
+                'resize' => [400, 400],
+                'quality' => 60,
+            ],
+            '640w' => [
+                'resize' => [800, 800],
+                'quality' => 90,
+            ],
+        ]));
+
+        $this->assertSame($small.' 1x, '.$wide.' 640w', $image->attributes['srcset']);
+        $this->assertArrayNotHasKey('sizes', $image->attributes);
+        $this->assertStringContainsString('srcset="'.$small.' 1x, '.$wide.' 640w"', $image->img());
+    }
+
+    /** @dataProvider invalidSrcsets */
+    public function test_srcsets_rejects_invalid_candidates(array $sources)
+    {
+        $image = Images::make('public/vendor/testing/img/example.jpg');
+
+        $this->expectException(\InvalidArgumentException::class);
+
+        $image->srcsets($sources);
+    }
+
+    public static function invalidSrcsets(): array
+    {
+        return [
+            'missing descriptor' => [[[]]],
+            'zero width' => [['0w' => []]],
+            'fractional width' => [['1.5w' => []]],
+            'negative density' => [['-1x' => []]],
+            'zero density' => [['0x' => []]],
+            'invalid descriptor' => [['1x, injected' => []]],
+            'non-array candidate' => [['1x' => 'image.jpg']],
+            'invalid source' => [['1x' => ['source' => []]]],
+            'empty source' => [['1x' => ['source' => '']]],
+            'unnamed alteration' => [['1x' => [['resize', 100]]]],
+            'unknown alteration' => [['1x' => ['reszie' => [100, 100]]]],
+        ];
+    }
+
+    public function test_srcsets_accepts_fractional_density_descriptors()
+    {
+        $image = Images::make('public/vendor/testing/img/example.jpg')->version(false);
+
+        $this->assertSame($image, $image->srcsets(['1.5x' => ['version' => false]]));
+        $this->assertSame($image->url().' 1.5x', $image->attributes['srcset']);
     }
 
     public function test_it_returns_links()
@@ -126,8 +207,8 @@ class ImageTest extends CoreTestCase
             ->resize(512, 512)
             ->url();
 
-        $this->assertEquals("<link href=\"" . $small . "\" type=\"image/jpg\">
-<link href=\"" . $medium . "\" type=\"image/jpg\">", $image->links([
+        $this->assertEquals('<link href="'.$small.'" type="image/jpg">
+<link href="'.$medium.'" type="image/jpg">', $image->links([
             'android' => [
                 'resize' => [192, 192],
                 'sizes' => '192x192',
@@ -135,7 +216,7 @@ class ImageTest extends CoreTestCase
             'ios' => [
                 'resize' => [512, 512],
                 'sizes' => '512x512',
-            ]
+            ],
         ]));
     }
 
@@ -175,7 +256,7 @@ class ImageTest extends CoreTestCase
 
         $url = url('app/public/vendor/testing/img/example.jpg?v=test');
 
-        $this->assertSame('url(' . $url . ')', $image->version('test')->css());
+        $this->assertSame('url('.$url.')', $image->version('test')->css());
     }
 
     public function test_it_returns_image_extensions()
@@ -242,7 +323,7 @@ class ImageTest extends CoreTestCase
         $url = url('app/public/vendor/testing/img/example.jpg');
 
         $this->assertEquals(
-            '<img src="' . $url . '" alt="Example">',
+            '<img src="'.$url.'" alt="Example">',
             (string) $image->version(false)
         );
     }
@@ -250,9 +331,7 @@ class ImageTest extends CoreTestCase
 
 class ImageRotationMacro
 {
-    public function __construct(protected Image $image)
-    {
-    }
+    public function __construct(protected Image $image) {}
 
     public function __invoke()
     {
