@@ -9,9 +9,32 @@ use Streams\Core\Stream\StreamSchema;
 use Streams\Core\Repository\Repository;
 use Streams\Core\Support\Facades\Streams;
 use Illuminate\Contracts\Validation\Validator;
+use Streams\Core\Entry\Contract\EntryInterface;
 
 class StreamTest extends CoreTestCase
 {
+    public function test_it_creates_and_persists_film_entries_using_custom_test_helper()
+    {
+        $film = $this->createFilm(['title' => 'My Film', 'episode_id' => 8]);
+
+        $this->assertInstanceOf(EntryInterface::class, $film);
+        $this->assertSame(Streams::make('films'), $film->stream());
+        $this->assertSame('My Film', $film->title);
+        $this->assertSame('Test Director', $film->director);
+        $this->assertSame(now()->format('Y-m-d'), $film->release_date->format('Y-m-d'));
+        $this->assertSame(8, Streams::repository('films')->count());
+        $this->assertSame('My Film', Streams::repository('films')->find(8)->title);
+    }
+
+    protected function createFilm(array $attributes = []): object
+    {
+        return Streams::make('films')->create(array_merge([
+            'title' => 'Test Film',
+            'director' => 'Test Director',
+            'release_date' => now()->format('Y-m-d'),
+        ], $attributes));
+    }
+
     public function test_it_is_arrayable()
     {
         $this->assertIsArray(Streams::make('films')->toArray());
