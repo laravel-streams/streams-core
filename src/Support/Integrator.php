@@ -14,7 +14,6 @@ use Streams\Core\Support\Facades\Assets;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Support\Facades\Includes;
 use Illuminate\Console\Scheduling\Schedule;
-use Streams\Core\Support\Facades\Overrides;
 use Streams\Core\Support\Traits\FiresCallbacks;
 
 class Integrator
@@ -98,8 +97,14 @@ class Integrator
         }
     }
 
-    public static function routes(array $routes): void
+    public static function routes(array|\Closure $routes): void
     {
+        if ($routes instanceof \Closure) {
+            $routes(Route::getFacadeRoot());
+
+            return;
+        }
+
         foreach ($routes as $group => $routes) {
             Route::middleware($group)->group(function () use ($routes) {
                 foreach ($routes as $uri => $route) {

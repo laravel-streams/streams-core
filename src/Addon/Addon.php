@@ -13,7 +13,8 @@ use Illuminate\Contracts\Support\Arrayable;
 use Streams\Core\Support\Traits\FiresCallbacks;
 
 /**
- * Addons are composer packages of type "streams-addon".
+ * Addons are Composer packages of type "streams-addon"
+ * or packages flagged with extra.streams.addon.
  */
 class Addon implements Arrayable, Jsonable
 {

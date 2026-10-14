@@ -29,4 +29,77 @@ class AddonManagerTest extends CoreTestCase
     {
         $this->assertTrue(Addons::providing('testing.*')->isEmpty());
     }
+
+    public function test_it_registers_an_addon_from_a_name_and_paths()
+    {
+        $paths = [
+            'path' => '/tmp/my-addon',
+            'assets' => '/tmp/my-addon/resources/public',
+        ];
+
+        $addon = Addons::register('my-addon', $paths);
+
+        $this->assertInstanceOf(Addon::class, $addon);
+        $this->assertSame('my-addon', $addon->name);
+        $this->assertSame('/tmp/my-addon', $addon->path);
+        $this->assertSame('/tmp/my-addon/resources/public', $addon->assets);
+        $this->assertSame($paths, $addon->paths);
+        $this->assertSame('my-addon', Addons::make('my-addon')->name);
+    }
+
+    public function test_discovery_accepts_extra_streams_addon_without_the_composer_type()
+    {
+        $root = base_path('vendor/acme');
+
+        $packages = [
+            'acme/extra-addon' => [
+                'name' => 'acme/extra-addon',
+                'type' => 'library',
+                'extra' => [
+                    'streams' => [
+                        'addon' => true,
+                    ],
+                ],
+            ],
+            'acme/typed-addon' => [
+                'name' => 'acme/typed-addon',
+                'type' => 'streams-addon',
+            ],
+            'acme/plain-library' => [
+                'name' => 'acme/plain-library',
+                'type' => 'library',
+            ],
+        ];
+
+        try {
+            foreach ($packages as $name => $package) {
+                $directory = base_path('vendor/'.$name);
+
+                if (! is_dir($directory) && ! mkdir($directory, 0777, true) && ! is_dir($directory)) {
+                    $this->fail("Could not create {$directory}.");
+                }
+
+                file_put_contents($directory.'/composer.json', json_encode($package));
+            }
+
+            $this->app->instance('composer.json', []);
+            $this->app->instance('composer.lock', [
+                'packages' => array_values($packages),
+                'packages-dev' => [],
+            ]);
+
+            $provider = $this->app->getProvider(\Streams\Core\StreamsServiceProvider::class);
+            $method = new \ReflectionMethod($provider, 'registerAddons');
+            $method->setAccessible(true);
+            $method->invoke($provider);
+
+            $this->assertTrue(Addons::collection()->has('acme/extra-addon'));
+            $this->assertTrue(Addons::collection()->has('acme/typed-addon'));
+            $this->assertFalse(Addons::collection()->has('acme/plain-library'));
+        } finally {
+            if (is_dir($root)) {
+                \Illuminate\Support\Facades\File::deleteDirectory($root);
+            }
+        }
+    }
 }
