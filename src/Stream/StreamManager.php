@@ -227,7 +227,7 @@ class StreamManager
                 $model = Entry::class;
             }
 
-            Gate::policy($model, $policy);
+            Gate::policy($model, StreamPolicy::class);
         }
 
         $gates = $stream->config('gates', $stream->getPrototypeAttribute('gates'));
