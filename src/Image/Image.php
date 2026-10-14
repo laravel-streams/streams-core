@@ -167,8 +167,12 @@ abstract class Image
         return $this->extension = pathinfo($this->source, PATHINFO_EXTENSION);
     }
 
-    public function srcset(array $sources): static
+    public function srcset(array $sources = []): static
     {
+        if ($sources === []) {
+            return $this->addAttribute('srcset', $this->url());
+        }
+
         $sizes = array_keys($sources);
 
         foreach ($sources as &$source) {
@@ -196,6 +200,11 @@ abstract class Image
         $this->addAttribute('sizes', implode(', ', $sizes));
 
         return $this;
+    }
+
+    public function srcsets(array $sources = []): static
+    {
+        return $this->srcset($sources);
     }
 
     public function quality(int $quality): static
