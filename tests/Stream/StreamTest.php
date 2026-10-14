@@ -12,6 +12,34 @@ use Illuminate\Contracts\Validation\Validator;
 
 class StreamTest extends CoreTestCase
 {
+    public function test_it_creates_custom_fixtures_and_restores_committed_data()
+    {
+        $stream = Streams::make('films');
+        $entry = $stream->create(['title' => 'Custom Fixture', 'director' => 'Test Director']);
+
+        $this->assertNotNull($entry->id);
+        $this->assertSame('Test Director', $stream->entries()->find($entry->id)->director);
+        $this->assertSame(8, $stream->entries()->count());
+
+        $this->restoreStreamsData();
+
+        $this->assertSame(7, $stream->entries()->count());
+        $this->assertNull($stream->entries()->where('title', 'Custom Fixture')->first());
+    }
+
+    public function test_it_validates_required_fields_before_creating_an_entry()
+    {
+        $stream = Streams::make('films');
+
+        try {
+            $stream->create(['director' => 'Test Director']);
+            $this->fail('Creation should reject a missing required title.');
+        } catch (\Illuminate\Validation\ValidationException $exception) {
+            $this->assertArrayHasKey('title', $exception->errors());
+            $this->assertSame(7, $stream->entries()->count());
+        }
+    }
+
     public function test_it_is_arrayable()
     {
         $this->assertIsArray(Streams::make('films')->toArray());
