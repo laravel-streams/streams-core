@@ -160,6 +160,41 @@ class ImageTest extends CoreTestCase
         $this->assertStringContainsString('srcset="'.$small.' 1x, '.$wide.' 640w"', $image->img());
     }
 
+    /** @dataProvider invalidSrcsets */
+    public function test_srcsets_rejects_invalid_candidates(array $sources)
+    {
+        $image = Images::make('public/vendor/testing/img/example.jpg');
+
+        $this->expectException(\InvalidArgumentException::class);
+
+        $image->srcsets($sources);
+    }
+
+    public static function invalidSrcsets(): array
+    {
+        return [
+            'missing descriptor' => [[[]]],
+            'zero width' => [['0w' => []]],
+            'fractional width' => [['1.5w' => []]],
+            'negative density' => [['-1x' => []]],
+            'zero density' => [['0x' => []]],
+            'invalid descriptor' => [['1x, injected' => []]],
+            'non-array candidate' => [['1x' => 'image.jpg']],
+            'invalid source' => [['1x' => ['source' => []]]],
+            'empty source' => [['1x' => ['source' => '']]],
+            'unnamed alteration' => [['1x' => [['resize', 100]]]],
+            'unknown alteration' => [['1x' => ['reszie' => [100, 100]]]],
+        ];
+    }
+
+    public function test_srcsets_accepts_fractional_density_descriptors()
+    {
+        $image = Images::make('public/vendor/testing/img/example.jpg')->version(false);
+
+        $this->assertSame($image, $image->srcsets(['1.5x' => ['version' => false]]));
+        $this->assertSame($image->url().' 1.5x', $image->attributes['srcset']);
+    }
+
     public function test_it_returns_links()
     {
         $image = Images::make('public/vendor/testing/img/example.jpg');
