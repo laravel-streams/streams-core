@@ -1,0 +1,283 @@
+{
+  "schema_version": 2,
+  "asset_id": "streams",
+  "refreshed_at": "2026-10-12T18:40:00Z",
+  "refreshed_by": "OpenCode task 9 - Streams Core / Package source and identity baseline (operating guide artifact #8 step 1; streams-packet-streams-consumer-gap-analysis.json 5.2 unblock)",
+  "supersedes": {
+    "map": "/Users/ryanthompson/Sites/fundamental.operations.bak/operations/agents/assets/streams/repository-map.json",
+    "schema_version": 1,
+    "inventory_status": "observed_requires_owner_confirmation",
+    "note": "The task citation omitted the leading operations/ path segment of this map."
+  },
+  "inventory_status": "refreshed_pending_owner_confirmation",
+  "primary_repository": null,
+  "method": {
+    "refresh": "git fetch --all --prune then git pull --ff-only per checkout, run 2026-10-12 18:33 UTC; remote-tracking refs only, no branch switches, no merges/rebases, no working-tree changes",
+    "survey": "read-only git remote -v, status --short --branch, log -n 1, describe --tags --always, rev-list --left-right --count @{u}...HEAD, worktree list, branch, symbolic-ref refs/remotes/origin/HEAD, tag --sort=-creatordate"
+  },
+  "surfaces": {
+    "core": {
+      "package": "streams-core",
+      "local_path": "/Users/ryanthompson/Sites/_packages/streams-core",
+      "canonical_repository": "https://github.com/laravel-streams/streams-core.git",
+      "release_line": "2.0",
+      "release_line_context": {
+        "default_remote_branch": "origin/2.0",
+        "tagged_maintenance_line": "1.10 (latest tag v1.10.4; origin/1.10 advanced 6f5f0e256..32660af6c on 2026-10-12)",
+        "local_branches": ["1.9", "2.0", "rc/prep"]
+      },
+      "current_ref": "5fd458f43618f9e744f7c43646242491394508fc",
+      "current_ref_short": "5fd458f43",
+      "current_commit_date": "2026-09-29 11:32:01 -0500",
+      "current_commit_subject": "Add the streams.dev package reference.",
+      "current_commit_author": "Ryan Thompson",
+      "describe": "v1.7.14-2270-g5fd458f43",
+      "recent_tags": ["v1.10.4", "v1.10.3", "v1.10.2", "v1.10.1", "v1.7.52"],
+      "upstream_sync": "in_sync_0_behind_0_ahead",
+      "pull_result": "Already up to date.",
+      "dirty_files": 1,
+      "dirty_note": "composer.json modified locally; untouched by this pass",
+      "worktrees": [
+        {
+          "path": "/Users/ryanthompson/Sites/_packages/streams-core",
+          "branch": "2.0",
+          "ref": "5fd458f43",
+          "role": "main_checkout"
+        },
+        {
+          "path": "/Users/ryanthompson/Sites/_rc/streams-core",
+          "branch": "rc/prep",
+          "ref": "9291456367b85482f83504046a37ec6f7dd59dd9",
+          "ref_date": "2026-09-28 03:15:09 -0500",
+          "ref_subject": "Support the Laravel 11/12 Filesystem contract and Carbon 3",
+          "role": "release_prep"
+        }
+      ]
+    },
+    "api": {
+      "package": "streams-api",
+      "local_path": "/Users/ryanthompson/Sites/_packages/streams-api",
+      "canonical_repository": "https://github.com/laravel-streams/streams-api.git",
+      "release_line": "1.0",
+      "release_line_context": {
+        "default_remote_branch": "origin/1.0",
+        "local_branches": ["1.0", "rc/prep"],
+        "tags": "none in repository"
+      },
+      "current_ref": "22d2351345631480102aa1377e6a6a73d765c7a5",
+      "current_ref_short": "22d23513",
+      "current_commit_date": "2026-07-22 13:40:41 -0500",
+      "current_commit_subject": "Match with[]= eager-loading by relation name, not raw field handle",
+      "current_commit_author": "Ryan Thompson",
+      "describe": "22d23513",
+      "recent_tags": [],
+      "upstream_sync": "in_sync_0_behind_0_ahead",
+      "pull_result": "Already up to date.",
+      "dirty_files": 20,
+      "dirty_note": "local docs edits (docs/*.md)",
+      "worktrees": [
+        {
+          "path": "/Users/ryanthompson/Sites/_packages/streams-api",
+          "branch": "1.0",
+          "ref": "22d23513",
+          "role": "main_checkout"
+        },
+        {
+          "path": "/Users/ryanthompson/Sites/_rc/streams-api",
+          "branch": "rc/prep",
+          "ref": "0d3ba86d22473114553779420d3c1e15bb096f20",
+          "ref_date": "2026-09-28 02:23:36 -0500",
+          "ref_subject": "Add homepage and support URLs and a PHP 8.2 constraint",
+          "role": "release_prep"
+        }
+      ]
+    },
+    "ui": {
+      "package": "streams-ui",
+      "local_path": "/Users/ryanthompson/Sites/_packages/streams-ui",
+      "canonical_repository": "git@github.com:laravel-streams/streams-ui.git (SSH remote form; canonical repo laravel-streams/streams-ui)",
+      "release_line": "1.0",
+      "release_line_context": {
+        "default_remote_branch": "origin/1.0",
+        "local_branches": ["1.0"],
+        "tags": "none in repository"
+      },
+      "current_ref": "3a30c8676df7815804a31cf5388b8fee80cdb541",
+      "current_ref_short": "3a30c867",
+      "current_commit_date": "2026-09-10 13:52:36 -0500",
+      "current_commit_subject": "Support HTML attribteus:",
+      "current_commit_author": "Ryan Thompson",
+      "describe": "3a30c867",
+      "recent_tags": [],
+      "upstream_sync": "in_sync_0_behind_0_ahead",
+      "pull_result": "REFUSED: error: cannot pull with rebase: You have unstaged changes. (pull.rebase configured; 19 dirty files). HEAD already equals origin/1.0, so nothing was missed.",
+      "dirty_files": 19,
+      "dirty_note": "docs edits plus untracked docs/actions.md, docs/architecture.md",
+      "worktrees": [
+        {
+          "path": "/Users/ryanthompson/Sites/_packages/streams-ui",
+          "branch": "1.0",
+          "ref": "3a30c867",
+          "role": "main_checkout"
+        }
+      ]
+    },
+    "sdk": {
+      "package": "streams-sdk",
+      "local_path": "/Users/ryanthompson/Sites/_packages/streams-sdk",
+      "canonical_repository": "https://github.com/laravel-streams/streams-sdk.git",
+      "release_line": "1.0",
+      "release_line_context": {
+        "default_remote_branch": "origin/1.0",
+        "local_branches": ["1.0", "mcp/track-c", "sdk/rc", "wip/ryan-uncommitted"],
+        "tags": "none in repository"
+      },
+      "current_ref": "198c74c32e52b7abe0d99e4f74ee13296eee4d63",
+      "current_ref_short": "198c74c",
+      "current_commit_date": "2026-09-29 11:32:06 -0500",
+      "current_commit_subject": "Add the streams.dev package reference.",
+      "current_commit_author": "Ryan Thompson",
+      "describe": "198c74c",
+      "recent_tags": [],
+      "upstream_sync": "in_sync_0_behind_0_ahead",
+      "pull_result": "Already up to date.",
+      "dirty_files": 0,
+      "dirty_note": "clean",
+      "worktrees": [
+        {
+          "path": "/Users/ryanthompson/Sites/_packages/streams-sdk",
+          "branch": "1.0",
+          "ref": "198c74c",
+          "role": "main_checkout"
+        },
+        {
+          "path": "/Users/ryanthompson/Sites/_packages/streams-sdk-track-c",
+          "branch": "mcp/track-c",
+          "ref": "580881d42c2dbba243957561d7f6f8665d9e713a",
+          "ref_date": "2026-09-28 00:56:05 -0500",
+          "ref_subject": "Accept route constraints as a list, like core",
+          "role": "working_track (not release prep; untracked .dossier/, DOSSIER.md)"
+        },
+        {
+          "path": "/Users/ryanthompson/Sites/_rc/streams-sdk",
+          "branch": "sdk/rc",
+          "ref": "2aff9ebe3a0a58b4e48cb244af0ee683e17ef7b9",
+          "ref_date": "2026-09-28 03:44:38 -0500",
+          "ref_subject": "Accept @ field imports and object allowed types in the stream schema",
+          "role": "release_prep"
+        }
+      ]
+    },
+    "testing": {
+      "package": "streams-testing",
+      "local_path": "/Users/ryanthompson/Sites/_packages/streams-testing",
+      "canonical_repository": "https://github.com/laravel-streams/streams-testing.git",
+      "release_line": "1.0",
+      "release_line_context": {
+        "default_remote_branch": "origin/1.0",
+        "dangling_origin_head": "refs/remotes/origin/HEAD -> deleted origin/master (upstream deleted master during this fetch)",
+        "local_branches": ["1.0"],
+        "tags": "none in repository"
+      },
+      "current_ref": "ec5dd5f41b814a2b15b5dc1aa8a9f5911281781c",
+      "current_ref_short": "ec5dd5f",
+      "current_commit_date": "2025-11-12 00:06:45 -0600",
+      "current_commit_subject": "Docs",
+      "current_commit_author": "Ryan Thompson",
+      "describe": "ec5dd5f",
+      "recent_tags": [],
+      "upstream_sync": "in_sync_0_behind_0_ahead",
+      "pull_result": "Already up to date.",
+      "dirty_files": 598,
+      "dirty_note": "heavy local churn: README.md, composer.json, docs restructure renames (RM docs/04-configuration.md -> docs/configuration.md etc.) and more",
+      "worktrees": [
+        {
+          "path": "/Users/ryanthompson/Sites/_packages/streams-testing",
+          "branch": "1.0",
+          "ref": "ec5dd5f",
+          "role": "main_checkout"
+        }
+      ]
+    },
+    "api-client": {
+      "package": "api-client",
+      "local_path": "/Users/ryanthompson/Sites/_packages/api-client",
+      "canonical_repository": "git@github.com:laravel-streams/api-client.git (SSH remote form; canonical repo laravel-streams/api-client)",
+      "release_line": "master at tag v3.0.0 (3.x line; npm package with GitHub Actions npm publishing)",
+      "release_line_context": {
+        "default_remote_branch": "origin/master",
+        "local_branches": ["develop", "master"],
+        "tags": ["v3.0.0", "2.0.0", "1.2.7", "1.2.5", "1.2.4"]
+      },
+      "current_ref": "1c4bfaebf307a278a6cfdb752808f57d5a46b121",
+      "current_ref_short": "1c4bfae",
+      "current_commit_date": "2026-01-07 17:11:09 -0600",
+      "current_commit_subject": "Add GitHub Actions workflow for npm publishing",
+      "current_commit_author": "Ryan Thompson",
+      "describe": "v3.0.0 (HEAD is exactly tag v3.0.0)",
+      "recent_tags": ["v3.0.0", "2.0.0", "1.2.7", "1.2.5", "1.2.4"],
+      "upstream_sync": "in_sync_0_behind_0_ahead",
+      "pull_result": "Already up to date.",
+      "dirty_files": 9,
+      "dirty_note": "docs edits (docs/client.md, docs/criteria.md, docs/entries.md, docs/examples.md, ...)",
+      "worktrees": [
+        {
+          "path": "/Users/ryanthompson/Sites/_packages/api-client",
+          "branch": "master",
+          "ref": "1c4bfae",
+          "role": "main_checkout"
+        }
+      ]
+    }
+  },
+  "adjacent_checkouts": {
+    "streams-cms": {
+      "local_path": "/Users/ryanthompson/Sites/_packages/streams-cms",
+      "url": "git@github.com:laravel-streams/cms.git",
+      "branch": "master",
+      "ref": "4a37b5f5334f01e94d9498995f0c2cf55d130bd9",
+      "ref_date": "2023-03-10 00:15:00 -0600",
+      "status": "legacy_idle_dirty_build_artifacts",
+      "note": "Prior-map role 'cms'. Not one of the six package surfaces; needs owner classification."
+    },
+    "streams-site": {
+      "local_path": "/Users/ryanthompson/Sites/streams.dev",
+      "url": "git@github.com:laravel-streams/streams.dev.git",
+      "branch": "develop",
+      "ref": "6a9df60fe4e4b6fe77f09ec93ac0387790cb3c06",
+      "ref_date": "2026-09-29 13:48:50 -0500",
+      "status": "active_docs_site",
+      "note": "Website and docs (streams.dev); active; distinct repo, not a package surface duplicate."
+    },
+    "streams-monolith": {
+      "local_path": "/Users/ryanthompson/Sites/_packages/streams",
+      "url": "https://github.com/laravel-streams/streams",
+      "branch": "develop",
+      "ref": "e3aef894f13a162d0f89bcfcd609f9bdafe62f13",
+      "ref_date": "2025-01-09 23:02:57 -0600",
+      "status": "legacy_monolith_stale",
+      "note": "Legacy monolithic repo predating the package split; superseded by the split package surfaces; not canonical for any surface."
+    }
+  },
+  "observed_duplicate_checkouts": [
+    {
+      "local_path": "/Users/ryanthompson/Sites/streams.local",
+      "url": "https://github.com/laravel-streams/streams",
+      "branch": "develop",
+      "ref": "5c070597dc000c5c12e7df014089e0fe82c73c0d",
+      "ref_date": "2021-12-30 23:10:03 +0100",
+      "author": "Robin Radic",
+      "status": "stale_duplicate_checkout",
+      "note": "Legacy clone of the monolith repo, last touched 2021; the task's own example; explicitly NOT canonical."
+    }
+  ],
+  "flags": [
+    "api-client is absent from the prior schema-1 repository map; added in this refresh as the sixth package surface.",
+    "ui: pull --ff-only refused (pull.rebase configured + 19 unstaged files). Remote-tracking refs refreshed; HEAD already equals origin/1.0 (0 behind / 0 ahead), so nothing was missed. Local dirty state left untouched.",
+    "testing: upstream deleted origin/master during the fetch, leaving refs/remotes/origin/HEAD dangling. Recommend 'git remote set-head origin -a' during the next hands-on pass (not run here; it would mutate checkout config). 598 dirty entries (docs restructure).",
+    "Remote URL forms differ across surfaces: streams-ui and api-client use SSH (git@github.com:), the rest HTTPS. Same canonical laravel-streams GitHub namespace either way.",
+    "streams-sdk-track-c is a linked git worktree of streams-sdk (branch mcp/track-c), not a duplicate clone; it appears in streams-sdk's 'git worktree list'.",
+    "streams-core checkout runs 2270 commits past tag v1.7.14 on the 2.0 line (describe v1.7.14-2270-g5fd458f43); the tagged maintenance line is 1.10 (v1.10.4 latest, origin/1.10 advanced 2026-10-12).",
+    "No branches were changed during this refresh; only remote-tracking refs moved (git fetch --all --prune) and fast-forward-only pulls were attempted."
+  ]
+}

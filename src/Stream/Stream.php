@@ -114,6 +114,18 @@ class Stream implements Arrayable, Jsonable, JsonSerializable
             ->newCriteria();
     }
 
+    public function create(array $attributes = []): \Streams\Core\Entry\Contract\EntryInterface
+    {
+        $criteria = $this->entries();
+        $entry = $criteria->newInstance($attributes);
+
+        $factory = App::make(Factory::class);
+        $factory->setPresenceVerifier(new StreamsPresenceVerifier(App::make('db')));
+        $factory->make($entry->getAttributes(), $this->rules())->validate();
+
+        return $criteria->create($entry->getAttributes());
+    }
+
     public function filesystem(string $disk): StreamFilesystem
     {
         return static::once($this->id.__METHOD__, fn () => $this->newFilesystem($disk));
@@ -153,14 +165,14 @@ class Stream implements Arrayable, Jsonable, JsonSerializable
     public function factory(): EntryFactory
     {
         $factory = $this->config('factory', EntryFactory::class);
-        
+
         return new $factory($this);
     }
 
     public function rules(array $extra = [], $key = null): array
     {
         $rules = $this->fields->map(function (Field $field) use ($extra) {
-            
+
             $rules = $field->rules();
 
             if (isset($extra[$field->handle])) {
@@ -169,7 +181,7 @@ class Stream implements Arrayable, Jsonable, JsonSerializable
             }
 
             return $rules;
-            
+
         })->all();
 
         $keyName = $this->config('key_name', 'id');

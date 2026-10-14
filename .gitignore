@@ -3,6 +3,9 @@
 /coverage
 /yarn.lock
 /node_modules
+/.task-repos/
+/.task-tools/
+/.task-suite.xml
 
 composer.lock
 package-lock.json

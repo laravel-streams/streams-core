@@ -2,7 +2,6 @@
 
 namespace Streams\Core\Criteria;
 
-use App\Domains\Auth\Models\Identity;
 use Illuminate\Support\Arr;
 use Streams\Core\Entry\Entry;
 use Streams\Core\Stream\Stream;
@@ -36,6 +35,10 @@ class Criteria
     protected array $eagerLoad = [];
 
     public AdapterInterface $adapter;
+
+    protected ?float $timeoutSeconds = null;
+
+    protected ?float $deadline = null;
 
     public function __construct(
         Stream $stream,
@@ -154,7 +157,55 @@ class Criteria
         return $this;
     }
 
+    /** Set a cooperative query budget in seconds, including result hydration. */
+    public function timeout(float $seconds): static
+    {
+        if (! is_finite($seconds) || $seconds <= 0) {
+            throw new \InvalidArgumentException('Query timeout must be a positive finite number of seconds.');
+        }
+
+        $this->timeoutSeconds = $seconds;
+
+        return $this;
+    }
+
+    protected function monotonicTime(): float
+    {
+        return hrtime(true) / 1_000_000_000;
+    }
+
+    protected function checkTimeout(): void
+    {
+        if ($this->deadline !== null && $this->monotonicTime() >= $this->deadline) {
+            throw new Exception\QueryTimedOut("Query exceeded its {$this->timeoutSeconds} second timeout.");
+        }
+    }
+
+    protected function withinTimeout(callable $operation): mixed
+    {
+        $previous = $this->deadline;
+
+        if ($this->timeoutSeconds !== null && $this->deadline === null) {
+            $this->deadline = $this->monotonicTime() + $this->timeoutSeconds;
+        }
+
+        try {
+            $this->checkTimeout();
+            $result = $operation();
+            $this->checkTimeout();
+
+            return $result;
+        } finally {
+            $this->deadline = $previous;
+        }
+    }
+
     public function get(): Collection
+    {
+        return $this->withinTimeout(fn () => $this->getResults());
+    }
+
+    protected function getResults(): Collection
     {
         $enabled = $this->stream->config('cache.enabled', false);
 
@@ -166,7 +217,7 @@ class Criteria
 
         if ($cache) {
 
-            $fingerprint = $this->stream->handle . '.query__' . md5(serialize($this->parameters));
+            $fingerprint = $this->stream->handle.'.query__'.md5(serialize($this->parameters));
 
             $seconds = $cache[0];
             $key = Arr::get($cache, 1);
@@ -174,6 +225,8 @@ class Criteria
             return $this->collect($this->stream->cache()->remember($key ?: $fingerprint, $seconds, function () {
 
                 $results = $this->eagerLoadRelations($this->collect($this->adapter->get($this->parameters)));
+
+                $this->checkTimeout();
 
                 $this->parameters = [];
 
@@ -201,6 +254,7 @@ class Criteria
             ->newCollection();
 
         array_map(function ($entry) use ($collection) {
+            $this->checkTimeout();
             $entry = $this->make($entry);
             // @todo this is where all entries get stream info.
             // Maybe we do like __stream to prevent collision
@@ -247,14 +301,14 @@ class Criteria
     public function chunk(int $count, callable $callback): bool
     {
         $page = 1;
-        
+
         // Save parameters that should persist across chunks
         $savedParameters = $this->parameters;
 
         do {
             // Restore parameters for each chunk iteration
             $this->parameters = $savedParameters;
-            
+
             // We'll execute the query for the given page and get the results. If there are
             // no results we can just break and return from here. When there are results
             // we will call the callback with the current chunk of these results here.
@@ -281,6 +335,11 @@ class Criteria
 
     public function count()
     {
+        return $this->withinTimeout(fn () => $this->countResults());
+    }
+
+    protected function countResults()
+    {
         $enabled = $this->stream->config('cache.enabled', false);
 
         if ($enabled && ! isset($this->parameters['cache'])) {
@@ -291,10 +350,13 @@ class Criteria
 
         if ($cache) {
 
-            $fingerprint = $this->stream->id . '.query.count__' . md5(serialize($this->parameters));
+            $fingerprint = $this->stream->id.'.query.count__'.md5(serialize($this->parameters));
 
             return $this->stream->cache()->remember(Arr::get($cache, 1) ?: $fingerprint, $cache[0], function () {
-                return $this->adapter->count(array_diff_key($this->parameters, array_flip(['cache'])));
+                $count = $this->adapter->count(array_diff_key($this->parameters, array_flip(['cache'])));
+                $this->checkTimeout();
+
+                return $count;
             });
         }
 

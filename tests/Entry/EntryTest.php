@@ -3,17 +3,16 @@
 namespace Streams\Core\Tests\Entry;
 
 use Carbon\Carbon;
-use Illuminate\Validation\Validator;
 use Streams\Core\Entry\Entry;
 use Streams\Core\Stream\Stream;
+use Illuminate\Validation\Validator;
 use Streams\Core\Tests\CoreTestCase;
-use Streams\Core\Support\Facades\Streams;
-use Streams\Core\Field\Decorator\IntegerDecorator;
 use Streams\Core\Field\FieldDecorator;
+use Streams\Core\Support\Facades\Streams;
+use Streams\Core\Field\Decorator\StringDecorator;
 
 class EntryTest extends CoreTestCase
 {
-
     public function test_it_is_arrayable()
     {
         $this->assertIsArray(Streams::entries('films')->first()->toArray());
@@ -58,7 +57,7 @@ class EntryTest extends CoreTestCase
     public function test_it_supports_macros()
     {
         Entry::macro('episode', function () {
-            return 'ID: ' . $this->episode_id;
+            return 'ID: '.$this->episode_id;
         });
 
         $entry = Streams::repository('films')->find(4);
@@ -69,14 +68,39 @@ class EntryTest extends CoreTestCase
     public function test_it_decorates_fields()
     {
         $entry = Streams::repository('films')->find(4);
-        
+
         $this->assertInstanceOf(FieldDecorator::class, $entry->decorate('episode_id'));
+    }
+
+    public function test_decorate_body_stringifies_markdown_configuration_to_html()
+    {
+        $stream = Streams::register([
+            'id' => 'articles',
+            'fields' => [
+                'body' => [
+                    'type' => 'string',
+                    'config' => [
+                        'markdown' => true,
+                    ],
+                ],
+            ],
+        ]);
+
+        $entry = new Entry([
+            'stream' => $stream,
+            'body' => '# Hello',
+        ]);
+
+        $html = $entry->decorate('body');
+
+        $this->assertInstanceOf(StringDecorator::class, $html);
+        $this->assertSame("<h1>Hello</h1>\n", (string) $html);
     }
 
     public function test_it_automatically_decorates_fields()
     {
         $entry = Streams::repository('films')->find(4);
-        
+
         $this->assertInstanceOf(FieldDecorator::class, $entry->episodeId());
     }
 

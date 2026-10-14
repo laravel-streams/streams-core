@@ -3,9 +3,9 @@
 namespace Streams\Core\Field\Decorator;
 
 use Illuminate\Support\Str;
+use Spatie\Html\Facades\Html;
 use Symfony\Component\Yaml\Yaml;
 use Illuminate\Support\Facades\View;
-use Spatie\Html\Facades\Html;
 use Streams\Core\Field\FieldDecorator;
 
 class StringDecorator extends FieldDecorator
@@ -51,8 +51,8 @@ class StringDecorator extends FieldDecorator
             return null;
         }
 
-        $telLink = 'tel:' . preg_replace('/[^\+\d]/', '', $this->value);
-        
+        $telLink = 'tel:'.preg_replace('/[^\+\d]/', '', $this->value);
+
         return Html::a($telLink, $text ?: $this->value)
             ->attributes($attributes)
             ->toHtml();
@@ -64,8 +64,8 @@ class StringDecorator extends FieldDecorator
             return null;
         }
 
-        $smsLink = 'sms:' . preg_replace('/[^\+\d]/', '', $this->value);
-        
+        $smsLink = 'sms:'.preg_replace('/[^\+\d]/', '', $this->value);
+
         return Html::a($smsLink, $text ?: $this->value)
             ->attributes($attributes)
             ->toHtml();
@@ -78,6 +78,10 @@ class StringDecorator extends FieldDecorator
 
     public function __toString()
     {
+        if ($this->field->config('markdown')) {
+            return $this->markdown();
+        }
+
         return (string) $this->value;
     }
 }
