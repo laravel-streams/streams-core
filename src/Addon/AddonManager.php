@@ -2,6 +2,7 @@
 
 namespace Streams\Core\Addon;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Streams\Core\Support\Traits\HasMemory;
@@ -65,8 +66,34 @@ class AddonManager
         return $this->register($addon);
     }
 
-    public function register(array $addon): Addon
+    /**
+     * A package is discoverable when its Composer type is streams-addon
+     * or the documented extra.streams.addon flag is set.
+     *
+     * @param  array<string, mixed>  $package
+     */
+    public function isAddonPackage(array $package): bool
     {
+        if (Arr::get($package, 'type') === 'streams-addon') {
+            return true;
+        }
+
+        return (bool) Arr::get($package, 'extra.streams.addon');
+    }
+
+    /**
+     * Register an addon from an attribute array, or from the documented
+     * name and paths pair: Addons::register('my-addon', $paths).
+     *
+     * @param  array<string, mixed>|string  $addon
+     * @param  array<string, mixed>|string|null  $paths
+     */
+    public function register(array|string $addon, array|string|null $paths = null): Addon
+    {
+        if (is_string($addon)) {
+            $addon = $this->attributesFromNameAndPaths($addon, $paths);
+        }
+
         $addon = new Addon($addon);
 
         App::instance('streams.addons.'.str_replace('/', '.', $addon->name), $addon);
@@ -91,5 +118,31 @@ class AddonManager
         return $this->collection->filter(function ($addon) use ($service) {
             return $addon->provides($service);
         });
+    }
+
+    /**
+     * @param  array<string, mixed>|string|null  $paths
+     * @return array<string, mixed>
+     */
+    protected function attributesFromNameAndPaths(string $name, array|string|null $paths): array
+    {
+        if (is_string($paths)) {
+            $attributes = [
+                'path' => $paths,
+                'paths' => [$paths],
+            ];
+        } elseif (is_array($paths)) {
+            $attributes = $paths;
+            $attributes['paths'] = $paths['paths'] ?? $paths;
+        } else {
+            $attributes = [
+                'paths' => [],
+            ];
+        }
+
+        $attributes['name'] = $name;
+        $attributes['composer'] ??= [];
+
+        return $attributes;
     }
 }

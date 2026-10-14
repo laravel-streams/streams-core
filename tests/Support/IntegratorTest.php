@@ -19,7 +19,6 @@ use Streams\Core\Support\Facades\Assets;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Support\Facades\Includes;
 use Illuminate\Console\Scheduling\Schedule;
-use Streams\Core\Support\Facades\Overrides;
 use Illuminate\Routing\Route as RouteInstance;
 
 class IntegratorTest extends CoreTestCase
@@ -118,7 +117,7 @@ class IntegratorTest extends CoreTestCase
         Integrator::policies([
             'custom-testing-array-policy' => [CustomTestingPolicy::class, 'test'],
             'custom-testing-invokable-policy' => CustomInvokablePolicy::class,
-            'custom-testing-closure-policy' => function() {
+            'custom-testing-closure-policy' => function () {
                 return true;
             },
             CustomIntegratorService::class => CustomTestingPolicy::class,
@@ -143,7 +142,23 @@ class IntegratorTest extends CoreTestCase
 
         $this->assertInstanceOf(RouteInstance::class, Route::getRoutes()->getByName('testing.foo'));
     }
-    
+
+    public function test_it_registers_routes_from_a_closure()
+    {
+        Integrator::integrate([
+            'routes' => function ($router) {
+                $router->get('foo/closure', [
+                    'as' => 'testing.closure',
+                    'uses' => function () {
+                        return 'ok';
+                    },
+                ]);
+            },
+        ]);
+
+        $this->assertInstanceOf(RouteInstance::class, Route::getRoutes()->getByName('testing.closure'));
+    }
+
     public function test_it_registers_service_providers()
     {
         Integrator::providers([
@@ -177,7 +192,7 @@ class IntegratorTest extends CoreTestCase
         $this->assertSame('Testing Array Stream', Streams::make('testing.array.stream')->name);
     }
 
-    public function test_it_registers_middleware(Type $var = null)
+    public function test_it_registers_middleware(?Type $var = null)
     {
         Integrator::middleware([
             'testing' => [CustomTestingMiddleware::class],
@@ -210,9 +225,7 @@ class IntegratorTest extends CoreTestCase
     }
 }
 
-class CustomIntegratorService
-{
-}
+class CustomIntegratorService {}
 
 class CustomArtisanCommand extends Command
 {
@@ -241,7 +254,7 @@ class CustomTestingPolicy
     {
         return true;
     }
-    
+
     public function viewAny()
     {
         return true;
@@ -255,14 +268,11 @@ class CustomTestingUser extends User
 
 class CustomTestingController extends Controller
 {
-    public function __invoke()
-    {
-    }
+    public function __invoke() {}
 }
 
 class CustomTestingSecondaryProvider extends ServiceProvider
 {
-
     public function register()
     {
         Integrator::bindings([

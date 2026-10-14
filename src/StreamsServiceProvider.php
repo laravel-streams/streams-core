@@ -231,7 +231,7 @@ class StreamsServiceProvider extends ServiceProvider
         $addons = array_filter(
             array_merge($lock['packages'], $lock['packages-dev']),
             function (array $package) {
-                return Arr::get($package, 'type') === 'streams-addon';
+                return Addons::isAddonPackage($package);
             }
         );
 
@@ -285,7 +285,7 @@ class StreamsServiceProvider extends ServiceProvider
         Factory::macro('parse', $this->app[\Streams\Core\Support\Macros\FactoryParse::class]());
         Factory::macro('include', $this->app[\Streams\Core\Support\Macros\FactoryInclude::class]());
         Factory::macro('includes', $this->app[\Streams\Core\Support\Macros\FactoryIncludes::class]());
-        
+
         Str::macro('parse', $this->app[\Streams\Core\Support\Macros\StrParse::class]());
         Str::macro('purify', $this->app[\Streams\Core\Support\Macros\StrPurify::class]());
         Str::macro('humanize', $this->app[\Streams\Core\Support\Macros\StrHumanize::class]());
