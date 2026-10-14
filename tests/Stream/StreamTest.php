@@ -13,6 +13,21 @@ use Streams\Core\Entry\Contract\EntryInterface;
 
 class StreamTest extends CoreTestCase
 {
+    public function test_it_creates_entries_through_the_configured_repository()
+    {
+        $stream = Streams::overload('films', [
+            'config' => ['repository' => FilmCreationRepository::class],
+        ]);
+
+        $film = $stream->create(['episode_id' => 8, 'title' => 'Custom Film']);
+
+        $this->assertInstanceOf(FilmCreationRepository::class, $stream->repository());
+        $this->assertSame($stream, $film->stream());
+        $this->assertSame('Repository: Custom Film', $film->title);
+        $this->assertSame('Repository: Custom Film', $stream->repository()->find(8)->title);
+        $this->assertSame(8, $stream->repository()->count());
+    }
+
     public function test_it_creates_and_persists_film_entries_using_custom_test_helper()
     {
         $film = $this->createFilm(['title' => 'My Film', 'episode_id' => 8]);
@@ -69,5 +84,15 @@ class StreamTest extends CoreTestCase
     public function test_it_returns_cache()
     {
         $this->assertInstanceOf(StreamCache::class, Streams::make('films')->cache());
+    }
+}
+
+class FilmCreationRepository extends Repository
+{
+    public function create(array $attributes): EntryInterface
+    {
+        $attributes['title'] = 'Repository: '.$attributes['title'];
+
+        return parent::create($attributes);
     }
 }
