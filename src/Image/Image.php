@@ -167,8 +167,12 @@ abstract class Image
         return $this->extension = pathinfo($this->source, PATHINFO_EXTENSION);
     }
 
-    public function srcset(array $sources): static
+    public function srcset(array $sources = []): static
     {
+        if ($sources === []) {
+            return $this->addAttribute('srcset', $this->url());
+        }
+
         $sizes = array_keys($sources);
 
         foreach ($sources as &$source) {
@@ -196,6 +200,57 @@ abstract class Image
         $this->addAttribute('sizes', implode(', ', $sizes));
 
         return $this;
+    }
+
+    public function srcsets(array $sources = []): static
+    {
+        if ($sources === []) {
+            return $this->srcset();
+        }
+
+        foreach ($sources as $descriptor => $source) {
+            if (! is_string($descriptor) || ! preg_match('/\A(?:[1-9][0-9]*w|(?:[0-9]+(?:\.[0-9]+)?|\.[0-9]+)x)\z/', $descriptor)
+                || (float) $descriptor <= 0) {
+                throw new \InvalidArgumentException('Srcsets descriptors must be positive widths (640w) or densities (1.5x).');
+            }
+
+            if (! is_array($source)) {
+                throw new \InvalidArgumentException('Each srcsets candidate must be an array of image alterations.');
+            }
+
+            foreach ($source as $method => $arguments) {
+                if ($method === 'source') {
+                    if (! is_string($arguments) || trim($arguments) === '') {
+                        throw new \InvalidArgumentException('The srcsets source must be a non-empty image path or URL.');
+                    }
+
+                    continue;
+                }
+
+                if (! is_string($method) || (! $this->isAlteration($method)
+                    && ! static::hasMacro($method) && ! in_array($method, ['quality', 'rename', 'version'], true))) {
+                    throw new \InvalidArgumentException('Srcsets candidates must use named image alterations or macros.');
+                }
+            }
+        }
+
+        $parts = [];
+
+        foreach ($sources as $descriptor => $source) {
+            $image = Images::make(Arr::pull($source, 'source', $this->source));
+
+            foreach ($source as $method => $arguments) {
+                if (is_array($arguments)) {
+                    call_user_func_array([$image, $method], $arguments);
+                } else {
+                    call_user_func([$image, $method], $arguments);
+                }
+            }
+
+            $parts[] = trim($image->url().' '.$descriptor);
+        }
+
+        return $this->addAttribute('srcset', implode(', ', $parts));
     }
 
     public function quality(int $quality): static

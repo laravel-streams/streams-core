@@ -83,6 +83,24 @@ Set `config.abstract: true` for streams that define shared fields but are not in
 
 Stream definitions themselves are entries in the stream identified by `config('streams.core.streams_id')` (default `streams`). The `streams` stream uses a self or file source depending on your project layout.
 
+## Authorization
+
+Set a top-level `policy` class name to authorize entries using Laravel Gate:
+
+```php
+$stream = Streams::register([
+    'id' => 'posts',
+    'policy' => PostPolicy::class,
+    'fields' => ['title' => 'string'],
+]);
+
+Gate::authorize('update', new Entry(['stream' => $stream, 'title' => 'Hello']));
+```
+
+Pass an entry instance so authorization can select its stream's policy. Streams sharing the same entry class retain independent policies. Class-only checks cannot identify a stream and are denied by the stream policy dispatcher. Policy `before` methods, guest permissions, additional arguments, and Laravel authorization responses are preserved.
+
+Named abilities can be defined through `config.gates` (or a top-level `gates` map). These use the same ability and model-policy map format as Integrator policies.
+
 ## Accessing streams
 
 ```php
