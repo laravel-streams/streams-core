@@ -14,7 +14,6 @@ use Streams\Core\Support\Facades\Assets;
 use Streams\Core\Support\Facades\Streams;
 use Streams\Core\Support\Facades\Includes;
 use Illuminate\Console\Scheduling\Schedule;
-use Streams\Core\Support\Facades\Overrides;
 use Streams\Core\Support\Traits\FiresCallbacks;
 
 class Integrator
@@ -81,6 +80,11 @@ class Integrator
                 Event::listen($event, $listener);
             }
         }
+    }
+
+    public static function gates(array $gates): void
+    {
+        static::policies($gates);
     }
 
     public static function policies(array $policies): void
