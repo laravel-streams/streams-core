@@ -128,22 +128,36 @@ class ImageTest extends CoreTestCase
         $this->assertStringContainsString('srcset="'.$url.'"', $image->img());
     }
 
-    public function test_srcsets_is_an_alias_for_responsive_sources()
+    public function test_srcsets_appends_descriptors_without_a_sizes_attribute()
     {
-        $sources = [
-            '(min-width: 600px) 400px' => [
-                'intrinsic' => 400,
+        $small = Images::make('public/vendor/testing/img/example.jpg')
+            ->resize(400, 400)
+            ->quality(60)
+            ->version(false)
+            ->url();
+
+        $wide = Images::make('public/vendor/testing/img/example.jpg')
+            ->resize(800, 800)
+            ->quality(90)
+            ->version(false)
+            ->url();
+
+        $image = Images::make('public/vendor/testing/img/example.jpg')->version(false);
+
+        $this->assertSame($image, $image->srcsets([
+            '1x' => [
                 'resize' => [400, 400],
                 'quality' => 60,
             ],
-        ];
+            '640w' => [
+                'resize' => [800, 800],
+                'quality' => 90,
+            ],
+        ]));
 
-        $expected = Images::make('public/vendor/testing/img/example.jpg')->srcset($sources);
-        $image = Images::make('public/vendor/testing/img/example.jpg');
-
-        $this->assertSame($image, $image->srcsets($sources));
-        $this->assertSame($expected->attributes, $image->attributes);
-        $this->assertSame($expected->img(), $image->img());
+        $this->assertSame($small.' 1x, '.$wide.' 640w', $image->attributes['srcset']);
+        $this->assertArrayNotHasKey('sizes', $image->attributes);
+        $this->assertStringContainsString('srcset="'.$small.' 1x, '.$wide.' 640w"', $image->img());
     }
 
     public function test_it_returns_links()

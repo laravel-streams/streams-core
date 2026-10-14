@@ -204,7 +204,27 @@ abstract class Image
 
     public function srcsets(array $sources = []): static
     {
-        return $this->srcset($sources);
+        if ($sources === []) {
+            return $this->srcset();
+        }
+
+        $parts = [];
+
+        foreach ($sources as $descriptor => $source) {
+            $image = Images::make(Arr::pull($source, 'source', $this->source));
+
+            foreach ($source as $method => $arguments) {
+                if (is_array($arguments)) {
+                    call_user_func_array([$image, $method], $arguments);
+                } else {
+                    call_user_func([$image, $method], $arguments);
+                }
+            }
+
+            $parts[] = trim($image->url().' '.$descriptor);
+        }
+
+        return $this->addAttribute('srcset', implode(', ', $parts));
     }
 
     public function quality(int $quality): static

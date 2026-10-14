@@ -4,12 +4,15 @@ namespace Streams\Core\Stream;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Streams\Core\Entry\Entry;
 use Symfony\Component\Yaml\Yaml;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Streams\Core\Criteria\Criteria;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Gate;
 use Streams\Core\Entry\EntryFactory;
+use Streams\Core\Support\Integrator;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Traits\Macroable;
@@ -55,6 +58,8 @@ class StreamManager
 
         $this->route($stream);
 
+        $this->authorize($stream);
+
         return $stream;
     }
 
@@ -83,6 +88,8 @@ class StreamManager
         $this->collection->put($target->id, $target);
 
         $this->route($target);
+
+        $this->authorize($target);
 
         return $target;
     }
@@ -207,6 +214,27 @@ class StreamManager
     public function collection(): Collection
     {
         return $this->collection;
+    }
+
+    public function authorize(Stream $stream): void
+    {
+        $policy = $stream->getPrototypeAttribute('policy');
+
+        if (is_string($policy) && $policy !== '') {
+            $model = $stream->config('abstract', Entry::class);
+
+            if (! is_string($model) || $model === '') {
+                $model = Entry::class;
+            }
+
+            Gate::policy($model, $policy);
+        }
+
+        $gates = $stream->config('gates', $stream->getPrototypeAttribute('gates'));
+
+        if (is_array($gates) && $gates !== []) {
+            Integrator::gates($gates);
+        }
     }
 
     public function route(Stream $stream): void
