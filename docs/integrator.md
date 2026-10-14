@@ -6,7 +6,9 @@ section: packages
 package: core
 order: 150
 tags: [core, integrator]
-status: ready
+editorial_status: ready
+status: implemented
+tracking_task: 256
 ---
 
 `Streams\Core\Support\Integrator` merges application (or addon) configuration into Laravel during boot.
@@ -14,6 +16,8 @@ status: ready
 ## integrate()
 
 ```php
+use Streams\Core\Support\Integrator;
+
 Integrator::integrate([
     'locale' => 'en',
     'config' => ['app.name' => 'Acme'],
@@ -21,10 +25,12 @@ Integrator::integrate([
         'pages' => ['name' => 'Pages', 'fields' => []],
     ],
     'routes' => function ($router) {
-        // register routes
+        $router->get('/hello', fn () => 'Hello')->name('hello');
     },
 ]);
 ```
+
+The routes closure receives Laravel's router and runs once during integration. It can use the router's middleware and group methods. Existing arrays of routes grouped by middleware remain supported by `Integrator::routes()`.
 
 ## Available merge keys
 
@@ -39,7 +45,7 @@ Integrator::integrate([
 | `commands` | `Integrator::commands()` | Artisan commands |
 | `listeners` | `Integrator::listeners()` | Event listeners |
 | `policies` | `Integrator::policies()` | Authorization policies |
-| `routes` | `Integrator::routes()` | Route closures |
+| `routes` | `Integrator::routes()` | Route closures or arrays grouped by middleware |
 | `providers` | `Integrator::providers()` | Service providers |
 | `schedules` | `Integrator::schedules()` | Scheduled tasks |
 | `middleware` | `Integrator::middleware()` | Middleware aliases |

@@ -49,11 +49,11 @@ class AddonManagerTest extends CoreTestCase
 
     public function test_discovery_accepts_extra_streams_addon_without_the_composer_type()
     {
-        $root = base_path('vendor/acme');
+        $root = base_path('vendor/streams-core-registry-test');
 
         $packages = [
-            'acme/extra-addon' => [
-                'name' => 'acme/extra-addon',
+            'streams-core-registry-test/extra-addon' => [
+                'name' => 'streams-core-registry-test/extra-addon',
                 'type' => 'library',
                 'extra' => [
                     'streams' => [
@@ -61,15 +61,17 @@ class AddonManagerTest extends CoreTestCase
                     ],
                 ],
             ],
-            'acme/typed-addon' => [
-                'name' => 'acme/typed-addon',
+            'streams-core-registry-test/typed-addon' => [
+                'name' => 'streams-core-registry-test/typed-addon',
                 'type' => 'streams-addon',
             ],
-            'acme/plain-library' => [
-                'name' => 'acme/plain-library',
+            'streams-core-registry-test/plain-library' => [
+                'name' => 'streams-core-registry-test/plain-library',
                 'type' => 'library',
             ],
         ];
+
+        $this->assertDirectoryDoesNotExist($root);
 
         try {
             foreach ($packages as $name => $package) {
@@ -93,9 +95,9 @@ class AddonManagerTest extends CoreTestCase
             $method->setAccessible(true);
             $method->invoke($provider);
 
-            $this->assertTrue(Addons::collection()->has('acme/extra-addon'));
-            $this->assertTrue(Addons::collection()->has('acme/typed-addon'));
-            $this->assertFalse(Addons::collection()->has('acme/plain-library'));
+            $this->assertTrue(Addons::collection()->has('streams-core-registry-test/extra-addon'));
+            $this->assertTrue(Addons::collection()->has('streams-core-registry-test/typed-addon'));
+            $this->assertFalse(Addons::collection()->has('streams-core-registry-test/plain-library'));
         } finally {
             if (is_dir($root)) {
                 \Illuminate\Support\Facades\File::deleteDirectory($root);
