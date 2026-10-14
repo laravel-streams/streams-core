@@ -12,7 +12,7 @@
         }
     ],
     "require": {
-        "symfony/yaml": "^6.0",
+        "symfony/yaml": "^6.2|^7.0",
         "jenssegers/agent": "^2.6",
         "tmarois/filebase": "^1.0",
         "laravel/scout": "^10|^11",
