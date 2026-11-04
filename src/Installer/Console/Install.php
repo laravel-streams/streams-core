@@ -81,6 +81,9 @@ class Install extends Command
                     $this->call('env:set', ['line' => 'INSTALLED=true']);
 
                     dispatch_sync(new ReloadEnvironmentFile());
+
+                    config(['streams::system.installed' => true]);
+
                     dispatch_sync(new AutoloadEntryModels()); // Don't forget!
 
                     $manager->register(true); // Register all of our addons.
