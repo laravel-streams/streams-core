@@ -2,7 +2,6 @@
 
 namespace Streams\Core\Criteria;
 
-use App\Domains\Auth\Models\Identity;
 use Illuminate\Support\Arr;
 use Streams\Core\Entry\Entry;
 use Streams\Core\Stream\Stream;

@@ -5,8 +5,8 @@
         colors="true"
         testdox="true"
         cacheResult="true"
-        processIsolation="true" 
-        stopOnFailure="true">
+        processIsolation="true"
+        stopOnFailure="false">
 
     <coverage>
         <include>
