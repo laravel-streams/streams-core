@@ -42,6 +42,8 @@ Default type comes from `config('streams.core.default_source')` (`filebase`).
 
 Entries live under `config('streams.core.data_path')` in a directory named for the stream handle unless `path` is set.
 
+When `path` is set, core strips any leading separator and joins it onto the app root: `base_path(ltrim($path, '/\\'))`. So `"storage/app/data/posts"` is correct and a path that starts with `/` is **not** absolute — `"/Users/me/app/data/posts"` lands at `<app>/Users/me/app/data/posts` and quietly creates that mirrored tree. `streams:validate` and the `validate-stream-definition` MCP tool warn on it.
+
 ## Self source
 
 Used when entries are embedded in the stream definition:
