@@ -68,8 +68,8 @@ class StreamRouter
          * Call constraints if
          * any are provided.
          */
-        if ($constraints) {
-            call_user_func_array([$route, 'where'], (array) $constraints);
+        if ($constraints = static::normalizeConstraints($constraints)) {
+            $route->where($constraints);
         }
 
         /**
@@ -88,5 +88,62 @@ class StreamRouter
         }
 
         return $route;
+    }
+
+    /**
+     * Normalize route constraints into a
+     * [parameter => pattern] map for Route::where().
+     *
+     * Accepted shapes:
+     *  - a map:                {"id": "[0-9]+", "slug": "[a-z-]+"}
+     *  - a list of maps:       [{"id": "[0-9]+"}, {"slug": "[a-z-]+"}]
+     *  - a [name, pattern] pair (legacy positional form): ["id", "[0-9]+"]
+     *  - a list of pairs:      [["id", "[0-9]+"], ["slug", "[a-z-]+"]]
+     *
+     * Passing a map straight to call_user_func_array() made PHP 8 treat
+     * its keys as named arguments ("Unknown named parameter"), and a list
+     * of maps only applied the first one. Everything is merged here instead.
+     */
+    public static function normalizeConstraints(mixed $constraints): array
+    {
+        if ($constraints instanceof \Illuminate\Contracts\Support\Arrayable) {
+            $constraints = $constraints->toArray();
+        }
+
+        if (is_object($constraints)) {
+            $constraints = get_object_vars($constraints);
+        }
+
+        if (! is_array($constraints) || $constraints === []) {
+            return [];
+        }
+
+        if (static::isConstraintPair($constraints)) {
+            return [$constraints[0] => $constraints[1]];
+        }
+
+        if (! array_is_list($constraints)) {
+            return array_map('strval', array_filter(
+                $constraints,
+                fn ($pattern, $name) => is_string($name) && is_scalar($pattern),
+                ARRAY_FILTER_USE_BOTH
+            ));
+        }
+
+        $normalized = [];
+
+        foreach ($constraints as $constraint) {
+            $normalized = array_merge($normalized, static::normalizeConstraints($constraint));
+        }
+
+        return $normalized;
+    }
+
+    protected static function isConstraintPair(array $constraints): bool
+    {
+        return array_is_list($constraints)
+            && count($constraints) === 2
+            && is_string($constraints[0])
+            && is_string($constraints[1]);
     }
 }

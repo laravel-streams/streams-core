@@ -177,7 +177,7 @@ class IntegratorTest extends CoreTestCase
         $this->assertSame('Testing Array Stream', Streams::make('testing.array.stream')->name);
     }
 
-    public function test_it_registers_middleware(Type $var = null)
+    public function test_it_registers_middleware()
     {
         Integrator::middleware([
             'testing' => [CustomTestingMiddleware::class],

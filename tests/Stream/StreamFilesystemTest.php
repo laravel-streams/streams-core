@@ -174,6 +174,34 @@ class StreamFilesystemTest extends CoreTestCase
         $this->assertNotNull($repository->findBy('path', 'img/example5.jpg'));
     }
 
+    public function test_it_indexes_files_written_with_put_file()
+    {
+        $filesystem = Streams::filesystem('local');
+
+        $repository = $filesystem->stream->repository();
+
+        $filesystem->index();
+
+        $source = new \Illuminate\Http\File(base_path('storage/app/img/example.jpg'));
+
+        $path = $filesystem->putFileAs('img', $source, 'example2.jpg');
+
+        $this->assertSame('img/example2.jpg', $path);
+        $this->assertNotNull($repository->findBy('path', 'img/example2.jpg'));
+
+        $path = $filesystem->putFile('img', $source);
+
+        $this->assertIsString($path);
+        $this->assertNotNull($repository->findBy('path', $path));
+
+        $this->assertSame(
+            Storage::disk('local')->path('img/example.jpg'),
+            $filesystem->path('img/example.jpg')
+        );
+
+        $filesystem->delete($path);
+    }
+
     public function test_it_tracks_deletions()
     {
         $filesystem = Streams::filesystem('local');

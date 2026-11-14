@@ -3,6 +3,12 @@
     "type": "streams-addon",
     "description": "A domain-driven, code-configured, flat-file application platform for Laravel.",
     "license": "MIT",
+    "homepage": "https://streams.dev",
+    "support": {
+        "issues": "https://github.com/laravel-streams/streams-core/issues",
+        "source": "https://github.com/laravel-streams/streams-core",
+        "docs": "https://streams.dev/docs/core/introduction"
+    },
     "prefer-stable": true,
     "minimum-stability": "dev",
     "authors": [
@@ -50,9 +56,6 @@
         "opensearch-project/opensearch-php": "Required to use the OpenSearch source adapter (source.type: opensearch)."
     },
     "extra": {
-        "branch-alias": {
-            "dev-master": "2.x-dev"
-        },
         "laravel": {
             "providers": [
                 "Streams\\Core\\StreamsServiceProvider"
