@@ -12,6 +12,7 @@
         }
     ],
     "require": {
+        "php": "^8.2",
         "symfony/yaml": "^6.2|^7.0",
         "jenssegers/agent": "^2.6",
         "tmarois/filebase": "^1.0",
