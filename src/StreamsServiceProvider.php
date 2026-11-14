@@ -98,7 +98,9 @@ class StreamsServiceProvider extends ServiceProvider
         $this->app->singleton(
             'composer.json',
             function () {
-                return json_decode(file_get_contents(base_path('composer.json')), true);
+                $path = base_path('composer.json');
+
+                return is_file($path) ? json_decode((string) file_get_contents($path), true) : [];
             }
         );
     }
@@ -108,7 +110,9 @@ class StreamsServiceProvider extends ServiceProvider
         $this->app->singleton(
             'composer.lock',
             function () {
-                return json_decode(file_get_contents(base_path('composer.lock')), true);
+                $path = base_path('composer.lock');
+
+                return is_file($path) ? json_decode((string) file_get_contents($path), true) : [];
             }
         );
     }
@@ -229,7 +233,7 @@ class StreamsServiceProvider extends ServiceProvider
         }
 
         $addons = array_filter(
-            array_merge($lock['packages'], $lock['packages-dev']),
+            array_merge($lock['packages'] ?? [], $lock['packages-dev'] ?? []),
             function (array $package) {
                 return Arr::get($package, 'type') === 'streams-addon';
             }
